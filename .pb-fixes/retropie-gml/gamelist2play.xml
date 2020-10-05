@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<gameList>
+	<folder>
+		<path>./Emulation</path>
+		<name>: Emulation Tools</name>
+		<desc>This folder contains emulator related scripts.</desc>
+		<image>./icons/emulators.png</image>
+	</folder>
+	<game>
+		<path>./Emulation/Amiga</path>
+		<name>: Amiga Tools</name>
+		<desc>This folder contains Amiga emulator related scripts.</desc>
+		<image>./icons/amiga.png</image>
+	</game>
+	<game>
+		<path>./Emulation/Amiga/UAE Config Maker.sh</path>
+		<name>UAE Config Maker, HS</name>
+		<desc>After adding your Amiga game files in the corresponding roms/amiga-data/ folder, use this script to create automatic WHD Load config files for your Amiga\CD32 main roms folder!</desc>
+		<image>./icons/amiga.png</image>
+	</game>
+	<game>
+		<path>./Emulation/configedit.rp</path>
+		<name>Configuration Editor</name>
+		<desc>Change common RetroArch options, and manually edit RetroArch configs, global configs, and non-RetroArch configs.</desc>
+		<image>./icons/configedit.png</image>
+	</game>
+	<game>
+		<path>./Emulation/am-latest.sh</path>
+		<name>✭ Install or Update AM on Pi3/4</name>
+		<desc>It will install or update your Attract Mode on Pi3 or Pi4. Any needed extras SFML-Pi & FFMPEG with mmal HW Video Encoding Support. To Enable mmal you need also to set it in the attract.cfg in the general section 'video_decoder   mmal'. Can be done also while in AM by pressing TAB.</desc>
+		<image>./icons/attract.png</image>
+	</game>
+	<game>
+		<path>./Emulation/filefind.sh</path>
+		<name>ES Pathfinder Custom Collections, CG-2P!</name>
+		<desc>CyperGhost final release! It compares custom imported collections (by other users) with your Romsets. It will automatically correct paths. If there are more than one possible hit, then you can choose out of a selection of ROMs. Standard & advanced search options.</desc>
+		<image>./icons/cyperghost.png</image>
+	</game>
+	<game>
+		<path>./Emulation/escollections.sh</path>
+		<name>ES Collection List Generator, DM-2P!</name>
+		<desc>This will add or update the custom collection gamelist that will be used to show games in the custom collections menu items.</desc>
+		<image>./icons/escollections.png</image>
+	</game>
+	<game>
+		<path>./Emulation/joystick_selection.sh</path>
+		<name>✭ Controller Selection Script, Meleu</name>
+		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
+		<image>./icons/controllers2.png</image>
+	</game>
+	<game>
+		<path>./Emulation/LightGunAimtrak.sh</path>
+		<name>LightGun Aimtrak Install, EZH-2P</name>
+		<desc>Enabled on PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame v3.9. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
+		<image>./icons/aimtrak.png</image>
+	</game>
+	<game>
+		<path>./Emulation/LightGunConf.sh</path>
+		<name>LightGun Aimtrak Config, EZH</name>
+		<desc>The configuration script created by the Aimtrak script.</desc>
+		<image>./icons/aimtrak.png</image>
+	</game>
+	<game>
+		<path>./Emulation/retroarch.rp</path>
+		<name>✭ Retroarch</name>
+		<desc>Launches the RetroArch GUI so you can change RetroArch options. Note: Changes will not be saved unless you have enabled the "Save Configuration On Exit" option.</desc>
+		<image>./icons/retroarch.png</image>
+	</game>
+	<game>
+		<path>./Emulation/retronetplay.rp</path>
+		<name>RetroArch Net Play</name>
+		<desc>Set up RetroArch Netplay options, choose host or client, port, host IP, delay frames, and your nickname.</desc>
+		<image>./icons/retronetplay.png</image>
+	</game>
+	<game>
+		<path>./Emulation/rpc80_savefile.sh</path>
+		<name>Saves Single Folder, RPC</name>
+		<desc>Not enabled on PlayBox! Creates a "saves" directory at ~/RetroPie/saves and configures all RetroArch emulators with their own config files to store savefiles at ~/RetroPie/saves/{system_name} and savestate files at ~/Retropie/saves/{system_name}/states.</desc>
+		<image>./icons/saves.png</image>
+	</game>
+	<game>
+		<path>./Emulation/xinmo-juyao.sh</path>
+		<name>XinMo & Juyao Dual, 2P!</name>
+		<desc>Enable XIN MO or JUYAO dual Arcade player support as per official Wiki.</desc>
+		<image>./icons/xinmo.png</image>
+	</game>
+	<folder>
+		<path>./Network</path>
+		<name>: Network Tools</name>
+		<desc>This folder contains network related scripts.</desc>
+		<image>./icons/network-cat.png</image>
+	</folder>
+	<game>
+		<path>./Network/bluetooth.rp</path>
+		<name>Bluetooth</name>
+		<desc>Register and connect to Bluetooth devices. Unregister, remove devices and display registered & connected devices.</desc>
+		<image>./icons/bluetooth.png</image>
+	</game>
+	<game>
+		<path>./Network/showip.rp</path>
+		<name>What is my IP?</name>
+		<desc>Displays your current IP address, as well as other information provided by the command, "ip addr show."</desc>
+		<image>./icons/showip.png</image>
+	</game>
+	<game>
+		<path>./Network/wifi.rp</path>
+		<name>WiFi</name>
+		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
+		<image>./icons/wifi.png</image>
+	</game>
+	<folder>
+		<path>./System</path>
+		<name>: System Tools</name>
+		<desc>This folder contains system related scripts to set or adjust settings.</desc>
+		<image>./icons/system-cat.png</image>
+	</folder>
+	<folder>
+		<path>./System/USB</path>
+		<name>: USB Modes</name>
+		<desc>Enable USB Boot Mode to boot a USB burned image without the need of the SD card or extend your roms on an external USB MSD (Mass Storage Device).</desc>
+		<image>./icons/usbhdd.png</image>
+	</folder>
+	<game>
+		<path>./System/USB/usbbootmode.sh</path>
+		<name>USB Boot Mode Pi3B Only, 2P!</name>
+		<desc>Pre-enabled on PlayBox. This enables the permanent USB Boot Mode on Pi3B Model. You can boot a USB device with no SD card needed or any further changes.</desc>
+		<image>./icons/usbmod.png</image>
+	</game>
+	<game>
+		<path>./System/USB/usb-ext.sh</path>
+		<name>✭ Revamped External USB Roms Setup, 2P!</name>
+		<desc>Combined script! You can choose to expand your roms to an external USB MSD (Mass Storage Device) or revert back to the default setup. External USB needs to be in NTFS format. NOTE: If you wish to set a new external USB you need to run removal script and then connect and enable the new drive.</desc>
+		<image>./icons/usbon.png</image>
+	</game>
+	<game>
+		<path>./System/audiosettings.rp</path>
+		<name>Audio Settings</name>
+		<desc>Configure audio settings. Choose default to Auto, 3.5mm Jack or HDMI. Mixer controls, and apply default settings.</desc>
+		<image>./icons/audiosettings.png</image>
+	</game>
+	<game>
+		<path>./System/bgm.sh</path>
+		<name>Background Music Setup, EZH-2P!</name>
+		<desc>Enabled on PlayBox! You can remove or re-install the background music. If removed, run the relative fix in PlayBox Toolkit to disable BGM when an emulator starts. NOTE: It won't delete your music folder!</desc>
+		<image>./icons/music.png</image>
+	</game>
+	<game>
+		<path>./System/filemanager.rp</path>
+		<name>File Manager</name>
+		<desc>Basic ASCII file manager for Linux allowing you to browse, copy, delete and move files.</desc>
+		<image>./icons/filemanager.png</image>
+	</game>
+	<game>
+		<path>./System/oc.sh</path>
+		<name>✭ OverClock Pi4 Optimized, 2P!</name>
+		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750/2000/2100/2147MHz. Original code done by dev RPC.</desc>
+		<image>./icons/oc.png</image>
+	</game>
+	<game>
+		<path>./System/ratio.sh</path>
+		<name>✭ Screen Ratio Script, 2P!</name>
+		<desc>Due to many requests this script will apply a different screen ratio/resolution when you start your Raspberry Pi. You can choose your screen ratio or resolution from the detailed menu. HDMI or SDTV.</desc>
+		<image>./icons/ratio.png</image>
+	</game>
+	<game>
+		<path>./System/Raspbian Desktop.sh</path>
+		<name>✭ Raspberry Pi OS Desktop</name>
+		<desc>You can start the Raspberry Pi OS Desktop!</desc>
+		<image>./icons/raspiconfig.png</image>
+	</game>
+	<game>
+		<path>./System/reference.sh</path>
+		<name>Reference Utility Menu, DM</name>
+		<desc>Find out common information about Retropie, Emulation Station, Attract Mode, RetroArch and ROM information.</desc>
+		<image>./icons/reference.png</image>
+	</game>
+	<game>
+		<path>./System/resetcontrollers.sh</path>
+		<name>✭ Reset All Controllers, 2P!</name>
+		<desc>It will reset all ES cotroller configurations and remove any previous controller profiles. This will give you a clean controllers setup!</desc>
+		<image>./icons/controllers.png</image>
+	</game>
+	<game>
+		<path>./System/runcommand.rp</path>
+		<name>RunCommand Settings</name>
+		<desc>Change what appears on the runcommand screen. Enable or disable the menu, enable or disable box art and change CPU configuration.</desc>
+		<image>./icons/runcommand.png</image>
+	</game>
+	<game>
+		<path>./System/update.sh</path>
+		<name>✭ Update & Upgrade OS, 2P!</name>
+		<desc>You can update and upgrade your OS in one click!</desc>
+		<image>./icons/update.png</image>
+	</game>
+	<folder>
+		<path>./Visuals</path>
+		<name>: Visual 'n' Theme Tools</name>
+		<desc>This folder contains the Skyscraper install/update script, bezels and other visual settings.</desc>
+		<image>./icons/visuals-cat.png</image>
+	</folder>
+	<game>
+		<path>./Visuals/bezelproject.sh</path>
+		<name>Bezel Project, The</name>
+		<desc>Pimp your PlayBox. Use the official Bezel Project to enable/disable systems and roms fantastic bezels. A great team behind it. Fully automated!</desc>
+		<image>./icons/bezelproject.png</image>
+	</game>
+	<game>
+		<path>./Visuals/bezelproject-update.sh</path>
+		<name>Bezel Project, Script Update PlayBox 2P!</name>
+		<desc>This script will get and update our Bezel Project script to the latest one from official Github and will update correctly the PlayBox menu. Run it before you run the main one so you can be sure you ll get allways the latest systems support!</desc>
+		<image>./icons/bezelproject.png</image>
+	</game>
+	<game>
+		<path>./Visuals/bezels.sh</path>
+		<name>Bezel Custom Sets, DM-2P!</name>
+		<desc>You can enable or disable custom folder bezels such as Motion Blue #2 set or future sets by 2Play!.</desc>
+		<image>./icons/bezels.png</image>
+	</game>
+	<game>
+		<path>./Visuals/launchmp4.sh</path>
+		<name>Launching MP4 Screen, 2P!</name>
+		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the RetroPie/extras+/mp4 folder and match PlayBox system names.</desc>
+		<image>./icons/videosettings.png</image>
+	</game>
+	<game>
+		<path>./Visuals/esthemes.rp</path>
+		<name>ES Themes</name>
+		<desc>Install, uninstall, or update EmulationStation themes. Officialy supported themes can be previewed at https://github.com/retropie/RetroPie-Setup/wiki/themes.</desc>
+		<image>./icons/esthemes.png</image>
+	</game>
+	<game>
+		<path>./Visuals/OverscanOn-Off.sh</path>
+		<name>OverScan On/Off, EZH-2P!</name>
+		<desc>This script will let quickly enable or disable the overscan setting.</desc>
+		<image>./icons/overscan.png</image>
+	</game>
+	<game>
+		<path>./Visuals/removemedia.sh</path>
+		<name>Media Removal Util, DM-2P!</name>
+		<desc>This utility will remove extra media files (mixart, boxart, cartart, snap and wheel) for a chosen system when there is not a matching game/rom for it. Mixart tweak added.</desc>
+		<image>./icons/cleanup.png</image>
+	</game>
+	<game>
+		<path>./Visuals/skyscraper.sh</path>
+		<name>✭ Skyscraper 2P!</name>
+		<desc>A powerful and versatile yet easy to use game scraper. Supports EmulationStation & Attract Mode, 61+ systems. Written by Lars Muldjord. Script by 2Play! to install or update the Skyscraper to latest release. To run actual Skyscraper use PlayBox Toolkit from cli.</desc>
+		<image>./icons/skyscraper.png</image>
+	</game>
+	<game>
+		<path>./Visuals/racfg-tool.sh</path>
+		<name>✭ RetroArch Options Tool, 2P!</name>
+		<desc>This tool/script will automate few option in the retroarch.cff files in the configs folders. It wont change the default cfg file in configs/all folder. I prefer NOT to touch this file and keep it clean. Any changes applied ONLY to each system. Options are the smooth filter, shaders, overlay/bezel. Apply to all, only 16-bit systems or arcades.</desc>
+		<image>./icons/retroarcht.png</image>
+	</game>
+	<game>
+		<path>./Visuals/splashscreen.rp</path>
+		<name>Splash Screens</name>
+		<desc>Enable or disable the RetroPie splashscreen during boot. Choose a splashscreen, download new splashscreens or return splashscreen to default.</desc>
+		<image>./icons/splashscreen.png</image>
+	</game>
+	<game>
+		<path>./Visuals/hurstythemes.sh</path>
+		<name>Hursty's Themes</name>
+		<desc>Install, uninstall, or update RetroHursty69's EmulationStation themes. David Marti's randomizer ES theme script is part of this script.</desc>
+		<image>./icons/hurstythemes.png</image>
+	</game>
+	<game>
+		<path>./bgm-mute.sh</path>
+		<name>Music On/Off, EZH</name>
+		<desc>Mute or unmute the background music.</desc>
+		<image>./icons/musicoff.png</image>
+	</game>
+	<game>
+		<path>./raspiconfig.rp</path>
+		<name>Raspi-Config</name>
+		<desc>Expand your SD card filesystem, overscan, memory split, SSH, VNC remote access, change user password, boot options, system configuration, localization configuration, camera, add your pi to Rastrack map and more.</desc>
+		<image>./icons/raspiconfig.png</image>
+	</game>
+	<game>
+		<path>./rpsetup.rp</path>
+		<name>RetroPie Setup</name>
+		<desc>Official Retropie Setup script! Audio settings, RetroPie main install-update, install extra packages, additional drivers, edit samba shares as well as other RetroPie-related configurations.</desc>
+		<image>./icons/retropie.png</image>
+	</game>
+	<game>
+		<path>./2playinfo.sh</path>
+		<name>System Info & Weather By 2Play!</name>
+		<desc>View a summary of your PlayBox system info, temperature, partition info, ip, weather etc.! Be patient as it needs to get weather info from the internet.</desc>
+		<image>./icons/toolkit.png</image>
+	</game>
+	<game>
+		<path>./attract.sh</path>
+		<name>✭ Switch To Attract Mode</name>
+		<desc>Enable and switch to Attract Mode FrontEnd.</desc>
+		<image>./icons/hyperpie2Play.png</image>
+	</game>
+	<game>
+		<path>./fixplaybox.sh</path>
+		<name>✭ PlayBox Toolkit</name>
+		<desc>Fix all your broken PlayBox features. Update, maintenance tools and many more. This PlayBox Toolkit runs also from cli so you can use Skyscraper and open Raspbian desktop.</desc>
+		<image>./icons/playbox.png</image>
+	</game>
+</gameList>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./Steam Link.sh</path>
+		<name>Steam Link Official</name>
+		<desc>Steam Link is a solution for extending your Steam games library here.</desc>
+		<image>./icons/steam.png</image>
+	</game>
+</gameList>

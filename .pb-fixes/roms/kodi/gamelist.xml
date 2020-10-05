@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<gameList>
+    <game>
+        <path>./playbox-kodi.sh</path>
+        <name>Kodi PlayBox Edition</name>
+	<desc>This will start Kodi in PlayBox Lite or Full Edition.</desc>
+        <image>./icons/playbox-kodi.png</image>
+    </game>
+</gameList>

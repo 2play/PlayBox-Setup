@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<gameList>
+	<game>
+		<path>./MikeTV.sh</path>
+		<name>MikeTV JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./Modern.sh</path>
+		<name>Modern JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./NumberOne.sh</path>
+		<name>NumberOne JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./TouchOne.sh</path>
+		<name>TouchOne JukeBox</name>
+		<desc>USE ONLY WITH TOUCHSCREEN!!! Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./WallJuke.sh</path>
+		<name>WallJuke JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./WallSmall.sh</path>
+		<name>WallSmall JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./Granite.sh</path>
+		<name>Granite JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./Splat.sh</path>
+		<name>Splat JukeBox - Requires GL</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./Wurly.sh</path>
+		<name>Wurly JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./WurlyVideo.sh</path>
+		<name>WurlyVideo JukeBox</name>
+		<desc>Run JukeBox application. Place your mp3 files in the musicvault folder set in the JukeBox configuration. The mp3 files need to have tags filled to display info.</desc>
+		<image>./icons/jukebox.png</image>
+	</game>
+	<game>
+		<path>./JukeBox Configuration.sh</path>
+		<name>✭ JukeBox Configuration</name>
+		<desc>RunJukeBox Configuration. Run to delete your old database and configure your controller buttons.</desc>
+		<image>./icons/jukebox-cfg.png</image>
+	</game>
+</gameList>
