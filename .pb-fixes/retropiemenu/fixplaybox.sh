@@ -2357,10 +2357,7 @@ function update_pbs() {
 	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
 	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
-	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music/synthpop
-	ln -s $HOME/Music/synthpop /home/pi/PlayBox-Setup/.pb-fixes/music/synthpop
-	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music/royalfree
-	ln -s $HOME/Music/royalfree /home/pi/PlayBox-Setup/.pb-fixes/music/royalfree
+	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	cd $HOME
 	exit
 }
