@@ -682,10 +682,10 @@ function Synthpop() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/synthpop/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/synthpop/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
@@ -705,10 +705,10 @@ function RoyalFree() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/royalfree/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/royalfree/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
@@ -728,10 +728,10 @@ function Mix() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/synthpop/* $HOME/RetroPie/localroms/music && rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/royalfree/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music && rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/synthpop/* $HOME/RetroPie/roms/music && rsync -avh $HOME/PlayBox-Setup/.pb-fixes/music/royalfree/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music && rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
