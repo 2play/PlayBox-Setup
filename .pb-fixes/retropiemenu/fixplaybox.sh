@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 05.10.2020"
+pb_version="Version 2.0 Dated 09.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -818,10 +818,11 @@ function apps_pbt() {
 			4 " -  Vulkan Igalia Driver" \
 			5 " -  OMXPlayer Volume Control Script" \
 			6 " -  SD/USB Storage Benchmark" \
-			7 " -  Enable-Disable Marquees Setup" \
-			8 " -  Amiberry Compile and Update From GitHub" \
-			9 " -  Swap Gamelist View on 2Play! Themes " \
-		   10 " -  PiKISS By Jose Cerrejon" \
+			7 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
+			8 " -  Enable-Disable Marquees Setup" \
+			9 " -  Amiberry Compile and Update From GitHub" \
+		   10 " -  Swap Gamelist View on 2Play! Themes " \
+		   11 " -  PiKISS By Jose Cerrejon" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -831,10 +832,11 @@ function apps_pbt() {
 			4) igalia_vk  ;;
 			5) omxvol  ;;
 			6) strg_bench  ;;
-			7) pimarquees  ;;
-			8) amiberry_git  ;;
-			9) swap_theme_view ;;
-		   10) pikiss_git  ;;
+			7) ra_options_tool  ;;
+			8) pimarquees  ;;
+			9) amiberry_git  ;;
+		   10) swap_theme_view ;;
+		   11) pikiss_git  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -1417,14 +1419,88 @@ function strg_bench() {
 	sudo /home/pi/PlayBox-Setup/.pb-fixes/_scripts/storage_bench.sh
 }
 
+function ra_options_tool() {
+# RetroArch Options Tool By 2Play!
+# 07.10.2020
+	
+	clear
+	local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH VISUAL OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
+            - "*** RETROARCH VISUAL SELECTIONS ***" \
+            1 " - Enable Shader Created By ChrisKekridis for Arcade Systems" \
+            2 " - Enable Shader Created By ChrisKekridis for 16-bit Consoles" \
+            - "" \
+            3 " - Disable All Shaders" \
+            4 " - Enable All Shaders" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) ck_arc_shaders  ;;
+            2) ck_cons_shaders  ;;
+            3) disable_shaders  ;;
+            4) enable_shaders  ;;
+            -) none  ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function ck_arc_shaders() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	clear
+	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
+	echo
+	read -n 1 -s -r -p "Press any key to continue"
+	#find /opt/retropie/configs/ -type f -name 'retroarch.cfg' ! -path "/opt/retropie/configs/all/*" -exec rm {} \;
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ck_cons_shaders() {
+	clear
+	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive, megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes, snesmsu1, sfc, sufami"
+	echo
+	read -n 1 -s -r -p "Press any key to continue"
+	#find /opt/retropie/configs/ -type f -name 'retroarch.cfg' ! -path "/opt/retropie/configs/all/*" -exec rm {} \;
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function disable_shaders() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function enable_shaders() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
 function pimarquees() {
 	clear
 	local choice
 	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " Marquees " \
-            --ok-label OK --cancel-label Exit \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " MARQUEES MENU " \
+            --ok-label OK --cancel-label Back \
             --menu "Which fix or action would you like to apply?" 25 75 20 \
-            1 "Enable :  Marquees" \
+            - "*** MARQUEES SELECTIONS ***" \
+			- "	" \
+			1 "Enable :  Marquees" \
             2 "Disable:  Marquees" \
             2>&1 > /dev/tty)
 
@@ -1473,10 +1549,12 @@ function amiberry_git() {
 	clear
 	local choice
 	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " Amiberry GitHub Source " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIBERRY SOURCE UPDATE MENU " \
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
-            1 "Amiberry :  Pi4" \
+            - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
+			- "	" \
+			1 "Amiberry :  Pi4" \
 			2 "Amiberry :  Pi4 SDL2" \
 			3 "Amiberry :  Pi4 x64" \
 			- "" \
@@ -1591,10 +1669,12 @@ function swap_theme_view() {
 	clear
 	local choice
 	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " Amiberry GitHub Source " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " 2PLAY! THEME VIEWS MENU " \
             --ok-label OK --cancel-label Exit \
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
-            1 "Single Window Art:  Image and then Video" \
+            - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
+			- "	" \
+			1 "Single Window Art:  Image and then Video" \
 			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
 			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
 			2>&1 > /dev/tty)
@@ -2001,6 +2081,7 @@ function sys_pbt() {
            7 " -  System Full Info" \
 		   8 " -  Monitor In Real Time Board Temperature" \
 		   9 " -  Show CPU Cores Status" \
+		  10 " -  Ratio Video Tool Options" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2013,6 +2094,7 @@ function sys_pbt() {
            7) sysinfo  ;;
 		   8) temp_rt  ;;
 		   9) cores_status  ;;
+		  10) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2330,6 +2412,342 @@ function cores_status() {
 	read -n 1 -s -r -p "Press any key to continue"
 }
 
+function ratio_vt() {
+#VIDEO+ RATIO & RESOLUTION By 2Play!
+# 08.10.2020
+
+infobox=""
+infobox="${infobox}\n"
+infobox="${infobox}\n"
+infobox="${infobox}You can choose between various forced screen resolutions and ratio.\n\n"
+infobox="${infobox}To match your monitor or screen native resolution you can run CEA or DMT option and apply as needed.\nIf you need a new setting just post on my discord #🙋questions-and-answers channel... \n\n"
+infobox="${infobox}*** Keep in mind that any resolution other than 1080p will require relative overlays (if used) or themes. ***\n"
+infobox="${infobox}\n"
+
+dialog --backtitle "VIDEO+ RATIO & RESOLUTION" \
+--title "VIDEO+ RATIO & RESOLUTION" \
+--msgbox "${infobox}" 35 110
+
+# Config file path
+CONFIG_PATH=/boot/config.txt
+
+# HDMI settings description
+HDMI_DESCRIPTION="#uncomment to enable custom HDMI group settings"
+
+declare -a HDMI_SETTINGS_CEA=(
+  "hdmi_group=1"
+)
+declare -a HDMI_SETTINGS_DMT=(
+  "hdmi_group=2"
+)
+
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " VIDEO RATIO & RESOLUTION MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Choose your Custom System Ratio Resolution:" 25 75 20 \
+            - "*** GENERAL SELECTIONS ***" \
+           V1 " - LIST CONNECTED DISPLAY DEVICES " \
+		   V2 " - SHOW YOUR HDMI STATUS (Resolution etc.) " \
+		   A1 " - SHOW YOUR SUPPORTED AUDIO INFORMATION " \
+		  CEA " - SHOW YOUR SUPPORTED MODES FOR THIS GROUP " \
+		  DMT " - SHOW YOUR SUPPORTED MODES FOR THIS GROUP " \
+			- "" \
+			- "*** HDMI PORT [4:3] SELECTIONS ***" \
+        1:CEA " - VGA     640x480   60Hz   [4:3] " \
+		2:CEA " - 480p    720x480   60Hz   [4:3] " \
+		3:CEA " - 576p    720x576   50Hz   [4:3] " \
+        4:DMT " - SVGA    800x600   60Hz   [4:3] " \
+        5:DMT " - XGA    1024x768   60Hz   [4:3] " \
+		6:DMT " - SXGA   1280x960   60Hz   [4:3] " \
+            - "" \
+            - "*** HDMI PORT [16:9] SELECTIONS ***" \
+		7:CEA " - 480p    720x480   60Hz  [16:9] " \
+		8:CEA " - 576p    720x576   50Hz  [16:9] " \
+		9:CEA " - 720p   1280x720   60Hz  [16:9] " \
+	   10:CEA " - 720p   1280x720   50Hz  [16:9] " \
+	   11:CEA " - 1080p 1920x1080   60Hz  [16:9] " \
+	   12:CEA " - 1080p 1920x1080   50Hz  [16:9] " \
+	   13:CEA " - 2160p 3840x2160   60Hz  [16:9] " \
+	   14:DMT " - 720p   1280x720   60Hz  [16:9] " \
+       15:DMT " - 1080p 1920x1080   60Hz  [16:9] " \
+	        - "" \
+            - "*** HDMI PORT [x:x] SELECTIONS ***" \
+       16:DMT " - SXGA   1280x1024  60Hz   [5:4] " \
+       17:DMT " - WXGA+  1440x900   60Hz [16:10] " \
+	   18:DMT " - WSXGA+ 1680x1050  60Hz [16:10] " \
+	   19:CEA " - 1080p  1920x1080  60Hz [64:27] " \
+	   20:CEA " - 1080p  1920x1080  50Hz [64:27] " \
+	   21:DMT " - CUSTOM .NOTxSET.  60Hz [xx:xx] " \
+	        - "" \
+            - "*** SDTV - COMPOSITE VIDEO PORT SELECTIONS ***" \
+            - "*** Default values are: NTSC & [4:3] No Change ***" \
+       22:STD " - Composite Video Port Mode   JP NTSC " \
+       23:STD " - Composite Video Port Mode   PAL " \
+       24:STD " - Composite Video Port Mode   Brazil PAL " \
+       25:STR " - Composite Video Port Ratio  [14:9] " \
+       26:STR " - Composite Video Port Ratio  [16:9] " \
+            - "" \
+            - "*** DISABLE HDMI SELECTIONS ***" \
+       27:ALL " - Disable Any CEA/DMT HDMI or STDTV Setting Applied " \
+            2>&1 > /dev/tty)
+			
+        case "$choice" in
+           V1) list_dvc ;;
+		   V2) hdmi_stat ;;
+		   A1) hdmi_stat ;;
+		  CEA) sup_cea ;;
+		  DMT) sup_dmt ;;
+		1:CEA) enable_vr 1 ;;
+        2:CEA) enable_vr 2 ;;
+		3:CEA) enable_vr 17 ;;
+		4:DMT) enable_vrd 9 ;;
+        5:DMT) enable_vrd 16 ;;
+        6:DMT) enable_vrd 32 ;;
+        7:CEA) enable_vr 3 ;;
+		8:CEA) enable_vr 18 ;;
+		9:CEA) enable_vr 4 ;;
+       10:CEA) enable_vr 19 ;;
+       11:CEA) enable_vr 16 ;;
+	   12:CEA) enable_vr 31 ;;
+	   13:CEA) enable_vr 97 ;;
+       14:DMT) enable_vrd 85 ;;
+       15:DMT) enable_vrd 82 ;;
+	   16:DMT) enable_vrd 35 ;;
+	   17:DMT) enable_vrd 47 ;;
+	   18:DMT) enable_vrd 58 ;;
+	   19:CEA) enable_vr 76 ;;
+	   20:CEA) enable_vr 75 ;;
+	   21:DMT) enable_vrdcX 87 ;;
+       22:STD) enable_sdtvm 1 ;;
+       23:STD) enable_sdtvm 2 ;;
+       24:STD) enable_sdtvm 3 ;;
+       25:STR) enable_sdtvr 2 ;;
+       26:STR) enable_sdtvr 3 ;;
+       27:ALL) disable_vrALL ;;
+	        -) none ;;
+            *) break ;;
+        esac
+    done
+}
+
+# List all attached devices
+function list_dvc() {
+	clear
+	/opt/vc/bin/tvservice -l
+	echo
+	read -n 1 -s -r -p "Press any key to go back..."
+	echo
+}
+
+# Show HDMI Status
+function hdmi_stat() {
+	clear
+	/opt/vc/bin/tvservice -s
+	echo
+	read -n 1 -s -r -p "Press any key to go back..."
+	echo
+}
+
+# Show Supported Audio Information
+function audio_inf() {
+	clear
+	/opt/vc/bin/tvservice -a
+	echo
+	read -n 1 -s -r -p "Press any key to go back..."
+	echo
+}
+
+# Supported CEA Modes
+function sup_cea() {
+	clear
+	/opt/vc/bin/tvservice --modes=CEA
+	echo
+	read -n 1 -s -r -p "Press any key to go back..."
+	echo
+}
+
+# Supported DMT Modes
+function sup_dmt() {
+	clear
+	/opt/vc/bin/tvservice --modes=DMT
+	echo
+	read -n 1 -s -r -p "Press any key to go back..."
+	echo
+}
+
+# Enables a custom standard CEA ratio & resolution.
+function enable_vr() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+  sudo sed -i "s|^hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+  sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+  sudo sed -i "s|^hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+  sudo sed -i "s|^sdtv_mode=|#sdtv_mode=|" "${CONFIG_PATH}";
+  sudo sed -i "s|^sdtv_aspect=|#sdtv_aspect=|" "${CONFIG_PATH}";
+  	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		if grep -q "#${val}" ${CONFIG_PATH}; then
+		  sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}";
+		fi
+	  done
+	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+# Enables a custom standard DMT ratio & resolution.
+function enable_vrd() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+  sudo sed -i "s|^hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+  sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+  sudo sed -i "s|^hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+  sudo sed -i "s|#hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+  sudo sed -i "s|^sdtv_mode=|#sdtv_mode=|" "${CONFIG_PATH}";
+  sudo sed -i "s|^sdtv_aspect=|#sdtv_aspect=|" "${CONFIG_PATH}";
+  	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		if grep -q "#${val}" ${CONFIG_PATH}; then
+		  sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}";
+		fi
+	  done
+	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+# Defines the TV standard used for composite video output over the yellow RCA jack to NTSC or PAL.
+function enable_sdtvm() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+	sudo sed -i "s|^hdmi_mode=|#hdmi_mode=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	sudo sed -i "s|^sdtv_mode=.*|sdtv_mode=$1|" "${CONFIG_PATH}";
+	sudo sed -i "s|#sdtv_mode=.*|sdtv_mode=$1|" "${CONFIG_PATH}";
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+# Defines the TV standard used for composite video output over the yellow RCA jack to forced ratio either (Default) 4:3 or 16:9.
+function enable_sdtvr() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+	sudo sed -i "s|^hdmi_mode=|#hdmi_mode=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	sudo sed -i "s|^sdtv_aspect=.*|sdtv_aspect=$1|" "${CONFIG_PATH}";
+	sudo sed -i "s|#sdtv_aspect=.*|sdtv_aspect=$1|" "${CONFIG_PATH}";
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+# Enables a custom non standard DMT ratio & resolution option X Example cvt9 in config.txt
+function enable_vrdcX() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+	sudo sed -i "s|^hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_cvtX=|hdmi_cvt=|" "${CONFIG_PATH}";
+	sudo sed -i "s|#hdmi_mode=.*|hdmi_mode=$1|" "${CONFIG_PATH}";
+	sudo sed -i "s|#hdmi_ignore_edid=0xa5000080|hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+	sudo sed -i "s|#hdmi_cvtX=|hdmi_cvt=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^sdtv_mode=|#sdtv_mode=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^sdtv_aspect=|#sdtv_aspect=|" "${CONFIG_PATH}";
+	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		if grep -q "#${val}" ${CONFIG_PATH}; then
+		  sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}";
+		fi
+	  done
+	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+
+# Disables ALL custom CEA & DMT or STDTV resolutions & ratio
+function disable_vrALL() {
+  #dialog --infobox "...Applying..." 3 20 ; sleep 2
+	sudo sed -i "s|^hdmi_mode=|#hdmi_mode=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|" "${CONFIG_PATH}";
+	sudo sed -i "s|^hdmi_cvt=|#hdmi_cvtX=|" "${CONFIG_PATH}";
+	sudo sed -i "s|^sdtv_mode=|#sdtv_mode=|" "${CONFIG_PATH}";
+    sudo sed -i "s|^sdtv_aspect=|#sdtv_aspect=|" "${CONFIG_PATH}";
+	  for val in ${HDMI_SETTINGS_CEA[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	  for val in ${HDMI_SETTINGS_DMT[@]}; do
+		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+	  done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
 
 
 function thankyou_pb() {
@@ -2382,7 +2800,6 @@ function restart_pb() {
 
 
 function template() {
-		
 	clear
 	echo
 	echo "[OK DONE!...]"
