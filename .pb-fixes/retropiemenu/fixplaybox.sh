@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 09.10.2020"
+pb_version="Version 2.0 Dated 10.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1421,7 +1421,7 @@ function strg_bench() {
 
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
-# 07.10.2020
+# 10.10.2020
 	
 	clear
 	local choice
@@ -1429,20 +1429,43 @@ function ra_options_tool() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH VISUAL OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
-            - "*** RETROARCH VISUAL SELECTIONS ***" \
-            1 " - Enable Shader Created By ChrisKekridis for Arcade Systems" \
-            2 " - Enable Shader Created By ChrisKekridis for 16-bit Consoles" \
-            - "" \
-            3 " - Disable All Shaders" \
-            4 " - Enable All Shaders" \
-            2>&1 > /dev/tty)
+            - "*** SHADERS SELECTIONS ***" \
+            1 " - Enable Shader Created By ChrisKekridis for Arcade Systems " \
+            2 " - Enable Shader Created By ChrisKekridis for 16-bit Consoles " \
+			3 " - Disable Shader Created By ChrisKekridis for Arcade Systems " \
+            4 " - Disable Shader Created By ChrisKekridis for 16-bit Consoles " \
+            5 " - Disable All Shaders " \
+            6 " - Enable All Shaders " \
+			- "" \
+			- "*** OVERLAY SELECTIONS ***" \
+			7 " - Enable A Preset System Overlay " \
+            8 " - Disable A Preset System Overlay " \
+			9 " - Enable All Preset System Overlays " \
+           10 " - Disable All Preset System Overlays " \
+		    - "" \
+			- "*** VIDEO SMOOTH SELECTIONS ***" \
+		   11 " - Enable Video Smooth - Single System " \
+           12 " - Disable Video Smooth - Single System " \
+		   13 " - Enable Video Smooth - All Systems " \
+           14 " - Disable Video Smooth - All Systems " \
+		   2>&1 > /dev/tty)
 
         case "$choice" in
             1) ck_arc_shaders  ;;
-            2) ck_cons_shaders  ;;
-            3) disable_shaders  ;;
-            4) enable_shaders  ;;
-            -) none  ;;
+            2) ck_16bit_shaders  ;;
+            3) ck_arc_shaders_off  ;;
+            4) ck_16bit_shaders_off  ;;
+            5) disable_shaders  ;;
+            6) enable_shaders  ;;
+            7) sys_overlay_on  ;;
+            8) sys_overlay_off  ;;
+			9) all_overlay_on  ;;
+           10) all_overlay_off  ;;
+		   11) v_smooth_sys_on  ;;
+           12) v_smooth_sys_off  ;;
+		   13) all_v_smooth_on  ;;
+           14) all_v_smooth_off  ;;
+			-) none  ;;
             *)  break ;;
         esac
     done
@@ -1454,19 +1477,52 @@ function ck_arc_shaders() {
 	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
-	#find /opt/retropie/configs/ -type f -name 'retroarch.cfg' ! -path "/opt/retropie/configs/all/*" -exec rm {} \;
+	cd /opt/retropie/configs/ 
+	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function ck_cons_shaders() {
+function ck_16bit_shaders() {
 	clear
-	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive, megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes, snesmsu1, sfc, sufami"
+	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
-	#find /opt/retropie/configs/ -type f -name 'retroarch.cfg' ! -path "/opt/retropie/configs/all/*" -exec rm {} \;
+	cd /opt/retropie/configs/
+	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ck_arc_shaders_off() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	clear
+	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
+	echo
+	read -n 1 -s -r -p "Press any key to continue"
+	cd /opt/retropie/configs/ 
+	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ck_16bit_shaders_off() {
+	clear
+	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
+	echo
+	read -n 1 -s -r -p "Press any key to continue"
+	cd /opt/retropie/configs/
+	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1491,6 +1547,78 @@ function enable_shaders() {
 	sleep 1
 }
 
+function sys_overlay_on() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function sys_overlay_off() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function all_overlay_on() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function all_overlay_off() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function v_smooth_sys_on() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function v_smooth_sys_off() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function all_v_smooth_on() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function all_v_smooth_off() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
 function pimarquees() {
 	clear
 	local choice
@@ -1499,7 +1627,6 @@ function pimarquees() {
             --ok-label OK --cancel-label Back \
             --menu "Which fix or action would you like to apply?" 25 75 20 \
             - "*** MARQUEES SELECTIONS ***" \
-			- "	" \
 			1 "Enable :  Marquees" \
             2 "Disable:  Marquees" \
             2>&1 > /dev/tty)
@@ -1553,7 +1680,6 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			- "	" \
 			1 "Amiberry :  Pi4" \
 			2 "Amiberry :  Pi4 SDL2" \
 			3 "Amiberry :  Pi4 x64" \
