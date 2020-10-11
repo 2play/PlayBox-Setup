@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 10.10.2020"
+pb_version="Version 2.0 Dated 11.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -474,7 +474,7 @@ function show_rpm() {
 
 function hide_sys() {
 	dialog --infobox "...Hold on..." 3 18 ; sleep 2
-clear
+	clear
 	echo 
 	echo " I will display a list of all Rom folders..."
 	echo " If you can't see full list. Use below keys to scroll or exit list!"
@@ -1035,8 +1035,8 @@ function rpc80_svoff() {
 	  sed -i '/savestate_directory.*/d' "${config_file}"
 	  sed -i '/<->.*/d' "${config_file}"
 	  fi
-	  #find \( -name all -prune -name amiga -prune \) -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
-	  #find \( -name all -prune -name amiga -prune \) -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
+	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
+	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
 	  
     # Move existing saves to the systems roms directory
       if [[ ! -d daphne ]]; then
@@ -1507,7 +1507,7 @@ function ck_arc_shaders_off() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 	cd /opt/retropie/configs/ 
-	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
+	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
@@ -1521,7 +1521,7 @@ function ck_16bit_shaders_off() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 	cd /opt/retropie/configs/
-	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
+	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
@@ -1548,26 +1548,99 @@ function enable_shaders() {
 }
 
 function sys_overlay_on() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo 
+	echo " I will display a list of all systems in configs folder... "
+	echo " Keep in mind ONLY RetroArch cores can use overlays. "
+	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
+	echo
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/ 
+	echo
+	ls -d */ | column | more
+	echo
+	read -p 'So which system would you like to enable the overlay options?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo
+	sleep 2
+	fi
 }
 
 function sys_overlay_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo 
+	echo " I will display a list of all systems in configs folder... "
+	echo " Keep in mind ONLY RetroArch cores can use overlays. "
+	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
+	echo
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/ 
+	echo
+	ls -d */ | column | more
+	echo
+	read -p 'So which system would you like to disable the overlay options?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo
+	sleep 2
+	fi
 }
 
 function all_overlay_on() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1575,8 +1648,11 @@ function all_overlay_on() {
 }
 
 function all_overlay_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1584,26 +1660,99 @@ function all_overlay_off() {
 }
 
 function v_smooth_sys_on() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo 
+	echo " I will display a list of all systems in configs folder... "
+	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
+	echo " By default is disabled! "
+	echo
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/ 
+	echo
+	ls -d */ | column | more
+	echo
+	read -p 'So which system would you like to enable the video smooth option?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#video_smooth|video_smooth|g;' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo
+	sleep 2
+	fi
 }
 
 function v_smooth_sys_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo 
+	echo " I will display a list of all systems in configs folder... "
+	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
+	echo " By default is disabled! "
+	echo
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/ 
+	echo
+	ls -d */ | column | more
+	echo
+	read -p 'So which system would you like to disable the video smooth option?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g;' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo
+	sleep 2
+	fi
 }
 
 function all_v_smooth_on() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#video_smooth|video_smooth|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1611,8 +1760,11 @@ function all_v_smooth_on() {
 }
 
 function all_v_smooth_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	#mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g' {} 2>/dev/null \;
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
