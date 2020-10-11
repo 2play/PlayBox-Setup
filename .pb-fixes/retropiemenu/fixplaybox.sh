@@ -1664,7 +1664,7 @@ function v_smooth_sys_on() {
 	echo 
 	echo " I will display a list of all systems in configs folder... "
 	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
-	echo " By default is disabled! "
+	echo " By default is disabled! TIP: Disable shader(s) or just for this system."
 	echo
 	echo " If you can't see full list. Use below keys to scroll or exit list!"
 	echo
@@ -1708,7 +1708,7 @@ function v_smooth_sys_off() {
 	echo 
 	echo " I will display a list of all systems in configs folder... "
 	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
-	echo " By default is disabled! "
+	echo " TIP: Enable your shader(s) or for this system back if you prefer. "
 	echo
 	echo " If you can't see full list. Use below keys to scroll or exit list!"
 	echo
