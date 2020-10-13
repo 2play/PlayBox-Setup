@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 13.10.2020"
+pb_version="Version 2.0 Dated 12.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
