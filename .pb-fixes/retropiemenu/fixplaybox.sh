@@ -3059,7 +3059,8 @@ function update_pbs() {
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	cd $HOME
-	exit
+	#exit
+	break
 }
 
 function poff_pb() {
