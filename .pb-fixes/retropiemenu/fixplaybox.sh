@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 11.10.2020"
+pb_version="Version 2.0 Dated 13.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -43,7 +43,8 @@ function main_menu() {
             2 " -  APPS & TWEAKS OPTIONS MENU" \
             3 " -  CLEANUP TOOLS OPTIONS MENU" \
             4 " -  SYSTEM TOOLS OPTIONS MENU" \
-            5 " -  CREDITS - THANK YOU!" \
+            5 " -  THANK YOU! - CREDITS" \
+			- "" \
 			6 " -  UPDATE YOUR PLAYBOX SETUP" \
 			- "" \
             7 " -  POWER OFF" \
@@ -140,7 +141,7 @@ function fix_rpmenu() {
 function fix_region() {
 	clear
 # Set PlayBox Systems Based On Region, by 2Play!
-# 25.06.2020
+# 13.10.20
 
 infobox=""
 infobox="${infobox}\n"
@@ -161,15 +162,15 @@ dialog --backtitle "Region based ES Systems" \
 
     local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " REGION MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " REGION OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select the REGION setup you want to apply..." 25 75 20 \
-            - "*** REGION + PLAYBOX & 2Play! SYSTEMS ***" \
+            - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
             1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2" \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac" \
             3 " - ALL:   All systems will be enabled" \
             - "" \
-            - "*** REGION + KODI & MOST COMMON SYSTEMS ***" \
+            - "*** REGION SYSTEM OPTIONS with KODI ***" \
             4 " - US\JP: As option 1 + Kodi" \
             5 " - EU\JP: As option 2 + Kodi" \
             6 " - ALL:   As option 3 + Kodi" \
@@ -813,29 +814,29 @@ function apps_pbt() {
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
 			1 " -  Take HD ScreenShot" \
-			2 " -  Skyscraper By Lars Muldjord" \
-			3 " -  Single Saves Directory By RPC80" \
-			4 " -  Vulkan Igalia Driver" \
-			5 " -  OMXPlayer Volume Control Script" \
+			2 " -  Swap Gamelist View on 2Play! Themes " \
+		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
+			4 " -  Enable-Disable Marquees Setup" \
+			5 " -  Skyscraper By Lars Muldjord" \
 			6 " -  SD/USB Storage Benchmark" \
-			7 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
-			8 " -  Enable-Disable Marquees Setup" \
-			9 " -  Amiberry Compile and Update From GitHub" \
-		   10 " -  Swap Gamelist View on 2Play! Themes " \
+			7 " -  OMXPlayer Volume Control Script" \
+			8 " -  Single Saves Directory By RPC80" \
+			9 " -  Vulkan Igalia Driver" \
+		   10 " -  Amiberry Compile and Update From GitHub" \
 		   11 " -  PiKISS By Jose Cerrejon" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) prntscr  ;;
-			2) skyscraper  ;;
-			3) rpc80_saves  ;;
-			4) igalia_vk  ;;
-			5) omxvol  ;;
+			2) swap_theme_view ;;
+			3) ra_options_tool  ;;
+			4) pimarquees  ;;
+			5) skyscraper  ;;
 			6) strg_bench  ;;
-			7) ra_options_tool  ;;
-			8) pimarquees  ;;
-			9) amiberry_git  ;;
-		   10) swap_theme_view ;;
+			7) omxvol  ;;
+			8) rpc80_saves  ;;
+			9) igalia_vk  ;;
+		   10) amiberry_git  ;;
 		   11) pikiss_git  ;;
            -) none ;;
             *)  break ;;
@@ -1069,7 +1070,8 @@ function igalia_vk() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " IGALIA VULKAN OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Let's do some Vulkan work..." 25 75 20 \
-            - "*** IGALIA VULKAN OPTIONS MENU ***" \
+            - "*** IGALIA VULKAN SELECTIONS ***" \
+			- "" \
            1 " -  Install/Update All [Driver, Extras, RetroArch]" \
            2 " -  Update Vulkan Driver" \
            3 " -  Install/Update Vulkan Demos" \
@@ -1305,7 +1307,8 @@ function omxvol() {
             --ok-label OK --cancel-label Back \
             --menu "Please Set OMXPlayer Volume:" 25 75 20 \
             - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
-            1 " - Set to 90%" \
+            - "" \
+			1 " - Set to 90%" \
 			2 " - Set to 85%" \
 			3 " - Set to 80%" \
 			4 " - Set to 75%" \
@@ -1651,7 +1654,7 @@ function all_overlay_off() {
 	clear
 	echo
 	cd /opt/retropie/configs/ 
-	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
