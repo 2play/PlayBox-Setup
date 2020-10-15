@@ -82,13 +82,11 @@ function fixes_pbt() {
             2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
 			3 " -  Hide or Show a System" \
             4 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            5 " -  Repair PlayBox BGM Mute File" \
-            6 " -  Restore 2Play! Original Music Selections" \
-            7 " -  Restore 2Play! Original Slideshow Images Set" \
+            5 " -  Repair PlayBox Background Music Mute File" \
+            6 " -  Restore 2Play! Music Selections" \
+            7 " -  Restore 2Play! Slideshow Screensaver" \
             8 " -  Reset All RetroPie Controllers" \
             9 " -  Fix-Reset-Clean RetroPie Setup git" \
-           10 " -  4K TV Fix ON - Force 1080p Thoughout" \
-           11 " -  4K TV Fix OFF - Disable 1080p Thoughout" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -101,8 +99,6 @@ function fixes_pbt() {
             7) fix_slideshow  ;;
             8) fix_control  ;;
             9) git_rs  ;;
-           10) fs1080p  ;;
-           11) fs1080p_off  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -137,6 +133,7 @@ function fix_rpmenu() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
 }
+
 
 function fix_region() {
 	clear
@@ -399,6 +396,7 @@ fi
 }
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
+
 function fix_hd_sh_sys() {
 	clear
 # Hide a System or RetroPie Menu Script by 2Play!
@@ -412,7 +410,6 @@ infobox="${infobox}You will see a list of the systems and instructions. The scri
 infobox="${infobox}*** For SYMBOLIC LINK SYSTEMs *** such as:\nGenesis, genesih, odyssey2, sega32x, segacd, tg16, tg16cd & PlayBox or Kodi.\nUSE the REGION SCRIPT for these.\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
-
 
 dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
 --title " HIDE/SHOW A SYSTEM SCRIPT " \
@@ -445,7 +442,6 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
         esac
     done
 }
-
 
 function hide_rpm() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
@@ -631,6 +627,7 @@ function fix_roms() {
 	fi
 }
 
+
 function fix_bgm_py() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	if [ -d $HOME/addonusb ]; then
@@ -647,6 +644,7 @@ function fix_bgm_py() {
 	echo "[OK DONE!...]"
 	sleep 2
 }
+
 
 function fix_music() {
 	local choice
@@ -670,7 +668,6 @@ function fix_music() {
         esac
     done
 }
-
 
 function Synthpop() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
@@ -741,6 +738,7 @@ function Mix() {
 	sudo reboot
 }
 
+
 function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
@@ -750,6 +748,7 @@ function fix_slideshow() {
 	echo "[OK DONE!...]"
 	sleep 3
 }
+
 
 function fix_control() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
@@ -765,6 +764,7 @@ function fix_control() {
 	sudo reboot
 }
 
+
 function git_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	cd RetroPie-Setup && git reset --hard && git clean -f -d
@@ -772,32 +772,6 @@ function git_rs() {
 	echo
 	echo "[OK DONE!...]"
 	sleep 3
-}
-
-function fs1080p() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	clear
-	echo
-	echo "Let's force 1080p on your 4K TV. It takes a second and your system will reboot."
-	sleep 3
-	sudo sed -i 's/#hdmi_ignore_edid=0xa5000080/hdmi_ignore_edid=0xa5000080/g; s/#hdmi_group=1/hdmi_group=1/g; s/#hdmi_mode=76/hdmi_mode=76/g;' /boot/config.txt && sudo reboot
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-function fs1080p_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	clear
-	echo
-	echo "Let's disable forced 1080p on your 4K TV. It takes a second and your system will reboot."
-	sleep 3
-	sudo sed -i 's/hdmi_ignore_edid=0xa5000080/#hdmi_ignore_edid=0xa5000080/g; s/hdmi_group=1/#hdmi_group=1/g; s/hdmi_mode=76/#hdmi_mode=76/g;' /boot/config.txt && sudo reboot
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
 }
 
 
@@ -816,28 +790,26 @@ function apps_pbt() {
 			1 " -  Take HD ScreenShot" \
 			2 " -  Swap Gamelist View on 2Play! Themes " \
 		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
-			4 " -  Enable-Disable Marquees Setup" \
-			5 " -  Skyscraper By Lars Muldjord" \
-			6 " -  SD/USB Storage Benchmark" \
-			7 " -  OMXPlayer Volume Control Script" \
-			8 " -  Single Saves Directory By RPC80" \
-			9 " -  Vulkan Igalia Driver" \
-		   10 " -  Amiberry Compile and Update From GitHub" \
-		   11 " -  PiKISS By Jose Cerrejon" \
+			4 " -  Skyscraper By Lars Muldjord" \
+			5 " -  SD/USB Storage Benchmark" \
+			6 " -  OMXPlayer Volume Control Script" \
+			7 " -  Single Saves Directory By RPC80" \
+			8 " -  Vulkan Igalia Driver" \
+		    9 " -  Amiberry Compile and Update From GitHub" \
+		   10 " -  PiKISS By Jose Cerrejon" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) prntscr  ;;
 			2) swap_theme_view ;;
 			3) ra_options_tool  ;;
-			4) pimarquees  ;;
-			5) skyscraper  ;;
-			6) strg_bench  ;;
-			7) omxvol  ;;
-			8) rpc80_saves  ;;
-			9) igalia_vk  ;;
-		   10) amiberry_git  ;;
-		   11) pikiss_git  ;;
+			4) skyscraper  ;;
+			5) strg_bench  ;;
+			6) omxvol  ;;
+			7) rpc80_saves  ;;
+			8) igalia_vk  ;;
+		    9) amiberry_git  ;;
+		   10) pikiss_git  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -855,6 +827,7 @@ function prntscr() {
 	sleep 1
 }
 
+
 function skyscraper() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
@@ -865,6 +838,7 @@ function skyscraper() {
 	echo
 	Skyscraper
 }
+
 
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
@@ -1054,7 +1028,6 @@ function rpc80_svoff() {
 	echo "[OK DONE!...]"
 	sleep 1	
 }
-
 
 
 function igalia_vk() {
@@ -1422,6 +1395,7 @@ function strg_bench() {
 	sudo /home/pi/PlayBox-Setup/.pb-fixes/_scripts/storage_bench.sh
 }
 
+
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
 # 10.10.2020
@@ -1775,59 +1749,7 @@ function all_v_smooth_off() {
 	sleep 1
 }
 
-function pimarquees() {
-	clear
-	local choice
-	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " MARQUEES MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Which fix or action would you like to apply?" 25 75 20 \
-            - "*** MARQUEES SELECTIONS ***" \
-			1 "Enable :  Marquees" \
-            2 "Disable:  Marquees" \
-            2>&1 > /dev/tty)
 
-        case "$choice" in
-            1) marquees_on  ;;
-            2) marquees_off  ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function marquees_on() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	echo
-	echo "Ok PiMarquee will be enabled and then reboot..."
-	sleep 3
-	if grep "#/home/pi/scripts/themerandom.sh" /opt/retropie/configs/all/autostart.sh; then
-	sed -i 's/#//' /opt/retropie/configs/all/autostart.sh
-	sed -i 's\/home/pi/scripts/themerandom.sh\#/home/pi/scripts/themerandom.sh\' /opt/retropie/configs/all/autostart.sh
-	else
-	sed -i 's/#//' /opt/retropie/configs/all/autostart.sh
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sudo reboot
-}
-
-function marquees_off() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	echo "Ok PiMarquee will be disabled and then reboot..."
-	sleep 3
-	if grep "#/home/pi/scripts/themerandom.sh" /opt/retropie/configs/all/autostart.sh; then
-	sed -i 's|fbset|#fbset|' /opt/retropie/configs/all/autostart.sh
-	sed -i 's|isdual|#isdual|' /opt/retropie/configs/all/autostart.sh
-	sed -i 's|if|#if|' /opt/retropie/configs/all/autostart.sh
-	sed -i 's|/usr|#/usr|' /opt/retropie/configs/all/autostart.sh
-	sed -i 's|fi|#fi|' /opt/retropie/configs/all/autostart.sh
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sudo reboot
-}
 function amiberry_git() {
 	clear
 	local choice
@@ -1934,6 +1856,7 @@ function amiberry_pi4sdl2swap() {
 	sleep 1
 }
 
+
 function pikiss_git() {
 	clear
 	cd $HOME/piKiss/
@@ -1946,6 +1869,7 @@ function pikiss_git() {
 	sleep 2 && cd $HOME
 	#$HOME/piKiss/piKiss.sh
 }
+
 
 function swap_theme_view() {
 	clear
@@ -2064,6 +1988,7 @@ function cl_saves() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
 
 function cl_xml() {
 	clear
@@ -2316,6 +2241,7 @@ function cl_es_gamelist() {
 	sudo reboot
 }
 
+
 function cl_cli_hist() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	#cat /dev/null > ~/.bash_history
@@ -2329,6 +2255,7 @@ function cl_cli_hist() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
 
 function cl_cache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
@@ -2393,6 +2320,7 @@ function fschk_bt() {
 	sudo touch /forcefsck && sudo reboot
 }
 
+
 function partitions() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
@@ -2400,6 +2328,7 @@ function partitions() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 }
+
 
 function fold_sz() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
@@ -2412,6 +2341,7 @@ function fold_sz() {
 	read -n 1 -s -r -p "Press any key to continue"
 }
 
+
 function freemem() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
@@ -2419,6 +2349,7 @@ function freemem() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 }
+
 
 function os_info() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 2
@@ -2494,6 +2425,7 @@ function update_os() {
 	echo "[OK] Rebooting Raspberry Pi ... "
 	sudo reboot
 }
+
 
 function fw_pi() {
 	dialog --backtitle "PlayBox Toolkit" \
@@ -2632,6 +2564,7 @@ function fwup_pi4() {
 #	$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System/update.sh	
 #	sleep 3
 
+
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 # 11.07.2020
@@ -2680,11 +2613,13 @@ read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
 }
 
+
 function temp_rt() {
 	dialog --infobox "...[Press <CTRL+C> to Exit]..." 3 36 ; sleep 5
 	clear
 	watch -t $HOME/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh 
 }
+
 
 function cores_status() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
@@ -2693,6 +2628,7 @@ function cores_status() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 }
+
 
 function ratio_vt() {
 #VIDEO+ RATIO & RESOLUTION By 2Play!
@@ -3003,7 +2939,6 @@ function enable_vrdcX() {
 	sudo reboot
 }
 
-
 # Disables ALL custom CEA & DMT or STDTV resolutions & ratio
 function disable_vrALL() {
   #dialog --infobox "...Applying..." 3 20 ; sleep 2
@@ -3031,12 +2966,12 @@ function disable_vrALL() {
 }
 
 
-
 function thankyou_pb() {
 	#dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 	clear
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/thankyou.sh
 }
+
 
 function update_pbs() {
 	#dialog --infobox "...Updating..." 3 20 ; sleep 1
@@ -3062,6 +2997,7 @@ function update_pbs() {
 	exit
 	#break
 }
+
 
 function poff_pb() {
 	dialog --infobox "...Shutting Down..." 3 23 ; sleep 1
