@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 12.10.2020"
+pb_version="Version 2.0 Dated 15.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -658,11 +658,11 @@ function fix_music() {
 			- "" \
             1 "I want to listen to 2Play!'s Selection" \
             2 "I want to listen to nice Royalty Free Tracks" \
-            3 "I want to listen to a mix of both!" \
+            3 "I want to listen to a custom mix!" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) Synthpop  ;;
+            1) ynthpop  ;;
             2) RoyalFree  ;;
             3) Mix  ;;
             -) none ;;
@@ -729,10 +729,10 @@ function Mix() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music && rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music && rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
@@ -1944,7 +1944,7 @@ function pikiss_git() {
 	git reset --hard HEAD
 	git merge '@{u}'
 	sleep 2 && cd $HOME
-	$HOME/piKiss/piKiss.sh
+	#$HOME/piKiss/piKiss.sh
 }
 
 function swap_theme_view() {
