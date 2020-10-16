@@ -12,8 +12,8 @@ sleep 5
 #echo "(sleep 10; mpg123 -Z /home/pi/RetroPie/roms/music/*.mp3 > /dev/null 2>&1) &" >>/opt/retropie/configs/all/autostart.sh
 echo "/home/pi/.attract/intro/intro.mp4" | sudo tee /etc/splashscreen.list > /dev/null
 echo "#fbset -fb /dev/fb0 -g 1920 1080 1920 1080 16" | tee /opt/retropie/configs/all/autostart.sh > /dev/null
-echo 'HDMI2OFF=`tvservice -l |grep "2 attached device"`' | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
-echo 'if [[ $HDMI2OFF == "2 attached device" ]]; then' | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
+echo 'HDMI2ON=`tvservice -l |grep "HDMI" |wc -l`' | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
+echo 'if [[ $HDMI2ON == "2" ]]; then' | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
 echo "/usr/bin/python /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py > /dev/null 2>&1 &" | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
 echo "fi" | tee -a /opt/retropie/configs/all/autostart.sh > /dev/null
 RNDMTHM=`grep "^/home/pi/scripts/themerandom.sh" /opt/retropie/configs/all/autostart.sh`
