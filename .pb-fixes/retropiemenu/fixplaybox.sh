@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 15.10.2020"
+pb_version="Version 2.0 Dated 16.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,25 +80,21 @@ function fixes_pbt() {
 			- "	" \
 			1 " -  Fix The PlayBox RetropieMenu" \
             2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
-			3 " -  Hide or Show a System" \
-            4 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            5 " -  Repair PlayBox Background Music Mute File" \
-            6 " -  Restore 2Play! Music Selections" \
-            7 " -  Restore 2Play! Slideshow Screensaver" \
-            8 " -  Reset All RetroPie Controllers" \
-            9 " -  Fix-Reset-Clean RetroPie Setup git" \
+			3 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
+            4 " -  Repair PlayBox Background Music Mute File" \
+            5 " -  Restore 2Play! Slideshow Screensaver" \
+            6 " -  Reset All RetroPie Controllers" \
+            7 " -  Fix-Reset-Clean RetroPie Setup git" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             2) fix_region  ;;
-            3) fix_hd_sh_sys  ;;
-			4) fix_roms  ;;
-            5) fix_bgm_py  ;;
-            6) fix_music  ;;
-            7) fix_slideshow  ;;
-            8) fix_control  ;;
-            9) git_rs  ;;
+            3) fix_roms  ;;
+            4) fix_bgm_py  ;;
+            5) fix_slideshow  ;;
+            6) fix_control  ;;
+            7) git_rs  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -397,178 +393,6 @@ fi
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
 
-function fix_hd_sh_sys() {
-	clear
-# Hide a System or RetroPie Menu Script by 2Play!
-# 01.07.20
-
-infobox=""
-infobox="${infobox}\n"
-infobox="${infobox}*** Hide RetroPie/Options Menu or any System Script. ***\n\n"
-infobox="${infobox}You can hide any system in the roms directory.\nSome are visible due to the .sh file in there.\nYou can use this script or simply add manually .OFF to the .sh For example .sh.OFF\n\n"
-infobox="${infobox}You will see a list of the systems and instructions. The script relies on your correct input!\n\n"
-infobox="${infobox}*** For SYMBOLIC LINK SYSTEMs *** such as:\nGenesis, genesih, odyssey2, sega32x, segacd, tg16, tg16cd & PlayBox or Kodi.\nUSE the REGION SCRIPT for these.\n"
-infobox="${infobox}\n"
-infobox="${infobox}\n"
-
-dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
---title " HIDE/SHOW A SYSTEM SCRIPT " \
---msgbox "${infobox}" 35 110
-
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " HIDE/SHOW A SYSTEM MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "OK Let's decide what would you like to hide/show..." 25 75 20 \
-            - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
-            1 " - Hide RetroPie/Options Menu" \
-            2 " - Show RetroPie/Options Menu" \
-            - "" \
-            - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
-		    3 " - Hide A System..." \
-            4 " - Show A System..." \
-            - "" \
-            5 " - Show/Restore ALL HIDDEN Systems" \
-		   2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) hide_rpm  ;;
-            2) show_rpm  ;;
-            3) hide_sys  ;;
-            4) show_sys  ;;
-            5) show_all  ;;
-            -) none ;;
-            *) break ;;
-        esac
-    done
-}
-
-function hide_rpm() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	mv -f ~/RetroPie/retropiemenu ~/RetroPie/retropiemenu.OFF
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
-}
-
-function show_rpm() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	mv -f ~/RetroPie/retropiemenu.OFF ~/RetroPie/retropiemenu
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
-}
-
-function hide_sys() {
-	dialog --infobox "...Hold on..." 3 18 ; sleep 2
-	clear
-	echo 
-	echo " I will display a list of all Rom folders..."
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
-	echo 
-	echo Example: arcade
-	echo NOT Arcade or ARCADE etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	ls | column | more -d
-	echo
-	read -p 'So which system would you like to hide: ' sname
-	echo
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/$sname ~/RetroPie/localroms/$sname.OFF && mv -f ~/RetroPie/addonusb/roms/$sname ~/RetroPie/addonusb/roms/$sname.OFF
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-	else
-	mv -f ~/RetroPie/roms/$sname ~/RetroPie/roms/$sname.OFF
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-fi
-}
-
-function show_sys() {
-	dialog --infobox "...Hold on..." 3 18 ; sleep 2
-clear
-	echo 
-	echo " I will display a list of all Rom folders..."
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
-	echo 
-	echo Example: arcade
-	echo NOT Arcade or ARCADE etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	ls | column | more -d
-	echo
-	read -p 'So which system would you like to show: ' sname
-	echo
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/$sname.OFF ~/RetroPie/localroms/$sname && mv -f ~/RetroPie/addonusb/roms/$sname.OFF ~/RetroPie/addonusb/roms/$sname
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-	else
-	mv -f ~/RetroPie/roms/$sname.OFF ~/RetroPie/roms/$sname
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-fi
-}
-
-function show_all() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	cd ~/RetroPie/roms/
-	rename -v 's/\.OFF$//i' *
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-
 function fix_roms() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
@@ -646,99 +470,6 @@ function fix_bgm_py() {
 }
 
 
-function fix_music() {
-	local choice
-	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " MUSIC SELECTION MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Select the type of music you would like to apply." 25 75 20 \
-            - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
-			- "" \
-            1 "I want to listen to 2Play!'s Selection" \
-            2 "I want to listen to nice Royalty Free Tracks" \
-            3 "I want to listen to a custom mix!" \
-            2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) ynthpop  ;;
-            2) RoyalFree  ;;
-            3) Mix  ;;
-            -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function Synthpop() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
-
-function RoyalFree() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
-
-function Mix() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
-
-
 function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
@@ -788,28 +519,32 @@ function apps_pbt() {
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
 			1 " -  Take HD ScreenShot" \
-			2 " -  Swap Gamelist View on 2Play! Themes " \
+			2 " -  Gamelist Views - 2Play! Themes " \
 		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
-			4 " -  Skyscraper By Lars Muldjord" \
-			5 " -  SD/USB Storage Benchmark" \
-			6 " -  OMXPlayer Volume Control Script" \
-			7 " -  Single Saves Directory By RPC80" \
+			4 " -  Hide or Show a System" \
+			5 " -  2Play! Music Selections" \
+			6 " -  Skyscraper By Lars Muldjord" \
+		    7 " -  Amiberry Compile and Update From GitHub" \
 			8 " -  Vulkan Igalia Driver" \
-		    9 " -  Amiberry Compile and Update From GitHub" \
-		   10 " -  PiKISS By Jose Cerrejon" \
+		    9 " -  PiKISS By Jose Cerrejon" \
+		   10 " -  Single Saves Directory By RPC80" \
+		   11 " -  SD/USB Storage Benchmark" \
+		   12 " -  OMXPlayer Volume Control Script" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) prntscr  ;;
 			2) swap_theme_view ;;
 			3) ra_options_tool  ;;
-			4) skyscraper  ;;
-			5) strg_bench  ;;
-			6) omxvol  ;;
-			7) rpc80_saves  ;;
+			4) hd_sh_sys  ;;
+			5) music_2p  ;;
+			6) skyscraper  ;;
+			7) amiberry_git  ;;
 			8) igalia_vk  ;;
-		    9) amiberry_git  ;;
-		   10) pikiss_git  ;;
+			9) pikiss_git  ;;
+		   10) rpc80_saves  ;;
+		   11) strg_bench  ;;
+		   12) omxvol  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -828,571 +563,79 @@ function prntscr() {
 }
 
 
-function skyscraper() {
+function swap_theme_view() {
+	clear
+	local choice
+	while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " 2PLAY! THEME VIEWS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
+            - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
+			- "	" \
+			1 "Single Window Art:  Image and then Video" \
+			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
+			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) single_art  ;;
+            2) dual_art_hz  ;;
+			3) dual_art_vrt  ;;
+			-) none ;;
+			*)  break ;;
+        esac
+    done
+}
+
+function single_art() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	echo
-	echo "*** You need a keyboard connected! ***"
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	Skyscraper
-}
-
-
-function rpc80_saves() {
-# Based on RPC80 Single Saves Folder Script
-# The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 23.07.20
-	dialog --backtitle "PlayBox Toolkit" \
-	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
-	
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " RPC80 SINGLE SAVES DIR OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
-            - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
-           1 " -  Enable Single Saves Directory" \
-           2 " -  Revert Single Saves Directory" \
-           2>&1 > /dev/tty)
-
-        case "$choice" in
-           1) rpc80_svon  ;;
-           2) rpc80_svoff  ;;
-		   -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-		
-function rpc80_svon() {
-clear
-################################################################################
-# RPC80 SaveFile Script                                                        #
-################################################################################
-# Author: RPC80                                                                #
-# Date: 2018.05.11                                                             #
-# Changes by 2Play! 														   # 
-# Date: 2020.07.23															   #
-################################################################################
-# Purpose: Creates a save directory at ~/RetroPie/saves                        #
-# and configures all retroarch emulators with their own config files           #
-# to store savefiles at ~/RetroPie/saves/{system_name}                         #
-# and savestate files at ~/Retropie/saves/{system_name}/states                 #
-################################################################################
-
-CONFIGS_DIR=/opt/retropie/configs
-CONFIG_FILENAME=retroarch.cfg
-SAVES_DIR=~/RetroPie/saves
-ROMS_DIR=~/RetroPie/roms
-
-SAVE_FILE_CONFIG="savefile_directory = \"~/RetroPie/saves"
-SAVE_STATE_CONFIG="savestate_directory = \"~/RetroPie/saves"
-
-echo "
-  ____  ____   ____ ___   ___
- |  _ \|  _ \ / ___( _ ) / _ \\
- | |_) | |_) | |   / _ \| | | |
- |  _ <|  __/| |__| (_) | |_| |
- |_| \_\_|    \____\___/ \___/
-
-"
-
-  # Loop through the configs directory
-  for d in ${CONFIGS_DIR}//*; do
-
-      # Get the system/emulator name
-      system_name=${d##*/}
-
-      # Skip `all` & `amiga` & symbolic link config folders
-      if [[ ${system_name} == 'all' || ${system_name} == 'amiga' || ${system_name} == 'genh' || ${system_name} == 'megh' || ${system_name} == 'moto' || ${system_name} == 'neogeocd' || ${system_name} == 'pce-cd' || ${system_name} == 'snesmsu1' || ${system_name} == 'tg-cd' ]]; then
-	    echo "Skipping ${system_name} folder configs"
-        continue
-      fi
-
-      echo "Checking System Configs for '${system_name}' ..."
-      config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
-
-      if [[ -f ${config_file} ]]; then
-        echo "Found config file: ${config_file}"
-      else
-        echo "No config file found for ${system_name}"
-        continue
-      fi
-
-      # Create save file directories
-      if [ ! -d $SAVES_DIR ]; then
-        echo "Creating master saves file directory ${SAVES_DIR} ..."
-        mkdir $SAVES_DIR
-        if [ $? -ne 0 ] ; then
-          echo "[ERROR] Failed to create save file directory: ${SAVE_DIR}"
-          exit 1
-        else
-          echo "[OK] Created save file directory ${SAVES_DIR}"
-        fi
-      fi
-      echo "Creating save file directory for ${system_name} ..."
-      mkdir -p ${SAVES_DIR}/${system_name}
-      if [ $? -ne 0 ] ; then
-        echo "[ERROR] Failed to create save file directory: ${SAVES_DIR}/${system_name}"
-        exit 1
-      else
-        echo "[OK] Created save file directory ${SAVES_DIR}/${system_name}"
-      fi
-      mkdir -p ${SAVES_DIR}/${system_name}/states
-      if [ $? -ne 0 ] ; then
-        echo "[ERROR] Failed to create save file directory: ${SAVES_DIR}/${system_name}/states"
-        exit 1
-      else
-        echo "[OK] Created save file directory ${SAVES_DIR}/${system_name}/states"
-      fi
-
-      # Check if savefile & savestate config exists
-      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
-        echo "Overwriting configs..."
-        sed -i "s|savefile_directory.*|${SAVE_FILE_CONFIG}/${system_name}\"|" "${config_file}"
-		sed -i "s|savestate_directory.*|${SAVE_STATE_CONFIG}/${system_name}/states\"|" "${config_file}"
-      else
-        echo "Writing save configs...!"
-		sed -i '/#include "/i \
-savefile_directory = \"~/RetroPie/saves/'${system_name}'\" \
-savestate_directory = \"~/RetroPie/saves/'${system_name}'/states\" \
-<->' "${config_file}"
-	  fi
-	  
-	  # Move existing saves to the master saves rom directory
-	  if [[ ! -d daphne ]]; then
-	  find "${ROMS_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/"
-	  find "${ROMS_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[0-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/states/"
-	  fi	
-	  
-  done
-	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
+	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
+	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
+	find ./2Play*/ -maxdepth 1 -type f -name 'theme2P.xml' -execdir cp {} theme.xml ';'
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
-}
-
-function rpc80_svoff() {
-	dialog --infobox "...Reverting..." 3 20	; sleep 1
-	clear
-# Check for the existence of the saves directory
-  if [ ! -d "$SAVES_DIR" ]; then
-    echo "No save file directory. Exiting."
-    break
-	#continue
-  fi
-
-  # Loop through the configs directory
-  for d in ${CONFIGS_DIR}//*; do
-
-    # Get the system/emulator name
-    system_name=${d##*/}
-	
-    # Check for existing config file
-    config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
-
-      if [[ -f ${config_file} ]]; then
-        echo "Found config file: ${config_file}"
-      else
-        echo "No config file found for ${system_name}"
-        continue
-      fi
-
-	  # Check if savefile & savestate config exists
-      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
-      echo "Removing config entries..."
-      #sed -i "s|savefile_directory.*||" "${config_file}"
-	  #sed -i "s|savestate_directory.*||" "${config_file}"
-	  sed -i '/savefile_directory.*/d' "${config_file}"
-	  sed -i '/savestate_directory.*/d' "${config_file}"
-	  sed -i '/<->.*/d' "${config_file}"
-	  fi
-	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
-	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
-	  
-    # Move existing saves to the systems roms directory
-      if [[ ! -d daphne ]]; then
-	  find "${SAVES_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/"
-	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/states/"
-	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "/opt/retropie/configs/all/retroarch/states/"
-	  fi
-	  
-  done
-	# Delete system saves saves directory
-	rm -rf ~/RetroPie/saves/
-	clear
 	echo
-	echo "[OK DONE!...]"
-	sleep 1	
-}
-
-
-function igalia_vk() {
-# Install Pi Igalia Mesa Vulkan Driver
-# The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 23.07.20
-	dialog --backtitle "PlayBox Toolkit" \
-	--title "IGALIA VULKAN OPTIONS MENU" \
-	
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " IGALIA VULKAN OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Let's do some Vulkan work..." 25 75 20 \
-            - "*** IGALIA VULKAN SELECTIONS ***" \
-			- "" \
-           1 " -  Install/Update All [Driver, Extras, RetroArch]" \
-           2 " -  Update Vulkan Driver" \
-           3 " -  Install/Update Vulkan Demos" \
-		   4 " -  Install/Update Vulkan Enabled RetroArch" \
-           5 " -  CleanUp Source Folders" \
-            2>&1 > /dev/tty)
-
-        case "$choice" in
-           1) igalia_all  ;;
-           2) igalia_up  ;;
-		   3) igalia_dm  ;;
-		   4) igalia_ra  ;;
-           5) igalia_cl  ;;
-		   -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function igalia_all() {
-# Install Pi Igalia Mesa Vulkan Driver
-# The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 23.07.20
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-echo ""
-echo "STEP 1. Installing Dependencies... "
-echo ""
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libdrm-dev libxshmfence-dev libxxf86vm-dev python3-mako 
-echo ""
-echo "STEP 2. Bring OS Up to date... "
-echo ""
-sudo apt update && sudo apt upgrade -y
-echo ""
-echo "STEP 3. Install required compiling SW... "
-echo ""
-sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt-get install -y cmake
-echo ""
-echo "STEP 4. Compiling Driver... "
-echo ""
-cd $HOME/code/
-sudo rm -rf mesa* 
-git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
-cd mesa
-git checkout wip/igalia/v3dv
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
-ninja -C _build -j4
-sudo ninja -C _build install
-echo ""
-#echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
-#echo ""
-#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
-#echo ""
-echo "Compile RetroArch with Vulkan Support... "
-echo ""
-cd $HOME/code/
-git clone https://github.com/libretro/RetroArch.git retroarch
-apt-get build-dep retroarch
-cd retroarch
-./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
-make clean
-make -j4
-sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
-sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
-echo ""
-echo "Demos & Finalizing... "
-echo ""
-cd $HOME/code/
-while true; do
-echo ""
-read -p 'Whould you like to install few test demos [y] or Reboot [n or r]? ' yn
-	case $yn in
-	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
-    [NnRr]* ) echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
-    * ) echo ""; echo "Please answer yes or no.";;
-    esac
-done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function igalia_up() {
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-echo ""
-echo "STEP 1. Installing Dependencies... "
-echo ""
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libdrm-dev libxshmfence-dev libxxf86vm-dev python3-mako 
-echo ""
-echo "STEP 2. Bring OS Up to date... "
-echo ""
-sudo apt update && sudo apt upgrade -y
-echo ""
-echo "STEP 3. Install required compiling SW... "
-echo ""
-sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt-get install -y cmake
-echo ""
-echo "STEP 4. Compiling Driver... "
-echo ""
-cd $HOME/code/
-sudo rm -rf mesa* 
-git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
-cd mesa
-git checkout wip/igalia/v3dv
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
-ninja -C _build -j4
-sudo ninja -C _build install
-	echo ""
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo ""
-	echo "Driver By Igalia, Script By 2Play!"
-	echo ""
-	echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
-	echo ""
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo ""
 	echo "[OK System Will Restart now...]"
-	clear
+	sleep 2
 	sudo reboot
 }
 
-function igalia_dm() {
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-echo ""
-echo "Vulkan Demos... "
-echo ""
-cd $HOME/code/
-if [ ! -d sascha-willems ]; then
-sudo apt-get install libassimp-dev
-git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems
-cd sascha-willems
-python3 download_assets.py
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Debug  ..
-make -j4
-mv -v build/bin/* bin/
-chmod 755 bin/benchmark-all.py
-else
-echo ""
-echo "Directory exists so most probably you compiled before!!!"
-fi
-echo ""
-echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
-echo ""
-read -n 1 -s -r -p "Press any key to continue"
-clear
-echo
-echo "[OK DONE!...]"
-sleep 1
-}
-
-function igalia_ra() {
-echo ""
-echo "Compile RetroArch with Vulkan Support... "
-echo ""
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-	if [ ! -d retroarch ]; then
-	git clone https://github.com/libretro/RetroArch.git retroarch
-	apt-get build-dep retroarch
-	cd retroarch
-	./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
-	make clean
-	make -j4
-	sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-	sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
-	sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
-	else
-	rm -rf retroarch
-	igalia_ra
-	fi
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function igalia_cl() {
-	echo ""
-	echo " This will free up about 3.5GB of space..."
-	echo ""
-	sleep 2
-	cd code/
-	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-
-function omxvol() {
-	clear
-# OMXPlayer Volume Control By 2Play! 
-# 23.07.20
-
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Please Set OMXPlayer Volume:" 25 75 20 \
-            - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
-            - "" \
-			1 " - Set to 90%" \
-			2 " - Set to 85%" \
-			3 " - Set to 80%" \
-			4 " - Set to 75%" \
-            5 " - Set to 70%" \
-            6 " - Set to 60%" \
-            7 " - Set to 50%" \
-            8 " - Set to 25%" \
-            9 " - Set to 100% (Default - Reset)" \
-            10 " - Set to 0% (Mute)" \
-            2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) omx90  ;;
-			2) omx85  ;;
-			3) omx80  ;;
-			4) omx75  ;;
-            5) omx70  ;;
-            6) omx60  ;;
-            7) omx50  ;;
-            8) omx25  ;;
-            9) omx100  ;;
-           10) omx0  ;;
-            -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function omx90() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -600/g' /usr/bin/omxplayer
-}
-
-function omx85() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -900/g' /usr/bin/omxplayer
-}
-
-function omx80() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1200/g' /usr/bin/omxplayer
-}
-
-function omx75() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1500/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx70() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1750/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx60() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -2400/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx50() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -3000/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx25() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -4500/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx100() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx0() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -6000/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-#	$HOME/PlayBox-Setup/.pb-fixes/_scripts/omxvol.sh
-
-function strg_bench() {
+function dual_art_hz() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	sudo /home/pi/PlayBox-Setup/.pb-fixes/_scripts/storage_bench.sh
+	cd /etc/emulationstation/themes
+	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
+	find ./2Play*/_2playart -type f -name 'ingame-global-bg-ih.jpg' -execdir cp {} ingame-global-bg.jpg ';'
+	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
+	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv1.xml' -execdir cp {} theme.xml ';'
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
+}
+
+function dual_art_vrt() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
+	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
+	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
+	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv2.xml' -execdir cp {} theme.xml ';'
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
 }
 
 
@@ -1750,6 +993,283 @@ function all_v_smooth_off() {
 }
 
 
+function hd_sh_sys() {
+	clear
+# Hide a System or RetroPie Menu Script by 2Play!
+# 01.07.20
+
+infobox=""
+infobox="${infobox}\n"
+infobox="${infobox}*** Hide RetroPie/Options Menu or any System Script. ***\n\n"
+infobox="${infobox}You can hide any system in the roms directory.\nSome are visible due to the .sh file in there.\nYou can use this script or simply add manually .OFF to the .sh For example .sh.OFF\n\n"
+infobox="${infobox}You will see a list of the systems and instructions. The script relies on your correct input!\n\n"
+infobox="${infobox}*** For SYMBOLIC LINK SYSTEMs *** such as:\nGenesis, genesih, odyssey2, sega32x, segacd, tg16, tg16cd & PlayBox or Kodi.\nUSE the REGION SCRIPT for these.\n"
+infobox="${infobox}\n"
+infobox="${infobox}\n"
+
+dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
+--title " HIDE/SHOW A SYSTEM SCRIPT " \
+--msgbox "${infobox}" 35 110
+
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " HIDE/SHOW A SYSTEM MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "OK Let's decide what would you like to hide/show..." 25 75 20 \
+            - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
+            1 " - Hide RetroPie/Options Menu" \
+            2 " - Show RetroPie/Options Menu" \
+            - "" \
+            - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
+		    3 " - Hide A System..." \
+            4 " - Show A System..." \
+            - "" \
+            5 " - Show/Restore ALL HIDDEN Systems" \
+		   2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) hide_rpm  ;;
+            2) show_rpm  ;;
+            3) hide_sys  ;;
+            4) show_sys  ;;
+            5) show_all  ;;
+            -) none ;;
+            *) break ;;
+        esac
+    done
+}
+
+function hide_rpm() {
+	dialog --infobox "...Updating..." 3 20 ; sleep 2
+	clear
+	mv -f ~/RetroPie/retropiemenu ~/RetroPie/retropiemenu.OFF
+	clear
+	echo "We need to restart system now..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	sleep 1
+	sudo reboot
+	echo
+}
+
+function show_rpm() {
+	dialog --infobox "...Updating..." 3 20 ; sleep 2
+	clear
+	mv -f ~/RetroPie/retropiemenu.OFF ~/RetroPie/retropiemenu
+	clear
+	echo "We need to restart system now..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	sleep 1
+	sudo reboot
+	echo
+}
+
+function hide_sys() {
+	dialog --infobox "...Hold on..." 3 18 ; sleep 2
+	clear
+	echo 
+	echo " I will display a list of all Rom folders..."
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
+	echo 
+	echo Example: arcade
+	echo NOT Arcade or ARCADE etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	ls | column | more -d
+	echo
+	read -p 'So which system would you like to hide: ' sname
+	echo
+if [ -d $HOME/addonusb ]; then
+	mv -f ~/RetroPie/localroms/$sname ~/RetroPie/localroms/$sname.OFF && mv -f ~/RetroPie/addonusb/roms/$sname ~/RetroPie/addonusb/roms/$sname.OFF
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
+	sleep 1
+	else
+	mv -f ~/RetroPie/roms/$sname ~/RetroPie/roms/$sname.OFF
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
+	sleep 1
+fi
+}
+
+function show_sys() {
+	dialog --infobox "...Hold on..." 3 18 ; sleep 2
+clear
+	echo 
+	echo " I will display a list of all Rom folders..."
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
+	echo 
+	echo Example: arcade
+	echo NOT Arcade or ARCADE etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	ls | column | more -d
+	echo
+	read -p 'So which system would you like to show: ' sname
+	echo
+if [ -d $HOME/addonusb ]; then
+	mv -f ~/RetroPie/localroms/$sname.OFF ~/RetroPie/localroms/$sname && mv -f ~/RetroPie/addonusb/roms/$sname.OFF ~/RetroPie/addonusb/roms/$sname
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
+	sleep 1
+	else
+	mv -f ~/RetroPie/roms/$sname.OFF ~/RetroPie/roms/$sname
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
+	sleep 1
+fi
+}
+
+function show_all() {
+	dialog --infobox "...Updating..." 3 20 ; sleep 2
+	clear
+	cd ~/RetroPie/roms/
+	rename -v 's/\.OFF$//i' *
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+
+function music_2p() {
+	local choice
+	while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " MUSIC SELECTION MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Select the type of music you would like to apply." 25 75 20 \
+            - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
+			- "" \
+            1 "I want to listen to 2Play!'s Selection" \
+            2 "I want to listen to nice Royalty Free Tracks" \
+            3 "I want to listen to a custom mix!" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) ynthpop  ;;
+            2) RoyalFree  ;;
+            3) Mix  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function Synthpop() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	if [ -d $HOME/addonusb ]; then
+	echo
+    echo "You have enabled the External USB Script..."
+	echo "Using correct paths..."
+    echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
+	else
+	rm -rf $HOME/RetroPie/roms/music/*
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
+	fi
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 3
+	clear
+	sudo reboot
+}
+
+function RoyalFree() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	if [ -d $HOME/addonusb ]; then
+	echo
+    echo "You have enabled the External USB Script..."
+	echo "Using correct paths..."
+    echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
+	else
+	rm -rf $HOME/RetroPie/roms/music/*
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
+	fi
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 3
+	clear
+	sudo reboot
+}
+
+function Mix() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	if [ -d $HOME/addonusb ]; then
+	echo
+    echo "You have enabled the External USB Script..."
+	echo "Using correct paths..."
+    echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
+	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/localroms/music
+	else
+	rm -rf $HOME/RetroPie/roms/music/*
+	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/roms/music
+	fi
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 3
+	clear
+	sudo reboot
+}
+
+
+function skyscraper() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	echo
+	echo "*** You need a keyboard connected! ***"
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	Skyscraper
+}
+
+
 function amiberry_git() {
 	clear
 	local choice
@@ -1773,6 +1293,7 @@ function amiberry_git() {
 			3) amiberry_pi4x64  ;;
 			4) amiberry_pi4swap  ;;
 			5) amiberry_pi4sdl2swap  ;;
+			-) none ;;
             *)  break ;;
         esac
     done
@@ -1857,6 +1378,245 @@ function amiberry_pi4sdl2swap() {
 }
 
 
+function igalia_vk() {
+# Install Pi Igalia Mesa Vulkan Driver
+# The PlayBox Project
+# Copyright (C)2018-2020 2Play! (S.R.)
+# 23.07.20
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "IGALIA VULKAN OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " IGALIA VULKAN OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's do some Vulkan work..." 25 75 20 \
+            - "*** IGALIA VULKAN SELECTIONS ***" \
+			- "" \
+           1 " -  Install/Update All [Driver, Extras, RetroArch]" \
+           2 " -  Update Vulkan Driver" \
+           3 " -  Install/Update Vulkan Demos" \
+		   4 " -  Install/Update Vulkan Enabled RetroArch" \
+           5 " -  CleanUp Source Folders" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) igalia_all  ;;
+           2) igalia_up  ;;
+		   3) igalia_dm  ;;
+		   4) igalia_ra  ;;
+           5) igalia_cl  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function igalia_all() {
+# Install Pi Igalia Mesa Vulkan Driver
+# The PlayBox Project
+# Copyright (C)2018-2020 2Play! (S.R.)
+# 23.07.20
+cd $HOME
+if [ ! -d code ]; then
+mkdir code && cd code/
+else
+cd code/
+fi
+echo ""
+echo "STEP 1. Installing Dependencies... "
+echo ""
+sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libdrm-dev libxshmfence-dev libxxf86vm-dev python3-mako 
+echo ""
+echo "STEP 2. Bring OS Up to date... "
+echo ""
+sudo apt update && sudo apt upgrade -y
+echo ""
+echo "STEP 3. Install required compiling SW... "
+echo ""
+sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo pip3 install meson
+sudo pip3 install mako
+sudo apt-get install -y cmake
+echo ""
+echo "STEP 4. Compiling Driver... "
+echo ""
+cd $HOME/code/
+sudo rm -rf mesa* 
+git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
+cd mesa
+git checkout wip/igalia/v3dv
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
+meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+ninja -C _build -j4
+sudo ninja -C _build install
+echo ""
+#echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
+#echo ""
+#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
+#echo ""
+echo "Compile RetroArch with Vulkan Support... "
+echo ""
+cd $HOME/code/
+git clone https://github.com/libretro/RetroArch.git retroarch
+apt-get build-dep retroarch
+cd retroarch
+./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
+make clean
+make -j4
+sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
+sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
+sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
+echo ""
+echo "Demos & Finalizing... "
+echo ""
+cd $HOME/code/
+while true; do
+echo ""
+read -p 'Whould you like to install few test demos [y] or Reboot [n or r]? ' yn
+	case $yn in
+	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
+    [NnRr]* ) echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
+    * ) echo ""; echo "Please answer yes or no.";;
+    esac
+done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function igalia_up() {
+cd $HOME
+if [ ! -d code ]; then
+mkdir code && cd code/
+else
+cd code/
+fi
+echo ""
+echo "STEP 1. Installing Dependencies... "
+echo ""
+sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libdrm-dev libxshmfence-dev libxxf86vm-dev python3-mako 
+echo ""
+echo "STEP 2. Bring OS Up to date... "
+echo ""
+sudo apt update && sudo apt upgrade -y
+echo ""
+echo "STEP 3. Install required compiling SW... "
+echo ""
+sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo pip3 install meson
+sudo pip3 install mako
+sudo apt-get install -y cmake
+echo ""
+echo "STEP 4. Compiling Driver... "
+echo ""
+cd $HOME/code/
+sudo rm -rf mesa* 
+git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
+cd mesa
+git checkout wip/igalia/v3dv
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
+meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+ninja -C _build -j4
+sudo ninja -C _build install
+	echo ""
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo ""
+	echo "Driver By Igalia, Script By 2Play!"
+	echo ""
+	echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
+	echo ""
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo ""
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function igalia_dm() {
+cd $HOME
+if [ ! -d code ]; then
+mkdir code && cd code/
+else
+cd code/
+fi
+echo ""
+echo "Vulkan Demos... "
+echo ""
+cd $HOME/code/
+if [ ! -d sascha-willems ]; then
+sudo apt-get install libassimp-dev
+git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems
+cd sascha-willems
+python3 download_assets.py
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug  ..
+make -j4
+mv -v build/bin/* bin/
+chmod 755 bin/benchmark-all.py
+else
+echo ""
+echo "Directory exists so most probably you compiled before!!!"
+fi
+echo ""
+echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
+echo ""
+read -n 1 -s -r -p "Press any key to continue"
+clear
+echo
+echo "[OK DONE!...]"
+sleep 1
+}
+
+function igalia_ra() {
+echo ""
+echo "Compile RetroArch with Vulkan Support... "
+echo ""
+cd $HOME
+if [ ! -d code ]; then
+mkdir code && cd code/
+else
+cd code/
+fi
+	if [ ! -d retroarch ]; then
+	git clone https://github.com/libretro/RetroArch.git retroarch
+	apt-get build-dep retroarch
+	cd retroarch
+	./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
+	make clean
+	make -j4
+	sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
+	sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
+	sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
+	else
+	rm -rf retroarch
+	igalia_ra
+	fi
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function igalia_cl() {
+	echo ""
+	echo " This will free up about 3.5GB of space..."
+	echo ""
+	sleep 2
+	cd code/
+	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+
 function pikiss_git() {
 	clear
 	cd $HOME/piKiss/
@@ -1871,79 +1631,322 @@ function pikiss_git() {
 }
 
 
-function swap_theme_view() {
-	clear
-	local choice
-	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " 2PLAY! THEME VIEWS MENU " \
-            --ok-label OK --cancel-label Exit \
-            --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
-            - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "	" \
-			1 "Single Window Art:  Image and then Video" \
-			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
-			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
-			2>&1 > /dev/tty)
+function rpc80_saves() {
+# Based on RPC80 Single Saves Folder Script
+# The PlayBox Project
+# Copyright (C)2018-2020 2Play! (S.R.)
+# 23.07.20
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " RPC80 SINGLE SAVES DIR OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
+            - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
+           1 " -  Enable Single Saves Directory" \
+           2 " -  Revert Single Saves Directory" \
+           2>&1 > /dev/tty)
 
         case "$choice" in
-            1) single_art  ;;
-            2) dual_art_hz  ;;
-			3) dual_art_vrt  ;;
-			*)  break ;;
+           1) rpc80_svon  ;;
+           2) rpc80_svoff  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+		
+function rpc80_svon() {
+clear
+################################################################################
+# RPC80 SaveFile Script                                                        #
+################################################################################
+# Author: RPC80                                                                #
+# Date: 2018.05.11                                                             #
+# Changes by 2Play! 														   # 
+# Date: 2020.07.23															   #
+################################################################################
+# Purpose: Creates a save directory at ~/RetroPie/saves                        #
+# and configures all retroarch emulators with their own config files           #
+# to store savefiles at ~/RetroPie/saves/{system_name}                         #
+# and savestate files at ~/Retropie/saves/{system_name}/states                 #
+################################################################################
+
+CONFIGS_DIR=/opt/retropie/configs
+CONFIG_FILENAME=retroarch.cfg
+SAVES_DIR=~/RetroPie/saves
+ROMS_DIR=~/RetroPie/roms
+
+SAVE_FILE_CONFIG="savefile_directory = \"~/RetroPie/saves"
+SAVE_STATE_CONFIG="savestate_directory = \"~/RetroPie/saves"
+
+echo "
+  ____  ____   ____ ___   ___
+ |  _ \|  _ \ / ___( _ ) / _ \\
+ | |_) | |_) | |   / _ \| | | |
+ |  _ <|  __/| |__| (_) | |_| |
+ |_| \_\_|    \____\___/ \___/
+
+"
+
+  # Loop through the configs directory
+  for d in ${CONFIGS_DIR}//*; do
+
+      # Get the system/emulator name
+      system_name=${d##*/}
+
+      # Skip `all` & `amiga` & symbolic link config folders
+      if [[ ${system_name} == 'all' || ${system_name} == 'amiga' || ${system_name} == 'genh' || ${system_name} == 'megh' || ${system_name} == 'moto' || ${system_name} == 'neogeocd' || ${system_name} == 'pce-cd' || ${system_name} == 'snesmsu1' || ${system_name} == 'tg-cd' ]]; then
+	    echo "Skipping ${system_name} folder configs"
+        continue
+      fi
+
+      echo "Checking System Configs for '${system_name}' ..."
+      config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
+
+      if [[ -f ${config_file} ]]; then
+        echo "Found config file: ${config_file}"
+      else
+        echo "No config file found for ${system_name}"
+        continue
+      fi
+
+      # Create save file directories
+      if [ ! -d $SAVES_DIR ]; then
+        echo "Creating master saves file directory ${SAVES_DIR} ..."
+        mkdir $SAVES_DIR
+        if [ $? -ne 0 ] ; then
+          echo "[ERROR] Failed to create save file directory: ${SAVE_DIR}"
+          exit 1
+        else
+          echo "[OK] Created save file directory ${SAVES_DIR}"
+        fi
+      fi
+      echo "Creating save file directory for ${system_name} ..."
+      mkdir -p ${SAVES_DIR}/${system_name}
+      if [ $? -ne 0 ] ; then
+        echo "[ERROR] Failed to create save file directory: ${SAVES_DIR}/${system_name}"
+        exit 1
+      else
+        echo "[OK] Created save file directory ${SAVES_DIR}/${system_name}"
+      fi
+      mkdir -p ${SAVES_DIR}/${system_name}/states
+      if [ $? -ne 0 ] ; then
+        echo "[ERROR] Failed to create save file directory: ${SAVES_DIR}/${system_name}/states"
+        exit 1
+      else
+        echo "[OK] Created save file directory ${SAVES_DIR}/${system_name}/states"
+      fi
+
+      # Check if savefile & savestate config exists
+      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
+        echo "Overwriting configs..."
+        sed -i "s|savefile_directory.*|${SAVE_FILE_CONFIG}/${system_name}\"|" "${config_file}"
+		sed -i "s|savestate_directory.*|${SAVE_STATE_CONFIG}/${system_name}/states\"|" "${config_file}"
+      else
+        echo "Writing save configs...!"
+		sed -i '/#include "/i \
+savefile_directory = \"~/RetroPie/saves/'${system_name}'\" \
+savestate_directory = \"~/RetroPie/saves/'${system_name}'/states\" \
+<->' "${config_file}"
+	  fi
+	  
+	  # Move existing saves to the master saves rom directory
+	  if [[ ! -d daphne ]]; then
+	  find "${ROMS_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/"
+	  find "${ROMS_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[0-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/states/"
+	  fi	
+	  
+  done
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function rpc80_svoff() {
+	dialog --infobox "...Reverting..." 3 20	; sleep 1
+	clear
+# Check for the existence of the saves directory
+  if [ ! -d "$SAVES_DIR" ]; then
+    echo "No save file directory. Exiting."
+    break
+	#continue
+  fi
+
+  # Loop through the configs directory
+  for d in ${CONFIGS_DIR}//*; do
+
+    # Get the system/emulator name
+    system_name=${d##*/}
+	
+    # Check for existing config file
+    config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
+
+      if [[ -f ${config_file} ]]; then
+        echo "Found config file: ${config_file}"
+      else
+        echo "No config file found for ${system_name}"
+        continue
+      fi
+
+	  # Check if savefile & savestate config exists
+      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
+      echo "Removing config entries..."
+      #sed -i "s|savefile_directory.*||" "${config_file}"
+	  #sed -i "s|savestate_directory.*||" "${config_file}"
+	  sed -i '/savefile_directory.*/d' "${config_file}"
+	  sed -i '/savestate_directory.*/d' "${config_file}"
+	  sed -i '/<->.*/d' "${config_file}"
+	  fi
+	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
+	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
+	  
+    # Move existing saves to the systems roms directory
+      if [[ ! -d daphne ]]; then
+	  find "${SAVES_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/"
+	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/states/"
+	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "/opt/retropie/configs/all/retroarch/states/"
+	  fi
+	  
+  done
+	# Delete system saves saves directory
+	rm -rf ~/RetroPie/saves/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1	
+}
+
+
+function strg_bench() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	sudo /home/pi/PlayBox-Setup/.pb-fixes/_scripts/storage_bench.sh
+}
+
+
+function omxvol() {
+	clear
+# OMXPlayer Volume Control By 2Play! 
+# 23.07.20
+
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Please Set OMXPlayer Volume:" 25 75 20 \
+            - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
+            - "" \
+			1 " - Set to 90%" \
+			2 " - Set to 85%" \
+			3 " - Set to 80%" \
+			4 " - Set to 75%" \
+            5 " - Set to 70%" \
+            6 " - Set to 60%" \
+            7 " - Set to 50%" \
+            8 " - Set to 25%" \
+            9 " - Set to 100% (Default - Reset)" \
+            10 " - Set to 0% (Mute)" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) omx90  ;;
+			2) omx85  ;;
+			3) omx80  ;;
+			4) omx75  ;;
+            5) omx70  ;;
+            6) omx60  ;;
+            7) omx50  ;;
+            8) omx25  ;;
+            9) omx100  ;;
+           10) omx0  ;;
+            -) none ;;
+            *)  break ;;
         esac
     done
 }
 
-function single_art() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'theme2P.xml' -execdir cp {} theme.xml ';'
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
+function omx90() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -600/g' /usr/bin/omxplayer
 }
 
-function dual_art_hz() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg-ih.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv1.xml' -execdir cp {} theme.xml ';'
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
+function omx85() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -900/g' /usr/bin/omxplayer
 }
 
-function dual_art_vrt() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
+function omx80() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1200/g' /usr/bin/omxplayer
+}
+
+function omx75() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1500/g' /usr/bin/omxplayer
 	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv2.xml' -execdir cp {} theme.xml ';'
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
 }
+
+function omx70() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1750/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function omx60() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -2400/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function omx50() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -3000/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function omx25() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -4500/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function omx100() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function omx0() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -6000/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+#	$HOME/PlayBox-Setup/.pb-fixes/_scripts/omxvol.sh
 
 
 
