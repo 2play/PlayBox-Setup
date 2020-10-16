@@ -2998,6 +2998,10 @@ function update_pbs() {
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	cd $HOME
 	exit
+	printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
+	sleep 3 &&
+	exec 2p-FixPlayBox
+	#exit
 	#break
 }
 
