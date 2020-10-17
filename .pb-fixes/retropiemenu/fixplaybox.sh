@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 16.10.2020"
+pb_version="Version 2.0 Dated 17.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2997,12 +2997,10 @@ function update_pbs() {
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	cd $HOME
-	exit
-	printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
-	sleep 3 &&
-	exec 2p-FixPlayBox
-	#exit
-	#break
+	fix_rpmenu
+	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
+	#sleep 3 &&
+	#exec 2p-FixPlayBox
 }
 
 
