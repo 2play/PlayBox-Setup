@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 17.10.2020"
+pb_version="Version 2.0 Dated 18.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -575,12 +575,17 @@ function swap_theme_view() {
 			1 "Single Window Art:  Image and then Video" \
 			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
 			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
+			- "	" \
+			4 "ES Systems Browsing: Vertical" \
+			5 "ES Systems Browsing: Horizontal" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) single_art  ;;
             2) dual_art_hz  ;;
 			3) dual_art_vrt  ;;
+			4) sys_verical  ;;
+			5) sys_horizontal  ;;
 			-) none ;;
 			*)  break ;;
         esac
@@ -629,6 +634,34 @@ function dual_art_vrt() {
 	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
 	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
 	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv2.xml' -execdir cp {} theme.xml ';'
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
+}
+
+function sys_verical() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>horizontal</type>|<type>vertical</type>|g' {} 2>/dev/null \;
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
+}
+
+function sys_horizontal() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>vertical</type>|<type>horizontal</type>|g' {} 2>/dev/null \;
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
