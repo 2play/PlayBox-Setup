@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 16.10.2020"
+pb_version="Version 2.0 Dated 18.10.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -121,7 +121,7 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-#	sudo rm -rf /etc/emulationstation/themes/carbon/
+	sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
 	echo "We need to apply REGION script now..."
@@ -575,12 +575,17 @@ function swap_theme_view() {
 			1 "Single Window Art:  Image and then Video" \
 			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
 			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
+			- "	" \
+			4 "ES Systems Browsing: Vertical" \
+			5 "ES Systems Browsing: Horizontal" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) single_art  ;;
             2) dual_art_hz  ;;
 			3) dual_art_vrt  ;;
+			4) sys_verical  ;;
+			5) sys_horizontal  ;;
 			-) none ;;
 			*)  break ;;
         esac
@@ -629,6 +634,34 @@ function dual_art_vrt() {
 	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
 	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
 	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv2.xml' -execdir cp {} theme.xml ';'
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
+}
+
+function sys_verical() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>horizontal</type>|<type>vertical</type>|g' {} 2>/dev/null \;
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 2
+	sudo reboot
+}
+
+function sys_horizontal() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd /etc/emulationstation/themes
+	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>vertical</type>|<type>horizontal</type>|g' {} 2>/dev/null \;
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -2595,10 +2628,10 @@ Uptime    : ${UPTIME}
 Last Login: `exec -- last | head -1`
 $(tput setaf 7)
 ...SYSTEM INFO...$(tput setaf 3)
-                  Size	Used	Avail 	Used%
-Boot Partition  : `df -h | grep '/dev/mmcblk0p1' | awk '{print $2,"	"$3,"	"$4," 	"$5}'`
-Root Partition  : `df -h | grep '/dev/root' | awk '{print " "$2,"	"$3,"	"$4," 	"$5}'`
-USB  Partition  : `df -h | grep '/dev/sda1' | awk '{print " "$2,"	"$3,"	"$4," 	"$5}'`
+                            Size 	Used	Avail 	Used%
+SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
+SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
+Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
 $(tput setaf 1)
 $(tput setaf 7)`grep Model /proc/cpuinfo`
 
@@ -2997,12 +3030,10 @@ function update_pbs() {
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	cd $HOME
-	exit
-	printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
-	sleep 3 &&
-	exec 2p-FixPlayBox
-	#exit
-	#break
+	fix_rpmenu
+	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
+	#sleep 3 &&
+	#exec 2p-FixPlayBox
 }
 
 

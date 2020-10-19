@@ -25,10 +25,10 @@ Uptime    : ${UPTIME}
 Last Login: `exec -- last | head -1`
 $(tput setaf 7)
 ...SYSTEM INFO...$(tput setaf 3)
-                  Size	Used	Avail 	Used%
-Boot Partition  : `df -h | grep '/dev/mmcblk0p1' | awk '{print $2,"	"$3,"	"$4," 	"$5}'`
-Root Partition  : `df -h | grep '/dev/root' | awk '{print " "$2,"	"$3,"	"$4," 	"$5}'`
-USB  Partition  : `df -h | grep '/dev/sda1' | awk '{print " "$2,"	"$3,"	"$4," 	"$5}'`
+                            Size 	Used	Avail 	Used%
+SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
+SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
+Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
 $(tput setaf 1)
 $(tput setaf 7)`grep Model /proc/cpuinfo`
 
