@@ -1,3 +1,8 @@
+# Original code livewire and EZH aka Forrest Setup
+# USB Version changes and other updates by 2Play!
+# PlayBox Project
+# 21.10.2020
+
 import os
 import time
 import random
