@@ -1,10 +1,10 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 17.10.2020
+# 25.10.2020
 
 infobox=""
-infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, Gomer, Aeonis, Traxis, Yelah05, BMP, Randyslim, Strunx, Tisusbr, Sunrise169, haxel66, ChrisKerkides, Grumpa, TechXero, Mrnebu, Edale and of course all supporters!\n\n
+infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, Gomer, Aeonis, Traxis, Yelah05, BMP, Randyslim, Strunx, bluestang, Sunrise169, Tisusbr, ChrisKerkides, Grumpa, TechXero, Mrnebu, Edale, haxel66 and of course all supporters!\n\n
 
 *** Developers & Scripts ***:\n
 Demetris (Tinker PlayBox), rpc80 (Ryan Connors), EasyHax (aka Forrest), CyperGhost, David Marti (Motion Blue), Meleu, Lars Muldjord (Skyskraper), Bezel Project Team.\n\n
