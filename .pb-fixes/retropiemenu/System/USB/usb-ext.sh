@@ -3,7 +3,7 @@
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 19.07.20
+# 27.10.20
 
 
 function main_menu() {
@@ -284,7 +284,7 @@ if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms
 	sudo mv -f $HOME/RetroPie/localroms/$sname/gamelist.xml ./
 	rm -rf $HOME/RetroPie/localroms/$sname/snap*/
 		if grep '<image>'$HOME'/addonusb' gamelist.xml > /dev/null; then
-		sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
+		sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
 		sed -i 's#<video>.#<video>'$HOME'/addonusb/roms/'$sname'#g' gamelist.xml > /dev/null
 		echo
 		echo "Your gamelist.xml already points to USB Art!"
@@ -349,7 +349,7 @@ if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms
 	cd $HOME/RetroPie/localroms/$sname
 	rm -rf snap*/
 		if grep '<image>'$HOME'/addonusb' gamelist.xml > /dev/null; then
-		sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
+		sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
 		sed -i 's#<video>.#<video>'$HOME'/addonusb/roms/'$sname'#g' gamelist.xml > /dev/null
 		echo
 		echo "Your gamelist.xml already points to USB Art!"
@@ -410,13 +410,13 @@ if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms
 	echo
 	cd $sname
 	if [ -f "gamelist.xml" ]; then
-	sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
+	sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 	else
 	cd $HOME/RetroPie/localroms/$sname
-	sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
+	sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g' gamelist.xml > /dev/null
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -452,10 +452,10 @@ cd $HOME/RetroPie
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	cd $HOME/addonusb/roms
-	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
+	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
 	sleep 1
 	cd $HOME/RetroPie/localroms
-	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
+	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -466,7 +466,7 @@ cd $HOME/RetroPie
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	cd $HOME/RetroPie/roms
-	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
+	find . -type f -name "gamelist.xml" -print0 | xargs -0 sed -i 's#<image>'$HOME'/addonusb/roms/.*\/boxart#<image>./boxart#g; s#<image>'$HOME'/addonusb/roms/.*\/mixart#<image>./mixart#g; s#<marquee>'$HOME'/addonusb/roms/.*\/wheel#<marquee>./wheel#g; s#<video>'$HOME'/addonusb/roms/.*\/snap#<video>./snap#g'  {} 2>/dev/null \;
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
