@@ -80,21 +80,23 @@ function fixes_pbt() {
 			- "	" \
 			1 " -  Fix The PlayBox RetropieMenu" \
             2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
-			3 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            4 " -  Repair PlayBox Background Music Mute File" \
-            5 " -  Restore 2Play! Slideshow Screensaver" \
-            6 " -  Reset All RetroPie Controllers" \
-            7 " -  Fix-Reset-Clean RetroPie Setup git" \
+			3 " -  Virtual Boy Core: 3D Anaglyph Display Options" \
+			4 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
+            5 " -  Repair PlayBox Background Music Mute File" \
+            6 " -  Restore 2Play! Slideshow Screensaver" \
+            7 " -  Reset All RetroPie Controllers" \
+            8 " -  Fix-Reset-Clean RetroPie Setup git" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             2) fix_region  ;;
-            3) fix_roms  ;;
-            4) fix_bgm_py  ;;
-            5) fix_slideshow  ;;
-            6) fix_control  ;;
-            7) git_rs  ;;
+			3) vboy_3d  ;;
+            4) fix_roms  ;;
+            5) fix_bgm_py  ;;
+            6) fix_slideshow  ;;
+            7) fix_control  ;;
+            8) git_rs  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -391,6 +393,57 @@ fi
 	echo
 }
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
+
+
+function vboy_3d() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "VIRTUALBOY CORE OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " VIRTUALBOY CORE OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** VIRTUALBOY CORE SELECTIONS ***" \
+			- "	" \
+           1 " -  Disable PlayBox 3D Anaglyph Display Options " \
+           2 " -  Enable PlayBox 3D Anaglyph Display Options " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) vb_3d_off  ;;
+           2) vb_3d_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function vb_3d_off() {
+	clear
+	cd /opt/retropie/configs/virtualboy
+	sed -i "s|^vb_anaglyph_preset|#vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|^vb_3dmode|#vb_3dmode|" retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function vb_3d_on() {
+	clear
+	cd /opt/retropie/configs/virtualboy
+	sed -i "s|^vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|^vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
+	sed -i "s|#vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|#vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
 
 
 function fix_roms() {
