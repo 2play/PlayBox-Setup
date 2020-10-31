@@ -3073,6 +3073,7 @@ function update_pbs() {
 	sleep 1
 	git fetch
 	git reset --hard HEAD
+	#git reset --hard && git clean -f -d
 	git merge '@{u}'
 	sleep 2
 	echo
