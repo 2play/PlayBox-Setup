@@ -244,7 +244,7 @@ while true; do
 echo
 read -p 'Should I continue [y] or got back [n]? ' yn
 	case $yn in
-	[Yy]* ) if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms && mv -f genesis genesis.OFF && mv -f genesish genesish.OFF && mv -f kodi kodi.OFF && mv -f odyssey2 odyssey2.OFF && mv -f segacd segacd.OFF && mv -f tg16 tg16.OFF && mv -f tg16cd tg16cd.OFF && rsync -vd -l $HOME/RetroPie/localroms/ $HOME/addonusb/roms && sleep 1 && echo "[OK DONE!...]"; echo; read -n 1 -s -r -p "Press any key to reboot..."; echo; clear; echo "[OK System Will Restart now...]"; clear; sudo reboot; else echo "The External USB is disabled... Nothing to do!"; echo; read -n 1 -s -r -p "Press any key to go back..."; echo; break; fi;;
+	[Yy]* ) if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms && mv -f amiga1200 amiga1200.OFF && mv -f amiga-aga amiga-aga.OFF && mv -f genesis genesis.OFF && mv -f genesish genesish.OFF && mv -f neocdz neocdz.OFF && mv -f odyssey2 odyssey2.OFF && mv -f sega32x sega32x.OFF && mv -f segacd segacd.OFF && mv -f swancrystal swancrystal.OFF && mv -f tg16 tg16.OFF && mv -f tg16cd tg16cd.OFF && rsync -vd -l $HOME/RetroPie/localroms/ $HOME/addonusb/roms && sleep 1 && echo "[OK DONE!...]"; echo; read -n 1 -s -r -p "Press any key to reboot..."; echo; clear; echo "[OK System Will Restart now...]"; clear; sudo reboot; else echo "The External USB is disabled... Nothing to do!"; echo; read -n 1 -s -r -p "Press any key to go back..."; echo; break; fi;;
     [Nn]* ) break;;
     * ) echo; echo "Please answer yes or no.";;
     esac
