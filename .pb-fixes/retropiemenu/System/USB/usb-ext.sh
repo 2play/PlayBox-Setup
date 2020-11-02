@@ -3,7 +3,7 @@
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 27.10.20
+# 02.11.20
 
 
 function main_menu() {
