@@ -255,7 +255,7 @@
 	<game>
 		<path>./Visuals/launchmp4.sh</path>
 		<name>Launching MP4 Screen, 2P!</name>
-		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the RetroPie/extras+/mp4 folder and match PlayBox system names.</desc>
+		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the /home/pi/lmp4/ folder and match PlayBox system names. Create a folder named lmp4 and copy your per system launching videos in there.</desc>
 		<image>./icons/videosettings.png</image>
 		<video>./icons/videosettings.mp4</video>
 	</game>
