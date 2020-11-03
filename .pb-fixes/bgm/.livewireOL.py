@@ -146,7 +146,7 @@ while not esStarted:
 			procname = open(os.path.join('/proc',pid,'comm'),'rb').read()
 			if procname[:-1] == "emulationstatio": # Emulation Station's actual process name is apparently short 1 letter.
 				esStarted=True
-		except IOError:	
+		except IOError:
 			continue
 
 #ES Should be going, see if we need to delay our start
@@ -162,7 +162,7 @@ for pid in pids:
 		if procname[:-1] == "omxplayer" or procname[:-1] == "omxplayer.bin": # Looking for a splash screen!
 			while os.path.exists('/proc/'+pid):
 				time.sleep(1) #OMXPlayer is running, sleep 1 to prevent the need for a splash.
-	except IOError:	
+	except IOError:
 		continue
 
 #Check for a starting song
@@ -184,7 +184,7 @@ while True:
 				procname = open(os.path.join('/proc',pid,'comm'),'rb').read()
 				if procname[:-1] == "emulationstatio": # Emulation Station's actual process name is apparently short 1 letter.
 					esStarted=True # Will cause us to break out of the loop because ES is now running.
-			except IOError:	
+			except IOError:
 				continue
 				
 	#Check to see if the DisableMusic file exists; if it does, stop doing everything!
@@ -236,7 +236,7 @@ while True:
 				print "framebuffer write linux"
 		
 	#Emulator check
-	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()] 
+	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
 	emulator = -1;
 	esStarted=False #New check 4-23-16 - set this to False (assume ES is no longer running until proven otherwise)
 	for pid in pids:
@@ -257,7 +257,7 @@ while True:
 					if volume < 0:
 						volume=0
 					mixer.music.set_volume(volume);
-					time.sleep(0.05)			
+					time.sleep(0.05)
 				if restart:
 					mixer.music.stop() #we aren't going to resume the audio, so stop it outright.
 				else:
@@ -283,10 +283,11 @@ while True:
 								os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay	
 				#print "Music Resumed"
 				volume=maxvolume # ensures that the volume is manually set (if restart is True, volume would be at zero)
+
 		except IOError: #proc has already terminated, ignore.
 			continue
 
 	time.sleep(1);
 	#end of the main while loop
-	
+
 print "An error has occurred that has stopped Test1.py from executing." #theoretically you should never get this far.
