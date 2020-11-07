@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 31.10.2020"
+pb_version="Version 2.0 Dated 07.11.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2404,7 +2404,7 @@ function fschk_bt() {
 	clear
 	echo
 	echo "Please be patient..."
-	echo "Screen will go black, pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
+	echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
 	sleep 5
 	sudo touch /forcefsck && sudo reboot
 }
