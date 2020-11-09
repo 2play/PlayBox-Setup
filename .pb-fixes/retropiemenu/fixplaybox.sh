@@ -5,15 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 pb_version="Version 2.0 Dated 09.11.2020"
-=======
-pb_version="Version 2.0 Dated 07.11.2020"
->>>>>>> 97b4cceeefb8ed89a58b18ff1223b5fe94c84fba
-=======
-pb_version="Version 2.0 Dated 07.11.2020"
->>>>>>> 97b4cceeefb8ed89a58b18ff1223b5fe94c84fba
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
