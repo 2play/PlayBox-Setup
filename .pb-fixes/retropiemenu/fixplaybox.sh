@@ -81,22 +81,24 @@ function fixes_pbt() {
 			1 " -  Fix The PlayBox RetropieMenu" \
             2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
 			3 " -  Virtual Boy Core: 3D Anaglyph Display Options" \
-			4 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            5 " -  Repair PlayBox Background Music Mute File" \
-            6 " -  Restore 2Play! Slideshow Screensaver" \
-            7 " -  Reset All RetroPie Controllers" \
-            8 " -  Fix-Reset-Clean RetroPie Setup git" \
+			4 " -  GameBoy Core: Original or Enhanced GameBoy Display Options" \
+			5 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
+            6 " -  Repair PlayBox Background Music Mute File" \
+            7 " -  Restore 2Play! Slideshow Screensaver" \
+            8 " -  Reset All RetroPie Controllers" \
+            9 " -  Fix-Reset-Clean RetroPie Setup git" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             2) fix_region  ;;
 			3) vboy_3d  ;;
-            4) fix_roms  ;;
-            5) fix_bgm_py  ;;
-            6) fix_slideshow  ;;
-            7) fix_control  ;;
-            8) git_rs  ;;
+            4) gboy_enh  ;;
+			5) fix_roms  ;;
+            6) fix_bgm_py  ;;
+            7) fix_slideshow  ;;
+            8) fix_control  ;;
+            9) git_rs  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -438,6 +440,62 @@ function vb_3d_on() {
 	sed -i "s|^vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
 	sed -i "s|#vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
 	sed -i "s|#vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function gboy_enh() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "GAMEBOY CORE OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " GAMEBOY CORE OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** GAMEBOY CORE SELECTIONS ***" \
+			- "	" \
+           1 " -  Enable GameBoy Original (B/W) Display Graphics " \
+           2 " -  Enable GameBoy Enhanced (CLR) Display Graphics " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) gb_bw_on  ;;
+           2) gb_clr_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function gb_bw_on() {
+	clear
+	cd /opt/retropie/configs/gb
+	sed -i 's|sameboy_model = "Super Game Boy"|sameboy_model = "Auto"|' retroarch-core-options.cfg;
+	sed -i "s|gb_sameboy.cfg|gb.cfg|" retroarch.cfg;
+	sed -i 's|custom_viewport_width = "1243"|custom_viewport_width = "665"|' retroarch.cfg;
+	sed -i 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' retroarch.cfg;
+	sed -i 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' retroarch.cfg;
+	sed -i 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function gb_clr_on() {
+	clear
+	cd /opt/retropie/configs/gb
+	sed -i 's|sameboy_model = "Auto"|sameboy_model = "Super Game Boy"|' retroarch-core-options.cfg;
+	sed -i "s|gb.cfg|gb_sameboy.cfg|" retroarch.cfg;
+	sed -i 's|custom_viewport_width = "665"|custom_viewport_width = "1243"|' retroarch.cfg;
+	sed -i 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' retroarch.cfg;
+	sed -i 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' retroarch.cfg;
+	sed -i 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg;
 	cd $HOME
 	clear
 	echo
