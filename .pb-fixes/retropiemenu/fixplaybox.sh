@@ -3142,6 +3142,7 @@ function update_pbs() {
 	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
+	/home/pi/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
 	fix_rpmenu
 	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
