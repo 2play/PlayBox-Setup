@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 26.11.2020"
+pb_version="Version 2.0 Dated 30.11.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2861,7 +2861,7 @@ declare -a HDMI_SETTINGS_DMT=(
         case "$choice" in
            V1) list_dvc ;;
 		   V2) hdmi_stat ;;
-		   A1) hdmi_stat ;;
+		   A1) audio_inf ;;
 		  CEA) sup_cea ;;
 		  DMT) sup_dmt ;;
 		1:CEA) enable_vr 1 ;;
