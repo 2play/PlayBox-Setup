@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 30.11.2020"
+pb_version="Version 2.0 Dated 02.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,25 +80,21 @@ function fixes_pbt() {
 			- "	" \
 			1 " -  Fix The PlayBox RetropieMenu" \
             2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
-			3 " -  Virtual Boy Core: 3D Anaglyph Display Options" \
-			4 " -  GameBoy Core: Original or Enhanced GameBoy Display Options" \
-			5 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            6 " -  Repair PlayBox Background Music Mute File" \
-            7 " -  Restore 2Play! Slideshow Screensaver" \
-            8 " -  Reset All RetroPie Controllers" \
-            9 " -  Fix-Reset-Clean RetroPie Setup git" \
+			3 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
+            4 " -  Repair PlayBox Background Music Mute File" \
+            5 " -  Restore 2Play! Slideshow Screensaver" \
+            6 " -  Reset All RetroPie Controllers" \
+            7 " -  Fix-Reset-Clean RetroPie Setup git" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             2) fix_region  ;;
-			3) vboy_3d  ;;
-            4) gboy_enh  ;;
-			5) fix_roms  ;;
-            6) fix_bgm_py  ;;
-            7) fix_slideshow  ;;
-            8) fix_control  ;;
-            9) git_rs  ;;
+			3) fix_roms  ;;
+            4) fix_bgm_py  ;;
+            5) fix_slideshow  ;;
+            6) fix_control  ;;
+            7) git_rs  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -397,113 +393,6 @@ fi
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
 
-function vboy_3d() {
-	dialog --backtitle "PlayBox Toolkit" \
-	--title "VIRTUALBOY CORE OPTIONS MENU" \
-	
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " VIRTUALBOY CORE OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Let's apply your favorable choice..." 25 75 20 \
-            - "*** VIRTUALBOY CORE SELECTIONS ***" \
-			- "	" \
-           1 " -  Disable PlayBox 3D Anaglyph Display Options " \
-           2 " -  Enable PlayBox 3D Anaglyph Display Options " \
-           2>&1 > /dev/tty)
-
-        case "$choice" in
-           1) vb_3d_off  ;;
-           2) vb_3d_on  ;;
-		   -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function vb_3d_off() {
-	clear
-	cd /opt/retropie/configs/virtualboy
-	sed -i "s|^vb_anaglyph_preset|#vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|^vb_3dmode|#vb_3dmode|" retroarch-core-options.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-function vb_3d_on() {
-	clear
-	cd /opt/retropie/configs/virtualboy
-	sed -i "s|^vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|^vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
-	sed -i "s|#vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|#vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-function gboy_enh() {
-	dialog --backtitle "PlayBox Toolkit" \
-	--title "GAMEBOY CORE OPTIONS MENU" \
-	
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " GAMEBOY CORE OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Let's apply your favorable choice..." 25 75 20 \
-            - "*** GAMEBOY CORE SELECTIONS ***" \
-			- "	" \
-           1 " -  Enable GameBoy Original (B/W) Display Graphics " \
-           2 " -  Enable GameBoy Enhanced (CLR) Display Graphics " \
-           2>&1 > /dev/tty)
-
-        case "$choice" in
-           1) gb_bw_on  ;;
-           2) gb_clr_on  ;;
-		   -) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function gb_bw_on() {
-	clear
-	cd /opt/retropie/configs/gb
-	sed -i 's|sameboy_model = "Super Game Boy"|sameboy_model = "Auto"|' retroarch-core-options.cfg;
-	sed -i "s|gb_sameboy.cfg|gb.cfg|" retroarch.cfg;
-	sed -i 's|custom_viewport_width = "1243"|custom_viewport_width = "665"|' retroarch.cfg;
-	sed -i 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' retroarch.cfg;
-	sed -i 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' retroarch.cfg;
-	sed -i 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-function gb_clr_on() {
-	clear
-	cd /opt/retropie/configs/gb
-	sed -i 's|sameboy_model = "Auto"|sameboy_model = "Super Game Boy"|' retroarch-core-options.cfg;
-	sed -i "s|gb.cfg|gb_sameboy.cfg|" retroarch.cfg;
-	sed -i 's|custom_viewport_width = "665"|custom_viewport_width = "1243"|' retroarch.cfg;
-	sed -i 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' retroarch.cfg;
-	sed -i 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' retroarch.cfg;
-	sed -i 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-
 function fix_roms() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
@@ -641,6 +530,7 @@ function apps_pbt() {
 		   10 " -  Single Saves Directory By RPC80" \
 		   11 " -  SD/USB Storage Benchmark" \
 		   12 " -  OMXPlayer Volume Control Script" \
+		   13 " -  Emulator Tweaks Options" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -656,6 +546,7 @@ function apps_pbt() {
 		   10) rpc80_saves  ;;
 		   11) strg_bench  ;;
 		   12) omxvol  ;;
+		   13) emus_tks  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -2091,6 +1982,236 @@ function omx0() {
 	sleep 1
 }
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/omxvol.sh
+
+
+function emus_tks() {
+clear
+# Emulators Extra Tweaks/Automations By 2Play! 
+# 02.12.20
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " EMULATOR TWEAKS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Apply the tweak(s) you need..." 25 75 20 \
+            - "*** EMULATOR TWEAKS SELECTIONS ***" \
+			- "	" \
+			1 " -  Virtual Boy Core: 3D Anaglyph Display Options " \
+			2 " -  GameBoy Core: Original or Enhanced GameBoy Display Options " \
+			3 " -  PPSSPP: Standalone Emulator EXIT To ES or Menu " \
+			4 " -  N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) vboy_3d  ;;
+            2) gboy_enh  ;;
+			3) ppsspp_exit  ;;
+            4) n64_res  ;;
+			-) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function vboy_3d() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "VIRTUALBOY CORE OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " VIRTUALBOY CORE OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** VIRTUALBOY CORE SELECTIONS ***" \
+			- "	" \
+           1 " -  Disable PlayBox 3D Anaglyph Display Options " \
+           2 " -  Enable PlayBox 3D Anaglyph Display Options " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) vb_3d_off  ;;
+           2) vb_3d_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function vb_3d_off() {
+	clear
+	cd /opt/retropie/configs/virtualboy
+	sed -i "s|^vb_anaglyph_preset|#vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|^vb_3dmode|#vb_3dmode|" retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function vb_3d_on() {
+	clear
+	cd /opt/retropie/configs/virtualboy
+	sed -i "s|^vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|^vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
+	sed -i "s|#vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
+	sed -i "s|#vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function gboy_enh() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "GAMEBOY CORE OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " GAMEBOY CORE OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** GAMEBOY CORE SELECTIONS ***" \
+			- "	" \
+           1 " -  Enable GameBoy Original (B/W) Display Graphics " \
+           2 " -  Enable GameBoy Enhanced (CLR) Display Graphics " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) gb_bw_on  ;;
+           2) gb_clr_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function gb_bw_on() {
+	clear
+	cd /opt/retropie/configs/gb
+	sed -i 's|sameboy_model = "Super Game Boy"|sameboy_model = "Auto"|' retroarch-core-options.cfg;
+	sed -i "s|gb_sameboy.cfg|gb.cfg|" retroarch.cfg;
+	sed -i 's|custom_viewport_width = "1243"|custom_viewport_width = "665"|' retroarch.cfg;
+	sed -i 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' retroarch.cfg;
+	sed -i 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' retroarch.cfg;
+	sed -i 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function gb_clr_on() {
+	clear
+	cd /opt/retropie/configs/gb
+	sed -i 's|sameboy_model = "Auto"|sameboy_model = "Super Game Boy"|' retroarch-core-options.cfg;
+	sed -i "s|gb.cfg|gb_sameboy.cfg|" retroarch.cfg;
+	sed -i 's|custom_viewport_width = "665"|custom_viewport_width = "1243"|' retroarch.cfg;
+	sed -i 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' retroarch.cfg;
+	sed -i 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' retroarch.cfg;
+	sed -i 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function ppsspp_exit() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "PPSSPP STANDALONE EMULATOR OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " PPSSPP STANDALONE EMULATOR OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
+			- "	" \
+           1 " -  Enable PPSSPP EXIT to ES Instead The Emualator Menu " \
+           2 " -  Disable PPSSPP EXIT to ES And Show The Emualator Menu " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) ppsspp_ex_on  ;;
+           2) ppsspp_ex_off  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function ppsspp_ex_on() {
+	clear
+	cd /opt/retropie/configs/psp
+	sed -i 's|--fullscreen %ROM%|--fullscreen --escape-exit %ROM%|' emulators.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function ppsspp_ex_off() {
+	clear
+	cd /opt/retropie/configs/psp
+	sed -i 's|--fullscreen --escape-exit %ROM%|--fullscreen %ROM%|' emulators.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function n64_res() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's apply your favorable choice..." 25 75 20 \
+            - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
+			- "	" \
+           1 " -  Set Native Low-Res (320x240) To N64 Lr-Core " \
+           2 " -  Set Native Hi-Res (640x480) To N64 Lr-Core " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) n64_lr_on  ;;
+           2) n64_hr_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function n64_lr_on() {
+	clear
+	cd /opt/retropie/configs/n64
+	sed -i 's|mupen64plus-43screensize = "640x480"|mupen64plus-43screensize = "320x240"|' retroarch-core-options.cfg;
+	sed -i 's|mupen64plus-next-43screensize = "640x480"|mupen64plus-next-43screensize = "320x240"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function n64_hr_on() {
+	clear
+	cd /opt/retropie/configs/n64
+	sed -i 's|mupen64plus-43screensize = "320x240"|mupen64plus-43screensize = "640x480"|' retroarch-core-options.cfg;
+	sed -i 's|mupen64plus-next-43screensize = "320x240"|mupen64plus-next-43screensize = "640x480"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
 
 
 
