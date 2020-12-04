@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 02.12.2020"
+pb_version="Version 2.0 Dated 04.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1640,7 +1640,7 @@ fi
 
 function igalia_cl() {
 	echo ""
-	echo " This will free up about 3.5GB of space..."
+	echo " This will free up to 3.5GB of space..."
 	echo ""
 	sleep 2
 	cd code/
