@@ -486,6 +486,9 @@ function fix_control() {
 	rm /opt/retropie/configs/all/retroarch-joypads/*
 	rm $HOME/.emulationstation/es_input.cfg
 	cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_input.cfg $HOME/.emulationstation/
+	clear
+	echo
+	echo "[OK DONE!...]"
 	echo
 	read -n 1 -s -r -p "Press any key to continue."
 	echo
