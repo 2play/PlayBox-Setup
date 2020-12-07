@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 04.12.2020"
+pb_version="Version 2.0 Dated 07.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1034,7 +1034,7 @@ function all_v_smooth_off() {
 function hd_sh_sys() {
 	clear
 # Hide a System or RetroPie Menu Script by 2Play!
-# 01.07.20
+# 07.12.20
 
 infobox=""
 infobox="${infobox}\n"
@@ -1124,11 +1124,12 @@ function hide_sys() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
+	cd $HOME/RetroPie/roms
 	ls | column | more -d
 	echo
 	read -p 'So which system would you like to hide: ' sname
 	echo
-if [ -d $HOME/addonusb ]; then
+if [ -d $HOME/addonusb ]; then 
 	mv -f ~/RetroPie/localroms/$sname ~/RetroPie/localroms/$sname.OFF && mv -f ~/RetroPie/addonusb/roms/$sname ~/RetroPie/addonusb/roms/$sname.OFF
 	echo
 	echo "[OK DONE!...]"
@@ -1168,6 +1169,7 @@ clear
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
+	cd $HOME/RetroPie/roms
 	ls | column | more -d
 	echo
 	read -p 'So which system would you like to show: ' sname
