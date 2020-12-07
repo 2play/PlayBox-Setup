@@ -12,3 +12,4 @@ echo "[OK DONE!...]"
 sleep 2
 cd ..
 rm -rf PBv2-PostFixes
+cd $HOME
