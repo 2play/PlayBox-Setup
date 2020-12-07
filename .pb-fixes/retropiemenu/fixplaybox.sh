@@ -2135,8 +2135,8 @@ function ppsspp_exit() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
 			- "	" \
-           1 " -  Enable PPSSPP EXIT to ES Instead The Emualator Menu " \
-           2 " -  Disable PPSSPP EXIT to ES And Show The Emualator Menu " \
+           1 " -  Enable PPSSPP EXIT to ES Instead The Emulator Menu " \
+           2 " -  Disable PPSSPP EXIT to ES And Show The Emulator Menu " \
            2>&1 > /dev/tty)
 
         case "$choice" in
