@@ -3,7 +3,7 @@
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 02.11.20
+# 07.12.20
 
 
 function main_menu() {
@@ -21,12 +21,12 @@ function main_menu() {
 			- "" \
             - "          *** ART FOLDERS & GAMELIST.XML OPTIONS ***" \
             - "               -> Single System Update <-" \
-			5 " - My ADD-ON System: USB ART Folders & I want XML on USB " \
-			6 " - My ADD-ON System: USB ART Folders & I want XML on SD " \
-			7 " - I want to restore a single USB ADD-ON XML to Default " \
+			5 " - My ADD-ON System: ART Folders on USB & Have XML on USB " \
+			6 " - My ADD-ON System: ART Folders on USB & Have XML on SD " \
+			7 " - Restore Default Relative Paths To A Single USB based gamelist.xml " \
 			- "" \
 			- "               -> Multi System Update <-" \
-		    8 " - I want to Restore/Clean ALL my Gamelist XMLs to Default " \
+		    8 " - Restore Default Relative Paths To ALL my gamelist.xml(s) " \
 			- "" \
 			- "              *** MOVE A SYSTEM SELECTIONS ***" \
             9 " - I want to move a SYSTEM in FULL from SD => Ext. USB" \
