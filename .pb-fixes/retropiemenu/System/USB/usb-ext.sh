@@ -3,7 +3,7 @@
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 07.12.20
+# 08.12.20
 
 
 function main_menu() {
@@ -249,6 +249,11 @@ read -p 'Should I continue [y] or got back [n]? ' yn
     * ) echo; echo "Please answer yes or no.";;
     esac
 done	
+	echo
+	clear
+	echo "Once you are done you need to restart your PlayBox afterwards..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
 }
 
 function addon_artxml_usb() {
@@ -420,6 +425,11 @@ if [ -d $HOME/addonusb ]; then cd $HOME/addonusb/roms
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	echo
+	clear
+	echo "Once you are done, you need to restart your PlayBox afterwards..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
 	fi
 	else
 	echo "The External USB is disabled... Nothing to do!"
@@ -470,6 +480,11 @@ cd $HOME/RetroPie
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	echo
+	clear
+	echo "Once you are done, you need to restart your PlayBox afterwards..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
  fi
  }
 
@@ -511,6 +526,11 @@ dialog --infobox "...OK Let's Do It..." 3 25 ; sleep 1
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	echo
+	clear
+	echo "Once you are done, you need to restart your PlayBox afterwards..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
 	else
 	echo "The External USB is disabled... Nothing to do!"
 	echo
@@ -562,6 +582,11 @@ clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	echo
+	clear
+	echo "Once you are done, you need to restart your PlayBox afterwards..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
 	else
 	echo "The External USB is disabled... Nothing to do!"
 	echo
