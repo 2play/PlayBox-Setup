@@ -2940,10 +2940,10 @@ declare -a HDMI_SETTINGS_DMT=(
             --menu "Choose your Custom System Ratio Resolution:" 25 75 20 \
             - "*** GENERAL SELECTIONS ***" \
            V1 " - LIST CONNECTED DISPLAY DEVICES " \
-		   V2 " - SHOW YOUR HDMI0/1 STATUS (Resolution etc.) " \
+		   V2 " - SHOW YOUR HDMI 0&1 STATUS (Resolution etc.) " \
 		   A1 " - SHOW YOUR SUPPORTED AUDIO INFORMATION " \
-		  CEA " - SHOW YOUR SUPPORTED MODES (HDMI0/1) FOR THIS GROUP " \
-		  DMT " - SHOW YOUR SUPPORTED MODES (HDMI0/1) FOR THIS GROUP " \
+		  CEA " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
+		  DMT " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
 			- "" \
 			- "*** HDMI PORT [4:3] SELECTIONS ***" \
         1:CEA " - VGA     640x480   60Hz   [4:3] " \
@@ -3035,9 +3035,14 @@ function list_dvc() {
 # Show HDMI Status
 function hdmi_stat() {
 	clear
+	echo
+	echo " HDMI 0:"
+	echo
 	tvservice -s
 	echo
 	echo "*******************************************"
+	echo
+	echo " HDMI 1:"
 	echo
 	tvservice -v 7 -s
 	echo
@@ -3048,7 +3053,15 @@ function hdmi_stat() {
 # Show Supported Audio Information
 function audio_inf() {
 	clear
+	echo
+	echo " HDMI 0:"
+	echo
 	tvservice -a
+	echo
+	echo "*******************************************"
+	echo
+	echo " HDMI 1:"
+	echo
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
@@ -3057,9 +3070,14 @@ function audio_inf() {
 # Supported CEA Modes
 function sup_cea() {
 	clear
+	echo
+	echo " HDMI 0:"
+	echo
 	tvservice --modes=CEA
 	echo
 	echo "*******************************************"
+	echo
+	echo " HDMI 1:"
 	echo
 	tvservice -v 7 --modes=CEA
 	echo
@@ -3070,9 +3088,14 @@ function sup_cea() {
 # Supported DMT Modes
 function sup_dmt() {
 	clear
+	echo
+	echo " HDMI 0:"
+	echo
 	tvservice --modes=DMT
 	echo
 	echo "*******************************************"
+	echo
+	echo " HDMI 1:"
 	echo
 	tvservice -v 7 --modes=DMT
 	echo
