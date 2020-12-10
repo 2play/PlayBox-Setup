@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="Version 2.0 Dated 07.12.2020"
+pb_version="PlayBox ToolKit Version 2.0 Dated 10.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2940,10 +2940,10 @@ declare -a HDMI_SETTINGS_DMT=(
             --menu "Choose your Custom System Ratio Resolution:" 25 75 20 \
             - "*** GENERAL SELECTIONS ***" \
            V1 " - LIST CONNECTED DISPLAY DEVICES " \
-		   V2 " - SHOW YOUR HDMI STATUS (Resolution etc.) " \
+		   V2 " - SHOW YOUR HDMI0/1 STATUS (Resolution etc.) " \
 		   A1 " - SHOW YOUR SUPPORTED AUDIO INFORMATION " \
-		  CEA " - SHOW YOUR SUPPORTED MODES FOR THIS GROUP " \
-		  DMT " - SHOW YOUR SUPPORTED MODES FOR THIS GROUP " \
+		  CEA " - SHOW YOUR SUPPORTED MODES (HDMI0/1) FOR THIS GROUP " \
+		  DMT " - SHOW YOUR SUPPORTED MODES (HDMI0/1) FOR THIS GROUP " \
 			- "" \
 			- "*** HDMI PORT [4:3] SELECTIONS ***" \
         1:CEA " - VGA     640x480   60Hz   [4:3] " \
@@ -3026,7 +3026,7 @@ declare -a HDMI_SETTINGS_DMT=(
 # List all attached devices
 function list_dvc() {
 	clear
-	/opt/vc/bin/tvservice -l
+	tvservice -l
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
@@ -3035,7 +3035,11 @@ function list_dvc() {
 # Show HDMI Status
 function hdmi_stat() {
 	clear
-	/opt/vc/bin/tvservice -s
+	tvservice -s
+	echo
+	echo "*******************************************"
+	echo
+	tvservice -v 7 -s
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
@@ -3044,7 +3048,7 @@ function hdmi_stat() {
 # Show Supported Audio Information
 function audio_inf() {
 	clear
-	/opt/vc/bin/tvservice -a
+	tvservice -a
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
@@ -3053,7 +3057,11 @@ function audio_inf() {
 # Supported CEA Modes
 function sup_cea() {
 	clear
-	/opt/vc/bin/tvservice --modes=CEA
+	tvservice --modes=CEA
+	echo
+	echo "*******************************************"
+	echo
+	tvservice -v 7 --modes=CEA
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
@@ -3062,7 +3070,11 @@ function sup_cea() {
 # Supported DMT Modes
 function sup_dmt() {
 	clear
-	/opt/vc/bin/tvservice --modes=DMT
+	tvservice --modes=DMT
+	echo
+	echo "*******************************************"
+	echo
+	tvservice -v 7 --modes=DMT
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
