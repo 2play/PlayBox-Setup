@@ -2941,7 +2941,7 @@ declare -a HDMI_SETTINGS_DMT=(
             - "*** GENERAL SELECTIONS ***" \
            V1 " - LIST CONNECTED DISPLAY DEVICES " \
 		   V2 " - SHOW YOUR HDMI 0&1 STATUS (Resolution etc.) " \
-		   A1 " - SHOW YOUR SUPPORTED AUDIO INFORMATION " \
+		   A1 " - SHOW YOUR SUPPORTED (HDMI 0&1) AUDIO INFORMATION " \
 		  CEA " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
 		  DMT " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
 			- "" \
@@ -3036,13 +3036,13 @@ function list_dvc() {
 function hdmi_stat() {
 	clear
 	echo
-	echo " HDMI 0:"
+	echo "HDMI 0:"
 	echo
 	tvservice -s
 	echo
 	echo "*******************************************"
 	echo
-	echo " HDMI 1:"
+	echo "HDMI 1:"
 	echo
 	tvservice -v 7 -s
 	echo
@@ -3054,13 +3054,13 @@ function hdmi_stat() {
 function audio_inf() {
 	clear
 	echo
-	echo " HDMI 0:"
+	echo "HDMI 0:"
 	echo
 	tvservice -a
 	echo
 	echo "*******************************************"
 	echo
-	echo " HDMI 1:"
+	echo "HDMI 1:"
 	echo
 	tvservice -v 7 -a
 	echo
@@ -3072,13 +3072,13 @@ function audio_inf() {
 function sup_cea() {
 	clear
 	echo
-	echo " HDMI 0:"
+	echo "HDMI 0:"
 	echo
 	tvservice --modes=CEA
 	echo
 	echo "*******************************************"
 	echo
-	echo " HDMI 1:"
+	echo "HDMI 1:"
 	echo
 	tvservice -v 7 --modes=CEA
 	echo
@@ -3090,13 +3090,13 @@ function sup_cea() {
 function sup_dmt() {
 	clear
 	echo
-	echo " HDMI 0:"
+	echo "HDMI 0:"
 	echo
 	tvservice --modes=DMT
 	echo
 	echo "*******************************************"
 	echo
-	echo " HDMI 1:"
+	echo "HDMI 1:"
 	echo
 	tvservice -v 7 --modes=DMT
 	echo
