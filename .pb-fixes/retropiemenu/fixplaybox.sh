@@ -3062,6 +3062,7 @@ function audio_inf() {
 	echo
 	echo " HDMI 1:"
 	echo
+	tvservice -v 7 -a
 	echo
 	read -n 1 -s -r -p "Press any key to go back..."
 	echo
