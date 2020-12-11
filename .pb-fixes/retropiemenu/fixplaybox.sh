@@ -1219,7 +1219,7 @@ function music_2p() {
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) ynthpop  ;;
+            1) Synthpop  ;;
             2) RoyalFree  ;;
             3) Mix  ;;
             -) none ;;
