@@ -144,9 +144,9 @@ infobox="${infobox}\n"
 infobox="${infobox}This script will set some systems basis your region of preference.\n"
 infobox="${infobox}- The US\JP Region will use Genesis, Sega 32X/CD, TG16/CD, Odyssey2 systems.\n"
 infobox="${infobox}- The EU\JP Region will use Mega Drive, Mega 32X/CD, PC Engine/CD, VideoPac systems.\n"
-infobox="${infobox}- The ALL Region will use all systems as per initial intention.\n"
+infobox="${infobox}- The ALL Region will show all systems.\n"
 infobox="${infobox}\n"
-infobox="${infobox}- The extra 3 options as above but with clean Kodi (Lite Version) instead PlayBox (Full Version)."
+infobox="${infobox}- The extra 3 options as above but with clean Kodi (Lite Version) instead PlayBox (Full Version When Enabled)."
 infobox="${infobox}\n"
 
 dialog --backtitle "Region based ES Systems" \
