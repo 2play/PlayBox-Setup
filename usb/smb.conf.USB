@@ -342,6 +342,15 @@ create mask = 0644
 directory mask = 0755
 force user = pi
 
+[saves-unified]
+comment = Single Saves Folder
+path = "/home/pi/RetroPie/saves"
+writeable = yes
+guest ok = yes
+create mask = 0644
+directory mask = 0755
+force user = pi
+
 [screenshots]
 comment = ScreenShots
 path = "/home/pi/ScreenShots"
