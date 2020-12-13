@@ -16,6 +16,10 @@ cd ../..
 rm -rf PBv2-PostFixes
 sleep 2
 #Overlay Fixes
+echo
+cd /opt/retropie/configs/all/retroarch/config
+rm -rf fuse
+ln -sfn Stella\ 2014.EMPTY Stella\ 2014
 mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs/all/retroarch/config/Stella\ 2014.OFF
 mv /opt/retropie/configs/all/retroarch/config/ProSystem 2014 /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
 mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
@@ -24,9 +28,6 @@ echo
 #Core Options Per System Config Folder
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
-echo
-cd /opt/retropie/configs/all/retroarch/config
-rm -rf fuse
 echo
 echo "[OK DONE!...]"
 cd $HOME
