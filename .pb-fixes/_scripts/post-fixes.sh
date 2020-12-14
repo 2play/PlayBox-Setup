@@ -10,7 +10,7 @@ cd PBv2-PostFixes/
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'LICENSE' --exclude 'README.md' . /
 sleep 1
 cd etc/
-sudo rsync -urv . /
+sudo rsync -urv . /etc
 sleep 1
 cd ../..
 rm -rf PBv2-PostFixes
