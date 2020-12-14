@@ -21,7 +21,7 @@ cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
 ln -sfn Stella\ 2014.EMPTY Stella\ 2014
 mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs/all/retroarch/config/Stella\ 2014.OFF
-mv /opt/retropie/configs/all/retroarch/config/ProSystem 2014 /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
+mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
 mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
 mv /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX.OFF
 echo
