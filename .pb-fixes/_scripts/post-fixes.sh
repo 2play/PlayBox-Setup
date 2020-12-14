@@ -8,14 +8,12 @@ cd $HOME/code/
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'LICENSE' --exclude 'README.md' . /
+sudo rsync -urv etc/ /etc/
 sleep 1
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
-cd etc/
-sudo rsync -urv . /etc
 sleep 1
-cd ../..
-rm -rf PBv2-PostFixes
+rm -rf ~/code/PBv2-PostFixes/
 sleep 2
 #Overlay Fixes
 echo
