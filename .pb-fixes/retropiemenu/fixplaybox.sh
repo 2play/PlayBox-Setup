@@ -2722,7 +2722,7 @@ function fw_pi() {
             - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
             6 " - Show Current Bootloader Version & Configuration" \
 			7 " - Verify If A New Available Firmware Version" \
-			8 " - Update Official/Published Firmware & Latest Boot Files" \
+			8 " - Update Official/Published Firmware" \
             2>&1 > /dev/tty)
 
         case "$choice" in
