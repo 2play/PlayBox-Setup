@@ -24,6 +24,7 @@ mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs
 mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
 mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
 mv /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX.OFF
+mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 echo
 #Core Options Per System Config Folder
 cd /opt/retropie/configs
