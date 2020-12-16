@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 12.12.2020"
+pb_version="PlayBox ToolKit Version 2.0 Dated 16.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2720,9 +2720,9 @@ function fw_pi() {
             5 " - Revert to Last STABLE Firmware For NON Pi4 Boards" \
             - "" \
             - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
-            6 " - Current Bootloader Version & Configuration" \
-			7 " - Verify Firmware Version" \
-			8 " - Update Official/Published Firmware" \
+            6 " - Show Current Bootloader Version & Configuration" \
+			7 " - Verify If A New Available Firmware Version" \
+			8 " - Update Official/Published Firmware & Latest Boot Files" \
             2>&1 > /dev/tty)
 
         case "$choice" in
