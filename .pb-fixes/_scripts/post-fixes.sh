@@ -7,8 +7,9 @@ cd $HOME/code/
 #Get Post Fixes
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
-rsync -urv --exclude '.git' --exclude 'etc' --exclude 'LICENSE' --exclude 'README.md' . /
+rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
+sudo rsync -urv usr/ /usr/
 sleep 1
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
