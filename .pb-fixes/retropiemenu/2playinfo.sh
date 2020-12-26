@@ -32,10 +32,10 @@ Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3
 $(tput setaf 1)
 $(tput setaf 7)`grep Model /proc/cpuinfo`
 
-$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
+$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temp.sh`
 CPU `grep Hardware /proc/cpuinfo` - `lscpu | grep "Model name"`
 CPU Max Speed   : `lscpu | grep max`
-GPU Version     : `exec -- /opt/vc/bin/vcgencmd version`
+GPU Version     : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/cpu.sh`
 $(tput setaf 6)
 Memory            : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
 Running Processes : `ps ax | wc -l | tr -d " "`
