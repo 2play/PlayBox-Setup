@@ -2879,7 +2879,6 @@ CPU Max Speed   : `lscpu | grep max`
 GPU Version     : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/cpu.sh`
 $(tput setaf 6)
 Memory            : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Running Processes : `ps ax | wc -l | tr -d " "`
 Local & Public IP : `hostname -I`and `curl -4 icanhazip.com 2>/dev/null | awk '{print $NF; exit}'`
 $(tput setaf 7)"
 echo
