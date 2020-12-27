@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 16.12.2020"
+pb_version="PlayBox ToolKit Version 2.0 Dated 27.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -544,11 +544,11 @@ function apps_pbt() {
 			5) music_2p  ;;
 			6) skyscraper  ;;
 			7) amiberry_git  ;;
-			8) igalia_vk  ;;
-			9) pikiss_git  ;;
+			#8) igalia_vk  ;;
+			#9) pikiss_git  ;;
 		   10) rpc80_saves  ;;
 		   11) strg_bench  ;;
-		   12) omxvol  ;;
+		   #12) omxvol  ;;
 		   13) emus_tks  ;;
            -) none ;;
             *)  break ;;
@@ -688,104 +688,39 @@ function ra_options_tool() {
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
             - "*** SHADERS SELECTIONS ***" \
-            1 " - Enable Shader Created By ChrisKekridis for Arcade Systems " \
-            2 " - Enable Shader Created By ChrisKekridis for 16-bit Consoles " \
-			3 " - Disable Shader Created By ChrisKekridis for Arcade Systems " \
-            4 " - Disable Shader Created By ChrisKekridis for 16-bit Consoles " \
-            5 " - Disable All Shaders " \
-            6 " - Enable All Shaders " \
+            1 " - Disable Shaders " \
+            2 " - Enable Shaders " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-			7 " - Enable A Preset System Overlay " \
-            8 " - Disable A Preset System Overlay " \
-			9 " - Enable All Preset System Overlays " \
-           10 " - Disable All Preset System Overlays " \
+			3 " - Enable A Preset System Overlay " \
+            4 " - Disable A Preset System Overlay " \
+			5 " - Enable All Preset System Overlays " \
+            6 " - Disable All Preset System Overlays " \
 		    - "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   11 " - Enable Video Smooth - Single System " \
-           12 " - Disable Video Smooth - Single System " \
-		   13 " - Enable Video Smooth - All Systems " \
-           14 " - Disable Video Smooth - All Systems " \
+		    7 " - Enable Video Smooth - Single System " \
+            8 " - Disable Video Smooth - Single System " \
+		    9 " - Enable Video Smooth - All Systems " \
+           10 " - Disable Video Smooth - All Systems " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            1) ck_arc_shaders  ;;
-            2) ck_16bit_shaders  ;;
-            3) ck_arc_shaders_off  ;;
-            4) ck_16bit_shaders_off  ;;
-            5) disable_shaders  ;;
-            6) enable_shaders  ;;
-            7) sys_overlay_on  ;;
-            8) sys_overlay_off  ;;
-			9) all_overlay_on  ;;
-           10) all_overlay_off  ;;
-		   11) v_smooth_sys_on  ;;
-           12) v_smooth_sys_off  ;;
-		   13) all_v_smooth_on  ;;
-           14) all_v_smooth_off  ;;
+            1) disable_shaders  ;;
+            2) enable_shaders  ;;
+            3) sys_overlay_on  ;;
+            4) sys_overlay_off  ;;
+			5) all_overlay_on  ;;
+            6) all_overlay_off  ;;
+		    7) v_smooth_sys_on  ;;
+            8) v_smooth_sys_off  ;;
+		    9) all_v_smooth_on  ;;
+           10) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
     done
 }
 
-function ck_arc_shaders() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	clear
-	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/ 
-	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ck_16bit_shaders() {
-	clear
-	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/
-	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ck_arc_shaders_off() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	clear
-	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/ 
-	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ck_16bit_shaders_off() {
-	clear
-	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/
-	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
 
 function disable_shaders() {
 	dialog --infobox "...Removing..." 3 20 ; sleep 2
@@ -1311,6 +1246,9 @@ function skyscraper() {
 
 
 function amiberry_git() {
+# The PlayBox Project
+# Copyright (C)2018-2020 2Play! (S.R.)
+# 27.12.20
 	clear
 	local choice
 	while true; do
@@ -1318,99 +1256,51 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4" \
-			2 "Amiberry :  Pi4 SDL2" \
-			3 "Amiberry :  Pi4 x64" \
+			1 "Amiberry :  Tinker RK3288" \
+			2 "Amiberry :  Odroid N2/RockPro64 RK3399" \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi4 - Swap To This Binary" \
-			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) amiberry_pi4  ;;
-            2) amiberry_pi4sdl2  ;;
-			3) amiberry_pi4x64  ;;
-			4) amiberry_pi4swap  ;;
-			5) amiberry_pi4sdl2swap  ;;
+            1) amiberry_3288  ;;
+            2) amiberry_3399  ;;
 			-) none ;;
             *)  break ;;
         esac
     done
 }
 
-function amiberry_pi4() {
+function amiberry_3288() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code && cd amiberry
 	make clean
 	git pull
-	make -j2 PLATFORM=rpi4
-	#make -j2 PLATFORM=rpi3
-	#make PLATFORM=rpi1
+	make -j6 PLATFORM=RK3288
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberry3288
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4
-	sudo ln -sfn amiberryrpi4 amiberry
+	sudo chmod 755 amiberry3288
+	sudo ln -sfn amiberry3288 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi4sdl2() {
+function amiberry_3399() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code && cd amiberry
 	make clean
 	git pull
-	make -j2 PLATFORM=rpi4-sdl2
-	#make -j2 PLATFORM=rpi3-sdl2
-	#make PLATFORM=rpi1-sdl2
+	make -j2 PLATFORM=n2
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberry3399
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4SDL2
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4x64() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd $HOME && cd code && cd amiberry
-	make clean
-	git pull
-	make -j2 PLATFORM=pi64
-	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
-	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4x64
-	sudo ln -sfn amiberryrpi4x64 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4swap() {
-	clear
-	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4sdl2swap() {
-	clear
-	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	sudo chmod 755 amiberry3399
+	sudo ln -sfn amiberry3399 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -2522,7 +2412,7 @@ function cl_cli_hist() {
 	history -cw && clear
 	#cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
-	sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
+	sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo armbian-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '8,1000d' .bash_history
 	clear
 	echo
@@ -2577,7 +2467,7 @@ function sys_pbt() {
            7) sysinfo  ;;
 		   8) temp_rt  ;;
 		   9) cores_status  ;;
-		  10) ratio_vt  ;;
+		  #10) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2661,14 +2551,12 @@ dialog --backtitle "PlayBox Toolkit" \
             1 " - OS Package List Update & Distro System Upgrade" \
             2 " - OS Package List Update & Full Upgrade" \
             - "" \
-            - "*** FIRMWARE UPDATING SELECTIONS ***" \
-            3 " - Pi Firmware Check or Upgrade" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) update_distro  ;;
             2) update_os  ;;
-            3) fw_pi  ;;
+            #3) fw_pi  ;;
             -) none ;;
             *) break ;;
         esac
@@ -2890,7 +2778,7 @@ read -n 1 -s -r -p "Press any key to continue"
 function temp_rt() {
 	dialog --infobox "...[Press <CTRL+C> to Exit]..." 3 36 ; sleep 5
 	clear
-	watch -t $HOME/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh 
+	watch -t $HOME/PlayBox-Setup/.pb-fixes/_scripts/temp.sh 
 }
 
 
@@ -3318,7 +3206,7 @@ function poff_pb() {
 	echo
 	echo "[OK System Will Shutdown now...]"
 	clear
-	sudo shutdown -P now
+	sudo halt -p
 }
 
 function restart_pb() {
