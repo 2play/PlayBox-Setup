@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 16.12.2020"
+pb_version="PlayBox ToolKit Version 2.0 Dated 28.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -545,7 +545,7 @@ function apps_pbt() {
 			6) skyscraper  ;;
 			7) amiberry_git  ;;
 			8) igalia_vk  ;;
-			9) pikiss_git  ;;
+			#9) pikiss_git  ;;
 		   10) rpc80_saves  ;;
 		   11) strg_bench  ;;
 		   12) omxvol  ;;
@@ -688,24 +688,20 @@ function ra_options_tool() {
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
             - "*** SHADERS SELECTIONS ***" \
-            1 " - Enable Shader Created By ChrisKekridis for Arcade Systems " \
-            2 " - Enable Shader Created By ChrisKekridis for 16-bit Consoles " \
-			3 " - Disable Shader Created By ChrisKekridis for Arcade Systems " \
-            4 " - Disable Shader Created By ChrisKekridis for 16-bit Consoles " \
-            5 " - Disable All Shaders " \
-            6 " - Enable All Shaders " \
+            1 " - Disable All Shaders " \
+            2 " - Enable All Shaders " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-			7 " - Enable A Preset System Overlay " \
-            8 " - Disable A Preset System Overlay " \
-			9 " - Enable All Preset System Overlays " \
-           10 " - Disable All Preset System Overlays " \
+			3 " - Enable A Preset System Overlay " \
+            4 " - Disable A Preset System Overlay " \
+			5 " - Enable All Preset System Overlays " \
+            6 " - Disable All Preset System Overlays " \
 		    - "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   11 " - Enable Video Smooth - Single System " \
-           12 " - Disable Video Smooth - Single System " \
-		   13 " - Enable Video Smooth - All Systems " \
-           14 " - Disable Video Smooth - All Systems " \
+		    7 " - Enable Video Smooth - Single System " \
+            8 " - Disable Video Smooth - Single System " \
+		    9 " - Enable Video Smooth - All Systems " \
+           10 " - Disable Video Smooth - All Systems " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1667,7 +1663,7 @@ function pikiss_git() {
 	git reset --hard HEAD
 	git merge '@{u}'
 	sleep 2 && cd $HOME
-	#$HOME/piKiss/piKiss.sh
+	$HOME/piKiss/piKiss.sh
 }
 
 
