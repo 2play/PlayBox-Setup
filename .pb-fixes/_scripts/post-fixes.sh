@@ -22,11 +22,21 @@ cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
 ln -sfn Stella\ 2014.EMPTY Stella\ 2014
 mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs/all/retroarch/config/Stella\ 2014.OFF
-mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
 mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
-mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
 mv /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX.OFF
 mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
+if [ -d /opt/retropie/configs/all/retroarch/config/ProSystem.OFF ]; then
+mv /opt/retropie/configs/all/retroarch/config/ProSystem/* /opt/retropie/configs/all/retroarch/config/ProSystem.OFF/
+rm -rf /opt/retropie/configs/all/retroarch/config/ProSystem
+else
+mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
+fi
+if [ -d /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF ]; then
+mv /opt/retropie/configs/all/retroarch/config/PicoDrive/* /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF/
+rm -rf /opt/retropie/configs/all/retroarch/config/ProSystem
+else
+mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
+fi
 echo
 #Core Options Per System Config Folder
 cd /opt/retropie/configs
