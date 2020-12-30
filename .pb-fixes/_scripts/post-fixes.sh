@@ -42,17 +42,5 @@ echo
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
-clear
-# Global Shader
-cd /opt/retropie/configs/all/retroarch/config/
-while true; do
-	echo ""
-	read -p 'Whould you like to enable the default global shader to retroarch cores [y] or [n]? ' yn
-	case $yn in
-	[Yy]* ) rm global.glslp.OFF; if [ -f global.glslp ]; then echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; else fi;;
-	[Nn]* ) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; else fi;;
-    * ) echo ""; echo "Please answer yes or no.";;
-    esac
-done	
 echo "[OK DONE!...]"
 cd $HOME
