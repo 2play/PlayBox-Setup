@@ -4,7 +4,7 @@
 echo "Welcome to PlayBox v2 Post Fixes & Tweaks"
 sleep 2
 cd $HOME/code/
-#Get Post Fixes
+# Get Post Fixes
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'LICENSE' --exclude 'README.md' . /
@@ -16,7 +16,7 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
-#Overlay Fixes
+# Overlay Fixes
 echo
 cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
@@ -38,17 +38,18 @@ else
 mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
 fi
 echo
-#Core Options Per System Config Folder
+# Core Options Per System Config Folder
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
+# Global Shader
 cd /opt/retropie/configs/all/retroarch/config/
 while true; do
 echo ""
 read -p 'Whould you like to enable the default global shader to retroarch cores [y] or [n]? ' yn
 	case $yn in
-	[Yy]* ) if [ -f global.glslp ]; then echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; elif [ -f global.glslp.OFF ]; then mv global.glslp.OFF global.glslp; echo ""; echo "OK! Default global C.K. Shader is enabled!"; echo "";; fi;;
-	[Nn]* ) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; elif [ -f global.glslp.OFF ]; then echo ""; echo "Default global C.K. Shader is already disabled!"; echo "";; fi;;  
+	[Yy]* ) if [ -f global.glslp ]; then echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; elif [ -f global.glslp.OFF ]; then mv global.glslp.OFF global.glslp; echo ""; echo "OK! Default global C.K. Shader is enabled!"; echo ""; fi;;
+	[Nn]* ) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; elif [ -f global.glslp.OFF ]; then echo ""; echo "Default global C.K. Shader is already disabled!"; echo ""; fi;;  
     * ) echo ""; echo "Please answer yes or no.";;
     esac
 done	
