@@ -42,6 +42,7 @@ echo
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
+clear
 # Global Shader
 cd /opt/retropie/configs/all/retroarch/config/
 while true; do
