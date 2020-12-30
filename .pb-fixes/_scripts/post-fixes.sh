@@ -46,11 +46,11 @@ clear
 # Global Shader
 cd /opt/retropie/configs/all/retroarch/config/
 while true; do
-echo ""
-read -p 'Whould you like to enable the default global shader to retroarch cores [y] or [n]? ' yn
+	echo ""
+	read -p 'Whould you like to enable the default global shader to retroarch cores [y] or [n]? ' yn
 	case $yn in
-	[Yy]* ) if [ -f global.glslp ]; then echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; elif [ -f global.glslp.OFF ]; then mv global.glslp.OFF global.glslp; echo ""; echo "OK! Default global C.K. Shader is enabled!"; echo ""; else continue; fi;;
-	[Nn]* ) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; elif [ -f global.glslp.OFF ]; then echo ""; echo "Default global C.K. Shader is already disabled!"; echo ""; else continue; fi;;
+	[Yy]* ) rm global.glslp.OFF; if [ -f global.glslp ]; then echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; else fi;;
+	[Nn]* ) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; else fi;;
     * ) echo ""; echo "Please answer yes or no.";;
     esac
 done	
