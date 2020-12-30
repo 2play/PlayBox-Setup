@@ -33,7 +33,7 @@ mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/al
 fi
 if [ -d /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF ]; then
 mv /opt/retropie/configs/all/retroarch/config/PicoDrive/* /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF/
-rm -rf /opt/retropie/configs/all/retroarch/config/ProSystem
+rm -rf /opt/retropie/configs/all/retroarch/config/PicoDrive
 else
 mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
 fi
