@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 28.12.2020"
+pb_version="PlayBox ToolKit Version 2.0 Dated 31.12.2020"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -523,13 +523,13 @@ function apps_pbt() {
 			- "	" \
 			1 " -  Take HD ScreenShot" \
 			2 " -  Gamelist Views - 2Play! Themes " \
-		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
+		    3 " -  [Disabled] RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
 			4 " -  Hide or Show a System" \
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
 		    7 " -  Amiberry Compile and Update From GitHub" \
 			8 " -  Vulkan Igalia Driver" \
-		    9 " -  PiKISS By Jose Cerrejon" \
+		    9 " -  [Disabled] PiKISS By Jose Cerrejon" \
 		   10 " -  Single Saves Directory By RPC80" \
 		   11 " -  SD/USB Storage Benchmark" \
 		   12 " -  OMXPlayer Volume Control Script" \
@@ -539,7 +539,7 @@ function apps_pbt() {
         case "$choice" in
             1) prntscr  ;;
 			2) swap_theme_view ;;
-			3) ra_options_tool  ;;
+			#3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
