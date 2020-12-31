@@ -1,7 +1,7 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 25.06.20
+# 31.12.20
 
 infobox=""
 infobox="${infobox}\n"
@@ -9,7 +9,7 @@ infobox="${infobox}OverClocking Your Pi Board\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}This will apply necessary configuration to enable/disable overclocking.\n"
 infobox="${infobox}A 3A+ PSU & a fan for good CPU cooling is recommended!\n"
-infobox="${infobox}Options:\nPi4 at 1750/2000/2100/2147MHz \n"
+infobox="${infobox}Options:\nPi4 at 1750/2000/2100/2147/2200-2300MHz \n"
 infobox="${infobox}NOTE: Last Pi4 Option Requires Firmware vl805-000137ab.bin or newer!!! Enabled on PlayBox\n\n"
 infobox="${infobox}**Enable**\n"
 infobox="${infobox}Overclocks the CPU\n"
@@ -33,6 +33,16 @@ declare -a OVERCLOCK_SETTINGS=(
 	"gpu_freq=600"
 )
 
+declare -a OVERCLOCK_SETTINGS1=(
+    "over_voltage=6"
+	"gpu_freq=750"
+)
+
+declare -a OVERCLOCK_SETTINGS2=(
+    "over_voltage=8"
+	"gpu_freq=750"
+)
+
 function main_menu() {
     local choice
     while true; do
@@ -44,7 +54,8 @@ function main_menu() {
             2 " - Enable  OverClocking - Pi4 [2000MHz]" \
             3 " - Enable  OverClocking - Pi4 [2100MHz]" \
             4 " - Enable  OverClocking - Pi4 [2147MHz]" \
-            5 " - Disable OverClocking" \
+			5 " - Enable  OverClocking - Pi4 [2200-2300MHz]" \
+			6 " - Disable OverClocking" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -52,7 +63,8 @@ function main_menu() {
             2) enable_oc 2000;;
             3) enable_oc+ 2100;;
             4) enable_oc+ 2147;;
-            5) disable_oc ;;
+			5) enable_oc++ 2200;;
+			6) disable_oc ;;
             -) none ;;
             *) break ;;
         esac
@@ -69,8 +81,9 @@ function enable_oc() {
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
-  sudo sed -i "s|gpu_freq=750|gpu_freq=600|" "${CONFIG_PATH}"; 
   sudo sed -i "s|#gpu_freq=600|gpu_freq=600|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=750|#gpu_freq=750|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=8|#over_voltage=8|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -85,12 +98,36 @@ function enable_oc+() {
   dialog --infobox "...Applying..." 3 20 ; sleep 2
 #  overclock_setup
   sudo sed -i "s|#*arm_freq=.*|arm_freq=$1|" "${CONFIG_PATH}";
-  for val in ${OVERCLOCK_SETTINGS[@]}; do
+  for val in ${OVERCLOCK_SETTINGS1[@]}; do
     if grep -q "#${val}" ${CONFIG_PATH}; then
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
-  sudo sed -i "s|gpu_freq=600|gpu_freq=750|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|#gpu_freq=750|gpu_freq=750|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=600|#gpu_freq=600|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=8|#over_voltage=8|" "${CONFIG_PATH}"; 
+  echo
+clear
+echo
+read -n 1 -s -r -p "Press any key to reboot"
+  echo
+  echo "[OK] Rebooting Raspberry Pi ... "
+  sudo reboot
+}
+
+# Enables Overclocking by adding properties to /boot/config.txt
+function enable_oc++() {
+  dialog --infobox "...Applying..." 3 20 ; sleep 2
+#  overclock_setup
+  sudo sed -i "s|#*arm_freq=.*|arm_freq=$1|" "${CONFIG_PATH}";
+  for val in ${OVERCLOCK_SETTINGS2[@]}; do
+    if grep -q "#${val}" ${CONFIG_PATH}; then
+      sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
+    fi
+  done
+  sudo sed -i "s|#gpu_freq=750|gpu_freq=750|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=600|#gpu_freq=600|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -108,7 +145,10 @@ function disable_oc() {
   for val in ${OVERCLOCK_SETTINGS[@]}; do
     sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
   done
-  sudo sed -i "s|gpu_freq=750|#gpu_freq=600|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=600|#gpu_freq=600|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=750|#gpu_freq=750|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=8|#over_voltage=8|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -118,7 +158,7 @@ read -n 1 -s -r -p "Press any key to reboot"
   sudo reboot
 }
 
-# Adds overclock entries to config.txt
+# Adds overclock entries to config.txt (Not Used)
 function overclock_setup() {
   if ! grep -q "${OVERCLOCK_DESCRIPTION}" ${CONFIG_PATH}; then
     sudo echo -e "\n${OVERCLOCK_DESCRIPTION}" >> ${CONFIG_PATH}
