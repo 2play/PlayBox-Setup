@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 30.12.2020
+# 31.12.2020
 echo "Welcome to PlayBox v2 Post Fixes & Tweaks"
 sleep 2
 cd $HOME/code/
@@ -16,6 +16,13 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
+# Config.txt OC additions
+if ! grep "gpu_freq=750" /boot/config.txt ; then
+sudo sed -i '66i#gpu_freq=750' /boot/config.txt
+fi
+if ! grep "over_voltage=8" /boot/config.txt ; then
+sudo sed -i '67i#over_voltage=8' /boot/config.txt
+fi
 # Overlay Fixes
 echo
 cd /opt/retropie/configs/all/retroarch/config
