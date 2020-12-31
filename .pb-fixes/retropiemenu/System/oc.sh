@@ -53,7 +53,7 @@ function main_menu() {
             1 " - Enable  OverClocking - Pi4 [1750MHz]" \
             2 " - Enable  OverClocking - Pi4 [2000MHz]" \
             3 " - Enable  OverClocking - Pi4 [2100MHz]" \
-            4 " - Enable  OverClocking - Pi4 [2147MHz]" \
+            4 " - Enable  OverClocking - Pi4 [2147-2200MHz]" \
 			5 " - Enable  OverClocking - Pi4 [2200-2300MHz]" \
 			6 " - Disable OverClocking" \
             2>&1 > /dev/tty)
