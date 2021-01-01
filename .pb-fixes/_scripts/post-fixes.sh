@@ -58,7 +58,7 @@ function global_shader() {
 	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " GLOBAL SHADER OPTION " \
             --ok-label OK --cancel-label Exit \
-			--menu "Choose *** ONCE *** Enable or Disable & Exit!" 25 75 20 \
+			--menu "Choose Enable or Disable!" 25 75 20 \
             - "*** GLOBAL RETRO SHADER ***" \
             - "" \
 			1 " -  Enable The Chris Kekrides Global Retro Shader" \
@@ -79,16 +79,24 @@ function glb_shon() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
 fi
+clear
+sleep 1
+echo ""
+echo "[OK DONE!...]"
+cd $HOME
+exit
 }
 
 function glb_shoff() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
 fi
-}
-global_shader
-
+clear
 sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
+exit
+}
+
+global_shader
