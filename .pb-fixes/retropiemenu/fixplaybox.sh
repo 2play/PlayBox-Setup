@@ -523,7 +523,7 @@ function apps_pbt() {
 			- "	" \
 			1 " -  Take HD ScreenShot" \
 			2 " -  Gamelist Views - 2Play! Themes " \
-		    3 " -  [Disabled] RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
+		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
 			4 " -  Hide or Show a System" \
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
@@ -539,7 +539,7 @@ function apps_pbt() {
         case "$choice" in
             1) prntscr  ;;
 			2) swap_theme_view ;;
-			#3) ra_options_tool  ;;
+			3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
@@ -688,44 +688,44 @@ function ra_options_tool() {
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
             - "*** SHADERS SELECTIONS ***" \
-            1 " - Disable All Shaders " \
-            2 " - Enable All Shaders " \
+            1 " - [WIP - New] Enable Retro Shader Created By ChrisKekridis for A System " \
+            2 " - [WIP - New] Enable Retro Shader Created By ChrisKekridis for A System " \
+            3 " - Disable All Shaders " \
+            4 " - Enable All Shaders " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-			3 " - Enable A Preset System Overlay " \
-            4 " - Disable A Preset System Overlay " \
-			5 " - Enable All Preset System Overlays " \
-            6 " - Disable All Preset System Overlays " \
+			5 " - Enable A System Preset Overlay " \
+            6 " - Disable A System Preset Overlay " \
+			7 " - Enable All System Preset Overlays " \
+            8 " - Disable All System Preset Overlays " \
 		    - "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		    7 " - Enable Video Smooth - Single System " \
-            8 " - Disable Video Smooth - Single System " \
-		    9 " - Enable Video Smooth - All Systems " \
-           10 " - Disable Video Smooth - All Systems " \
+		    9 " - Enable Video Smooth - Single System " \
+           10 " - Disable Video Smooth - Single System " \
+		   11 " - Enable Video Smooth - All Systems " \
+           12 " - Disable Video Smooth - All Systems " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            1) ck_arc_shaders  ;;
-            2) ck_16bit_shaders  ;;
-            3) ck_arc_shaders_off  ;;
-            4) ck_16bit_shaders_off  ;;
-            5) disable_shaders  ;;
-            6) enable_shaders  ;;
-            7) sys_overlay_on  ;;
-            8) sys_overlay_off  ;;
-			9) all_overlay_on  ;;
-           10) all_overlay_off  ;;
-		   11) v_smooth_sys_on  ;;
-           12) v_smooth_sys_off  ;;
-		   13) all_v_smooth_on  ;;
-           14) all_v_smooth_off  ;;
+            #1) ck_shader_syson  ;;
+            #2) ck_shader_sysoff  ;;
+            3) disable_shaders  ;;
+            4) enable_shaders  ;;
+            5) sys_overlay_on  ;;
+            6) sys_overlay_off  ;;
+			7) all_overlay_on  ;;
+			8) all_overlay_off  ;;
+			9) v_smooth_sys_on  ;;
+		   10) v_smooth_sys_off  ;;
+		   11) all_v_smooth_on  ;;
+		   12) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
     done
 }
 
-function ck_arc_shaders() {
+function ck_shader_syson() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
 	clear
 	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
@@ -740,21 +740,7 @@ function ck_arc_shaders() {
 	sleep 1
 }
 
-function ck_16bit_shaders() {
-	clear
-	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/
-	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ck_arc_shaders_off() {
+function ck_shader_sysoff() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
 	clear
 	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
@@ -762,20 +748,6 @@ function ck_arc_shaders_off() {
 	read -n 1 -s -r -p "Press any key to continue"
 	cd /opt/retropie/configs/ 
 	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ck_16bit_shaders_off() {
-	clear
-	echo "This will enable C.K. custom shader to all 16-bit consoles: genesis/megadrive(hacks), megadrive-japan, pcengine/tg16, pcenginecd/tg16cd, snes(hacks), snesmsu1, sfc, satellaview, sufami, pc98, x68000"
-	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/
-	find {genesis,genesish,genh,megadrive,megadriveh,megh,megadrive-japan,pc98,pce-cd,pcengine,pcenginecd,satellaview,sfc,snes,snescd,snesh,snesmsu1,sufami,tg16,tg16cd,tg-cd,x68000} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/16bit.glslp"|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
