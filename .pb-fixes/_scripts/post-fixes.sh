@@ -3,6 +3,7 @@
 # 31.12.2020
 echo "Welcome to PlayBox v2 Post Fixes & Tweaks"
 sleep 2
+mkdir /home/pi/lmp4
 cd $HOME/code/
 # Get Post Fixes
 git clone https://github.com/2play/PBv2-PostFixes.git
