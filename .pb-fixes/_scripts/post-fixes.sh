@@ -1,7 +1,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
 # 01.01.2021
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
