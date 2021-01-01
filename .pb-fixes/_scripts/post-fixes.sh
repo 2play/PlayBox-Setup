@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 31.12.2020
+# 01.01.2021
 echo "Welcome to PlayBox v2 Post Fixes & Tweaks"
 sleep 2
 mkdir /home/pi/lmp4
@@ -52,16 +52,43 @@ find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_
 echo
 clear
 # Global Shader
+function global_shader() {
+    local choice
+	while true; do
+		choice=$(dialog --backtitle "$BACKTITLE" --title " GLOBAL SHADER OPTION " \
+            --ok-label OK --cancel-label Exit \
+			--menu "Choose *** ONCE *** Enable or Disable & Exit!" 25 75 20 \
+            - "*** GLOBAL RETRO SHADER ***" \
+            - "" \
+			1 " -  Enable The Chris Kekrides Global Retro Shader" \
+            2 " -  Disable The Chris Kekrides Global Retro Shader" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) glb_shon  ;;
+            2) glb_shoff  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+	clear
+}
+
+function glb_shon() {
 cd /opt/retropie/configs/all/retroarch/config/
-while true; do
-	echo ""
-	read -p 'Whould you like to enable the default global shader to retroarch cores [y] or [n]? ' yn
-	case $yn in
-	[Yy]*) if [ -f global.glslp.OFF ]; then rm global.glslp.OFF; echo ""; echo "Default global C.K. Shader is already enabled!"; echo ""; echo "[OK DONE!...]"; fi; break;;
-	[Nn]*) if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF; echo ""; echo "OK! Default global C.K. Shader is disabled!"; echo ""; echo "[OK DONE!...]"; fi; break;;
-	* ) echo ""; echo "Please answer yes or no.";;
-	esac
-done
+if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
+fi
+end
+}
+
+function glb_shoff() {
+cd /opt/retropie/configs/all/retroarch/config/
+if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
+fi
+end
+}
+
+global_shader
 sleep 1
 echo ""
 echo "[OK DONE!...]"
