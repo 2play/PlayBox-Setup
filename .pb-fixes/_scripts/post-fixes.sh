@@ -79,17 +79,15 @@ function glb_shon() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
 fi
-end
 }
 
 function glb_shoff() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
 fi
-end
 }
-
 global_shader
+
 sleep 1
 echo ""
 echo "[OK DONE!...]"
