@@ -528,7 +528,7 @@ function apps_pbt() {
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
 		    7 " -  Amiberry Compile and Update From GitHub" \
-			8 " -  Vulkan Igalia Driver" \
+			8 " -  Vulkan Pi4 Driver" \
 		    9 " -  [Disabled] PiKISS By Jose Cerrejon" \
 		   10 " -  Single Saves Directory By RPC80" \
 		   11 " -  SD/USB Storage Benchmark" \
