@@ -33,18 +33,17 @@ function post_fix_update() {
 function post_up_clean() {
 git clone --branch=clean https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
-clear
 next_steps
 }
 
 function post_up_normal() {
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
-clear
 next_steps
 }
 
 function next_steps() {
+clear
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
