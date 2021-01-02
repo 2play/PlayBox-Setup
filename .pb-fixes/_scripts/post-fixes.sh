@@ -31,12 +31,14 @@ function post_fix_update() {
 }
 
 function post_up_clean() {
+clear
 git clone --branch=clean https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 next_steps
 }
 
 function post_up_normal() {
+clear
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 next_steps
