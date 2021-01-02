@@ -1710,6 +1710,7 @@ fi
 	mv retroarch retroarchNEW
 	sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 	cd /opt/retropie/emulators/retroarch/bin
+	sudo rm retroarch
 	sudo ln -sf retroarchNEW retroarch
 	#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 	else
