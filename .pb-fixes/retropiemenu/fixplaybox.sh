@@ -1552,14 +1552,27 @@ echo ""
 echo "STEP 4. Compiling Driver... "
 echo ""
 cd $HOME/code/
+sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get build-dep mesa -y
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
-git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
+git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
-git checkout wip/igalia/v3dv
+#git checkout wip/igalia/v3dv
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+#meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+ meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
+echo ""
+cd $HOME/code/
+#Download & Install MESA DRM
+git clone git://anongit.freedesktop.org/mesa/drm
+cd drm
+meson build --prefix=/usr
+ninja -C build
+sudo -E ninja -C build install
 echo ""
 #echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
@@ -1570,8 +1583,9 @@ echo ""
 cd $HOME/code/
 git clone https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update &
+sudo apt-get update
 sudo apt-get build-dep retroarch
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 ./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 make clean
@@ -1591,7 +1605,7 @@ echo ""
 read -p 'Whould you like to install few test demos [y] or Reboot [n or r]? ' yn
 	case $yn in
 	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
-    [NnRr]* ) echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
+    [NnRr]* ) echo ""; echo "Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
     * ) echo ""; echo "Please answer yes or no.";;
     esac
 done
@@ -1627,23 +1641,36 @@ echo ""
 echo "STEP 4. Compiling Driver... "
 echo ""
 cd $HOME/code/
+sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get build-dep mesa -y
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
-git clone https://gitlab.freedesktop.org/apinheiro/mesa.git mesa
+git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
-git checkout wip/igalia/v3dv
+#git checkout wip/igalia/v3dv
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+#meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+ meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
+	echo ""
+	cd $HOME/code/
+	#Download & Install MESA DRM
+	git clone git://anongit.freedesktop.org/mesa/drm
+	cd drm
+	meson build --prefix=/usr
+	ninja -C build
+	sudo -E ninja -C build install
 	echo ""
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 	echo ""
-	echo "Driver By Igalia, Script By 2Play!"
+	echo "Script By 2Play!"
 	echo ""
-	echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
+	echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
 	echo ""
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo ""
@@ -1703,6 +1730,7 @@ fi
 	sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
 	sudo apt-get update &
 	sudo apt-get build-dep retroarch
+	sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 	cd retroarch
 	./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 	make clean
@@ -1730,7 +1758,7 @@ function sources_cl() {
 	echo ""
 	sleep 2
 	cd $HOME/code/
-	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems
+	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm
 	clear
 	echo
 	echo "[OK DONE!...]"
