@@ -679,7 +679,7 @@ function sys_horizontal() {
 
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
-# 10.10.2020
+# 02.01.2021
 	
 	clear
 	local choice
@@ -728,31 +728,87 @@ function ra_options_tool() {
 function ck_shader_syson() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
 	clear
-	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
+	echo 
+	echo " I will display a list of all systems that you can apply a shader... "
+	echo " Keep in mind ONLY RetroArch cores can use shaders. "
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/ 
-	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|.*#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/
+	echo
+	#ls -d */ | column | more
+	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
+	echo
+	read -p 'So which system would you like to enable the retro shader?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	sleep 2
+	fi
 }
 
 function ck_shader_sysoff() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
 	clear
-	echo "This will enable C.K. custom shader to all arcade related sysems: arcade, mame, fba, spinner, trackball"
+	echo 
+	echo " I will display a list of all systems that you can apply a shader... "
+	echo " Keep in mind ONLY RetroArch cores can use shaders. "
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
-	cd /opt/retropie/configs/ 
-	find {arcade,fba,mame-libretro,mame-mame4all,lightgun,spinner,trackball} -name "retroarch.*" -exec sed -i 's|video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|#video_shader = "/opt/retropie/configs/all/retroarch/shaders/1arcade.glslp"|g' {} 2>/dev/null \;
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd /opt/retropie/configs/
+	echo
+	#ls -d */ | column | more
+	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
+	echo
+	read -p 'So which system would you like to enable the retro shader?: ' sname
+	echo
+	if [ -f $sname/retroarch.cfg ]; then 
+	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+	else
+	clear
+	echo
+	sleep 2
+	fi
 }
 
 function disable_shaders() {
@@ -776,7 +832,7 @@ function enable_shaders() {
 function sys_overlay_on() {
 	clear
 	echo 
-	echo " I will display a list of all systems in configs folder... "
+	echo " I will display a list of all systems that you can apply an overlay... "
 	echo " Keep in mind ONLY RetroArch cores can use overlays. "
 	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
 	echo
@@ -797,7 +853,8 @@ function sys_overlay_on() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	cd /opt/retropie/configs/ 
 	echo
-	ls -d */ | column | more
+	#ls -d */ | column | more
+	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
 	echo
 	read -p 'So which system would you like to enable the overlay options?: ' sname
 	echo
@@ -811,7 +868,7 @@ function sys_overlay_on() {
 	else
 	clear
 	echo
-	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo "This system does not contain a retroarch.cfg file... Script will go stop!"
 	echo
 	sleep 2
 	fi
@@ -820,7 +877,7 @@ function sys_overlay_on() {
 function sys_overlay_off() {
 	clear
 	echo 
-	echo " I will display a list of all systems in configs folder... "
+	echo " I will display a list of all systems that you can apply an overlay... "
 	echo " Keep in mind ONLY RetroArch cores can use overlays. "
 	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
 	echo
@@ -841,7 +898,8 @@ function sys_overlay_off() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	cd /opt/retropie/configs/ 
 	echo
-	ls -d */ | column | more
+	#ls -d */ | column | more
+	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
 	echo
 	read -p 'So which system would you like to disable the overlay options?: ' sname
 	echo
@@ -855,7 +913,7 @@ function sys_overlay_off() {
 	else
 	clear
 	echo
-	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
+	echo "This system does not contain a retroarch.cfg file... Script will go stop!"
 	echo
 	sleep 2
 	fi
