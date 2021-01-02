@@ -25,6 +25,10 @@ fi
 if ! grep "over_voltage=8" /boot/config.txt ; then
 sudo sed -i '67i#over_voltage=8' /boot/config.txt
 fi
+# Enable input_libretro_device_p2 = "513"
+cd /opt/retropie/configs/
+find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
+find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p2|input_libretro_device1p2|g' {} 2>/dev/null \;
 # Overlay Fixes
 echo
 cd /opt/retropie/configs/all/retroarch/config
