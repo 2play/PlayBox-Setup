@@ -766,6 +766,15 @@ function ck_shader_syson() {
 	echo
 	sleep 2
 	fi
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) ck_shader_syson;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 }
 
 function ck_shader_sysoff() {
@@ -809,6 +818,15 @@ function ck_shader_sysoff() {
 	echo
 	sleep 2
 	fi
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) ck_shader_sysoff;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 }
 
 function disable_shaders() {
@@ -872,6 +890,15 @@ function sys_overlay_on() {
 	echo
 	sleep 2
 	fi
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) sys_overlay_on;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 }
 
 function sys_overlay_off() {
@@ -917,6 +944,15 @@ function sys_overlay_off() {
 	echo
 	sleep 2
 	fi
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) sys_overlay_off;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 }
 
 function all_overlay_on() {
