@@ -756,6 +756,17 @@ function ck_shader_syson() {
 	echo
 	if [ -f $sname/retroarch.cfg ]; then 
 	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	clear
+	echo
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) ck_shader_syson;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 	cd $HOME
 	clear
 	echo
@@ -766,15 +777,6 @@ function ck_shader_syson() {
 	echo
 	sleep 2
 	fi
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) ck_shader_syson;;
-		[Nn]*) break;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
 }
 
 function ck_shader_sysoff() {
@@ -808,6 +810,17 @@ function ck_shader_sysoff() {
 	echo
 	if [ -f $sname/retroarch.cfg ]; then 
 	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
+	clear
+	echo
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) ck_shader_sysoff;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 	cd $HOME
 	clear
 	echo
@@ -818,15 +831,6 @@ function ck_shader_sysoff() {
 	echo
 	sleep 2
 	fi
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) ck_shader_sysoff;;
-		[Nn]*) break;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
 }
 
 function disable_shaders() {
@@ -878,6 +882,17 @@ function sys_overlay_on() {
 	echo
 	if [ -f $sname/retroarch.cfg ]; then 
 	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+	clear
+	echo
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) sys_overlay_on;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 	cd $HOME
 	clear
 	echo
@@ -890,15 +905,6 @@ function sys_overlay_on() {
 	echo
 	sleep 2
 	fi
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) sys_overlay_on;;
-		[Nn]*) break;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
 }
 
 function sys_overlay_off() {
@@ -932,6 +938,17 @@ function sys_overlay_off() {
 	echo
 	if [ -f $sname/retroarch.cfg ]; then 
 	find $sname -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
+	clear
+	echo
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) sys_overlay_off;;
+		[Nn]*) break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 	cd $HOME
 	clear
 	echo
@@ -944,15 +961,6 @@ function sys_overlay_off() {
 	echo
 	sleep 2
 	fi
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) sys_overlay_off;;
-		[Nn]*) break;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
 }
 
 function all_overlay_on() {
