@@ -1568,7 +1568,8 @@ sudo ninja -C _build install
 echo ""
 cd $HOME/code/
 #Download & Install MESA DRM
-git clone git://anongit.freedesktop.org/mesa/drm
+#git clone git://anongit.freedesktop.org/mesa/drm
+git clone https://gitlab.freedesktop.org/mesa/drm
 cd drm
 meson build --prefix=/usr
 ninja -C build
@@ -1657,7 +1658,8 @@ sudo ninja -C _build install
 	echo ""
 	cd $HOME/code/
 	#Download & Install MESA DRM
-	git clone git://anongit.freedesktop.org/mesa/drm
+	#git clone git://anongit.freedesktop.org/mesa/drm
+	git clone https://gitlab.freedesktop.org/mesa/drm
 	cd drm
 	meson build --prefix=/usr
 	ninja -C build
