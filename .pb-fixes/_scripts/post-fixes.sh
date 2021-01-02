@@ -96,6 +96,12 @@ echo
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
+
+# Various Minor Types Etc
+cd /opt/retropie/configs/amiga
+sed -i 's|3do|amiga|g' retroarch.cfg
+echo
+
 clear
 
 # Global Shader
