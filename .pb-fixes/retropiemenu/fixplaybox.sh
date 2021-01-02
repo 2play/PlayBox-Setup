@@ -763,7 +763,7 @@ function ck_shader_syson() {
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) ck_shader_syson;;
-		[Nn]*) break;;
+		[Nn]*) return;;
 		* ) echo ""; echo "Please answer yes or no.";;
 		esac
 	done
@@ -817,7 +817,7 @@ function ck_shader_sysoff() {
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) ck_shader_sysoff;;
-		[Nn]*) break;;
+		[Nn]*) return;;
 		* ) echo ""; echo "Please answer yes or no.";;
 		esac
 	done
@@ -889,7 +889,7 @@ function sys_overlay_on() {
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) sys_overlay_on;;
-		[Nn]*) break;;
+		[Nn]*) return;;
 		* ) echo ""; echo "Please answer yes or no.";;
 		esac
 	done
@@ -945,7 +945,7 @@ function sys_overlay_off() {
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) sys_overlay_off;;
-		[Nn]*) break;;
+		[Nn]*) return;;
 		* ) echo ""; echo "Please answer yes or no.";;
 		esac
 	done
