@@ -1489,33 +1489,33 @@ function amiberry_pi4sdl2swap() {
 
 
 function igalia_vk() {
-# Install Pi Igalia Mesa Vulkan Driver
+# Ex Install Pi Igalia Mesa Vulkan Driver Now Main Mesa 20.3
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 23.07.20
+# 02.01.2021
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "IGALIA VULKAN OPTIONS MENU" \
+	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
 	
     local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " IGALIA VULKAN OPTIONS MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " RASPBERRRY PI4 VULKAN OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Let's do some Vulkan work..." 25 75 20 \
-            - "*** IGALIA VULKAN SELECTIONS ***" \
+            - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
-           1 " -  Install/Update All [Driver, Extras, RetroArch]" \
-           2 " -  Update Vulkan Driver" \
-           3 " -  Install/Update Vulkan Demos" \
-		   4 " -  Install/Update Vulkan Enabled RetroArch" \
-           5 " -  CleanUp Source Folders" \
+           1 " -  [DISABLED] Install/Update All [Driver, Extras, RetroArch]" \
+           2 " -  [WIP_UPDATE] Update Vulkan Driver To MESA 20.3" \
+           3 " -  [DISABLED] Update Vulkan Demos" \
+		   4 " -  Update Vulkan Enabled RetroArch" \
+           5 " -  CleanUp Above Source Folders - To Save Space" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-           1) igalia_all  ;;
-           2) igalia_up  ;;
-		   3) igalia_dm  ;;
-		   4) igalia_ra  ;;
-           5) igalia_cl  ;;
+           #1) igalia_all  ;;
+           #2) mesa_up  ;;
+		   #3) igalia_dm  ;;
+		   4) vulkan_ra  ;;
+           5) sources_cl  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -1569,14 +1569,19 @@ echo "Compile RetroArch with Vulkan Support... "
 echo ""
 cd $HOME/code/
 git clone https://github.com/libretro/RetroArch.git retroarch
-apt-get build-dep retroarch
+sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo apt-get update &
+sudo apt-get build-dep retroarch
 cd retroarch
 ./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 make clean
 make -j4
-sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
-sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
+mv retroarch retroarchNEW
+sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
+cd /opt/retropie/emulators/retroarch/bin
+sudo ln -sf retroarchNEW retroarch
+#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
+cd $HOME
 echo ""
 echo "Demos & Finalizing... "
 echo ""
@@ -1596,7 +1601,7 @@ done
 	sleep 1
 }
 
-function igalia_up() {
+function mesa_up() {
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1683,7 +1688,7 @@ echo "[OK DONE!...]"
 sleep 1
 }
 
-function igalia_ra() {
+function vulkan_ra() {
 echo ""
 echo "Compile RetroArch with Vulkan Support... "
 echo ""
@@ -1695,30 +1700,35 @@ cd code/
 fi
 	if [ ! -d retroarch ]; then
 	git clone https://github.com/libretro/RetroArch.git retroarch
-	apt-get build-dep retroarch
+	sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+	sudo apt-get update &
+	sudo apt-get build-dep retroarch
 	cd retroarch
 	./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 	make clean
 	make -j4
-	sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-	sudo cp retroarch /opt/retropie/emulators/retroarch/bin/
-	sudo chmod	755 /opt/retropie/emulators/retroarch/bin/retroarch
+	mv retroarch retroarchNEW
+	sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
+	cd /opt/retropie/emulators/retroarch/bin
+	sudo ln -sf retroarchNEW retroarch
+	#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 	else
 	rm -rf retroarch
 	igalia_ra
 	fi
+	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function igalia_cl() {
+function sources_cl() {
 	echo ""
 	echo " This will free up to 3.5GB of space..."
 	echo ""
 	sleep 2
-	cd code/
+	cd $HOME/code/
 	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems
 	clear
 	echo
