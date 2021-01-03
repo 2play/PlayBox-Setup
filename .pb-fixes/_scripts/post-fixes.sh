@@ -101,9 +101,12 @@ echo
 # Amiga Saves Typo
 cd /opt/retropie/configs/amiga
 sed -i 's|3do|amiga|g' retroarch.cfg
-# Disable Dim Screensaver on Raspi-OS Desktop
+# Enable Custom XScreensaver Setup on Raspi-OS Desktop
 #sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 sudo apt-get install xscreensaver -y
+# Install Latest Youtube-dl
+sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/bin/youtube-dl
+sudo chmod 755 /usr/bin/youtube-dl
 echo
 
 clear
