@@ -1412,11 +1412,14 @@ function amiberry_git() {
 function amiberry_pi4() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code && cd amiberry
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
 	make clean
 	git pull
-	make -j2 PLATFORM=rpi4
-	#make -j2 PLATFORM=rpi3
+	make -j4 PLATFORM=rpi4
+	#make -j4 PLATFORM=rpi3
 	#make PLATFORM=rpi1
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
@@ -1432,11 +1435,14 @@ function amiberry_pi4() {
 function amiberry_pi4sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code && cd amiberry
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
 	make clean
 	git pull
-	make -j2 PLATFORM=rpi4-sdl2
-	#make -j2 PLATFORM=rpi3-sdl2
+	make -j4 PLATFORM=rpi4-sdl2
+	#make -j4 PLATFORM=rpi3-sdl2
 	#make PLATFORM=rpi1-sdl2
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
@@ -1452,10 +1458,13 @@ function amiberry_pi4sdl2() {
 function amiberry_pi4x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code && cd amiberry
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
 	make clean
 	git pull
-	make -j2 PLATFORM=pi64
+	make -j4 PLATFORM=pi64
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
 	cd /opt/retropie/emulators/amiberry/
