@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 03.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1521,7 +1521,7 @@ function igalia_vk() {
 
         case "$choice" in
            #1) igalia_all  ;;
-           #2) mesa_up  ;;
+           2) mesa_up  ;;
 		   #3) igalia_dm  ;;
 		   4) vulkan_ra  ;;
            5) sources_cl  ;;
@@ -1600,7 +1600,7 @@ cd $HOME/code/
 git clone https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
-sudo apt-get build-dep retroarch
+sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 ./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
@@ -1752,7 +1752,7 @@ fi
 	git clone https://github.com/libretro/RetroArch.git retroarch
 	sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
 	sudo apt-get update &
-	sudo apt-get build-dep retroarch
+	sudo apt-get build-dep retroarch -y
 	sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 	cd retroarch
 	./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
@@ -2137,6 +2137,7 @@ clear
 			2 " -  GameBoy Core: Original or Enhanced GameBoy Display Options " \
 			3 " -  PPSSPP: Standalone Emulator EXIT To ES or Menu " \
 			4 " -  N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
+			5 " -  Lr-PUAE Select Amiga 1200 Or Amiga 4040 For AGA Games " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2144,6 +2145,7 @@ clear
             2) gboy_enh  ;;
 			3) ppsspp_exit  ;;
             4) n64_res  ;;
+			5) aga_model  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -2343,6 +2345,53 @@ function n64_hr_on() {
 	cd /opt/retropie/configs/n64
 	sed -i 's|mupen64plus-43screensize = "320x240"|mupen64plus-43screensize = "640x480"|' retroarch-core-options.cfg;
 	sed -i 's|mupen64plus-next-43screensize = "320x240"|mupen64plus-next-43screensize = "640x480"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+
+function aga_model() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "AMIGA AGA MODEL OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA AGA MODEL OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Select The Amiga Model You Want to Use For AGA Games..." 25 75 20 \
+            - "*** AMIGA AGA MODEL OPTIONS MENU SELECTIONS ***" \
+			- "	" \
+           1 " -  Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
+           2 " -  Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) A1200_on  ;;
+           2) A4040_on  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function A1200_on() {
+	clear
+	cd /opt/retropie/configs/amiga1200
+	sed -i 's|puae_model = "A4040"|puae_model = "A1200"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function A4040_on() {
+	clear
+	cd /opt/retropie/configs/amiga1200
+	sed -i 's|puae_model = "A1200"|puae_model = "A4040"|' retroarch-core-options.cfg;
 	cd $HOME
 	clear
 	echo
