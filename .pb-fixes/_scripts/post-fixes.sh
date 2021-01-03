@@ -98,8 +98,11 @@ find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_
 echo
 
 # Various Minor Types Etc
+# Amiga Saves Typo
 cd /opt/retropie/configs/amiga
 sed -i 's|3do|amiga|g' retroarch.cfg
+# Disable Dim Screensaver on Raspi-OS Desktop
+sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 echo
 
 clear
