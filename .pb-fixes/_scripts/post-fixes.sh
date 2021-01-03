@@ -105,8 +105,12 @@ sed -i 's|3do|amiga|g' retroarch.cfg
 #sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 sudo apt-get install xscreensaver -y
 # Install Latest Youtube-dl
+if [ -f /usr/bin/youtube-dl ]; then echo "Already installed!"; sleep 1
+else 
 sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/bin/youtube-dl
 sudo chmod 755 /usr/bin/youtube-dl
+fi
+
 echo
 
 clear
