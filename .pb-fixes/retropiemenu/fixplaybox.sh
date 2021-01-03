@@ -1561,7 +1561,7 @@ echo ""
 echo "STEP 4. Compiling Driver... "
 echo ""
 cd $HOME/code/
-sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
@@ -1598,7 +1598,7 @@ echo "Compile RetroArch with Vulkan Support... "
 echo ""
 cd $HOME/code/
 git clone https://github.com/libretro/RetroArch.git retroarch
-sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
@@ -1657,7 +1657,7 @@ echo ""
 echo "STEP 4. Compiling Driver... "
 echo ""
 cd $HOME/code/
-sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
@@ -1667,7 +1667,7 @@ cd mesa
 #git checkout wip/igalia/v3dv
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
 #meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
- meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
+meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
 echo ""
@@ -1750,7 +1750,7 @@ cd code/
 fi
 	if [ ! -d retroarch ]; then
 	git clone https://github.com/libretro/RetroArch.git retroarch
-	sudo sed -i 's|^deb-src|deb-src|g' /etc/apt/sources.list
+	sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 	sudo apt-get update &
 	sudo apt-get build-dep retroarch -y
 	sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
