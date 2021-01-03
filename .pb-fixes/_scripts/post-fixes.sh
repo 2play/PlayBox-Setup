@@ -102,7 +102,8 @@ echo
 cd /opt/retropie/configs/amiga
 sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Screensaver on Raspi-OS Desktop
-sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+sudo apt-get install xscreensaver -y
 echo
 
 clear
