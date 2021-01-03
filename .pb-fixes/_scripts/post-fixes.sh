@@ -110,6 +110,12 @@ else
 sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/bin/youtube-dl
 sudo chmod 755 /usr/bin/youtube-dl
 fi
+# WWF Typo Fix
+rm -rf $HOME/RetroPie/saves-unified
+# Lr-PUAE Related
+cd $HOME/RetroPie/saves
+mkdir amiga amiga1200 amigacd32 cdtv
+
 
 echo
 
