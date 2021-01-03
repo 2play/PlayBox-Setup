@@ -1571,9 +1571,15 @@ cd $HOME/code/
 #git clone git://anongit.freedesktop.org/mesa/drm
 git clone https://gitlab.freedesktop.org/mesa/drm
 cd drm
-meson build --prefix=/usr
+#RPI4 Specific
+meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
 ninja -C build
 sudo -E ninja -C build install
+sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
+sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
+cd /opt/retropie/supplementary/mesa-drm
+sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
+cd $HOME/code/
 echo ""
 #echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
@@ -1655,30 +1661,36 @@ cd mesa
  meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
-	echo ""
-	cd $HOME/code/
-	#Download & Install MESA DRM
-	#git clone git://anongit.freedesktop.org/mesa/drm
-	git clone https://gitlab.freedesktop.org/mesa/drm
-	cd drm
-	meson build --prefix=/usr
-	ninja -C build
-	sudo -E ninja -C build install
-	echo ""
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo ""
-	echo "Script By 2Play!"
-	echo ""
-	echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
-	echo ""
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo ""
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+echo ""
+cd $HOME/code/
+#Download & Install MESA DRM
+#git clone git://anongit.freedesktop.org/mesa/drm
+git clone https://gitlab.freedesktop.org/mesa/drm
+cd drm
+#RPI4 Specific
+meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
+ninja -C build
+sudo -E ninja -C build install
+sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
+sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
+cd /opt/retropie/supplementary/mesa-drm
+sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
+cd $HOME/code/
+echo ""
+clear
+echo
+echo "[OK DONE!...]"
+sleep 1
+echo ""
+echo "Script By 2Play!"
+echo ""
+echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
+echo ""
+read -n 1 -s -r -p "Press any key to reboot"
+echo ""
+echo "[OK System Will Restart now...]"
+clear
+sudo reboot
 }
 
 function igalia_dm() {
