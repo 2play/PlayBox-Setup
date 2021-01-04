@@ -115,8 +115,9 @@ rm -rf $HOME/RetroPie/saves-unified
 # Lr-PUAE Related
 cd $HOME/RetroPie/saves
 mkdir amiga amiga1200 amigacd32 cdtv
-
-
+# N64 Core Option
+cd /opt/retropie/configs/n64
+sed -i "s|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|" retroarch-core-options.cfg;
 echo
 
 clear
