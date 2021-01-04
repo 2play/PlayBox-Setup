@@ -1420,6 +1420,7 @@ function igalia_all() {
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
 # 04.01.2021
+clear
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1518,6 +1519,7 @@ done
 }
 
 function mesa_up() {
+clear
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1591,6 +1593,7 @@ sudo reboot
 }
 
 function igalia_dm() {
+clear
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1627,6 +1630,7 @@ sleep 1
 }
 
 function vulkan_ra() {
+clear
 echo ""
 echo "Compile RetroArch with Vulkan Support... "
 echo ""
@@ -1664,6 +1668,7 @@ fi
 }
 
 function sources_cl() {
+	clear
 	echo ""
 	echo " This will free up to 3.5GB of space..."
 	echo ""

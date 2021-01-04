@@ -16,7 +16,7 @@ function post_fix_update() {
             - "" \
 			CLEAN " -  CLEAN BURN IMAGE: POST UPDATE FIXES" \
 			- "    (Use On clean burn Or Revert To Clean Status)" \
-			NORMAL " -  NORMAL: POST FIX UPDATE" \
+			NORMAL " -  NORMAL:           POST UPDATE FIXES" \
             - "    (Use This If You Already Been Updating)" \
 			2>&1 > /dev/tty)
 
