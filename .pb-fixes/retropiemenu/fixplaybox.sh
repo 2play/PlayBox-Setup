@@ -1521,7 +1521,7 @@ function igalia_vk() {
 
         case "$choice" in
            #1) igalia_all  ;;
-           2) mesa_up  ;;
+           #2) mesa_up  ;;
 		   #3) igalia_dm  ;;
 		   4) vulkan_ra  ;;
            5) sources_cl  ;;
@@ -1620,7 +1620,7 @@ while true; do
 echo ""
 read -p 'Whould you like to install few test demos [y] or Reboot [n or r]? ' yn
 	case $yn in
-	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Driver By Igalia, Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
+	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
     [NnRr]* ) echo ""; echo "Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
     * ) echo ""; echo "Please answer yes or no.";;
     esac
