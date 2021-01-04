@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 03.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 04.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1498,10 +1498,10 @@ function amiberry_pi4sdl2swap() {
 
 
 function igalia_vk() {
-# Ex Install Pi Igalia Mesa Vulkan Driver Now Main Mesa 20.3
+# Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 02.01.2021
+# 04.01.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
 	
@@ -1513,7 +1513,7 @@ function igalia_vk() {
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
            1 " -  [DISABLED] Install/Update All [Driver, Extras, RetroArch]" \
-           2 " -  [WIP_UPDATE] Update Vulkan Driver To MESA 20.3" \
+           2 " -  [UPDATE_WIP] Update Vulkan Driver Based On MESA 20.3" \
            3 " -  [DISABLED] Update Vulkan Demos" \
 		   4 " -  Update Vulkan Enabled RetroArch" \
            5 " -  CleanUp Above Source Folders - To Save Space" \
@@ -1521,7 +1521,7 @@ function igalia_vk() {
 
         case "$choice" in
            #1) igalia_all  ;;
-           #2) mesa_up  ;;
+           2) mesa_up  ;;
 		   #3) igalia_dm  ;;
 		   4) vulkan_ra  ;;
            5) sources_cl  ;;
@@ -1535,7 +1535,7 @@ function igalia_all() {
 # Install Pi Igalia Mesa Vulkan Driver
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 23.07.20
+# 04.01.2021
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1567,11 +1567,13 @@ sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
 git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
-#git checkout wip/igalia/v3dv
+#git checkout wip/igalia/v3dv-conformance-1.0
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
 #meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
- meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
+sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt; 
+meson --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
 echo ""
@@ -1663,11 +1665,13 @@ sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
 git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
-#git checkout wip/igalia/v3dv
+#git checkout wip/igalia/v3dv-conformance-1.0
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
 #meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
-meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
+sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt; 
+meson --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr _build
 ninja -C _build -j4
 sudo ninja -C _build install
 echo ""
