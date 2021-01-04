@@ -14,8 +14,8 @@ function post_fix_update() {
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
             - "*** POST FIXES SETUP OPTIONS ***" \
             - "" \
-			CLEAN " -  CLEAN IMAGE:  POST UPDATE FIXES" \
-			- "    (Use On clean burn Or Revert To Clean Status)" \
+			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
+			- "    (Use On Clean Burn Or Revert To Clean Status)" \
 			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
             - "    (Use This If You Already Been Updating)" \
 			2>&1 > /dev/tty)
