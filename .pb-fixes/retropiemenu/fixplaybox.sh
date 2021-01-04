@@ -527,14 +527,14 @@ function apps_pbt() {
 			4 " -  Hide or Show a System" \
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
-		    7 " -  Amiberry Compile and Update From GitHub" \
-			8 " -  Vulkan Pi4 Driver" \
-		    9 " -  [Disabled] PiKISS By Jose Cerrejon" \
-		   10 " -  Single Saves Directory By RPC80" \
-		   11 " -  SD/USB Storage Benchmark" \
-		   12 " -  OMXPlayer Volume Control Script" \
+		    7 " -  Vulkan Pi4 Driver" \
+		    8 " -  [Disabled] PiKISS By Jose Cerrejon" \
+		    9 " -  Single Saves Directory By RPC80" \
+		   10 " -  SD/USB Storage Benchmark" \
+		   11 " -  OMXPlayer Volume Control Script" \
+		   12 " -  Emulators Custom Compile From Source" \
 		   13 " -  Emulator Tweaks Options" \
-			2>&1 > /dev/tty)
+		   2>&1 > /dev/tty)
 
         case "$choice" in
             1) prntscr  ;;
@@ -543,14 +543,14 @@ function apps_pbt() {
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
-			7) amiberry_git  ;;
-			8) igalia_vk  ;;
-			#9) pikiss_git  ;;
-		   10) rpc80_saves  ;;
-		   11) strg_bench  ;;
-		   12) omxvol  ;;
+			7) igalia_vk  ;;
+			#8) pikiss_git  ;;
+		    9) rpc80_saves  ;;
+		   10) strg_bench  ;;
+		   11) omxvol  ;;
+		   12) emus_compile  ;;
 		   13) emus_tks  ;;
-           -) none ;;
+		   -) none ;;
             *)  break ;;
         esac
     done
@@ -1380,122 +1380,6 @@ function skyscraper() {
 }
 
 
-function amiberry_git() {
-	clear
-	local choice
-	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIBERRY SOURCE UPDATE MENU " \
-            --ok-label OK --cancel-label Exit \
-            --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
-            - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4" \
-			2 "Amiberry :  Pi4 SDL2" \
-			3 "Amiberry :  Pi4 x64" \
-			- "" \
-            - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi4 - Swap To This Binary" \
-			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
-			2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) amiberry_pi4  ;;
-            2) amiberry_pi4sdl2  ;;
-			3) amiberry_pi4x64  ;;
-			4) amiberry_pi4swap  ;;
-			5) amiberry_pi4sdl2swap  ;;
-			-) none ;;
-            *)  break ;;
-        esac
-    done
-}
-
-function amiberry_pi4() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	#cd $HOME && cd code && cd amiberry
-	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
-	make clean
-	git pull
-	make -j4 PLATFORM=rpi4
-	#make -j4 PLATFORM=rpi3
-	#make PLATFORM=rpi1
-	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
-	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4
-	sudo ln -sfn amiberryrpi4 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4sdl2() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	#cd $HOME && cd code && cd amiberry
-	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
-	make clean
-	git pull
-	make -j4 PLATFORM=rpi4-sdl2
-	#make -j4 PLATFORM=rpi3-sdl2
-	#make PLATFORM=rpi1-sdl2
-	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
-	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4SDL2
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4x64() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	#cd $HOME && cd code && cd amiberry
-	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
-	make clean
-	git pull
-	make -j4 PLATFORM=pi64
-	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
-	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4x64
-	sudo ln -sfn amiberryrpi4x64 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4swap() {
-	clear
-	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function amiberry_pi4sdl2swap() {
-	clear
-	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
 
 function igalia_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
@@ -2123,6 +2007,163 @@ function omx0() {
 	sleep 1
 }
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/omxvol.sh
+
+
+function emus_compile() {
+# Emulators Custom Compile By 2Play! 
+# 04.01.21
+	clear
+	local choice
+	while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " EMULATORS COMPILE MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
+            - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
+			- "	" \
+			1 "Amiberry Pi Compile and Update From GitHub" \
+			2 "PPSSPP Pi Compile and Update From GitHub" \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) amiberry_git  ;;
+            2) ppsspp_git  ;;
+			-) none ;;
+			*)  break ;;
+        esac
+    done
+}
+
+function amiberry_git() {
+	clear
+	local choice
+	while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIBERRY SOURCE UPDATE MENU " \
+            --ok-label OK --cancel-label Exit \
+            --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
+            - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
+			1 "Amiberry :  Pi4" \
+			2 "Amiberry :  Pi4 SDL2" \
+			3 "Amiberry :  Pi4 x64" \
+			- "" \
+            - "*** If you compiled 1 & 2 use below to swap between them! ***" \
+			4 "Amiberry :  Pi4      - Swap To This Binary" \
+			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) amiberry_pi4  ;;
+            2) amiberry_pi4sdl2  ;;
+			3) amiberry_pi4x64  ;;
+			4) amiberry_pi4swap  ;;
+			5) amiberry_pi4sdl2swap  ;;
+			-) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function amiberry_pi4() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
+	make clean
+	git pull
+	make -j4 PLATFORM=rpi4
+	#make -j4 PLATFORM=rpi3
+	#make PLATFORM=rpi1
+	clear
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
+	cd /opt/retropie/emulators/amiberry/
+	sudo chmod 755 amiberryrpi4
+	sudo ln -sfn amiberryrpi4 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function amiberry_pi4sdl2() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
+	make clean
+	git pull
+	make -j4 PLATFORM=rpi4-sdl2
+	#make -j4 PLATFORM=rpi3-sdl2
+	#make PLATFORM=rpi1-sdl2
+	clear
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
+	cd /opt/retropie/emulators/amiberry/
+	sudo chmod 755 amiberryrpi4SDL2
+	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function amiberry_pi4x64() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	#cd $HOME && cd code && cd amiberry
+	cd $HOME && cd code
+	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	cd amiberry_dev
+	make clean
+	git pull
+	make -j4 PLATFORM=pi64
+	clear
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
+	cd /opt/retropie/emulators/amiberry/
+	sudo chmod 755 amiberryrpi4x64
+	sudo ln -sfn amiberryrpi4x64 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function amiberry_pi4swap() {
+	clear
+	cd /opt/retropie/emulators/amiberry/
+	sudo ln -sfn amiberryrpi4 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function amiberry_pi4sdl2swap() {
+	clear
+	cd /opt/retropie/emulators/amiberry/
+	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+
+function ppsspp_git() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd $HOME && cd code
+	git clone --recurse-submodules https://github.com/hrydgard/ppsspp.git
+	cd ppsspp
+	./b.sh --rpi	
+	echo "[COMPILE COMPLETE!...]"
+	sudo cp /build/PPSSPPSDL /opt/retropie/emulators/ppsspp/
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
 
 
 function emus_tks() {
