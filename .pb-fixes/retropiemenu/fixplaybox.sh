@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 04.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 05.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -876,7 +876,7 @@ function sys_overlay_on() {
 	cd /opt/retropie/configs/ 
 	echo
 	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
+	find \( -name all -prune -o -name amiberry -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
 	echo
 	read -p 'So which system would you like to enable the overlay options?: ' sname
 	echo
@@ -932,7 +932,7 @@ function sys_overlay_off() {
 	cd /opt/retropie/configs/ 
 	echo
 	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
+	find \( -name all -prune -o -name amiberry -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
 	echo
 	read -p 'So which system would you like to disable the overlay options?: ' sname
 	echo
@@ -967,7 +967,7 @@ function all_overlay_on() {
 	clear
 	echo
 	cd /opt/retropie/configs/ 
-	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+	find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
@@ -979,7 +979,7 @@ function all_overlay_off() {
 	clear
 	echo
 	cd /opt/retropie/configs/ 
-	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
+	find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
