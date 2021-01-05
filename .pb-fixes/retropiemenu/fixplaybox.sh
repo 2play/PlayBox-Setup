@@ -2187,7 +2187,7 @@ clear
 			2 " -  GameBoy Core: Original or Enhanced GameBoy Display Options " \
 			3 " -  PPSSPP: Standalone Emulator EXIT To ES or Menu " \
 			4 " -  N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
-			5 " -  Lr-PUAE Select Amiga 1200 Or Amiga 4040 For AGA Games " \
+			5 " -  Lr-PUAE Amiga Model Selection Options  " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2195,7 +2195,7 @@ clear
             2) gboy_enh  ;;
 			3) ppsspp_exit  ;;
             4) n64_res  ;;
-			5) aga_model  ;;
+			5) amiga_models  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -2403,24 +2403,31 @@ function n64_hr_on() {
 }
 
 
-function aga_model() {
+function amiga_models() {
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "AMIGA AGA MODEL OPTIONS MENU" \
+	--title "AMIGA MODELS OPTIONS MENU" \
 	
     local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA AGA MODEL OPTIONS MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA MODELS OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
-            --menu "Select The Amiga Model You Want to Use For AGA Games..." 25 75 20 \
-            - "*** AMIGA AGA MODEL OPTIONS MENU SELECTIONS ***" \
+            --menu "Select The Amiga Model You Want to Use For..." 25 75 20 \
+            - "*** AMIGA AGA SYSTEM MODEL OPTIONS MENU SELECTIONS ***" \
 			- "	" \
            1 " -  Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
            2 " -  Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
+		   - "	" \
+		   - "*** AMIGA MAIN SYSTEM OPTIONS MENU SELECTIONS ***" \
+			- "	" \
+           3 " -  Set Amiga Main System To AUTO (If You Place All Roms in Amiga Roms Folder " \
+           4 " -  Set Amiga 500+ (1MB Chip RAM) " \
            2>&1 > /dev/tty)
 
         case "$choice" in
            1) A1200_on  ;;
            2) A4040_on  ;;
+		   3) A_Auto_on  ;;
+           4) A_500+_on  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2449,6 +2456,27 @@ function A4040_on() {
 	sleep 2
 }
 
+function A_Auto_on() {
+	clear
+	cd /opt/retropie/configs/amiga
+	sed -i 's|puae_model = "A500+"|puae_model = "Auto"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function A_500+_on() {
+	clear
+	cd /opt/retropie/configs/amiga
+	sed -i 's|puae_model = "Auto"|puae_model = "A500+"|' retroarch-core-options.cfg;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
 
 
 function clean_pbt() {
