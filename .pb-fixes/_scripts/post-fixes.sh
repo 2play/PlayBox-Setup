@@ -154,7 +154,7 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-return
+break
 }
 
 function glb_shoff() {
@@ -166,7 +166,7 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-return
+break
 }
 
 global_shader
