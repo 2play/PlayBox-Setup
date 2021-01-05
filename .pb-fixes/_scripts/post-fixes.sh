@@ -170,6 +170,56 @@ exit
 }
 
 global_shader
+
+# Amiga Emulator Setup Option
+function amiga_setup() {
+    local choice
+	while true; do
+		choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTION " \
+            --ok-label OK --cancel-label Exit \
+			--menu "Choose Enable or Disable!" 25 75 20 \
+            - "*** AMIGA SETUP OPTION ***" \
+            - "" \
+			1 " -  Enable LR-PUAE RetroArch Core Amiga Setup" \
+            2 " -  Enable Amiberry Amiga Setup" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) amiga_lr_puae  ;;
+            2) amiga_amiberry  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+	clear
+}
+
+function amiga_lr_puae() {
+cd /opt/retropie/configs/amiga/
+if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
+fi
+clear
+sleep 1
+echo ""
+echo "[OK DONE!...]"
+cd $HOME
+exit
+}
+
+function amiga_amiberry() {
+cd /opt/retropie/configs/amiga/
+if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
+fi
+clear
+sleep 1
+echo ""
+echo "[OK DONE!...]"
+cd $HOME
+exit
+}
+
+amiga_setup
+
 }
 
 post_fix_update
