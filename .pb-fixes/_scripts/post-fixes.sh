@@ -120,6 +120,10 @@ cd /opt/retropie/configs/n64
 sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
 # Joy Selection Cfg pi owner
 sudo chown pi:pi /opt/retropie/configs/all/joystick-selection.cfg
+# Amiga Aga ra cfg minor update
+cd /opt/retropie/configs/amiga-aga
+sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
+
 echo
 
 clear
