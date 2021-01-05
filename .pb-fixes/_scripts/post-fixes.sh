@@ -154,7 +154,7 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-amiga_setup
+exit
 }
 
 function glb_shoff() {
@@ -166,7 +166,7 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-amiga_setup
+exit
 }
 
 global_shader
