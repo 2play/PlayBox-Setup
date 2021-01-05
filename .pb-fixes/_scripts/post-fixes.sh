@@ -118,6 +118,8 @@ mkdir amiga amiga1200 amigacd32 cdtv
 # N64 Core Option
 cd /opt/retropie/configs/n64
 sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
+# Joy Selection Cfg pi owner
+sudo chown pi:pi /opt/retropie/configs/all/joystick-selection.cfg
 echo
 
 clear
