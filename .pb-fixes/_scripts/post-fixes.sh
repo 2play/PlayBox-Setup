@@ -46,7 +46,7 @@ next_steps
 
 function next_steps() {
 clear
-rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'LICENSE' --exclude 'README.md' . /
+rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
