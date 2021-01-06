@@ -2163,7 +2163,7 @@ function ppsspp_git() {
 	cd ppsspp
 	./b.sh --rpi	
 	echo "[COMPILE COMPLETE!...]"
-	sudo cp /build/PPSSPPSDL /opt/retropie/emulators/ppsspp/
+	sudo cp build/PPSSPPSDL /opt/retropie/emulators/ppsspp/PPSSPPSDL
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
