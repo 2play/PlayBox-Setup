@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 06.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1438,7 +1438,7 @@ sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 3. Install required compiling SW... "
 echo ""
-sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
 sudo pip3 install meson
 sudo pip3 install mako
 sudo apt-get install -y cmake
@@ -1537,7 +1537,7 @@ sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 3. Install required compiling SW... "
 echo ""
-sudo apt-get remove meson && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
 sudo pip3 install meson
 sudo pip3 install mako
 sudo apt-get install -y cmake
@@ -2081,6 +2081,7 @@ function amiberry_pi4() {
 	#make PLATFORM=rpi1
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
+	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
 	sudo chmod 755 amiberryrpi4
 	sudo ln -sfn amiberryrpi4 amiberry
@@ -2104,9 +2105,11 @@ function amiberry_pi4sdl2() {
 	#make PLATFORM=rpi1-sdl2
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
+	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
 	sudo chmod 755 amiberryrpi4SDL2
 	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -2125,6 +2128,7 @@ function amiberry_pi4x64() {
 	make -j4 PLATFORM=pi64
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
+	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
 	sudo chmod 755 amiberryrpi4x64
 	sudo ln -sfn amiberryrpi4x64 amiberry
@@ -2164,6 +2168,7 @@ function ppsspp_git() {
 	./b.sh --rpi	
 	echo "[COMPILE COMPLETE!...]"
 	sudo cp build/PPSSPPSDL /opt/retropie/emulators/ppsspp/PPSSPPSDL
+	rm -rf ppsspp
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -2174,7 +2179,7 @@ function ppsspp_git() {
 function emus_tks() {
 clear
 # Emulators Extra Tweaks/Automations By 2Play! 
-# 02.12.20
+# 06.12.20
 	
     local choice
     while true; do
