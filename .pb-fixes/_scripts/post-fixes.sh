@@ -49,6 +49,7 @@ clear
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
+sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
 sleep 1
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
