@@ -127,6 +127,9 @@ sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_r
 # Intellivision lr-freeintv fix due to latest video driver 
 cd /opt/retropie/configs/intellivision
 sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
+# Hide Mouse Cursor On Overlay
+cd /opt/retropie/configs/all
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
 
 echo
 
