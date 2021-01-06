@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 05.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 06.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -123,6 +123,9 @@ sudo chown pi:pi /opt/retropie/configs/all/joystick-selection.cfg
 # Amiga Aga ra cfg minor update
 cd /opt/retropie/configs/amiga-aga
 sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
+# Intellivision lr-freeintv fix due to latest video driver 
+cd /opt/retropie/configs/intellivision
+sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 
 echo
 
