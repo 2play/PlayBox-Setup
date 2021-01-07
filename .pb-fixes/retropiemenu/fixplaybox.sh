@@ -2055,7 +2055,7 @@ function amiberry_git() {
 			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
-			6 "Amiberry :  Latest Knows Stable Binary" \
+			6 "Amiberry :  Latest Known Stable Binary" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
