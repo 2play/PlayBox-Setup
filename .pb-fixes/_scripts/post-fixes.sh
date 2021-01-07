@@ -1,14 +1,14 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 06.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
 cd $HOME/code/
+
 # Get Post Fixes Clean Burn Update Or Normal Post Fix Update
 function post_fix_update() {
     local choice
-	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
@@ -24,10 +24,13 @@ function post_fix_update() {
             CLEAN) post_up_clean  ;;
             NORMAL) post_up_normal  ;;
             -) none ;;
-            *)  break ;;
+            *) break ;;
         esac
-    done
-	clear
+    clear
+sleep 1
+echo ""
+echo "[OK DONE!...]"
+cd $HOME
 }
 
 function post_up_clean() {
@@ -35,6 +38,8 @@ clear
 git clone --branch=clean https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 next_steps
+global_shader
+amiga_setup
 }
 
 function post_up_normal() {
@@ -42,6 +47,8 @@ clear
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 next_steps
+global_shader
+amiga_setup
 }
 
 function next_steps() {
@@ -102,8 +109,8 @@ echo
 # Amiga Saves Typo
 cd /opt/retropie/configs/amiga
 sed -i 's|3do|amiga|g' retroarch.cfg
-# Enable Custom XScreensaver Setup on Raspi-OS Desktop
-#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+# Disable Dim Xinit?
+sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 sudo apt-get install xscreensaver -y
 # Install Latest Youtube-dl
 if [ -f /usr/bin/youtube-dl ]; then echo "Already installed!"; sleep 1
@@ -132,13 +139,12 @@ cd /opt/retropie/configs/all
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
 
 echo
-
 clear
+}
 
 # Global Shader
 function global_shader() {
     local choice
-	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " GLOBAL SHADER OPTION " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Enable or Disable!" 25 75 20 \
@@ -152,10 +158,9 @@ function global_shader() {
             1) glb_shon  ;;
             2) glb_shoff  ;;
             -) none ;;
-            *)  break ;;
+            *) break ;;
         esac
-    done
-	clear
+    clear
 }
 
 function glb_shon() {
@@ -167,7 +172,7 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-exit
+return
 }
 
 function glb_shoff() {
@@ -179,15 +184,13 @@ sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-exit
+return
 }
 
-global_shader
 
 # Amiga Emulator Setup Option
 function amiga_setup() {
     local choice
-	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTION " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Enable or Disable!" 25 75 20 \
@@ -201,36 +204,31 @@ function amiga_setup() {
             1) amiga_lr_puae  ;;
             2) amiga_amiberry  ;;
             -) none ;;
-            *)  break ;;
+            *) break ;;
         esac
-    done
-	clear
+    clear
 }
 
 function amiga_lr_puae() {
-cd /opt/retropie/configs/amiga/
-if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
-fi
+cd /opt/retropie/configs/
+find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
 clear
 sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-exit
+break
 }
 
 function amiga_amiberry() {
-cd /opt/retropie/configs/amiga/
-if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
-fi
+cd /opt/retropie/configs/
+find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "lr-puae"|default = "amiberry"|' {} 2>/dev/null \;
 clear
 sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
-exit
-}
-
+break
 }
 
 post_fix_update
