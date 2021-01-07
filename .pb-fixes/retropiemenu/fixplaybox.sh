@@ -2053,6 +2053,9 @@ function amiberry_git() {
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
 			4 "Amiberry :  Pi4      - Swap To This Binary" \
 			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
+			- "" \
+			- "*** Restore Last Known Stable Amiberry! ***" \
+			6 "Amiberry :  Latest Knows Stable Binary" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2061,6 +2064,7 @@ function amiberry_git() {
 			3) amiberry_pi4x64  ;;
 			4) amiberry_pi4swap  ;;
 			5) amiberry_pi4sdl2swap  ;;
+			6) amiberry_stable  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -2070,10 +2074,12 @@ function amiberry_git() {
 function amiberry_pi4() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	#cd $HOME && cd code && cd amiberry
 	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
+	rm -rf amiberry*
+	git clone https://github.com/midwan/amiberry.git
+	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	#cd amiberry_dev
+	cd amiberry
 	make clean
 	git pull
 	make -j4 PLATFORM=rpi4
@@ -2094,10 +2100,12 @@ function amiberry_pi4() {
 function amiberry_pi4sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	#cd $HOME && cd code && cd amiberry
 	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
+	rm -rf amiberry*
+	git clone https://github.com/midwan/amiberry.git
+	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	#cd amiberry_dev
+	cd amiberry
 	make clean
 	git pull
 	make -j4 PLATFORM=rpi4-sdl2
@@ -2119,10 +2127,12 @@ function amiberry_pi4sdl2() {
 function amiberry_pi4x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	#cd $HOME && cd code && cd amiberry
 	cd $HOME && cd code
-	git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	cd amiberry_dev
+	rm -rf amiberry*
+	git clone https://github.com/midwan/amiberry.git
+	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	#cd amiberry_dev
+	cd amiberry
 	make clean
 	git pull
 	make -j4 PLATFORM=pi64
@@ -2152,6 +2162,16 @@ function amiberry_pi4sdl2swap() {
 	clear
 	cd /opt/retropie/emulators/amiberry/
 	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function amiberry_stable() {
+	clear
+	cd /opt/retropie/emulators/amiberry/
+	sudo ln -sfn amiberry-rpi4-3.2b05.08.20 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
