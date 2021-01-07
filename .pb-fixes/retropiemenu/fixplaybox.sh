@@ -2514,12 +2514,12 @@ function amiga_choices() {
 	    choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
-            - "*** AMIGA SETUP OPTIONS MENU SELECTIONS ***" \
+            - "*** AMIGA 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
 			- "	" \
            1 " -  Set Lr-PUAE as main emulator " \
            2 " -  Set Amiberry as main emulator " \
 		   - "	" \
-		   - "*** AMIGA CUSTOM LR-PUAE SETUP ***" \
+		   - "*** AMIGA CUSTOM OVERLAYS LR-PUAE SETUP ***" \
 		   - "	" \
            3 " -  Custom Overlay Set For The Loaded Image " \
 		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
