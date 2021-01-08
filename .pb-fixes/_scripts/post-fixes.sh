@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 08.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -166,10 +166,10 @@ cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
 fi
 clear
-sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
+sleep 2
 }
 
 function glb_shoff() {
@@ -177,10 +177,10 @@ cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
 fi
 clear
-sleep 1
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
+sleep 2
 }
 
 
@@ -197,15 +197,16 @@ function amiga_setup() {
 		   - "	" \
 		   - "*** AMIGA CUSTOM LR-PUAE SETUP ***" \
 		   - "	" \
-           3 " -  Custom Overlay Set For The Loaded Image " \
+           3 " -  Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
 		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
-		   - "    With Custom View & Shader... " \
+		   4 " -  Disable Shader from Custom Setup Option #3 " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) lrpuae_on  ;;
            2) amiberry_on  ;;
 		   3) lrpuae_custom_on  ;;
+		   4) lrpuae_custom_sh_off  ;;
            -) none ;;
            *) break ;;
         esac
@@ -222,18 +223,22 @@ function lrpuae_on() {
 	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+	clear
 	echo ""
 	echo "[OK DONE!...]"
 	cd $HOME
+	sleep 2
 }
 
 function amiberry_on() {
 	clear
 	cd /opt/retropie/configs/
 	find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "lr-puae"|default = "amiberry"|' {} 2>/dev/null \;
+	clear
 	echo ""
 	echo "[OK DONE!...]"
 	cd $HOME
+	sleep 2
 }
 
 function lrpuae_custom_on() {
@@ -246,9 +251,22 @@ function lrpuae_custom_on() {
 	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	echo
+	clear
+	echo ""
 	echo "[OK DONE!...]"
 	cd $HOME
+	sleep 2
+}
+
+function lrpuae_custom_sh_off() {
+	clear
+	cd /opt/retropie/configs/all/retroarch/config/PUAE
+	mv PUAE.glslp PUAE.glslp.OFF
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+	sleep 2
 }
 
 post_fix_update
