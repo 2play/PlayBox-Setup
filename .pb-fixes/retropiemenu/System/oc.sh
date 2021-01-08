@@ -1,7 +1,7 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 31.12.20
+# 08.01.2021
 
 infobox=""
 infobox="${infobox}\n"
@@ -53,18 +53,17 @@ function main_menu() {
             1 " - Enable  OverClocking - Pi4 [1750MHz]" \
             2 " - Enable  OverClocking - Pi4 [2000MHz]" \
             3 " - Enable  OverClocking - Pi4 [2100MHz]" \
-            4 " - Enable  OverClocking - Pi4 [2147-2200MHz]" \
-			5 " - Enable  OverClocking - Pi4 [2200-2300MHz]" \
-			6 " - Disable OverClocking" \
+            4 " - Enable  OverClocking - Pi4 [2200-2300MHz]" \
+			5 " - Disable OverClocking" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) enable_oc 1750;;
             2) enable_oc 2000;;
             3) enable_oc+ 2100;;
-            4) enable_oc+ 2147;;
-			5) enable_oc++ 2200;;
-			6) disable_oc ;;
+            #4) enable_oc+ 2147;;
+			4) enable_oc++ 2200;;
+			5) disable_oc ;;
             -) none ;;
             *) break ;;
         esac
