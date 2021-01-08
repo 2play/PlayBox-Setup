@@ -55,6 +55,7 @@ rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretroc
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
+sudo chown pi:pi -R /etc/emulationstation/themes/
 sleep 1
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
