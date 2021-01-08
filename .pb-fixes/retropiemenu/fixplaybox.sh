@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 07.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 08.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -679,7 +679,7 @@ function sys_horizontal() {
 
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
-# 02.01.2021
+# 08.01.2021
 	
 	clear
 	local choice
@@ -690,8 +690,8 @@ function ra_options_tool() {
             - "*** SHADERS SELECTIONS ***" \
             1 " - [WIP - New] Enable Retro Shader Created By ChrisKekridis for A System " \
             2 " - [WIP - New] Enable Retro Shader Created By ChrisKekridis for A System " \
-            3 " - Disable All Shaders " \
-            4 " - Enable All Shaders " \
+            3 " - Disable Global Retro Shader " \
+            4 " - Enable  Global Retro Shader" \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
 			5 " - Enable A System Preset Overlay " \
@@ -709,9 +709,11 @@ function ra_options_tool() {
         case "$choice" in
             #1) ck_shader_syson  ;;
             #2) ck_shader_sysoff  ;;
-            3) disable_shaders  ;;
-            4) enable_shaders  ;;
-            5) sys_overlay_on  ;;
+            #3) disable_shaders  ;;
+            #4) enable_shaders  ;;
+            3) disable_global_sh  ;;
+            4) enable_global_sh  ;;
+			5) sys_overlay_on  ;;
             6) sys_overlay_off  ;;
 			7) all_overlay_on  ;;
 			8) all_overlay_off  ;;
@@ -850,6 +852,25 @@ function enable_shaders() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
+function disable_global_sh() {
+	dialog --infobox "...Removing..." 3 20 ; sleep 2
+	mv /opt/retropie/configs/all/retroarch/config/global.glslp /opt/retropie/configs/all/retroarch/config/global.glslp.OFF
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function enable_global_sh() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 2
+	mv /opt/retropie/configs/all/retroarch/config/global.glslp.OFF /opt/retropie/configs/all/retroarch/config/global.glslp
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
 
 function sys_overlay_on() {
 	clear
@@ -2521,15 +2542,19 @@ function amiga_choices() {
 		   - "	" \
 		   - "*** AMIGA CUSTOM OVERLAYS LR-PUAE SETUP ***" \
 		   - "	" \
-           3 " -  Custom Overlay Set For The Loaded Image " \
-		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
-		   - "    With Custom View & Shader... " \
+           3 " -  Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
+		   - "    Tx to Quizaseraq (LoadedImage-Set), Ransom & Pipmick (Creators) " \
+		   - "	" \
+		   4 " -  Quick Disable Shader from Custom Setup Option #3 " \
+		   5 " -  Quick Enable  Shader from Custom Setup Option #3 " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) lrpuae_on  ;;
            2) amiberry_on  ;;
 		   3) lrpuae_custom_on  ;;
+		   4) lrpuae_custom_sh_off  ;;
+		   5) lrpuae_custom_sh_on  ;;
            -) none ;;
            *) break ;;
         esac
@@ -2581,6 +2606,24 @@ function lrpuae_custom_on() {
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
+}
+
+function lrpuae_custom_sh_off() {
+	clear
+	cd /opt/retropie/configs/all/retroarch/config/PUAE
+	mv PUAE.glslp PUAE.glslp.OFF
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+}
+
+function lrpuae_custom_sh_on() {
+	clear
+	cd /opt/retropie/configs/all/retroarch/config/PUAE
+	mv PUAE.glslp.OFF PUAE.glslp
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
 }
 
 
