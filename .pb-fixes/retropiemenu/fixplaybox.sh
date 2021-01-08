@@ -689,7 +689,7 @@ function ra_options_tool() {
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
             - "*** SHADERS SELECTIONS ***" \
             1 " - [WIP - New] Enable Retro Shader By ChrisKekridis for A System " \
-            2 " - [WIP - New] Enable Retro Shader By ChrisKekridis for A System " \
+            2 " - [WIP - New] Disable Retro Shader By ChrisKekridis for A System " \
             3 " - Disable Global Retro Shader " \
             4 " - Enable  Global Retro Shader" \
 			- "" \
