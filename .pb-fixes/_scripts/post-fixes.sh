@@ -53,6 +53,7 @@ function next_steps() {
 clear
 #Remove PUAE cfgs to avoid dups
 rm -rf /opt/retropie/configs/all/retroarch/config/PUAE*
+#Sync New Files
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
