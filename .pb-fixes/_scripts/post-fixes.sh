@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 08.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -51,6 +51,8 @@ amiga_setup
 
 function next_steps() {
 clear
+#Remove PUAE cfgs to avoid dups
+rm -rf /opt/retropie/configs/all/retroarch/config/PUAE*
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
