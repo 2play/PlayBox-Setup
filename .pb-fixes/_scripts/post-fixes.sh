@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -35,6 +35,7 @@ function post_up_clean() {
 clear
 git clone --branch=clean https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
+mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
 global_shader
 amiga_setup
@@ -44,6 +45,7 @@ function post_up_normal() {
 clear
 git clone https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
+#mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
 global_shader
 amiga_setup
@@ -87,7 +89,6 @@ ln -sfn Stella\ 2014.EMPTY Stella\ 2014
 mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs/all/retroarch/config/Stella\ 2014.OFF
 mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
 mv /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX.OFF
-#mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 if [ -d /opt/retropie/configs/all/retroarch/config/ProSystem.OFF ]; then
 mv /opt/retropie/configs/all/retroarch/config/ProSystem/* /opt/retropie/configs/all/retroarch/config/ProSystem.OFF/
 rm -rf /opt/retropie/configs/all/retroarch/config/ProSystem
@@ -136,9 +137,10 @@ sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_r
 # Intellivision lr-freeintv fix due to latest video driver 
 cd /opt/retropie/configs/intellivision
 sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
-# Hide Mouse Cursor On Overlay
+# Hide Mouse Cursor On Overlay & Core Ratio
 cd /opt/retropie/configs/all
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
+sed -i 's|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|' retroarch.cfg;
 
 echo
 clear

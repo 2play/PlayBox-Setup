@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 08.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 10.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -698,12 +698,20 @@ function ra_options_tool() {
             6 " - Disable A System Preset Overlay " \
 			7 " - Enable All System Preset Overlays " \
             8 " - Disable All System Preset Overlays " \
-		    - "" \
+			- "" \
+			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
+		    9 " - Enable Arcade Cabinet Overlay (Arcade) " \
+		   10 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) " \
+		   11 " - Enable Atomiswave Cabinet Overlay " \
+		   12 " - Disable Atomiswave & Enable Per-Rom Overlay " \
+		   13 " - Enable Naomi Cabinet Overlay " \
+		   14 " - Disable Naomi Cabinet Overlay " \
+			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		    9 " - Enable Video Smooth - Single System " \
-           10 " - Disable Video Smooth - Single System " \
-		   11 " - Enable Video Smooth - All Systems " \
-           12 " - Disable Video Smooth - All Systems " \
+		   15 " - Enable Video Smooth - Single System " \
+           16 " - Disable Video Smooth - Single System " \
+		   17 " - Enable Video Smooth - All Systems " \
+           18 " - Disable Video Smooth - All Systems " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -717,10 +725,16 @@ function ra_options_tool() {
             6) sys_overlay_off  ;;
 			7) all_overlay_on  ;;
 			8) all_overlay_off  ;;
-			9) v_smooth_sys_on  ;;
-		   10) v_smooth_sys_off  ;;
-		   11) all_v_smooth_on  ;;
-		   12) all_v_smooth_off  ;;
+			9) arc_cab_on  ;;
+           10) arc_cab_off  ;;
+           11) atomwv_cab_on  ;;
+           12) atomwv_cab_off  ;;
+		   13) naomi_dx_on  ;;
+           14) naomi_dx_off  ;;
+		   15) v_smooth_sys_on  ;;
+		   16) v_smooth_sys_off  ;;
+		   17) all_v_smooth_on  ;;
+		   18) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
@@ -1001,6 +1015,84 @@ function all_overlay_off() {
 	echo
 	cd /opt/retropie/configs/ 
 	find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function arc_cab_on() {
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	mv /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/ /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo.OFF/
+	find arcade -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "936"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "729"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "487"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "72"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "936"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "729"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "487"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "72"|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function arc_cab_off() {
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	mv /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo.OFF/ /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
+	find arcade -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function atomwv_cab_on() {
+	clear
+	echo
+	cd /opt/retropie/configs/
+	mv /opt/retropie/configs/all/retroarch/config/Flycast/ /opt/retropie/configs/all/retroarch/config/Flycast.OFF/
+	find atomiswave -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1205"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "865"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "360"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "115"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1205"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "865"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "360"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "115"|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function atomwv_cab_off() {
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	mv /opt/retropie/configs/all/retroarch/config/Flycast.OFF/ /opt/retropie/configs/all/retroarch/config/Flycast/
+	find atomiswave -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function naomi_dx_on() {
+	clear
+	echo
+	cd /opt/retropie/configs/
+	mv /opt/retropie/configs/all/retroarch/config/Flycast/ /opt/retropie/configs/all/retroarch/config/Flycast.OFF/
+	find naomi -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay = "/opt/retropie/emulators/retroarch/overlays/SystemBezels/.*"|input_overlay = "/opt/retropie/emulators/retroarch/overlays/SystemBezels/_generic_naomi_dx.cfg"|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1055"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "787"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "436"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "123"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1055"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "787"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "436"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "123"|g' {} 2>/dev/null \;
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function naomi_dx_off() {
+	clear
+	echo
+	cd /opt/retropie/configs/ 
+	mv /opt/retropie/configs/all/retroarch/config/Flycast.OFF/ /opt/retropie/configs/all/retroarch/config/Flycast/
+	find naomi -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
