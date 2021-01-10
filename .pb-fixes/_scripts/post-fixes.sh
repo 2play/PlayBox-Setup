@@ -9,6 +9,7 @@ cd $HOME/code/
 # Get Post Fixes Clean Burn Update Or Normal Post Fix Update
 function post_fix_update() {
     local choice
+	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
@@ -26,9 +27,11 @@ function post_fix_update() {
             -) none ;;
             *) break ;;
         esac
-sleep 1
+		done
 echo ""
 echo "[OK DONE!...]"
+cd $HOME
+sleep 2
 }
 
 function post_up_clean() {
@@ -84,9 +87,7 @@ find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p2|input_libr
 # Overlay Fixes
 echo
 cd /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
-if grep "MAME-Vertical.cfg" *.cfg ; then
-sudo sed -i 'pb-vr.cfg' *.cfg
-fi
+find . -type f -name "*.cfg" -print0 | xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'  {} 2>/dev/null \;
 ln -sfv /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
 cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
@@ -239,6 +240,7 @@ function lrpuae_on() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+	exit
 }
 
 function amiberry_on() {
@@ -250,6 +252,7 @@ function amiberry_on() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+	exit
 }
 
 function lrpuae_custom_on() {
@@ -267,6 +270,7 @@ function lrpuae_custom_on() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+	exit
 }
 
 function lrpuae_custom_sh_off() {
@@ -278,6 +282,12 @@ function lrpuae_custom_sh_off() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+	exit
 }
 
 post_fix_update
+
+echo ""
+echo "[OK DONE!...]"
+cd $HOME
+sleep 2
