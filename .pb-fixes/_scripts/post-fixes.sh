@@ -86,6 +86,7 @@ echo
 cd /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
 if grep "MAME-Vertical.cfg" *.cfg ; then
 sudo sed -i 'pb-vr.cfg' *.cfg
+fi
 ln -sfv /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
 cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
