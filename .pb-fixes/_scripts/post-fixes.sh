@@ -143,10 +143,11 @@ sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_r
 # Intellivision lr-freeintv fix due to latest video driver 
 cd /opt/retropie/configs/intellivision
 sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
-# Hide Mouse Cursor On Overlay & Core Ratio
+# RA Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver
 cd /opt/retropie/configs/all
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
 sed -i 's|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|' retroarch.cfg;
+sed -i 's|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' retroarch.cfg;
 
 echo
 clear
