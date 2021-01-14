@@ -151,6 +151,9 @@ sed -i 's|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "
 # Enable exFAT Support
 sudo apt-get install exfat-fuse -y
 sudo apt-get install exfat-utils -y
+# Mame2003_Plus Controller
+cd /opt/retropie/configs/arcade
+sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
 
 echo
 clear
