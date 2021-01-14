@@ -148,6 +148,9 @@ cd /opt/retropie/configs/all
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
 sed -i 's|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|' retroarch.cfg;
 sed -i 's|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' retroarch.cfg;
+# Enable exFAT Support
+sudo apt-get install exfat-fuse -y
+sudo apt-get install exfat-utils -y
 
 echo
 clear
