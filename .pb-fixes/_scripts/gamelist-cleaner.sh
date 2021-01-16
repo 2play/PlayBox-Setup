@@ -39,7 +39,7 @@ This script gets a gamelist.xml as input and checks if the path for the games
 leads to an existing file. If the file doesn't exist, the <game> entry will
 be deleted and a cleaner gamelist.xml file will be generated.
 
-The resulting file will be named \"gamelist.xml-clean\" and will be in the
+The resulting file will be named \"gamelist.xml.CLEAN\" and will be in the
 same folder as the original file. Nothing changes in the original gamelist.xml.
 
 $USAGE
@@ -162,7 +162,7 @@ fi
 
 for file in $gamelist_files; do
     original_gamelist="$(readlink -e "$file")"
-    clean_gamelist="${original_gamelist}-clean"
+    clean_gamelist="${original_gamelist}.CLEAN"
     gamelist_dir="$(dirname "$original_gamelist")"
     backup_gamelist="${original_gamelist}-orig-$(date +%s)"
 
