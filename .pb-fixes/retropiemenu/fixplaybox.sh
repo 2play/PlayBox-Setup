@@ -2765,8 +2765,8 @@ function cl_gm_xml() {
             --menu "Select one of the gamelist.xml cleanup options." 25 75 20 \
             - "*** GAMELIST.XML CLEANUP SELECTIONS ***" \
 			- "	" \
-            1 " - Clean ALL systems' gamelist.xml [Orig + gamelist.xml-clean] " \
-            2 " - Clean a specific system gamelist.xml [Orig + gamelist.xml-clean] " \
+            1 " - Clean ALL systems' gamelist.xml [Orig + gamelist.xml.CLEAN] " \
+            2 " - Clean a specific system gamelist.xml [Orig + gamelist.xml.CLEAN] " \
             2>&1 > /dev/tty)
 
         case "$choice" in
