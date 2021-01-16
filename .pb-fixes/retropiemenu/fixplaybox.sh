@@ -2735,23 +2735,120 @@ function clean_pbt() {
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
 			- "	" \
-           1 " -  Clean all save, hi, dat etc files in roms folder" \
-           2 " -  Clean LastPlayed & PlayCount or Favorites Options" \
-           3 " -  Remove ES Auto-gen Gamelists" \
-		   4 " -  Clean & Set 2Play! Top CLi Commands History" \
-           5 " -  Clean Filesystem Cache" \
+           1 " -  Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P!" \
+		   2 " -  Clean LastPlayed & PlayCount or Favorites Options" \
+		   3 " -  Clean all save, hi, dat etc files in roms folder" \
+           4 " -  Remove ES Auto-gen Gamelists" \
+		   5 " -  Clean & Set 2Play! Top CLi Commands History" \
+           6 " -  Clean Filesystem Cache" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-           1) cl_saves  ;;
-           2) cl_xml  ;;
-		   3) cl_es_gamelist  ;;
-		   4) cl_cli_hist  ;;
-           5) cl_cache  ;;
+           1) cl_gm_xml  ;;
+		   2) cl_xml  ;;
+		   3) cl_saves  ;;
+		   4) cl_es_gamelist  ;;
+		   5) cl_cli_hist  ;;
+           6) cl_cache  ;;
 		   -) none ;;
             *)  break ;;
         esac
     done
+}
+
+function cl_gm_xml() {
+	clear
+	local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " GAMELIST.XML CLEANUP OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Select one of the gamelist.xml cleanup options." 25 75 20 \
+            - "*** GAMELIST.XML CLEANUP SELECTIONS ***" \
+			- "	" \
+            1 " - Clean ALL systems' gamelist.xml [Orig + gamelist.xml-clean] " \
+            2 " - Clean a specific system gamelist.xml [Orig + gamelist.xml-clean] " \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) cl_gm_xml_all  ;;
+            2) cl_gm_xml_sys  ;;
+            -) none  ;;
+			*)  break ;;
+        esac
+    done
+}
+
+function cl_gm_xml_all() {
+	clear
+	sleep 1
+	/home/pi/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh -a
+	echo
+	echo "Original Script By Meleu & Updated version for PlayBox v2 by 2Play!"
+	echo
+	echo "You can find your .CLEAN xml version in the roms/%systemname% folder"
+	sleep 2
+	echo
+	echo "[CLEANED!...]"
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	sleep 2
+}
+
+function cl_gm_xml_sys() {
+	clear
+	echo 
+	echo " I will display a list of all systems that you can clean a gamelist.xml... "
+	echo
+	echo " If you can't see full list. Use below keys to scroll or exit list!"
+	echo
+	echo "----------------------------------------------------------------------"
+	echo " <space>		Display next k lines of text [current screen size]"
+	echo " <return>		Display next k lines of text [1]*"
+	echo " d			Scroll k lines [current scroll size, initially 11]*"
+	echo " q			Exit from more"
+	echo "----------------------------------------------------------------------"
+	echo
+	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE ROMS FOLDER***
+	echo 
+	echo Example: nes
+	echo NOT Nes or NES etc...
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	cd $HOME/RetroPie/roms/
+	echo
+	#ls -d */ | column | more
+	find -name "gamelist.xml" -printf "%h\n" | sort -h | column | more
+	echo
+	read -p 'So which system would you like to clean the gamelist.xml?: ' sname
+	echo
+	if [ -f $sname/gamelist.xml ]; then 
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh /home/pi/RetroPie/roms/$sname/gamelist.xml
+	echo
+	echo "Original Script By Meleu & Updated version for PlayBox v2 by 2Play!"
+	echo
+	echo "You can find your .CLEAN xml version in the roms/%systemname% folder"
+	echo
+	echo "[CLEANED!...]"
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	while true; do
+		echo ""
+		read -p 'Whould you like to change another system [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) cl_gm_xml_sys;;
+		[Nn]*) return;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
+	cd $HOME
+	clear
+	else
+	echo
+	echo "[No Gamelist.xml there or you typed wrong system name...Back to Menu!]"
+	clear
+	echo
+	sleep 2
+	fi
 }
 
 function cl_saves() {
@@ -2765,7 +2862,6 @@ function cl_saves() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
-
 
 function cl_xml() {
 	clear
