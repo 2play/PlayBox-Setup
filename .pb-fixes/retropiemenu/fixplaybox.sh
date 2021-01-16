@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 16.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1509,20 +1509,18 @@ function igalia_vk() {
             --menu "Let's do some Vulkan work..." 25 75 20 \
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
-           1 " -  [DISABLED] Install/Update All [Driver, Extras, RetroArch]" \
-           2 " -  [UPDATE_WIP] Update Vulkan Driver Based On MESA 20.3" \
-           3 " -  [DISABLED] Update Vulkan Demos" \
-		   4 " -  Update Vulkan Enabled RetroArch" \
-           5 " -  CleanUp Above Source Folders - To Save Space" \
-            2>&1 > /dev/tty)
+           1 " -  Install/Update Both Driver & RetroArch" \
+           2 " -  Update Vulkan Driver Based On MESA 21.0" \
+           3 " -  Update Vulkan Enabled RetroArch" \
+		   4 " -  Install/Update Vulkan Demos (Apply #5 After!)" \
+           2>&1 > /dev/tty)
 
         case "$choice" in
            #1) igalia_all  ;;
            2) mesa_up  ;;
-		   #3) igalia_dm  ;;
-		   4) vulkan_ra  ;;
-           5) sources_cl  ;;
-		   -) none ;;
+		   3) vulkan_ra  ;;
+		   4) igalia_dm  ;;
+           -) none ;;
             *)  break ;;
         esac
     done
@@ -1564,7 +1562,7 @@ sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
-git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --branch=21.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
@@ -1588,7 +1586,7 @@ sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary
 sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
 cd /opt/retropie/supplementary/mesa-drm
 sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
-cd $HOME/code/
+sudo ldconfig
 echo ""
 #echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
@@ -1611,24 +1609,22 @@ sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
 sudo ln -sf retroarchNEW retroarch
 #sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-cd $HOME
-echo ""
-echo "Demos & Finalizing... "
-echo ""
 cd $HOME/code/
-while true; do
+rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm
+clear
+echo
+echo "[OK DONE!...]"
+sleep 1
 echo ""
-read -p 'Whould you like to install few test demos [y] or Reboot [n or r]? ' yn
-	case $yn in
-	[Yy]* ) if [ ! -d sascha-willems ]; then sudo apt-get install libassimp-dev; cd code; git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems; cd sascha-willems; python3 download_assets.py; mkdir build; cd build; cmake -DCMAKE_BUILD_TYPE=Debug  ..; make -j4; mv -v build/bin/* bin/; chmod 755 bin/benchmark-all.py; else echo ""; echo "Directory exists so most probably you compiled before!!!"; fi; echo ""; echo "Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
-    [NnRr]* ) echo ""; echo "Script By 2Play!"; echo ""; echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'; echo ""; read -n 1 -s -r -p "Press any key to reboot"; echo ""; echo "[OK System Will Restart now...]"; clear; sudo reboot;;
-    * ) echo ""; echo "Please answer yes or no.";;
-    esac
-done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+echo "Script By 2Play!"
+echo ""
+echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
+echo ""
+read -n 1 -s -r -p "Press any key to reboot"
+echo ""
+echo "[OK System Will Restart now...]"
+clear
+sudo reboot
 }
 
 function mesa_up() {
@@ -1663,7 +1659,7 @@ sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo rm -rf mesa* 
-git clone --branch=20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --branch=21.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
@@ -1687,7 +1683,9 @@ sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary
 sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
 cd /opt/retropie/supplementary/mesa-drm
 sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
+sudo ldconfig
 cd $HOME/code/
+rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm
 echo ""
 clear
 echo
@@ -1696,7 +1694,7 @@ sleep 1
 echo ""
 echo "Script By 2Play!"
 echo ""
-echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
+echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
 echo ""
 read -n 1 -s -r -p "Press any key to reboot"
 echo ""
@@ -1732,6 +1730,8 @@ else
 echo ""
 echo "Directory exists so most probably you compiled before!!!"
 fi
+cd $HOME/code/
+rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm
 echo ""
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo ""
@@ -1773,11 +1773,13 @@ fi
 	rm -rf retroarch
 	igalia_ra
 	fi
+	cd $HOME/code/
+	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
-	sleep 1
+	sleep 2
 }
 
 function sources_cl() {
@@ -1791,7 +1793,7 @@ function sources_cl() {
 	clear
 	echo
 	echo "[OK DONE!...]"
-	sleep 1
+	sleep 2
 }
 
 
