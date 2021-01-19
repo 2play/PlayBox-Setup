@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 16.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 18.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1516,7 +1516,7 @@ function igalia_vk() {
            2>&1 > /dev/tty)
 
         case "$choice" in
-           #1) igalia_all  ;;
+           1) igalia_all  ;;
            2) mesa_up  ;;
 		   3) vulkan_ra  ;;
 		   4) igalia_dm  ;;
@@ -1530,7 +1530,7 @@ function igalia_all() {
 # Install Pi Igalia Mesa Vulkan Driver
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 04.01.2021
+# 18.01.2021
 clear
 cd $HOME
 if [ ! -d code ]; then
