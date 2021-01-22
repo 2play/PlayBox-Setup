@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 18.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 21.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -85,6 +85,7 @@ function fixes_pbt() {
             5 " -  Restore 2Play! Slideshow Screensaver" \
             6 " -  Reset All RetroPie Controllers" \
             7 " -  Fix-Reset-Clean RetroPie Setup git" \
+			8 " -  Fix-Reset-Update 2Play! PlayBox v2 Themes" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -95,6 +96,7 @@ function fixes_pbt() {
             5) fix_slideshow  ;;
             6) fix_control  ;;
             7) git_rs  ;;
+			8) themes_rs  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -490,7 +492,7 @@ function fix_control() {
 	echo
 	echo "[OK DONE!...]"
 	echo
-	read -n 1 -s -r -p "Press any key to continue."
+	read -n 1 -s -r -p "Press any key to reboot."
 	echo
 	echo "[OK System Will Restart now...]"
 	sleep 3
@@ -506,6 +508,28 @@ function git_rs() {
 	echo
 	echo "[OK DONE!...]"
 	sleep 3
+}
+
+
+function themes_rs() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	cd $HOME/code
+	git clone https://github.com/2play/2Play-v2-Themes.git
+	cd 2Play-v2-Themes/
+	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
+	rm /etc/emulationstation/themes/*.*
+	cd ..
+	rm -rf 2Play-v2-Themes/
+	cd $HOME
+	echo
+	echo "[OK DONE!...]"
+	echo
+	read -n 1 -s -r -p "Press any key to reboot."
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 3
+	clear
+	sudo reboot
 }
 
 

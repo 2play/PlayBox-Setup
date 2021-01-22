@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 20.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 21.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -63,6 +63,7 @@ rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretroc
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
+sudo rsync -urv opt/retropie/emulators/ /opt/retropie/emulators/
 sudo chown pi:pi -R /etc/emulationstation/themes/
 sleep 1
 cd /.
@@ -157,6 +158,17 @@ sudo apt-get install exfat-utils -y
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
+# Pico8 & DuckStation Standalone
+sudo chown pi:pi -R /opt/retropie/emulators/pico8/
+sudo chmod 755 /opt/retropie/emulators/pico8/*
+chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
+sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
+sudo chmod 755 /opt/retropie/emulators/duckstation/*
+if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
+echo 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
+else
+echo "Already inserted..."; sleep 1; continue
+fi
 
 echo
 clear
@@ -222,6 +234,8 @@ function amiga_setup() {
            3 " -  Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
 		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
 		   4 " -  Disable Shader from Custom Setup Option #3 " \
+		   - "	" \
+           5 " -  SKIP THIS STEP: If You Enabled Your Custom Overlay! " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -229,6 +243,7 @@ function amiga_setup() {
            2) amiberry_on  ;;
 		   3) lrpuae_custom_on  ;;
 		   4) lrpuae_custom_sh_off  ;;
+		   5) skip_step  ;;
            -) none ;;
            *) break ;;
         esac
@@ -294,6 +309,16 @@ function lrpuae_custom_sh_off() {
 	sleep 2
 	exit
 }
+
+function skip_step() {
+	clear
+	echo ""
+	echo "[OK YOU GOT IT!...]"
+	cd $HOME
+	sleep 2
+	exit
+}
+
 
 post_fix_update
 
