@@ -513,6 +513,7 @@ function git_rs() {
 
 function themes_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
 	cd $HOME/code
 	git clone https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
