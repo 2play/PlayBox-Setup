@@ -2,7 +2,8 @@
 # USB Version changes and other updates by 2Play!
 # New Randomizing Option By EnsignRutherFord aka russlb
 # PlayBox Project
-# 01.11.2020
+# 22.01.2021
+
 import os
 import pwd
 import grp
@@ -31,7 +32,7 @@ random.seed()
 volume = maxvolume # Store this for later use to handle fading out.
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
-emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine"]
+emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine","duckstation-qt","duckstation-sdl","duckstation-qt","pico8_dyn"]
 
 #test: Ran into some issues with script crashing on a cold boot, so we're camping for emulationstation (if ES can start, so can we!)
 esStarted = False
@@ -95,7 +96,7 @@ while True:
         # Need a better randomizer... play every song randomly until we've played them all, then reset and do it again
         #
 	if not mixer.music.get_busy(): # We aren't currently playing any music
-		while currentsong == lastsong and len(bgm) > 1:	# If we have more than one BGM, choose a new one until we get one that isn't what we just played.
+		while currentsong == lastsong and len(bgm) > 1:	#If we have more than one BGM, choose a new one until we get one that isn't what we just played.
 			currentsong = random.randint(0,len(bgm)-1)
                         while played[currentsong] == 1:
 			        currentsong = random.randint(0, len(bgm) - 1)
@@ -130,11 +131,11 @@ while True:
 			procname = open(os.path.join('/proc',pid,'comm'),'rb').read()
 			if procname[:-1] == "emulationstatio": # Killing 2 birds with one stone, while we look for emulators, make sure EmulationStation is still running.
 					esStarted=True # And turn it back to True, because it wasn't done running.  This will prevent the loop above from stopping the music.
-
+                    
 			if procname[:-1] in emulatornames: #If the process name is in our list of known emulators
 				emulator = pid;
 				#Turn down the music
-				##print "Emulator found! " + procname[:-1] + " Muting the music..."
+				#print "Emulator found! " + procname[:-1] + " Muting the music..."
 				while volume > 0:
 					volume = volume - volumefadespeed
 					if volume < 0:

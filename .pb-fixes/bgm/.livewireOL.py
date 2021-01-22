@@ -3,7 +3,7 @@
 # Version 1.01 - Changed song_title.png to write to RAM instead of the SD Card (Thanks zerojay!)
 # USB Version changes and other updates by 2Play!
 # PlayBox Project
-# 01.11.2020
+# 22.01.2021
 
 import os
 import time
@@ -12,7 +12,7 @@ import random
 #also that line is commented out as we import the mixer specifically a bit further down.
 import re
 import subprocess # used to grab screen resolution
-	
+
 ###CONFIG SECTION###
 startdelay = 0 # Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
 musicdir = '/home/pi/RetroPie/roms/music'
@@ -134,7 +134,7 @@ if not os.path.exists(overlay_tmp_file):
     os.mknod(overlay_tmp_file)
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
-emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine"]
+emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine","duckstation-qt","duckstation-sdl","duckstation-qt","pico8_dyn"]
 
 #test: Ran into some issues with script crashing on a cold boot, so we're camping for emulationstation (if ES can start, so can we!)
 esStarted = False
@@ -244,11 +244,11 @@ while True:
 			procname = open(os.path.join('/proc',pid,'comm'),'rb').read()
 			if procname[:-1] == "emulationstatio": # Killing 2 birds with one stone, while we look for emulators, make sure EmulationStation is still running.
 					esStarted=True # And turn it back to True, because it wasn't done running.  This will prevent the loop above from stopping the music.
-			
+                    
 			if procname[:-1] in emulatornames: #If the process name is in our list of known emulators
 				emulator = pid;
 				#Turn down the music
-				##print "Emulator found! " + procname[:-1] + " Muting the music..."
+				#print "Emulator found! " + procname[:-1] + " Muting the music..."
 				if overlay_enable == True:
 					if HOST_SYSTEM == "Raspberry Pi":
 						os.system("sudo killall -q " + overlay_pngview_location + " &") # Kill song overlay
