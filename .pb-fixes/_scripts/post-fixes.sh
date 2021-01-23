@@ -89,7 +89,7 @@ find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p2|input_libr
 echo
 cd /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
 find . -type f -name "*.cfg" -print0 | xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'  {} 2>/dev/null \;
-ln -sfv /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
+ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
 cd /opt/retropie/configs/all/retroarch/config
 rm -rf fuse
 ln -sfn Stella\ 2014.EMPTY Stella\ 2014
