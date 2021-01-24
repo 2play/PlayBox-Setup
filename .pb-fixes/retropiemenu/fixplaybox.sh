@@ -1523,7 +1523,7 @@ function igalia_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 23.01.2021
+# 24.01.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
 	
@@ -1570,7 +1570,7 @@ sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Libdrm... "
 echo ""
-sudo apt-get install xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
+sudo apt-get install -y xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
 #Get latest stable libdrm version from here: https://dri.freedesktop.org/libdrm/ Directly with:
 wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 tar xvpf libdrm-2.4.104.tar.xz
@@ -1650,7 +1650,7 @@ echo "Compile RetroArch with Vulkan Support... "
 echo ""
 cd $HOME/code/
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install glslang-dev glslang-tools spirv-tools
+sudo apt-get install -y glslang-dev glslang-tools spirv-tools
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
@@ -1706,7 +1706,7 @@ sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Libdrm... "
 echo ""
-sudo apt-get install xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
+sudo apt-get install -y xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
 #Get latest stable libdrm version from here: https://dri.freedesktop.org/libdrm/ Directly with:
 wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 tar xvpf libdrm-2.4.104.tar.xz
@@ -1853,7 +1853,7 @@ cd code/
 fi
 	if [ ! -d retroarch ]; then
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install glslang-dev glslang-tools spirv-tools
+sudo apt-get install -y glslang-dev glslang-tools spirv-tools
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
