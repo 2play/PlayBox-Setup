@@ -1666,6 +1666,8 @@ mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
 sudo ln -sf retroarchNEW retroarch
+cd /opt/retropie/configs/all
+sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
 #sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 cd $HOME/code/
 rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
@@ -1864,6 +1866,8 @@ sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
 sudo ln -sf retroarchNEW retroarch
 #sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
+cd /opt/retropie/configs/all
+sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
 	else
 	rm -rf retroarch
 	igalia_ra
