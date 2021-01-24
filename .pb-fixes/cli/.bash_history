@@ -2,6 +2,7 @@
 sdl2-config --version
 modetest -s 89:#1
 vulkaninfo | more
+vulkaninfo | grep deviceName
 glxinfo | grep OpenGL
 sudo raspi-config
 Skyscraper
