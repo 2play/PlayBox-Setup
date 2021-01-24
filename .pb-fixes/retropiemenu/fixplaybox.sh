@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 2401.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 24.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1555,7 +1555,7 @@ function igalia_all() {
 # Install Mesa Vulkan Driver
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 23.01.2021
+# 24.01.2021
 clear
 cd $HOME
 if [ ! -d code ]; then
@@ -1564,27 +1564,13 @@ else
 cd code/
 fi
 echo ""
-echo "STEP 1. Installing Dependencies... "
-echo ""
-sudo apt-get install -y xsltproc libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako libtool make automake pkg-config gcc g++ python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools libdrm-dev --no-install-recommends
-echo ""
-echo "STEP 2. Bring OS Up to date... "
+echo "STEP 1. Bring OS Up to date... "
 echo ""
 sudo apt update && sudo apt upgrade -y
 echo ""
-echo "STEP 3. Install required compiling SW... "
+echo "STEP 2. Installing Libdrm... "
 echo ""
-sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt-get install -y cmake
-echo ""
-echo "STEP 4. Compiling Driver & Extras... "
-echo ""
-cd $HOME/code/
-#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
-#WARNING: This will destroy your desktop system if you are using one
-#sudo apt-get purge mesa-* libgl* libdrm*
+sudo apt-get install xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
 #Get latest stable libdrm version from here: https://dri.freedesktop.org/libdrm/ Directly with:
 wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 tar xvpf libdrm-2.4.104.tar.xz
@@ -1594,22 +1580,34 @@ ninja -C build -j3
 sudo ninja -C build install
 #Test libdrm with something like: modetest -s 89:#1
 
-echo
+echo "STEP 3. Installing MESA Dependencies... "
+sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools --no-install-recommends
+#libdrm-dev
+sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo pip3 install meson
+sudo pip3 install mako
+sudo apt-get install -y cmake
+echo ""
+echo "STEP 4. Compiling Driver & Extras... "
+echo ""
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd $HOME/code/
+#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
+#WARNING: This will destroy your desktop system if you are using one
+#sudo apt-get purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-#or meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+#meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
 #or above with -Dprefix=/usr
-#Not needed to use drm... Above with drm are obsolete
-#sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt;
+##Not needed to use drm... Above with drm are obsolete
+##sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt;
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" meson -Dglx=disabled -Dplatforms= -Dllvm=disabled -Dvulkan-drivers=broadcom -Ddri-drivers='' -Dgallium-drivers=v3d,vc4,kmsro -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j3
 sudo ninja -C build install
@@ -1633,6 +1631,7 @@ sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
 sudo ldconfig
 
 #Update SDL2
+cd $HOME/code/
 wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
 tar xvpf SDL2-2.0.14.tar.gz
 cd SDL2-2.0.14/
@@ -1642,14 +1641,16 @@ sudo make install
 #Check version of SDL2: sdl2-config --version
 
 echo ""
-echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
-echo ""
-export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
+#echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
+#echo ""
+#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
 echo ""
 sleep 2
 echo "Compile RetroArch with Vulkan Support... "
 echo ""
 cd $HOME/code/
+#Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
+sudo apt-get install glslang-dev glslang-tools spirv-tools
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
@@ -1658,9 +1659,12 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 # PB Take
 #./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
-#New Test
+#X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
 ./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#X11 ON
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
+./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1696,27 +1700,13 @@ else
 cd code/
 fi
 echo ""
-echo "STEP 1. Installing Dependencies... "
-echo ""
-sudo apt-get install -y xsltproc libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev xutils-dev libpthread-stubs0-dev libpciaccess-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako libtool make automake pkg-config gcc g++ python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools libdrm-dev --no-install-recommends
-echo ""
-echo "STEP 2. Bring OS Up to date... "
+echo "STEP 1. Bring OS Up to date... "
 echo ""
 sudo apt update && sudo apt upgrade -y
 echo ""
-echo "STEP 3. Install required compiling SW... "
+echo "STEP 2. Installing Libdrm... "
 echo ""
-sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt-get install -y cmake
-echo ""
-echo "STEP 4. Compiling Driver & Extras... "
-echo ""
-cd $HOME/code/
-#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
-#WARNING: This will destroy your desktop system if you are using one
-#sudo apt-get purge mesa-* libgl* libdrm*
+sudo apt-get install xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
 #Get latest stable libdrm version from here: https://dri.freedesktop.org/libdrm/ Directly with:
 wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 tar xvpf libdrm-2.4.104.tar.xz
@@ -1726,22 +1716,34 @@ ninja -C build -j3
 sudo ninja -C build install
 #Test libdrm with something like: modetest -s 89:#1
 
-echo
+echo "STEP 3. Installing MESA Dependencies... "
+sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools --no-install-recommends
+#libdrm-dev
+sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo pip3 install meson
+sudo pip3 install mako
+sudo apt-get install -y cmake
+echo ""
+echo "STEP 4. Compiling Driver & Extras... "
+echo ""
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd $HOME/code/
+#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
+#WARNING: This will destroy your desktop system if you are using one
+#sudo apt-get purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson --prefix /usr -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release build
-#or meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
+#meson --prefix /usr --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug _build
 #or above with -Dprefix=/usr
-#Not needed to use drm... Above with drm are obsolete
-#sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt;
+##Not needed to use drm... Above with drm are obsolete
+##sed -i "s|'auto', 'x11', 'wayland', 'haiku', 'android', 'windows',|'auto', 'x11', 'wayland', 'drm', 'surfaceless', 'haiku', 'android', 'windows',|" meson_options.txt;
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" meson -Dglx=disabled -Dplatforms= -Dllvm=disabled -Dvulkan-drivers=broadcom -Ddri-drivers='' -Dgallium-drivers=v3d,vc4,kmsro -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j3
 sudo ninja -C build install
@@ -1751,7 +1753,7 @@ echo ""
 cd $HOME/code/
 #SKIP-- Download & Install MESA DRM
 ##git clone git://anongit.freedesktop.org/mesa/drm
-#git clone https://gitlab.freedesktop.org/mesa/drm+
+#git clone https://gitlab.freedesktop.org/mesa/drm
 #cd drm
 ##RPI4 Specific
 #meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
@@ -1765,6 +1767,7 @@ sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
 sudo ldconfig
 
 #Update SDL2
+cd $HOME/code/
 wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
 tar xvpf SDL2-2.0.14.tar.gz
 cd SDL2-2.0.14/
@@ -1774,10 +1777,10 @@ sudo make install
 #Check version of SDL2: sdl2-config --version
 
 echo ""
-echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
-echo ""
-export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
-echo ""
+#echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
+#echo ""
+#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
+#echo ""
 sleep 2
 cd $HOME/code/
 rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
@@ -1849,6 +1852,8 @@ else
 cd code/
 fi
 	if [ ! -d retroarch ]; then
+#Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
+sudo apt-get install glslang-dev glslang-tools spirv-tools
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
@@ -1857,17 +1862,20 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 # PB Take
 #./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
-#New Test
+#X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
 ./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#X11 ON
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
+./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
 sudo ln -sf retroarchNEW retroarch
-#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 cd /opt/retropie/configs/all
 sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
+#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 	else
 	rm -rf retroarch
 	igalia_ra
@@ -3219,10 +3227,10 @@ function cl_cli_hist() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	#cat /dev/null > ~/.bash_history
 	history -cw && clear
+	#cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
-	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
-	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '13,1000d' .bash_history
+	sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
+	sed -i '8,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
