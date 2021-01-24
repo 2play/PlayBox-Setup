@@ -159,7 +159,7 @@ sudo apt-get install exfat-utils -y
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
-# Pico8 & DuckStation Standalone
+# Pico8 & DuckStation Standalone & Core
 sudo chown pi:pi -R /opt/retropie/emulators/pico8/
 sudo chmod 755 /opt/retropie/emulators/pico8/*
 if [ -d ~/RetroPie/localroms ]; then
@@ -177,6 +177,11 @@ sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
 if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
 echo 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
+else
+echo "Already inserted..."; sleep 1; continue
+fi
+if ! grep -E 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
+echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
 else
 echo "Already inserted..."; sleep 1; continue
 fi
