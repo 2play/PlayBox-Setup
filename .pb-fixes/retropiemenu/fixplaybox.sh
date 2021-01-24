@@ -1599,6 +1599,7 @@ sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+cd $HOME/code/
 sudo rm -rf mesa* 
 git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
@@ -1728,6 +1729,7 @@ sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+cd $HOME/code/
 sudo rm -rf mesa* 
 git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
