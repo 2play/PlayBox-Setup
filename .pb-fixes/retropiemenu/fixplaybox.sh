@@ -3222,7 +3222,7 @@ function cl_cli_hist() {
 	cd $HOME
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '12,1000d' .bash_history
+	sed -i '13,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
