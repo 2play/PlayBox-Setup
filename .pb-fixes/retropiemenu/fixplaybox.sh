@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 24.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 25.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1523,7 +1523,7 @@ function igalia_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 24.01.2021
+# 25.01.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
 	
@@ -1535,9 +1535,9 @@ function igalia_vk() {
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
            1 " -  Install/Update Both Driver & RetroArch" \
-           2 " -  Update Vulkan Driver Based On MESA 21.0" \
+           2 " -  Update Vulkan Driver Based On Latest MESA Code" \
            3 " -  Update Vulkan Enabled RetroArch" \
-		   4 " -  Install/Update Vulkan Demos (Apply #5 After!)" \
+		   4 " -  Install/Update Vulkan Demos" \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1664,7 +1664,7 @@ CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O
 ./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 #X11 ON
 #CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1748,7 +1748,7 @@ CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv
 ninja -C build -j3
 sudo ninja -C build install
 echo ""
-#Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
+#Run “vulkaninfo | more”. PLEASE BE SURE THAT it WORKS!
 
 cd $HOME/code/
 #SKIP-- Download & Install MESA DRM
@@ -1867,7 +1867,7 @@ CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O
 ./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 #X11 ON
 #CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
