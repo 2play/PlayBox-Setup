@@ -1484,14 +1484,14 @@ function igalia_vk() {
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
            1 " -  [OFF] Install/Update Both Driver & RetroArch" \
-           2 " -  Update Vulkan Driver Based On Latest MESA Code" \
+           2 " -  [OFF] Update Vulkan Driver Based On Latest MESA Code" \
            3 " -  [OFF] Update Vulkan Enabled RetroArch" \
 		   4 " -  Install/Update Vulkan Demos" \
            2>&1 > /dev/tty)
 
         case "$choice" in
            #1) igalia_all  ;;
-           2) mesa_up  ;;
+           #2) mesa_up  ;;
 		   #3) vulkan_ra  ;;
 		   4) igalia_dm  ;;
            -) none ;;
