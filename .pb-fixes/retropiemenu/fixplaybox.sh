@@ -1610,10 +1610,10 @@ cd retroarch
 #./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 #X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --disable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 #X11 ON
 #CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
-#./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1800,7 +1800,6 @@ mkdir code && cd code/
 else
 cd code/
 fi
-	if [ ! -d retroarch ]; then
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
 sudo apt-get install -y glslang-dev glslang-tools spirv-tools
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
@@ -1810,6 +1809,8 @@ sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 # PB Take
+#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
+#X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
 ./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 #X11 ON
@@ -1823,17 +1824,13 @@ sudo ln -sf retroarchNEW retroarch
 cd /opt/retropie/configs/all
 sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
 #sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-	else
-	rm -rf retroarch
-	igalia_ra
-	fi
-	cd $HOME/code/
-	rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+cd $HOME/code/
+rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+cd $HOME
+clear
+echo
+echo "[OK DONE!...]"
+sleep 2
 }
 
 function sources_cl() {
