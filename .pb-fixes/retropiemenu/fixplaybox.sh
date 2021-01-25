@@ -1483,16 +1483,16 @@ function igalia_vk() {
             --menu "Let's do some Vulkan work..." 25 75 20 \
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
-           1 " -  Install/Update Both Driver & RetroArch" \
+           1 " -  [OFF] Install/Update Both Driver & RetroArch" \
            2 " -  Update Vulkan Driver Based On Latest MESA Code" \
-           3 " -  Update Vulkan Enabled RetroArch" \
+           3 " -  [OFF] Update Vulkan Enabled RetroArch" \
 		   4 " -  Install/Update Vulkan Demos" \
            2>&1 > /dev/tty)
 
         case "$choice" in
-           1) igalia_all  ;;
+           #1) igalia_all  ;;
            2) mesa_up  ;;
-		   3) vulkan_ra  ;;
+		   #3) vulkan_ra  ;;
 		   4) igalia_dm  ;;
            -) none ;;
             *)  break ;;
@@ -1527,7 +1527,7 @@ cd libdrm-2.4.104
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" meson -Dudev=true -Dvc4=true -Dintel=false -Dvmwgfx=false -Dradeon=false -Damdgpu=false -Dnouveau=false -Dfreedreno=false -Dinstall-test-programs=true -Dprefix=/usr build
 ninja -C build -j3
 sudo ninja -C build install
-#Test libdrm with something like: modetest -s 89:#1
+#Test libdrm with something like: modetest -s 89:#0
 
 echo "STEP 3. Installing MESA Dependencies... "
 sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools --no-install-recommends
