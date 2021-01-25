@@ -548,7 +548,7 @@ function apps_pbt() {
 			- "	" \
 			1 " -  Take HD ScreenShot" \
 			2 " -  Gamelist Views - 2Play! Themes " \
-		    3 " -  RetroArch Main Visual Options (Shaders, Smooth Filter etc)" \
+		    3 " -  RetroArch Visual & Audio ON/OFF Options+" \
 			4 " -  Hide or Show a System" \
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
@@ -712,166 +712,115 @@ function ra_options_tool() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH VISUAL OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
-            - "*** SHADERS SELECTIONS ***" \
-            1 " - [WIP - New] Enable Retro Shader By ChrisKekridis for A System " \
-            2 " - [WIP - New] Disable Retro Shader By ChrisKekridis for A System " \
-            3 " - Disable Global Retro Shader " \
-            4 " - Enable  Global Retro Shader" \
+            - "*** AUDIO VOLUME LEVEL SELECTIONS ***" \
+            1 " - Increase Volume By 25% " \
+            2 " - Increase Volume By 50% " \
+            3 " - Increase Volume By 70% " \
+            4 " - Increase Volume By 90% " \
+			5 " - Set Default RA Level " \
+			- "" \
+			- "*** SHADERS SELECTIONS ***" \
+            6 " - Disable Global Retro Shader " \
+            7 " - Enable  Global Retro Shader" \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-			5 " - Enable A System Preset Overlay " \
-            6 " - Disable A System Preset Overlay " \
-			7 " - Enable All System Preset Overlays " \
-            8 " - Disable All System Preset Overlays " \
+		    8 " - Enable A System Preset Overlay " \
+            9 " - Disable A System Preset Overlay " \
+		   10 " - Enable All System Preset Overlays " \
+           11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		    9 " - Enable Arcade Cabinet Overlay (Arcade) " \
-		   10 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) " \
-		   11 " - Enable Atomiswave Cabinet Overlay " \
-		   12 " - Disable Atomiswave & Enable Per-Rom Overlay " \
-		   13 " - Enable Naomi Cabinet Overlay " \
-		   14 " - Disable Naomi Cabinet Overlay " \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) " \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) " \
+		   14 " - Enable Atomiswave Cabinet Overlay " \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay " \
+		   16 " - Enable Naomi Cabinet Overlay " \
+		   17 " - Disable Naomi Cabinet Overlay " \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   15 " - Enable Video Smooth - Single System " \
-           16 " - Disable Video Smooth - Single System " \
-		   17 " - Enable Video Smooth - All Systems " \
-           18 " - Disable Video Smooth - All Systems " \
+		   18 " - Enable Video Smooth - Single System " \
+           19 " - Disable Video Smooth - Single System " \
+		   20 " - Enable Video Smooth - All Systems " \
+           21 " - Disable Video Smooth - All Systems " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            #1) ck_shader_syson  ;;
-            #2) ck_shader_sysoff  ;;
-            #3) disable_shaders  ;;
-            #4) enable_shaders  ;;
-            3) disable_global_sh  ;;
-            4) enable_global_sh  ;;
-			5) sys_overlay_on  ;;
-            6) sys_overlay_off  ;;
-			7) all_overlay_on  ;;
-			8) all_overlay_off  ;;
-			9) arc_cab_on  ;;
-           10) arc_cab_off  ;;
-           11) atomwv_cab_on  ;;
-           12) atomwv_cab_off  ;;
-		   13) naomi_dx_on  ;;
-           14) naomi_dx_off  ;;
-		   15) v_smooth_sys_on  ;;
-		   16) v_smooth_sys_off  ;;
-		   17) all_v_smooth_on  ;;
-		   18) all_v_smooth_off  ;;
+            1) ra_vol_25  ;;
+            2) ra_vol_50  ;;
+            3) ra_vol_70  ;;
+            4) ra_vol_90  ;;
+			5) ra_vol_0  ;;
+            #6) disable_shaders  ;;
+            #7) enable_shaders  ;;
+		    6) disable_global_sh  ;;
+            7) enable_global_sh  ;;
+		    8) sys_overlay_on  ;;
+            9) sys_overlay_off  ;;
+		   10) all_overlay_on  ;;
+		   11) all_overlay_off  ;;
+		   12) arc_cab_on  ;;
+           13) arc_cab_off  ;;
+           14) atomwv_cab_on  ;;
+           15) atomwv_cab_off  ;;
+		   16) naomi_dx_on  ;;
+           17) naomi_dx_off  ;;
+		   18) v_smooth_sys_on  ;;
+		   19) v_smooth_sys_off  ;;
+		   20) all_v_smooth_on  ;;
+		   21) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
     done
 }
 
-function ck_shader_syson() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	clear
-	echo 
-	echo " I will display a list of all systems that you can apply a shader... "
-	echo " Keep in mind ONLY RetroArch cores can use shaders. "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/
-	echo
-	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
-	echo
-	read -p 'So which system would you like to enable the retro shader?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
-	clear
-	echo
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) ck_shader_syson;;
-		[Nn]*) return;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
-	cd $HOME
+function ra_vol_25() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "3.000000"|' /opt/retropie/configs/all/retroarch.cfg
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
-	else
-	clear
-	echo
-	sleep 2
-	fi
 }
 
-function ck_shader_sysoff() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	clear
-	echo 
-	echo " I will display a list of all systems that you can apply a shader... "
-	echo " Keep in mind ONLY RetroArch cores can use shaders. "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/
-	echo
-	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiga -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
-	echo
-	read -p 'So which system would you like to enable the retro shader?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g' {} 2>/dev/null \;
-	clear
-	echo
-	while true; do
-		echo ""
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) ck_shader_sysoff;;
-		[Nn]*) return;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
-	cd $HOME
+function ra_vol_50() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
-	else
+}
+
+function ra_vol_70() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "8.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "8.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
 	clear
 	echo
-	sleep 2
-	fi
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ra_vol_90() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ra_vol_0() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
 }
 
 function disable_shaders() {
@@ -2156,22 +2105,34 @@ function omxvol() {
 
 function omx90() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -600/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -600/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
 }
 
 function omx85() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -900/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -900/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
 }
 
 function omx80() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1200/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1200/g' /usr/bin/omxplayer
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
 }
 
 function omx75() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1500/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1500/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2180,7 +2141,7 @@ function omx75() {
 
 function omx70() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1750/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1750/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2189,7 +2150,7 @@ function omx70() {
 
 function omx60() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -2400/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -2400/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2198,7 +2159,7 @@ function omx60() {
 
 function omx50() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -3000/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -3000/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2207,7 +2168,7 @@ function omx50() {
 
 function omx25() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -4500/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -4500/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2216,7 +2177,7 @@ function omx25() {
 
 function omx100() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2225,7 +2186,7 @@ function omx100() {
 
 function omx0() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	 sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -6000/g' /usr/bin/omxplayer
+	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -6000/g' /usr/bin/omxplayer
 	clear
 	echo
 	echo "[OK DONE!...]"
