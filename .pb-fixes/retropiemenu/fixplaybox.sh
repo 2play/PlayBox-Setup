@@ -3183,10 +3183,10 @@ function cl_cli_hist() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	#cat /dev/null > ~/.bash_history
 	history -cw && clear
-	#cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
+	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
-	sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '8,1000d' .bash_history
+	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
+	sed -i '12,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
