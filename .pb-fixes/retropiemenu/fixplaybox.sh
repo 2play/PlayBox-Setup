@@ -1661,10 +1661,10 @@ cd retroarch
 #./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
 #X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 #X11 ON
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-#./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
+#./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1674,7 +1674,7 @@ cd /opt/retropie/configs/all
 sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
 #sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
 cd $HOME/code/
-rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
 clear
 echo
 echo "[OK DONE!...]"
@@ -1783,7 +1783,7 @@ echo ""
 #echo ""
 sleep 2
 cd $HOME/code/
-rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 clear
 echo
@@ -1829,7 +1829,7 @@ echo ""
 echo "Directory exists so most probably you compiled before!!!"
 fi
 cd $HOME/code/
-rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo ""
@@ -1861,13 +1861,11 @@ sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 # PB Take
-#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
-#X11 OFF
 CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-./configure --enable-kms --disable-opengl1 --disable-videocore --disable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 #X11 ON
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-#./configure --enable-kms --disable-opengl1 --disable-videocore --enable-x11 --enable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --disable-langextra --disable-rpiled --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
+#./configure --disable-ibxm --disable-vg --disable-x11 --disable-wayland --disable-sdl2 --disable-al --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-qt --enable-egl --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-vulkan
 make -j4
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1881,7 +1879,7 @@ sed -i 's|input_driver = "x"|input_driver = "udev"|' retroarch.cfg;
 	igalia_ra
 	fi
 	cd $HOME/code/
-	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+	rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
 	cd $HOME
 	clear
 	echo
@@ -1896,7 +1894,7 @@ function sources_cl() {
 	echo ""
 	sleep 2
 	cd $HOME/code/
-	rm -rf retroarch && rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+	rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
 	clear
 	echo
 	echo "[OK DONE!...]"
