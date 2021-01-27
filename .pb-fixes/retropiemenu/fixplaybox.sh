@@ -552,7 +552,7 @@ function apps_pbt() {
 			4 " -  Hide or Show a System" \
 			5 " -  2Play! Music Selections" \
 			6 " -  Skyscraper By Lars Muldjord" \
-		    7 " -  Vulkan Pi4 Driver" \
+		    7 " -  Vulkan [Pi4] Driver Related Options" \
 		    8 " -  [Disabled] PiKISS By Jose Cerrejon" \
 		    9 " -  Single Saves Directory By RPC80" \
 		   10 " -  SD/USB Storage Benchmark" \
