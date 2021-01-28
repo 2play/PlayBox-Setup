@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 26.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 27.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1472,7 +1472,7 @@ function igalia_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 26.01.2021
+# 27.01.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
 	
@@ -1483,17 +1483,15 @@ function igalia_vk() {
             --menu "Let's do some Vulkan work..." 25 75 20 \
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
-           1 " -  [OFF] Install/Update Both Driver & RetroArch" \
-           2 " -  [OFF] Update Vulkan Driver Based On Latest MESA Code" \
-           3 " -  [OFF] Update Vulkan Enabled RetroArch" \
-		   4 " -  Install/Update Vulkan Demos" \
-           2>&1 > /dev/tty)
+           1 " - Update PlayBox Vulkan Driver: Latest MESA Code" \
+           2 " - Update PlayBox Vulkan RetroArch" \
+		   2>&1 > /dev/tty)
 
         case "$choice" in
            #1) igalia_all  ;;
-           #2) mesa_up  ;;
-		   #3) vulkan_ra  ;;
-		   4) igalia_dm  ;;
+           1) mesa_up  ;;
+		   2) vulkan_ra  ;;
+		   #4) igalia_dm  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -1605,7 +1603,6 @@ sudo apt-get update
 sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
-make clean
 ## PB Take
 CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
 ./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
@@ -1818,7 +1815,6 @@ sudo apt-get update
 sudo apt-get build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
-make clean
 ## PB Take
 CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
 ./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt

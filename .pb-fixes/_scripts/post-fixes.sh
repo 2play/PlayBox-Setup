@@ -71,7 +71,6 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
-
 # Config.txt OC additions
 if ! grep "gpu_freq=750" /boot/config.txt ; then
 sudo sed -i '66i#gpu_freq=750' /boot/config.txt
@@ -79,12 +78,10 @@ fi
 if ! grep "over_voltage=8" /boot/config.txt ; then
 sudo sed -i '67i#over_voltage=8' /boot/config.txt
 fi
-
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p2|input_libretro_device1p2|g' {} 2>/dev/null \;
-
 # Overlay Fixes
 echo
 cd /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
@@ -109,7 +106,6 @@ else
 mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
 fi
 echo
-
 # Core Options Per System Config Folder
 cd /opt/retropie/configs
 find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
@@ -117,7 +113,6 @@ echo
 # ES Video ScreenSaver Options
 cd /opt/retropie/configs/all/emulationstation
 sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSaverOmxPlayer" value="false" />|g; s|<bool name="ScreenSaverVideoMute" value="false" />|<bool name="ScreenSaverVideoMute" value="true" />|g; s|<bool name="StretchVideoOnScreenSaver" value="false" />|<bool name="StretchVideoOnScreenSaver" value="true" />|g; s|<int name="ScreenSaverSwapVideoTimeout" value="15000" />|<int name="ScreenSaverSwapVideoTimeout" value="10000" />|g; s|<string name="SubtitleAlignment" value="left" />|<string name="SubtitleAlignment" value="center" />|g' es_settings.cfg;
-
 # Various Minor Types Etc
 # Amiga Saves Typo
 cd /opt/retropie/configs/amiga
@@ -148,15 +143,23 @@ sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_r
 cd /opt/retropie/configs/intellivision
 sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 # RA Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain
-cd /opt/retropie/configs/all
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|' retroarch.cfg;
-sed -i 's|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|' retroarch.cfg;
-sed -i 's|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' retroarch.cfg;
-#sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 # Enable exFAT Support
 sudo apt-get install exfat-fuse -y
 sudo apt-get install exfat-utils -y
+# Clean Mesa Old Lib Files
+cd /usr/local/lib
+sudo rm libEGL.so libEGL.so.1 libEGL.so.1.0.0 libgbm.so libgbm.so.1 libgbm.so.1.0.0 libGL.so libGL.so.1 libGL.so.1.2.0 libglapi.so libglapi.so.0 libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 libvulkan_broadcom.so libglapi.so.0.0.0
+sudo rm -rf /usr/local/lib/dri
+cd /usr/local/share
+sudo rm -rf vulkan drirc.d
+cd /usr/local/include
+sudo rm -rf EGL GL GLES GLES2 GLES3 KHR
+cd /usr/local/lib/pkgconfig
+sudo rm gl.pc dri.pc egl.pc gbm.pc glesv1_cm.pc glesv2.pc
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
