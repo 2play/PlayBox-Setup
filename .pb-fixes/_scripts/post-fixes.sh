@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 25.01.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 29.01.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -189,6 +189,27 @@ if ! grep -E 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch 
 echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
 else
 echo "Already inserted..."; sleep 1; continue
+fi
+# New Monitoring Tools
+if [ -f /usr/local/bin/glances ]; then echo "Already installed!"; sleep 1
+else 
+sudo ln -sfn /home/pi/.local/bin/glances /usr/local/bin/glances
+fi
+if [ -f /home/pi/.local/bin/glances ]; then echo "Already installed!"; sleep 1
+else 
+pip install glances
+#pip install 'glances[action,browser,cloud,cpuinfo,docker,export,folders,gpu,graph,ip,raid,snmp,web,wifi]'
+#pip uninstall glances
+fi
+if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1
+else 
+cd $HOME/code/
+git clone https://github.com/aristocratos/bpytop.git
+cd bpytop
+sudo make install
+#sudo make uninstall
+cd ..
+rf -rf bpytop
 fi
 
 echo
