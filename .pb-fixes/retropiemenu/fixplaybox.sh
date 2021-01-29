@@ -1483,13 +1483,13 @@ function igalia_vk() {
             --menu "Let's do some Vulkan work..." 25 75 20 \
             - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox Vulkan Driver: Latest MESA Code" \
+           1 " - [OFF] Update PlayBox Vulkan Driver: Latest MESA Code" \
            2 " - [OFF] Update PlayBox Vulkan RetroArch" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            #1) igalia_all  ;;
-           1) mesa_up  ;;
+           #1) mesa_up  ;;
 		   #2) vulkan_ra  ;;
 		   #4) igalia_dm  ;;
            -) none ;;
