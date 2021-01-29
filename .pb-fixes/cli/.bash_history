@@ -7,6 +7,8 @@ glxinfo | grep OpenGL
 sudo raspi-config
 Skyscraper
 startx
+glances
+bpytop
 sudo ~/RetroPie-Setup/retropie_setup.sh
 emulationstation
 2p-FixPlayBox

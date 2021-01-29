@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 27.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 29.01.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3203,7 +3203,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsudo raspi-config\nSkyscraper\nstartx\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '12,1000d' .bash_history
+	sed -i '14,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
