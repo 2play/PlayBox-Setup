@@ -169,13 +169,19 @@ sudo chmod 755 /opt/retropie/emulators/pico8/*
 if [ -d ~/RetroPie/localroms ]; then
 mkdir $HOME/RetroPie/localroms/pico8 && mkdir $HOME/addonusb/pico8
 cd $HOME/RetroPie/localroms/pico8
-wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
-chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
+	if [ -f $HOME/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then echo "Already installed!"; sleep 1
+	else 
+	wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/localroms/pico8/%2BStart%20PICO8.sh
+	chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
+	fi
 else
 cd ~/RetroPie/roms && mkdir pico8
 cd pico8
-wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
-chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
+	if [ -f $HOME/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then echo "Already installed!"; sleep 1
+	else 
+	wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
+	chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
+	fi
 fi
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
