@@ -215,7 +215,7 @@ cd bpytop
 sudo make install
 #sudo make uninstall
 cd ..
-rf -rf bpytop
+rm -rf bpytop/
 fi
 
 echo
