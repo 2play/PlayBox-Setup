@@ -145,8 +145,11 @@ sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 # RA Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+if ! grep "audio_volume = "0.000000"" /opt/retropie/configs/all/retroarch/retroarch.cfg; then
+sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+echo "Already has a custom volume setting..."; sleep 1
+fi
 # Enable exFAT Support
 sudo apt-get install exfat-fuse -y
 sudo apt-get install exfat-utils -y
@@ -188,13 +191,13 @@ sudo chmod 755 /opt/retropie/emulators/duckstation/*
 if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
 echo 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
 else
-echo "Already inserted..."; sleep 1; continue
+echo "Already inserted..."; sleep 1
 fi
 sudo chmod 755 /opt/retropie/latestcores/duckstation_libretro.so
 if ! grep -E 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
 echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
 else
-echo "Already inserted..."; sleep 1; continue
+echo "Already inserted..."; sleep 1
 fi
 # New Monitoring Tools
 if [ -f /usr/local/bin/glances ]; then echo "Already installed!"; sleep 1
