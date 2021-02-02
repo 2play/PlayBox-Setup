@@ -715,8 +715,8 @@ function ra_options_tool() {
             - "*** AUDIO VOLUME LEVEL SELECTIONS ***" \
             1 " - Increase Volume By 25% " \
             2 " - Increase Volume By 50% " \
-            3 " - Increase Volume By 70% " \
-            4 " - Increase Volume By 90% " \
+            3 " - Increase Volume By 80% " \
+            4 " - Increase Volume By 100% " \
 			5 " - Set Default RA Level " \
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
@@ -747,8 +747,8 @@ function ra_options_tool() {
         case "$choice" in
             1) ra_vol_25  ;;
             2) ra_vol_50  ;;
-            3) ra_vol_70  ;;
-            4) ra_vol_90  ;;
+            3) ra_vol_80  ;;
+            4) ra_vol_100  ;;
 			5) ra_vol_0  ;;
             #6) disable_shaders  ;;
             #7) enable_shaders  ;;
@@ -777,6 +777,7 @@ function ra_options_tool() {
 function ra_vol_25() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
 	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "3.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "3.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -785,28 +786,28 @@ function ra_vol_25() {
 
 function ra_vol_50() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "5.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function ra_vol_70() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "8.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "8.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ra_vol_90() {
+function ra_vol_80() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 1
 	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch.cfg
 	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function ra_vol_100() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "12.000000"|' /opt/retropie/configs/all/retroarch.cfg
+	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "12.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
 	clear
 	echo
 	echo "[OK DONE!...]"
