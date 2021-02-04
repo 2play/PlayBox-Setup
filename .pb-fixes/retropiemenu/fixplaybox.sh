@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 29.01.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 04.02.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -515,7 +515,7 @@ function themes_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	cd $HOME/code
-	git clone https://github.com/2play/2Play-v2-Themes.git
+	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
 	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
 	rm /etc/emulationstation/themes/*.*
@@ -1548,7 +1548,7 @@ cd $HOME/code/
 #sudo apt-get purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
+#git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
 ##Not needed to use drm... Below with drm are obsolete -Dplatforms=x11,drm
@@ -1563,8 +1563,8 @@ echo ""
 
 cd $HOME/code/
 #SKIP-- Download & Install MESA DRM
-##git clone git://anongit.freedesktop.org/mesa/drm
-#git clone https://gitlab.freedesktop.org/mesa/drm
+##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
 #cd drm
 ##RPI4 Specific
 #meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
@@ -1708,8 +1708,8 @@ echo ""
 
 cd $HOME/code/
 #SKIP-- Download & Install MESA DRM
-##git clone git://anongit.freedesktop.org/mesa/drm
-#git clone https://gitlab.freedesktop.org/mesa/drm
+##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
 #cd drm
 ##RPI4 Specific
 #meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
@@ -2272,8 +2272,8 @@ function amiberry_pi4() {
 	clear
 	cd $HOME && cd code
 	rm -rf amiberry*
-	git clone https://github.com/midwan/amiberry.git
-	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	git clone --depth 1 https://github.com/midwan/amiberry.git
+	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
@@ -2298,8 +2298,8 @@ function amiberry_pi4sdl2() {
 	clear
 	cd $HOME && cd code
 	rm -rf amiberry*
-	git clone https://github.com/midwan/amiberry.git
-	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	git clone --depth 1 https://github.com/midwan/amiberry.git
+	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
@@ -2325,8 +2325,8 @@ function amiberry_pi4x64() {
 	clear
 	cd $HOME && cd code
 	rm -rf amiberry*
-	git clone https://github.com/midwan/amiberry.git
-	#git clone --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	git clone --depth 1 https://github.com/midwan/amiberry.git
+	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
