@@ -56,8 +56,6 @@ amiga_setup
 
 function next_steps() {
 clear
-#Remove PUAE cfgs to avoid dups
-rm -rf /opt/retropie/configs/all/retroarch/config/PUAE*
 #Sync New Files
 rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv etc/ /etc/
@@ -129,6 +127,8 @@ sudo chmod 755 /usr/bin/youtube-dl
 fi
 # WWF Typo Fix
 rm -rf $HOME/RetroPie/saves-unified
+#Remove PUAE cfgs to avoid dups
+rm -rf /opt/retropie/configs/all/retroarch/config/PUAE*
 # Lr-PUAE Related
 cd $HOME/RetroPie/saves
 mkdir amiga amiga1200 amigacd32 cdtv
