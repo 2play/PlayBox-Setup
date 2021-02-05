@@ -136,7 +136,7 @@ mkdir amiga amiga1200 amigacd32 cdtv
 cd /opt/retropie/configs/n64
 sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
 # Joy Selection Meleu Clean Setup
-wget -O- "https://raw.githubusercontent.com/meleu/RetroPie-joystick-selection/master/install.sh" | sudo bash
+#wget -O- "https://raw.githubusercontent.com/meleu/RetroPie-joystick-selection/master/install.sh" | sudo bash
 # Amiga Aga ra cfg minor update
 cd /opt/retropie/configs/amiga-aga
 sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
