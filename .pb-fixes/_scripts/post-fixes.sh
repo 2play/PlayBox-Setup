@@ -289,7 +289,7 @@ function amiga_setup() {
 		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
 		   4 " -  Disable Shader from Custom Setup Option #3 " \
 		   - "	" \
-           5 " -  SKIP THIS STEP: If You Enabled Your Custom Overlay! " \
+           5 " -  SKIP THIS STEP: If You Enabled Already Any Of The Above! " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
