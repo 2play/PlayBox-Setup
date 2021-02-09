@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 04.02.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 09.02.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1489,163 +1489,13 @@ function igalia_vk() {
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-           #1) igalia_all  ;;
            #1) mesa_up  ;;
 		   #2) vulkan_ra  ;;
-		   #4) igalia_dm  ;;
+		   #3) igalia_dm  ;;
            -) none ;;
             *)  break ;;
         esac
     done
-}
-
-function igalia_all() {
-# Install Mesa Vulkan Driver
-# The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 26.01.2021
-clear
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-echo ""
-echo "STEP 1. Bring OS Up to date... "
-echo ""
-sudo apt update && sudo apt upgrade -y
-echo ""
-echo "STEP 2. Installing Libdrm... "
-echo ""
-sudo apt-get install -y xsltproc libpciaccess-dev xutils-dev libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
-#Get latest stable libdrm version from here: https://dri.freedesktop.org/libdrm/ Directly with:
-wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
-tar xvpf libdrm-2.4.104.tar.xz
-cd libdrm-2.4.104
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dudev=true -Dvc4=true -Dintel=false -Dvmwgfx=false -Dradeon=false -Damdgpu=false -Dnouveau=false -Dfreedreno=false -Dinstall-test-programs=true -Dprefix=/usr build
-ninja -C build -j3
-sudo ninja -C build install
-#Test libdrm with something like: modetest -s 89:#0
-
-echo "STEP 3. Installing MESA Dependencies... "
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools --no-install-recommends
-#libdrm-dev
-sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt-get install -y cmake
-echo ""
-echo "STEP 4. Compiling Driver & Extras... "
-echo ""
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get build-dep mesa -y
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-cd $HOME/code/
-#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
-#WARNING: This will destroy your desktop system if you are using one
-#sudo apt-get purge mesa-* libgl* libdrm*
-sudo rm -rf mesa* 
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
-cd mesa
-#git checkout wip/igalia/v3dv-conformance-1.0
-##Not needed to use drm... Below with drm are obsolete -Dplatforms=x11,drm
-#Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
-##Based On Igalia
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release -Dprefix=/usr build
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,vc4,kmsro -Dbuildtype=release -Dprefix=/usr build
-ninja -C build -j3
-sudo ninja -C build install
-echo ""
-#Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
-
-cd $HOME/code/
-#SKIP-- Download & Install MESA DRM
-##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
-#git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
-#cd drm
-##RPI4 Specific
-#meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
-#ninja -C build
-#sudo -E ninja -C build install
-#sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
-
-#Update RPie MESA DRM file
-sudo cp /usr/local/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm/
-sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
-sudo ldconfig
-
-#Update SDL2
-cd $HOME/code/
-wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
-tar xvpf SDL2-2.0.14.tar.gz
-cd SDL2-2.0.14/
-./configure
-make -j3
-sudo make install	
-#Check version of SDL2: sdl2-config --version
-
-echo ""
-#echo "STEP 5. Set EVVVAR to ensure that a Vulkan program finds the driver... "
-#echo ""
-#export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
-echo ""
-sleep 2
-echo "Compile RetroArch with Vulkan Support... "
-echo ""
-cd $HOME/code/
-#Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install -y glslang-dev glslang-tools spirv-tools
-git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get build-dep retroarch -y
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-cd retroarch
-## PB Take
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
-./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-#--disable-jack
-##X11 OFF
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --disable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-##X11 ON
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
-#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-make -j4
-if [ -f "retroarch" ]; then
-mv retroarch retroarchNEW
-sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
-cd /opt/retropie/emulators/retroarch/bin
-sudo ln -sf retroarchNEW retroarch
-sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-else
-echo
-echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
-echo
-read -n 1 -s -r -p "Press any key to continue..."
-break
-fi
-cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-clear
-echo
-echo "[OK DONE!...]"
-sleep 1
-echo ""
-echo "Script By 2Play!"
-echo ""
-echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
-echo ""
-read -n 1 -s -r -p "Press any key to reboot"
-echo ""
-echo "[OK System Will Restart now...]"
-clear
-sudo reboot
 }
 
 function mesa_up() {
@@ -1668,14 +1518,14 @@ sudo apt-get install -y xsltproc libpciaccess-dev xutils-dev libtool make automa
 wget https://dri.freedesktop.org/libdrm/libdrm-2.4.104.tar.xz
 tar xvpf libdrm-2.4.104.tar.xz
 cd libdrm-2.4.104
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dudev=true -Dvc4=true -Dintel=false -Dvmwgfx=false -Dradeon=false -Damdgpu=false -Dnouveau=false -Dfreedreno=false -Dinstall-test-programs=true -Dprefix=/usr build
+CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
+meson -Dudev=true -Dvc4=true -Dintel=false -Dvmwgfx=false -Dradeon=false -Damdgpu=false -Dnouveau=false -Dfreedreno=false -Dexynos=false -Domap=false -Dtegra=false -Detnaviv=false -Dinstall-test-programs=true -Dprefix=/usr build
 ninja -C build -j3
 sudo ninja -C build install
 #Test libdrm with something like: modetest -s 89:#0
 
 echo "STEP 3. Installing MESA Dependencies... "
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools --no-install-recommends
-#libdrm-dev
+sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev --no-install-recommends
 sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
 sudo pip3 install meson
 sudo pip3 install mako
@@ -1696,11 +1546,12 @@ git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
-##Not needed to use drm... Below with drm are obsolete -Dplatforms=x11,drm
+##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
 #Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
 ##Based On Igalia
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=release -Dprefix=/usr build
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,vc4,kmsro -Dbuildtype=release -Dprefix=/usr build
+CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
+meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink -Dbuildtype=release -Dprefix=/usr build
+#meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j3
 sudo ninja -C build install
 echo ""
@@ -1712,24 +1563,24 @@ cd $HOME/code/
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
 #cd drm
 ##RPI4 Specific
-#meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" 
+#CFLAGS="-O3 -mcpu=cortex-a72 -mfpu=neon-fp-armv8" CXXFLAGS="-O3 -mcpu=cortex-a72 -mfpu=neon-fp-armv8"
+#meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dbuildtype=release
 #ninja -C build
 #sudo -E ninja -C build install
-#sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
-
+sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm/
 #Update RPie MESA DRM file
-sudo cp /usr/local/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm/
 sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
 sudo ldconfig
 
-#Update SDL2
-cd $HOME/code/
-wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
-tar xvpf SDL2-2.0.14.tar.gz
-cd SDL2-2.0.14/
-./configure
-make -j3
-sudo make install	
+#Update SDL2 Use Custom version in RPie Scritpmodule
+#cd $HOME/code/
+#wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
+#tar xvpf SDL2-2.0.14.tar.gz
+#cd SDL2-2.0.14/
+#./configure --enable-video-kmsdrm
+#make -j3
+#sudo make install	
 #Check version of SDL2: sdl2-config --version
 
 echo ""
@@ -1755,6 +1606,60 @@ echo ""
 echo "[OK System Will Restart now...]"
 clear
 sudo reboot
+}
+
+function vulkan_ra() {
+clear
+echo ""
+echo "Compile RetroArch with Vulkan Support... "
+echo ""
+cd $HOME
+if [ ! -d code ]; then
+mkdir code && cd code/
+else
+cd code/
+fi
+#Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
+sudo apt-get install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
+git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get build-dep retroarch -y
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+cd retroarch
+## PB Take
+#By BT
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
+#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt
+##X11 OFF
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
+#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --disable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
+##X11 ON
+#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
+#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
+make -j4
+if [ -f "retroarch" ]; then
+mv retroarch retroarchNEW
+sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
+cd /opt/retropie/emulators/retroarch/bin
+sudo ln -sf retroarchNEW retroarch
+#sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
+else
+echo
+echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
+echo
+read -n 1 -s -r -p "Press any key to continue..."
+break
+fi
+cd $HOME/code/
+rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+cd $HOME
+clear
+echo
+echo "[OK DONE!...]"
+sleep 2
 }
 
 function igalia_dm() {
@@ -1795,74 +1700,6 @@ clear
 echo
 echo "[OK DONE!...]"
 sleep 1
-}
-
-function vulkan_ra() {
-clear
-echo ""
-echo "Compile RetroArch with Vulkan Support... "
-echo ""
-cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
-#Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install -y glslang-dev glslang-tools spirv-tools
-git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get build-dep retroarch -y
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-cd retroarch
-## PB Take
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard"
-./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-#--disable-jack
-##X11 OFF
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72 -DEGL_NO_X11"
-#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --disable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-##X11 ON
-#CFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72" CXXFLAGS="-O2 -march=armv8-a+crc+simd -mtune=cortex-a72"
-#./configure --disable-opengl1 --enable-opengles3 --enable-opengles --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-qt
-make -j4
-if [ -f "retroarch" ]; then
-mv retroarch retroarchNEW
-sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
-cd /opt/retropie/emulators/retroarch/bin
-sudo ln -sf retroarchNEW retroarch
-sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sudo mv /opt/retropie/emulators/retroarch/bin/retroarch /opt/retropie/emulators/retroarch/bin/retroarch.BAK
-else
-echo
-echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
-echo
-read -n 1 -s -r -p "Press any key to continue..."
-break
-fi
-cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-cd $HOME
-clear
-echo
-echo "[OK DONE!...]"
-sleep 2
-}
-
-function sources_cl() {
-	clear
-	echo ""
-	echo " This will free up to 3.5GB of space..."
-	echo ""
-	sleep 2
-	cd $HOME/code/
-	rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
 }
 
 
