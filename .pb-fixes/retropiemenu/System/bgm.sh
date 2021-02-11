@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 09.02.2021
+# 10.02.2021
 
 infobox= ""
 infobox="${infobox}\n"
@@ -44,7 +44,7 @@ function main_menu() {
 }
 
 function remove_bgm() {
-	pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
+	pgrep -f "python /home/pi/.livewire.py" | xargs sudo kill -9
     echo
 	echo "STEP: Removing BGM..."
 	sleep 3
@@ -52,7 +52,7 @@ function remove_bgm() {
 	if [ -e /home/pi/.DisableMusic ]; then
 		rm /home/pi/.DisableMusic
 	fi
-	mv /home/pi/RetroPie/roms/music /home/pi/RetroPie/roms/music.OFF
+	mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
 	sudo sed -i '/livewire/d' /etc/rc.local
 	echo -e "\n\n\n         Background Music has been removed from your system.\n\n\n"
 	sleep 2
@@ -180,43 +180,43 @@ function install_bgm() {
         sleep 5
         exit
         fi
+		echo
+		echo "STEP 2: Checking Requirements..."
+		sleep 2
         PKG=python-pygame
         PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PKG|grep "install ok installed")
         if [ "" == "$PKG_OK" ]; then
-                echo
-				echo "STEP 2: Checking Requirements..."
-				sleep 3
-				echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
-                sleep 3
-                sudo apt update && sudo apt upgrade -y $PKG
-        else
-        echo -e "\n\n\n    $PKG seems to be installed... Let's install BGM!"
-        sleep 2
+            echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
+            sleep 2
+            sudo apt update && sudo apt install -y $PKG
+			else
+			echo -e "\n\n\n         $PKG seems to be installed...\n\nLet's install BGM!"
+			sleep 2
         fi
+        cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
         sudo perl -i.bak -pe '$_ = qq[(sudo python /home/pi/.livewire.py) &\n$_] if $_ eq qq[exit 0\n]'  /etc/rc.local
         echo
 		echo "STEP 3: Checking if an external USB Drive Roms exists..."
-		echo 
+		sleep 2
+		if [ -d ~/RetroPie/localroms ]; then
+		echo
 		echo "An external USB is enabled/connected..."
 		echo
 		sleep 2
-		if [ -d $HOME/addonusb ]; then
-		cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
 		cd $HOME
-		sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
-			if [ -d $HOME/RetroPie/localroms/music.OFF ]; then
-                mv /home/pi/RetroPie/localroms/music.OFF /home/pi/RetroPie/localroms/music
-				else
-				mkdir /home/pi/RetroPie/localroms/music
+		sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' $HOME/.livewire.py
+			if [ -d ~/RetroPie/localroms/music.OFF ]; then mv ~/RetroPie/localroms/music.OFF /home/pi/RetroPie/localroms/music
+			elif [ ! -d ~/RetroPie/localroms/music ]; then mkdir /home/pi/RetroPie/localroms/music
 			fi
 		else
-		cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
-		cd $HOME
-		sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
-			if [ -d $HOME/RetroPie/roms/music.OFF ]; then
-                mv /home/pi/RetroPie/roms/music.OFF /home/pi/RetroPie/roms/music
-				else
-				mkdir /home/pi/RetroPie/roms/music
+			echo
+			echo "You are not using an external USB roms drive..."
+			echo
+			sleep 2
+			cd $HOME
+			sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF /home/pi/RetroPie/roms/music
+			elif [ ! -d ~/RetroPie/roms/music ]; then mkdir ~/RetroPie/roms/music
 			fi
 		fi
 		echo
