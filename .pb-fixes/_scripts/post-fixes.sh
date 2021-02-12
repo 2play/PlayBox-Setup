@@ -170,21 +170,25 @@ sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' re
 # Pico8 & DuckStation Standalone & Core
 sudo chown pi:pi -R /opt/retropie/emulators/pico8/
 sudo chmod 755 /opt/retropie/emulators/pico8/*
-if [ -d ~/RetroPie/localroms ]; then
-mkdir $HOME/RetroPie/localroms/pico8 && mkdir $HOME/addonusb/pico8
-cd $HOME/RetroPie/localroms/pico8
-	if [ -f $HOME/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then echo "Already installed!"; sleep 1
-	else 
-	wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/localroms/pico8/%2BStart%20PICO8.sh
-	chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
-	fi
+#If user has Pico8 Disabled
+if [ -d ~/RetroPie/localroms/pico8.* ]; then
+echo "You have it disabled. We continue..."
 else
-cd ~/RetroPie/roms && mkdir pico8
-cd pico8
-	if [ -f $HOME/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then echo "Already installed!"; sleep 1
-	else 
-	wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
-	chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
+	if [ -d ~/RetroPie/localroms ]; then
+	mkdir ~/RetroPie/localroms/pico8 && mkdir ~/addonusb/pico8
+	cd ~/RetroPie/localroms/pico8
+		if [ ! -f ~/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/localroms/pico8/%2BStart%20PICO8.sh
+		chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
+		fi
+	else
+		if [ -d ~/RetroPie/roms/pico8.* ]; then
+			echo "You have it disabled. We continue..."
+			else
+			mkdir ~/RetroPie/roms/pico8 && cd pico8
+			if [ ! -f ~/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
+			chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
+			fi
+		fi
 	fi
 fi
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
