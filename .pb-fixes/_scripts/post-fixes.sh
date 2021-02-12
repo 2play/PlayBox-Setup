@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 03.02.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 12.02.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -127,9 +127,9 @@ sudo chmod 755 /usr/bin/youtube-dl
 fi
 # WWF Typo Fix
 rm -rf $HOME/RetroPie/saves-unified
-#Remove PUAE cfgs to avoid dups
-rm -rf /opt/retropie/configs/all/retroarch/config/PUAE*
-# Lr-PUAE Related
+#Check PUAE config to avoid dups & Lr-PUAE Related
+if [ -d /opt/retropie/configs/all/retroarch/config/PUAE.OFF ]; then rm -rf /opt/retropie/configs/all/retroarch/config/PUAE
+fi
 cd $HOME/RetroPie/saves
 mkdir amiga amiga1200 amigacd32 cdtv
 # N64 Core Option
