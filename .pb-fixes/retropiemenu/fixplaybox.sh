@@ -1635,6 +1635,12 @@ cd /opt/retropie/emulators/retroarch/bin
 sudo ln -sf retroarchNEW retroarch
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|^core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|^core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 else
 echo
 echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
