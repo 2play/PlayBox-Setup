@@ -219,13 +219,14 @@ echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sour
 wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1
 else 
-cd $HOME/code/
-git clone https://github.com/aristocratos/bpytop.git
-cd bpytop
-sudo make install
+#cd $HOME/code/
+#git clone https://github.com/aristocratos/bpytop.git
+#cd bpytop
+#sudo make install
 #sudo make uninstall
-cd ..
-rm -rf bpytop/
+#cd ..
+#rm -rf bpytop/
+pip3 install bpytop --upgrade
 fi
 
 echo
