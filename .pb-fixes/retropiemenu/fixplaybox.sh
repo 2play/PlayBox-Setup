@@ -1578,7 +1578,7 @@ sudo ldconfig
 echo ""
 #echo "STEP 4. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
-## Check Global variables: printenv
+## Check Global variables: printenv or export -p
 export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
 #export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
 #echo ""
@@ -1707,8 +1707,8 @@ function pikiss_git() {
 	git fetch
 	git reset --hard HEAD
 	git merge '@{u}'
-	sleep 2 && cd $HOME
-	$HOME/piKiss/piKiss.sh
+	sleep 2
+	~/piKiss/piKiss.sh
 }
 
 
