@@ -229,9 +229,12 @@ else
 #rm -rf bpytop/
 pip3 install bpytop --upgrade
 fi
+#New Ports Dependencies
+if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
+	return 0
+    fi
+	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLEW.so /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7
 
-echo
-clear
 }
 
 # Global Shader
