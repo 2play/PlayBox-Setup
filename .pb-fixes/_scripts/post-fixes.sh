@@ -230,11 +230,14 @@ else
 pip3 install bpytop --upgrade
 fi
 #New Ports Dependencies
-if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
+	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
 	return 0
     fi
 	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLEW.so /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7
-
+	if [[ ! -e /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13 ]]; then
+        echo -e "\nSetting libSDL_gfx..."
+        sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
+    fi
 }
 
 # Global Shader
