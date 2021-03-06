@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 12.02.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.03.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -239,6 +239,8 @@ fi
         sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
     fi
 }
+#Delete and Update OpenBor
+
 
 # Global Shader
 function global_shader() {
