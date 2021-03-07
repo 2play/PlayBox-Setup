@@ -267,6 +267,8 @@ function glb_shon() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
 fi
+if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
+fi
 clear
 echo ""
 echo "[OK DONE!...]"
@@ -277,6 +279,8 @@ sleep 2
 function glb_shoff() {
 cd /opt/retropie/configs/all/retroarch/config/
 if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
+fi
+if [ -f global.slangp ]; then mv global.slangp global.slangp.OFF
 fi
 clear
 echo ""

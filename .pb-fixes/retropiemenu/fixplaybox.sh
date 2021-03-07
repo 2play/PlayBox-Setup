@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 13.02.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 07.03.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -845,6 +845,7 @@ function enable_shaders() {
 function disable_global_sh() {
 	dialog --infobox "...Removing..." 3 20 ; sleep 2
 	mv /opt/retropie/configs/all/retroarch/config/global.glslp /opt/retropie/configs/all/retroarch/config/global.glslp.OFF
+	mv /opt/retropie/configs/all/retroarch/config/global.slangp /opt/retropie/configs/all/retroarch/config/global.slangp.OFF
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -853,10 +854,21 @@ function disable_global_sh() {
 
 function enable_global_sh() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	mv /opt/retropie/configs/all/retroarch/config/global.glslp.OFF /opt/retropie/configs/all/retroarch/config/global.glslp
+	cd /opt/retropie/configs/all/retroarch/config/
+	if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
+	fi
+	if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
+	fi
+	if [ ! -f global.glslp ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/opt/retropie/configs/all/retroarch/config/global.glslp
+	fi
+	if [ ! -f global.slangp ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/opt/retropie/configs/all/retroarch/config/global.slangp
+	fi
+	mv global.glslp.OFF global.glslp
+	mv global.slangp.OFF global.slangp
 	clear
 	echo
 	echo "[OK DONE!...]"
+	cd $HOME
 	sleep 1
 }
 
