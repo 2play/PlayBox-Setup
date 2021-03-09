@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 07.03.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 09.03.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -39,16 +39,16 @@ function main_menu() {
             --menu "$pb_version" 25 75 20 \
             - "*** PLAYBOX TOOLKIT SELECTIONS ***" \
             - "" \
-			1 " -  FIXES OPTIONS MENU" \
-            2 " -  APPS & TWEAKS OPTIONS MENU" \
-            3 " -  CLEANUP TOOLS OPTIONS MENU" \
-            4 " -  SYSTEM TOOLS OPTIONS MENU" \
-            5 " -  THANK YOU! - CREDITS" \
+			1 " - FIXES OPTIONS MENU" \
+            2 " - APPS & TWEAKS OPTIONS MENU" \
+            3 " - CLEANUP TOOLS OPTIONS MENU" \
+            4 " - SYSTEM TOOLS OPTIONS MENU" \
+            5 " - THANK YOU! - CREDITS" \
 			- "" \
-			6 " -  UPDATE YOUR PLAYBOX SETUP" \
+			6 " - UPDATE YOUR PLAYBOX SETUP" \
 			- "" \
-            7 " -  POWER OFF" \
-            8 " -  RESTART" \
+            7 " - POWER OFF" \
+            8 " - RESTART" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -60,7 +60,7 @@ function main_menu() {
 			6) update_pbs  ;;
 			7) poff_pb  ;;
             8) restart_pb  ;;
-            -) none ;;
+			-) none ;;
             *)  break ;;
         esac
     done
@@ -78,14 +78,15 @@ function fixes_pbt() {
             --menu "Apply the fix(es) you need..." 25 75 20 \
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
-			1 " -  Fix The PlayBox RetropieMenu" \
-            2 " -  Region Systems PlayBox Setup (US/EU-JP/ALL)" \
-			3 " -  Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            4 " -  Repair PlayBox Background Music Mute File" \
-            5 " -  Restore 2Play! Slideshow Screensaver" \
-            6 " -  Reset All RetroPie Controllers" \
-            7 " -  Fix-Reset-Clean RetroPie Setup git" \
-			8 " -  Fix-Reset-Update 2Play! PlayBox v2 Themes" \
+			1 " - Fix The PlayBox RetropieMenu" \
+            2 " - Region Systems PlayBox Setup (US/EU-JP/ALL)" \
+			3 " - Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
+            4 " - Repair PlayBox Background Music Mute File" \
+            5 " - Restore 2Play! Slideshow Screensaver" \
+            6 " - Reset All RetroPie Controllers" \
+            7 " - Fix-Reset-Clean RetroPie Setup git" \
+			8 " - Fix-Reset-Update 2Play! PlayBox v2 Themes" \
+			9 " - Set Default Audio Out To 3.5mm Jack or HDMI" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -97,6 +98,7 @@ function fixes_pbt() {
             6) fix_control  ;;
             7) git_rs  ;;
 			8) themes_rs  ;;
+			9) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -533,6 +535,64 @@ function themes_rs() {
 	sudo reboot
 }
 
+function def_audio_out() {
+	dialog --backtitle "PlayBox Toolkit" \
+	--title "DEFAULT AUDIO OUT OPTIONS MENU" \
+	
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " DEFAULT AUDIO OUT OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Let's set your default Audio Out device..." 25 75 20 \
+            - "*** DEFAULT AUDIO OUT SELECTIONS ***" \
+			- "	" \
+           1 " - Set Default Audio Out as HDMI " \
+           2 " - Set Default Audio Out as 3.5mm Jack " \
+           2>&1 > /dev/tty)
+
+        case "$choice" in
+           1) hdmi_sound_out  ;;
+           2) jack_sound_out  ;;
+		   -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function hdmi_sound_out() {
+	clear
+	if grep "^#hdmi_ignore_edid_audio=1" /boot/config.txt; then
+	sudo sed -i 's|^hdmi_ignore_edid_audio=1|#hdmi_ignore_edid_audio=1|g' /boot/config.txt;
+	fi
+	if grep 'audio_device = ""' /opt/retropie/configs/all/retroarch.cfg; then
+	sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
+	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+	fi
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+function jack_sound_out() {
+	clear
+	if ! grep -E "hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
+	sudo sed -i '84i#hdmi_force_edid_audio' /boot/config.txt
+	sudo sed -i '85i#hdmi_ignore_edid_audio=1' /boot/config.txt
+	fi
+	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
+	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
+	fi
+	if grep 'audio_device = ""' /opt/retropie/configs/all/retroarch.cfg; then
+	sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
+	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+	fi
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
 
 
 function apps_pbt() {
@@ -546,19 +606,19 @@ function apps_pbt() {
             --menu "Run the application you need..." 25 75 20 \
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " -  Take HD ScreenShot" \
-			2 " -  Gamelist Views - 2Play! Themes " \
-		    3 " -  RetroArch Visual & Audio ON/OFF Options+" \
-			4 " -  Hide or Show a System" \
-			5 " -  2Play! Music Selections" \
-			6 " -  Skyscraper By Lars Muldjord" \
-		    7 " -  Vulkan [Pi4] Driver Related Options" \
-		    8 " -  [Disabled] PiKISS By Jose Cerrejon" \
-		    9 " -  Single Saves Directory By RPC80" \
-		   10 " -  SD/USB Storage Benchmark" \
-		   11 " -  OMXPlayer Volume Control Script" \
-		   12 " -  Emulators Custom Compile From Source" \
-		   13 " -  Emulator Tweaks Options" \
+			1 " - Take HD ScreenShot" \
+			2 " - Gamelist Views - 2Play! Themes " \
+		    3 " - RetroArch Visual & Audio ON/OFF Options+" \
+			4 " - Hide or Show a System" \
+			5 " - 2Play! Music Selections" \
+			6 " - Skyscraper By Lars Muldjord" \
+		    7 " - Vulkan [Pi4] Driver Related Options" \
+		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
+		    9 " - Single Saves Directory By RPC80" \
+		   10 " - SD/USB Storage Benchmark" \
+		   11 " - OMXPlayer Volume Control Script" \
+		   12 " - Emulators Custom Compile From Source" \
+		   13 " - Emulator Tweaks Options" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -709,15 +769,15 @@ function ra_options_tool() {
 	clear
 	local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH VISUAL OPTIONS MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH AUDIO & VISUAL OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
-            - "*** AUDIO VOLUME LEVEL SELECTIONS ***" \
-            1 " - Increase Volume By 25% " \
-            2 " - Increase Volume By 50% " \
-            3 " - Increase Volume By 80% " \
-            4 " - Increase Volume By 100% " \
-			5 " - Set Default RA Level " \
+            - "*** AUDIO SETTINGS SELECTIONS ***" \
+            1 " - RetroArch Increase Volume By 25% " \
+            2 " - RetroArch Increase Volume By 50% " \
+            3 " - RetroArch Increase Volume By 80% " \
+            4 " - RetroArch Increase Volume By 100% " \
+			5 " - Set Default RetroArch Level " \
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
             6 " - Disable Global Retro Shader " \
@@ -1738,8 +1798,8 @@ function rpc80_saves() {
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
             - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
-           1 " -  Enable Single Saves Directory" \
-           2 " -  Revert Single Saves Directory" \
+           1 " - Enable Single Saves Directory" \
+           2 " - Revert Single Saves Directory" \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2248,12 +2308,12 @@ clear
             --menu "Apply the tweak(s) you need..." 25 75 20 \
             - "*** EMULATOR TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " -  Virtual Boy Core: 3D Anaglyph Display Options " \
-			2 " -  GameBoy Core: Original or Enhanced GameBoy Display Options " \
-			3 " -  PPSSPP: Standalone Emulator EXIT To ES or Menu " \
-			4 " -  N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
-			5 " -  Lr-PUAE Amiga Model Selection Options  " \
-			6 " -  Amiga Setup Selection Options  " \
+			1 " - Virtual Boy Core: 3D Anaglyph Display Options " \
+			2 " - GameBoy Core: Original or Enhanced GameBoy Display Options " \
+			3 " - PPSSPP: Standalone Emulator EXIT To ES or Menu " \
+			4 " - N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
+			5 " - Lr-PUAE Amiga Model Selection Options  " \
+			6 " - Amiga Setup Selection Options  " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2280,8 +2340,8 @@ function vboy_3d() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** VIRTUALBOY CORE SELECTIONS ***" \
 			- "	" \
-           1 " -  Disable PlayBox 3D Anaglyph Display Options " \
-           2 " -  Enable PlayBox 3D Anaglyph Display Options " \
+           1 " - Disable PlayBox 3D Anaglyph Display Options " \
+           2 " - Enable PlayBox 3D Anaglyph Display Options " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2330,8 +2390,8 @@ function gboy_enh() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** GAMEBOY CORE SELECTIONS ***" \
 			- "	" \
-           1 " -  Enable GameBoy Original (B/W) Display Graphics " \
-           2 " -  Enable GameBoy Enhanced (CLR) Display Graphics " \
+           1 " - Enable GameBoy Original (B/W) Display Graphics " \
+           2 " - Enable GameBoy Enhanced (CLR) Display Graphics " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2386,8 +2446,8 @@ function ppsspp_exit() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
 			- "	" \
-           1 " -  Enable PPSSPP EXIT to ES Instead The Emulator Menu " \
-           2 " -  Disable PPSSPP EXIT to ES And Show The Emulator Menu " \
+           1 " - Enable PPSSPP EXIT to ES Instead The Emulator Menu " \
+           2 " - Disable PPSSPP EXIT to ES And Show The Emulator Menu " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2432,8 +2492,8 @@ function n64_res() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
 			- "	" \
-           1 " -  Set Native Low-Res (320x240) To N64 Lr-Core " \
-           2 " -  Set Native Hi-Res (640x480) To N64 Lr-Core " \
+           1 " - Set Native Low-Res (320x240) To N64 Lr-Core " \
+           2 " - Set Native Hi-Res (640x480) To N64 Lr-Core " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2481,13 +2541,13 @@ function amiga_models() {
             --menu "Select The Amiga Model You Want to Use For..." 25 75 20 \
             - "*** AMIGA AGA SYSTEM MODEL OPTIONS MENU SELECTIONS ***" \
 			- "	" \
-           1 " -  Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
-           2 " -  Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
+           1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
+           2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
 		   - "	" \
 		   - "*** AMIGA MAIN SYSTEM OPTIONS MENU SELECTIONS ***" \
 			- "	" \
-           3 " -  Set Amiga Main System To AUTO (If You Place All Roms in Amiga Roms Folder " \
-           4 " -  Set Amiga 500+ (1MB Chip RAM) " \
+           3 " - Set Amiga Main System To AUTO (If You Place All Roms in Amiga Roms Folder " \
+           4 " - Set Amiga 500+ (1MB Chip RAM) " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2556,16 +2616,16 @@ function amiga_choices() {
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
             - "*** AMIGA 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
 			- "	" \
-           1 " -  Set Lr-PUAE as main emulator " \
-           2 " -  Set Amiberry as main emulator " \
+           1 " - Set Lr-PUAE as main emulator " \
+           2 " - Set Amiberry as main emulator " \
 		   - "	" \
 		   - "*** AMIGA CUSTOM OVERLAYS LR-PUAE SETUP ***" \
 		   - "	" \
-           3 " -  Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
+           3 " - Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
 		   - "    Tx to Quizaseraq (LoadedImage-Set), Ransom & Pipmick (Creators) " \
 		   - "	" \
-		   4 " -  Quick Disable Shader from Custom Setup Option #3 " \
-		   5 " -  Quick Enable  Shader from Custom Setup Option #3 " \
+		   4 " - Quick Disable Shader from Custom Setup Option #3 " \
+		   5 " - Quick Enable  Shader from Custom Setup Option #3 " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2660,12 +2720,12 @@ function clean_pbt() {
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
 			- "	" \
-           1 " -  Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P!" \
-		   2 " -  Clean LastPlayed & PlayCount or Favorites Options" \
-		   3 " -  Clean all save, hi, dat etc files in roms folder" \
-           4 " -  Remove ES Auto-gen Gamelists" \
-		   5 " -  Clean & Set 2Play! Top CLi Commands History" \
-           6 " -  Clean Filesystem Cache" \
+           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P!" \
+		   2 " - Clean LastPlayed & PlayCount or Favorites Options" \
+		   3 " - Clean all save, hi, dat etc files in roms folder" \
+           4 " - Remove ES Auto-gen Gamelists" \
+		   5 " - Clean & Set 2Play! Top CLi Commands History" \
+           6 " - Clean Filesystem Cache" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3080,16 +3140,16 @@ function sys_pbt() {
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
-		   1 " -  Force A Filesystem Check At Next Boot " \
-           2 " -  Show Partitions & Space Info" \
-		   3 " -  Show Folders Size [home/pi]" \
-           4 " -  Show System Free Memory Info" \
-           5 " -  Show OS Version & Info" \
-           6 " -  System & FW Update Options" \
-           7 " -  System Full Info" \
-		   8 " -  Monitor In Real Time Board Temperature" \
-		   9 " -  Show CPU Cores Status" \
-		  10 " -  Ratio Video Tool Options" \
+		   1 " - Force A Filesystem Check At Next Boot " \
+           2 " - Show Partitions & Space Info" \
+		   3 " - Show Folders Size [home/pi]" \
+           4 " - Show System Free Memory Info" \
+           5 " - Show OS Version & Info" \
+           6 " - System & FW Update Options" \
+           7 " - System Full Info" \
+		   8 " - Monitor In Real Time Board Temperature" \
+		   9 " - Show CPU Cores Status" \
+		  10 " - Ratio Video Tool Options" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
