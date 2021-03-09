@@ -569,9 +569,12 @@ function hdmi_sound_out() {
 	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 	fi
 	clear
+	echo "We need to restart system now..."
 	echo
-	echo "[OK DONE!...]"
+	read -n 1 -s -r -p "Press any key to continue..."
 	sleep 1
+	sudo reboot
+	echo
 }
 
 function jack_sound_out() {
@@ -588,9 +591,12 @@ function jack_sound_out() {
 	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 	fi
 	clear
+	echo "We need to restart system now..."
 	echo
-	echo "[OK DONE!...]"
+	read -n 1 -s -r -p "Press any key to continue..."
 	sleep 1
+	sudo reboot
+	echo
 }
 
 
