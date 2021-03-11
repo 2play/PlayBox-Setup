@@ -153,6 +153,7 @@ echo "Already has a custom volume setting..."; sleep 1
 fi
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
 # Enable exFAT Support
 sudo apt-get install exfat-fuse -y
 sudo apt-get install exfat-utils -y
