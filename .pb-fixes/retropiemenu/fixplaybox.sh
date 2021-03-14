@@ -3113,7 +3113,7 @@ function cl_cli_hist() {
 	history -cw && clear
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
-	#sed -i '1i***Welcome to PlayBox, 2Play!***\sdl2-config --version\modetest -s 89:#0\vulkaninfo | grep deviceName\glxinfo -B\python3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\sudo raspi-config\Skyscraper\startx\glances\bpytop\sudo ~/RetroPie-Setup/retropie_setup.sh\emulationstation\2p-FixPlayBox' .bash_history
+	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '14,1000d' .bash_history
 	clear
 	echo
