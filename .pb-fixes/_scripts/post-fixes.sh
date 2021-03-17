@@ -70,12 +70,15 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
-# Config.txt OC additions
+# Config.txt OC additions & Pi400 Fix
 if ! grep "gpu_freq=750" /boot/config.txt ; then
 sudo sed -i '66i#gpu_freq=750' /boot/config.txt
 fi
 if ! grep "over_voltage=8" /boot/config.txt ; then
 sudo sed -i '67i#over_voltage=8' /boot/config.txt
+fi
+if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
+sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 fi
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
