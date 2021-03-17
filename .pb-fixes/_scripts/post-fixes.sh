@@ -77,6 +77,9 @@ fi
 if ! grep "over_voltage=8" /boot/config.txt ; then
 sudo sed -i '67i#over_voltage=8' /boot/config.txt
 fi
+if ! grep "force_turbo=1" /boot/config.txt ; then
+sudo sed -i '69i#force_turbo=1' /boot/config.txt
+fi
 if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
 sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 fi
