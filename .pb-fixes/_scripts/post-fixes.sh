@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 11.03.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 19.03.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -226,7 +226,7 @@ pip install glances
 fi
 echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
 wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
-if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1
+if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1;
 else 
 #cd $HOME/code/
 #git clone https://github.com/aristocratos/bpytop.git
@@ -235,7 +235,8 @@ else
 #sudo make uninstall
 #cd ..
 #rm -rf bpytop/
-pip3 install bpytop --upgrade
+#pip3 install bpytop --upgrade
+sudo apt install bpytop
 fi
 #New Ports Dependencies
 	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
