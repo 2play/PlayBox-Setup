@@ -252,7 +252,15 @@ fi
 }
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
-sudo ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
+sudo chown pi:pi /opt/retropie/emulators/openbor/*
+sudo rm /opt/retropie/emulators/openbor/Logs
+sudo rm /opt/retropie/emulators/openbor/Paks
+sudo rm /opt/retropie/emulators/openbor/Saves
+sudo rm /opt/retropie/emulators/openbor/ScreenShots
+ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
+ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
+ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
+ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
 
 # Global Shader
 function global_shader() {
