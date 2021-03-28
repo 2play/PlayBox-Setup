@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 27.03.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 28.03.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2941,12 +2941,12 @@ echo
 	done
 	echo "[OK DONE!...]"
 	sleep 2
-	for f in $HOME/RetroPie/localroms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
+	#for f in $HOME/RetroPie/localroms/ports/**/gamelist.xml
+	#do
+	#echo "file: $f"
+	#grep -e lastplayed -e playcount -v $f > "$f.tmp"
+	#mv -f "$f.tmp" $f
+	#done
 	echo
 	echo "[OK DONE!...]"
 	sleep 2	
@@ -2964,12 +2964,12 @@ echo
 	done
 	echo "[OK DONE!...]"
 	sleep 2
-	for f in $HOME/RetroPie/roms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
+	#for f in $HOME/RetroPie/roms/ports/**/gamelist.xml
+	#do
+	#echo "file: $f"
+	#grep -e lastplayed -e playcount -v $f > "$f.tmp"
+	#mv -f "$f.tmp" $f
+	#done
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
