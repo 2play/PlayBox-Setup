@@ -36,7 +36,7 @@ sleep 2
 
 function post_up_clean() {
 clear
-git clone --branch=clean https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=clean https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -46,7 +46,7 @@ amiga_setup
 
 function post_up_normal() {
 clear
-git clone https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -233,7 +233,7 @@ wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1;
 else 
 #cd $HOME/code/
-#git clone https://github.com/aristocratos/bpytop.git
+#git clone --depth 1 https://github.com/aristocratos/bpytop.git
 #cd bpytop
 #sudo make install
 #sudo make uninstall
