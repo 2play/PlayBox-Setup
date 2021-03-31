@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 28.03.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 31.03.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -79,26 +79,25 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu" \
-            2 " - Region Systems PlayBox Setup (US/EU-JP/ALL)" \
-			3 " - Repair JukeBox/PlayBox-Kodi/RPi-OS/PieGalaxy/Steam Systems" \
-            4 " - Repair PlayBox Background Music Mute File" \
-            5 " - Restore 2Play! Slideshow Screensaver" \
-            6 " - Reset All RetroPie Controllers" \
-            7 " - Fix-Reset-Clean RetroPie Setup git" \
-			8 " - Fix-Reset-Update 2Play! PlayBox v2 Themes" \
-			9 " - Set Default Audio Out To 3.5mm Jack or HDMI" \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL)" \
+			3 " - Repair PlayBox Background Music Mute File" \
+            4 " - Repair 2Play! Slideshow Screensaver" \
+			5 " - Reset All RetroPie Controllers" \
+			6 " - Fix RetroPie-Setup Git Update" \
+			7 " - Update 2Play! PlayBox v2 Themes" \
+			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             2) fix_region  ;;
-			3) fix_roms  ;;
-            4) fix_bgm_py  ;;
-            5) fix_slideshow  ;;
-            6) fix_control  ;;
-            7) git_rs  ;;
-			8) themes_rs  ;;
-			9) def_audio_out  ;;
+			3) fix_bgm_py  ;;
+            4) fix_slideshow  ;;
+            #5) fix_roms  ;;
+			5) fix_control  ;;
+			6) git_rs  ;;
+			7) themes_rs  ;;
+			8) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -397,6 +396,35 @@ fi
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
 
+function fix_bgm_py() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	if [ -d $HOME/addonusb ]; then
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cd $HOME
+	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
+	else
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cd $HOME
+	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+	fi
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+
+function fix_slideshow() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 3
+}
+
+
 function fix_roms() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
@@ -453,35 +481,6 @@ function fix_roms() {
 	sudo reboot
 	echo
 	fi
-}
-
-
-function fix_bgm_py() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	if [ -d $HOME/addonusb ]; then
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
-	cd $HOME
-	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
-	else
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
-	cd $HOME
-	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
-	fi
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-
-function fix_slideshow() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 3
 }
 
 
