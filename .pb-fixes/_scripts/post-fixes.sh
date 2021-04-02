@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 24.03.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 02.04.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -159,6 +159,13 @@ if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch/retroa
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 echo "Already has a custom volume setting..."; sleep 1
+fi
+# N64 Controller Fix
+if ! grep 'input_player[0-9]*_analog_dpad_mode = "1"' /opt/retropie/configs/all/retroarch/retroarch.cfg; then
+sed -i 's|input_player1_analog_dpad_mode = "1"|input_player1_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player1_analog_dpad_mode = "1"|input_player1_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_player2_analog_dpad_mode = "1"|input_player2_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player2_analog_dpad_mode = "1"|input_player2_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 fi
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
