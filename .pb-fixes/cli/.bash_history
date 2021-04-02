@@ -1,4 +1,4 @@
-***Welcome to PlayBox, 2Play!***
+***Welcome to PlayBox!***
 sdl2-config --version
 modetest -s 89:#0
 vulkaninfo | grep deviceName
