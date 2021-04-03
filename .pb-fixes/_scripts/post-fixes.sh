@@ -57,7 +57,8 @@ amiga_setup
 function next_steps() {
 clear
 #Sync New Files
-rsync -urv --exclude '.git' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' . /
+rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' . /
+sudo rsync -urv boot/ /boot/
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
@@ -160,13 +161,24 @@ sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retrop
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 echo "Already has a custom volume setting..."; sleep 1
 fi
-# N64 Controller Fix
-if ! grep 'input_player[0-9]*_analog_dpad_mode = "1"' /opt/retropie/configs/all/retroarch/retroarch.cfg; then
-sed -i 's|input_player1_analog_dpad_mode = "1"|input_player1_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player1_analog_dpad_mode = "1"|input_player1_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|input_player2_analog_dpad_mode = "1"|input_player2_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player2_analog_dpad_mode = "1"|input_player2_analog_dpad_mode = "0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+# N64 Controller Fix Revert and apply to all 4PL - Specific Setup in RA or N64 Applies
+sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_player2_analog_dpad_mode = "0"|input_player2_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player2_analog_dpad_mode = "0"|input_player2_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_player3_analog_dpad_mode = "0"|input_player3_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player3_analog_dpad_mode = "0"|input_player3_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_player4_analog_dpad_mode = "0"|input_player4_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_player4_analog_dpad_mode = "0"|input_player4_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+if grep 'input_player1_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg; then
+echo "Controller fix already applied..."; sleep 1
+else
+sed -i '19iinput_player1_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
+sed -i '20iinput_player2_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
+sed -i '21iinput_player3_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
+sed -i '22iinput_player4_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
 fi
+
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
