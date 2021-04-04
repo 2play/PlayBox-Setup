@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 02.04.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.04.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -137,12 +137,12 @@ sudo chmod 755 /usr/bin/youtube-dl
 fi
 # WWF Typo Fix
 rm -rf $HOME/RetroPie/saves-unified
-#Check PUAE config to avoid dups & Lr-PUAE Related
-if [ -d /opt/retropie/configs/all/retroarch/config/PUAE.OFF ]; then rm -rf /opt/retropie/configs/all/retroarch/config/PUAE
-fi
+#Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
+#if [ -d /opt/retropie/configs/all/retroarch/config/PUAE.OFF ]; then rm -rf /opt/retropie/configs/all/retroarch/config/PUAE
+#fi
 cd $HOME/RetroPie/saves
 mkdir amiga amiga1200 amigacd32 cdtv
-# N64 Core Option
+# N64 Core Option ThreadedRenderer
 cd /opt/retropie/configs/n64
 sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
 # Joy Selection Meleu Clean Setup
