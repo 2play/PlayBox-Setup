@@ -1,11 +1,13 @@
 #!/bin/bash
-# 25.06.20
+# Created by David Marti
+# Revised By 2Play!. Latest version below
+# 04.04.2021
 
 IFS=';'
 
 # Welcome
  dialog --backtitle "RetroPie" --title "RetroPie Media Removal Utility" \
-    --yesno "\nRetroPie media removal utility.\n\nThis utility will remove extra media files (boxart, cartart, snap, and wheel) for a chosen system where there is not a matching game for it.\n\nIf you keep your media for MAME or Final Burn Alpha in the /roms/arcade folder, there is a special choice just for that.\n\nThis script expects you to be using the following media folders.\n\nboxart\ncartart\nsnap\nwheel\n\nWARNING: Always make a backup copy of your SD card and your roms and media files before making changes to your system.\n\n\nDo you want to proceed?" \
+    --yesno "\nRetroPie media removal utility.\n\nThis utility will remove extra media files (boxart, cartart, snap/snaps, mixart and wheel) for a chosen system where there is not a matching game for it.\n\nIf you keep your media for MAME or Final Burn Alpha in the /roms/arcade folder, there is a special choice just for that.\n\nThis script expects you to be using the following media folders.\n\nboxart\ncartart\nsnap\nwheel\n\nWARNING: Always make a backup copy of your SD card and your roms and media files before making changes to your system.\n\n\nDo you want to proceed?" \
     25 80 2>&1 > /dev/tty \
     || exit
 
@@ -16,7 +18,7 @@ function main_menu() {
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " MEDIA REMOVAL DAVID MARTI MENU " \
             --ok-label OK --cancel-label Exit \
-            --menu "Which rom media folders do you wish to clean up?" 25 75 20 \
+            --menu "Which Rom Media Folders Do You Wish To Clean up?" 25 75 20 \
             1 "amiga" \
             2 "amstradcpc" \
             3 "apple2" \
@@ -88,6 +90,10 @@ function main_menu() {
             69 "x68000" \
             70 "zmachine" \
             71 "zxspectrum" \
+			- "" \
+			- "*** PLAYBOX SYSTEM SELECTIONS ***" \
+			72 "openbor" \
+			- "" \
             999 "Exit script" \
             2>&1 > /dev/tty)
 
@@ -163,7 +169,9 @@ function main_menu() {
             69) remove_media "x68000" ;;
             70) remove_media "zmachine" ;;
             71) remove_media "zxspectrum" ;;
+			72) remove_media "openbor" ;;
             999) exit ;;
+			-) none ;;
             *)  break ;;
         esac
     done
@@ -178,6 +186,7 @@ ls "${directory}/mixart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/mixa
 ls "${directory}/boxart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/boxart.txt
 ls "${directory}/cartart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/cartart.txt
 ls "${directory}/snap" | sed -e 's/\.mp4$//' > /tmp/snap.txt
+ls "${directory}/snaps" | sed -e 's/\.mp4$//' > /tmp/snaps.txt
 ls "${directory}/wheel" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/wheel.txt
 
 rm /tmp/remove_media.sh 2> /dev/null
@@ -221,6 +230,15 @@ echo "rm \"${directory}/snap/${sname}.mp4\"" >> /tmp/remove_media.sh
 fi
 done < /tmp/snap.txt
 
+while read ssname
+do
+ifexist=`ls "${directory}" |grep "${ssname}"`
+if [[ -z $ifexist ]]
+then
+echo "rm \"${directory}/snap/${ssname}.mp4\"" >> /tmp/remove_media.sh
+fi
+done < /tmp/snaps.txt
+
 while read wname
 do
 ifexist=`ls "${directory}" |grep "${wname}"`
@@ -247,6 +265,7 @@ ls "${arcade}/mixart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/mixart.
 ls "${arcade}/boxart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/boxart.txt
 ls "${arcade}/cartart" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/cartart.txt
 ls "${arcade}/snap" | sed -e 's/\.mp4$//' > /tmp/snap.txt
+ls "${arcade}/snaps" | sed -e 's/\.mp4$//' > /tmp/snaps.txt
 ls "${arcade}/wheel" | sed -e 's/\.jpg$//' | sed -e 's/\.png$//' > /tmp/wheel.txt
 
 rm /tmp/remove_media.sh 2> /dev/null
@@ -290,6 +309,15 @@ echo "rm \"${arcade}/snap/${sname}.mp4\"" >> /tmp/remove_media.sh
 fi
 done < /tmp/snap.txt
 
+while read ssname
+do
+ifexist=`ls "${directory}" |grep "${ssname}"`
+if [[ -z $ifexist ]]
+then
+echo "rm \"${arcade}/snap/${ssname}.mp4\"" >> /tmp/remove_media.sh
+fi
+done < /tmp/snap.txt
+
 while read wname
 do
 ifexist=`ls "${directory}" |grep "${wname}"`
@@ -305,7 +333,6 @@ chmod 777 /tmp/remove_media.sh
 /tmp/remove_media.sh
 rm /tmp/remove_media.sh
 }
-
 
 # Main
 
