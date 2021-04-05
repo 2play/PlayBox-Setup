@@ -1,13 +1,14 @@
 #!/bin/bash
 # Created by David Marti
-# Revised By 2Play!. Latest version below
-# 04.04.2021
+# Revised By 2Play!
+
+scrversion="PlayBox Revision 05.04.2021"
 
 IFS=';'
 
 # Welcome
  dialog --backtitle "RetroPie" --title "RetroPie Media Removal Utility" \
-    --yesno "\nRetroPie media removal utility.\n\nThis utility will remove extra media files (boxart, cartart, snap/snaps, mixart and wheel) for a chosen system where there is not a matching game for it.\n\nIf you keep your media for MAME or Final Burn Alpha in the /roms/arcade folder, there is a special choice just for that.\n\nThis script expects you to be using the following media folders.\n\nboxart\ncartart\nsnap\nwheel\n\nWARNING: Always make a backup copy of your SD card and your roms and media files before making changes to your system.\n\n\nDo you want to proceed?" \
+    --yesno "\n$scrversion\n\nThis utility will remove extra media files from mixart, boxart, cartart, snap(s) and wheel for a chosen system where there is not a matching game for it.\n\nIf you keep your media for MAME or Final Burn Alpha in the /roms/arcade folder, there is a special choice just for that.\n\n*** WARNING ***:\nDavid's script removes art basis romname! So art files have to MATCH romname!\nAlways have a backup copy of your media files before making changes to your system.\n\nDo you want to proceed? You can still exit at next step..." \
     25 80 2>&1 > /dev/tty \
     || exit
 
@@ -18,7 +19,7 @@ function main_menu() {
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " MEDIA REMOVAL DAVID MARTI MENU " \
             --ok-label OK --cancel-label Exit \
-            --menu "Which Rom Media Folders Do You Wish To Clean up?" 25 75 20 \
+            --menu "Which System Media Folders Do You Wish To Clean up?" 25 75 20 \
             1 "amiga" \
             2 "amstradcpc" \
             3 "apple2" \
@@ -91,11 +92,77 @@ function main_menu() {
             70 "zmachine" \
             71 "zxspectrum" \
 			- "" \
-			- "*** PLAYBOX SYSTEM SELECTIONS ***" \
-			72 "openbor" \
-			- "" \
-            999 "Exit script" \
-            2>&1 > /dev/tty)
+			- "*** PLAYBOX EXTRA SYSTEMS ***" \
+			72 "3do" \
+			73 "ags" \
+			74 "amiga-aga" \
+			75 "amigacd32" \
+			76 "apple2gs" \
+			77 "arcadia" \
+			78 "archimedes" \
+			79 "astrocade" \
+			80 "atarifalcon" \
+			81 "atarijaguar" \
+			82 "ataritt" \
+			83 "atarixegs" \
+			84 "atomiswave" \
+			85 "bbcmicro" \
+			86 "c16" \
+			87 "c128" \
+			88 "cdimono1" \
+			89 "cdtv" \
+			90 "channelf" \
+			91 "coleco_adam" \
+			92 "crvision" \
+			93 "electron" \
+			94 "fm7" \
+			95 "genesish (hacks)" \
+			96 "gx4000" \
+			97 "intellivision_ecs" \
+			98 "lightgun" \
+			99 "love" \
+			100 "lutro" \
+			101 "macintosh" \
+			102 "markiii" \
+			103 "mega32x" \
+			104 "megacd" \
+			105 "megadriveh (hacks)" \
+			106 "moto" \
+			107 "msx2+" \
+			108 "msxturbor" \
+			109 "naomi" \
+			110 "neogeocd" \
+			111 "nesh (hacks)" \
+			112 "odyssey2" \
+			113 "openbor" \
+			114 "pc128" \
+			115 "pc88" \
+			116 "pc98" \
+			117 "pcenginecd" \
+			118 "pcfx" \
+			119 "pico" \
+			120 "pico8" \
+			121 "plus4" \
+			122 "samcoupe" \
+			123 "satellaview" \
+			124 "saturn" \
+			125 "saturn-japan" \
+			126 "sc-3000" \
+			127 "scv" \
+			128 "sgb" \
+			129 "sgfx" \
+			130 "snesh (hacks)" \
+			131 "snesmsu1" \
+			132 "spinner" \
+			133 "stv" \
+			134 "sufami" \
+			135 "swancrystal" \
+			136 "tg16cd" \
+			137 "trackball" \
+			138 "vic20" \
+			139 "x1" \
+			140 "zx81" \
+			2>&1 > /dev/tty)
 
         case "$choice" in
             1) remove_media "amiga" ;;
@@ -169,9 +236,76 @@ function main_menu() {
             69) remove_media "x68000" ;;
             70) remove_media "zmachine" ;;
             71) remove_media "zxspectrum" ;;
-			72) remove_media "openbor" ;;
-            999) exit ;;
-			-) none ;;
+			72) remove_media "3do" ;;
+			73) remove_media "ags" ;;
+			74) remove_media "amiga-aga" ;;
+			75) remove_media "amigacd32" ;;
+			76) remove_media "apple2gs" ;;
+			77) remove_media "arcadia" ;;
+			78) remove_media "archimedes" ;;
+			79) remove_media "astrocade" ;;
+			80) remove_media "atarifalcon" ;;
+			81) remove_media "atarijaguar" ;;
+			82) remove_media "ataritt" ;;
+			83) remove_media "atarixegs" ;;
+			84) remove_media "atomiswave" ;;
+			85) remove_media "bbcmicro" ;;
+			86) remove_media "c16" ;;
+			87) remove_media "c128" ;;
+			88) remove_media "cdimono1" ;;
+			89) remove_media "cdtv" ;;
+			90) remove_media "channelf" ;;
+			91) remove_media "coleco_adam" ;;
+			92) remove_media "crvision" ;;
+			93) remove_media "electron" ;;
+			94) remove_media "fm7" ;;
+			95) remove_media "genesish (hacks)" ;;
+			96) remove_media "gx4000" ;;
+			97) remove_media "intellivision_ecs" ;;
+			98) remove_media "lightgun" ;;
+			99) remove_media "love" ;;
+			100) remove_media "lutro" ;;
+			101) remove_media "macintosh" ;;
+			102) remove_media "markiii" ;;
+			103) remove_media "mega32x" ;;
+			104) remove_media "megacd" ;;
+			105) remove_media "megadriveh (hacks)" ;;
+			106) remove_media "moto" ;;
+			107) remove_media "msx2+" ;;
+			108) remove_media "msxturbor" ;;
+			109) remove_media "naomi" ;;
+			110) remove_media "neogeocd" ;;
+			111) remove_media "nesh (hacks)" ;;
+			112) remove_media "odyssey2" ;;
+			113) remove_media "openbor" ;;
+			114) remove_media "pc128" ;;
+			115) remove_media "pc88" ;;
+			116) remove_media "pc98" ;;
+			117) remove_media "pcenginecd" ;;
+			118) remove_media "pcfx" ;;
+			119) remove_media "pico" ;;
+			120) remove_media "pico8" ;;
+			121) remove_media "plus4" ;;
+			122) remove_media "samcoupe" ;;
+			123) remove_media "satellaview" ;;
+			124) remove_media "saturn" ;;
+			125) remove_media "saturn-japan" ;;
+			126) remove_media "sc-3000" ;;
+			127) remove_media "scv" ;;
+			128) remove_media "sgb" ;;
+			129) remove_media "sgfx" ;;
+			130) remove_media "snesh (hacks)" ;;
+			131) remove_media "snesmsu1" ;;
+			132) remove_media "spinner" ;;
+			133) remove_media "stv" ;;
+			134) remove_media "sufami" ;;
+			135) remove_media "swancrystal" ;;
+			136) remove_media "tg16cd" ;;
+			137) remove_media "trackball" ;;
+			138) remove_media "vic20" ;;
+			139) remove_media "x1" ;;
+			140) remove_media "zx81" ;;
+            -) none ;;
             *)  break ;;
         esac
     done
