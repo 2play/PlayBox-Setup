@@ -53,7 +53,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./Controllers/Sinden LightGun/StopSindenLightgun(s).sh</path>
-		<name>Sinden LightGun: Stop P1/P1</name>
+		<name>Sinden LightGun: Stop P1/P2</name>
 		<desc>Stop Sinden LighGun P1/P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
