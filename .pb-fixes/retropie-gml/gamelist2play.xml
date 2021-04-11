@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <gameList>
 	<folder>
-		<path>./Emulation</path>
-		<name>: Emulation Tools</name>
-		<desc>This folder contains emulator related scripts.</desc>
-		<image>./icons/emulators.png</image>
-		<video>./icons/emulators.mp4</video>
+		<path>./Controllers</path>
+		<name>: Controller Tools</name>
+		<desc>This folder contains all the controllers related scritps. All in one place. Kind suggestion by our builder friend Schmoomer!</desc>
+		<image>./icons/controllers3.png</image>
+		<video>./icons/controllers3.mp4</video>
 	</folder>
-	<game>
-		<path>./Emulation/Sinden LightGun</path>
+	<folder>
+		<path>./Controllers/Sinden LightGun</path>
 		<name>: Sinden LightGun</name>
 		<desc>This folder contains the Sinden LightGun related scripts. You can find below in a txt file in /home/pi/apps/LightGun
 STEPS:
@@ -22,42 +22,84 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 - Go MAIN MENU, Configuration file, Save New Configuration. (If you want to delete, you ll find it with core name in /configs/all/retroarch/config</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
-	</game>
+	</folder>
 	<game>
-		<path>./Emulation/Sinden LightGun/SindenLightgunStartP1.sh</path>
+		<path>./Controllers/Sinden LightGun/SindenLightgunStartP1.sh</path>
 		<name>Sinden LightGun: Start P1</name>
 		<desc>Start Sinden LighGun P1 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Emulation/Sinden LightGun/SindenLightgunStartP2.sh</path>
+		<path>./Controllers/Sinden LightGun/SindenLightgunStartP2.sh</path>
 		<name>Sinden LightGun: Start P2</name>
 		<desc>Start Sinden LighGun P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Emulation/Sinden LightGun/SindenLightgunTestP1.sh</path>
+		<path>./Controllers/Sinden LightGun/SindenLightgunTestP1.sh</path>
 		<name>Sinden LightGun: Test P1</name>
 		<desc>Test Sinden LighGun P1 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Emulation/Sinden LightGun/SindenLightgunTestP2.sh</path>
+		<path>./Controllers/Sinden LightGun/SindenLightgunTestP2.sh</path>
 		<name>Sinden LightGun: Test P2</name>
 		<desc>Test Sinden LighGun P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Emulation/Sinden LightGun/StopSindenLightgun(s).sh</path>
+		<path>./Controllers/Sinden LightGun/StopSindenLightgun(s).sh</path>
 		<name>Sinden LightGun: Stop P1/P1</name>
 		<desc>Stop Sinden LighGun P1/P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
+	<game>
+		<path>./Controllers/joystick_selection.sh</path>
+		<name>✭ Controller Selection Script, Meleu</name>
+		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
+		<image>./icons/controllers2.png</image>
+		<video>./icons/controllers2.mp4</video>
+	</game>
+	<game>
+		<path>./Controllers/LightGunAimtrak.sh</path>
+		<name>LightGun Aimtrak Install, EZH-2P</name>
+		<desc>Enabled on PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame v3.9. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
+		<image>./icons/aimtrak.png</image>
+		<video>./icons/aimtrak.mp4</video>
+	</game>
+	<game>
+		<path>./Controllers/LightGunConf.sh</path>
+		<name>LightGun Aimtrak Config, EZH</name>
+		<desc>The configuration script created by the Aimtrak script.</desc>
+		<image>./icons/aimtrak.png</image>
+		<video>./icons/aimtrak.mp4</video>
+	</game>
+	<game>
+		<path>./Controllers/xinmo-juyao.sh</path>
+		<name>XinMo & Juyao Dual, 2P!</name>
+		<desc>Enable XIN MO or JUYAO dual Arcade player support as per official Wiki.</desc>
+		<image>./icons/xinmo.png</image>
+		<video>./icons/xinmo.mp4</video>
+	</game>
+	<game>
+		<path>./Controllers/resetcontrollers.sh</path>
+		<name>✭ Reset All Controllers, 2P!</name>
+		<desc>It will reset all ES cotroller configurations and remove any previous controller profiles. This will give you a clean controllers setup!</desc>
+		<image>./icons/controllers.png</image>
+		<video>./icons/controllers.mp4</video>
+	</game>
+	<folder>
+		<path>./Emulation</path>
+		<name>: Emulation Tools</name>
+		<desc>This folder contains emulator related scripts.</desc>
+		<image>./icons/emulators.png</image>
+		<video>./icons/emulators.mp4</video>
+	</folder>
 	<game>
 		<path>./Emulation/Amiga</path>
 		<name>: Amiga Tools</name>
@@ -101,27 +143,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/escollections.mp4</video>
 	</game>
 	<game>
-		<path>./Emulation/joystick_selection.sh</path>
-		<name>✭ Controller Selection Script, Meleu</name>
-		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
-		<image>./icons/controllers2.png</image>
-		<video>./icons/controllers2.mp4</video>
-	</game>
-	<game>
-		<path>./Emulation/LightGunAimtrak.sh</path>
-		<name>LightGun Aimtrak Install, EZH-2P</name>
-		<desc>Enabled on PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame v3.9. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
-		<image>./icons/aimtrak.png</image>
-		<video>./icons/aimtrak.mp4</video>
-	</game>
-	<game>
-		<path>./Emulation/LightGunConf.sh</path>
-		<name>LightGun Aimtrak Config, EZH</name>
-		<desc>The configuration script created by the Aimtrak script.</desc>
-		<image>./icons/aimtrak.png</image>
-		<video>./icons/aimtrak.mp4</video>
-	</game>
-	<game>
 		<path>./Emulation/retroarch.rp</path>
 		<name>✭ Retroarch</name>
 		<desc>Launches the RetroArch GUI so you can change RetroArch options. Note: Changes will not be saved unless you have enabled the "Save Configuration On Exit" option.</desc>
@@ -141,13 +162,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Not enabled on PlayBox! Creates a "saves" directory at ~/RetroPie/saves and configures all RetroArch emulators with their own config files to store savefiles at ~/RetroPie/saves/{system_name} and savestate files at ~/Retropie/saves/{system_name}/states.</desc>
 		<image>./icons/saves.png</image>
 		<video>./icons/saves.mp4</video>
-	</game>
-	<game>
-		<path>./Emulation/xinmo-juyao.sh</path>
-		<name>XinMo & Juyao Dual, 2P!</name>
-		<desc>Enable XIN MO or JUYAO dual Arcade player support as per official Wiki.</desc>
-		<image>./icons/xinmo.png</image>
-		<video>./icons/xinmo.mp4</video>
 	</game>
 	<folder>
 		<path>./Network</path>
@@ -253,13 +267,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Find out common information about Retropie, Emulation Station, Attract Mode, RetroArch and ROM information.</desc>
 		<image>./icons/reference.png</image>
 		<video>./icons/reference.mp4</video>
-	</game>
-	<game>
-		<path>./System/resetcontrollers.sh</path>
-		<name>✭ Reset All Controllers, 2P!</name>
-		<desc>It will reset all ES cotroller configurations and remove any previous controller profiles. This will give you a clean controllers setup!</desc>
-		<image>./icons/controllers.png</image>
-		<video>./icons/controllers.mp4</video>
 	</game>
 	<game>
 		<path>./System/runcommand.rp</path>
