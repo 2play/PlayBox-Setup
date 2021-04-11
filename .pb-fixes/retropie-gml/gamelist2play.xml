@@ -8,6 +8,48 @@
 		<video>./icons/emulators.mp4</video>
 	</folder>
 	<game>
+		<path>./Emulation/Sinden LightGun</path>
+		<name>: Sinden LightGun</name>
+		<desc>This folder contains the Sinden LightGun related scripts.</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/Sinden LightGun/SindenLightgunStartP1.sh</path>
+		<name>Sinden LightGun Start P1</name>
+		<desc>Start Sinden LighGun P1 Script</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/Sinden LightGun/SindenLightgunStartP2.sh</path>
+		<name>Sinden LightGun Start P2</name>
+		<desc>Start Sinden LighGun P2 Script</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/Sinden LightGun/SindenLightgunTestP1.sh</path>
+		<name>Sinden LightGun Test P1</name>
+		<desc>Test Sinden LighGun P1 Script</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/Sinden LightGun/SindenLightgunTestP2.sh</path>
+		<name>Sinden LightGun Test P2</name>
+		<desc>Test Sinden LighGun P2 Script</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/Sinden LightGun/StopSindenLightgun(s).sh</path>
+		<name>Sinden LightGun Start P1</name>
+		<desc>Stop Sinden LighGun P1/P2 Script</desc>
+		<image>./icons/sinden.png</image>
+		<video>./icons/sinden.mp4</video>
+	</game>
+	<game>
 		<path>./Emulation/Amiga</path>
 		<name>: Amiga Tools</name>
 		<desc>This folder contains Amiga emulator related scripts.</desc>
