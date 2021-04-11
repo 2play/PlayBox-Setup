@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.04.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 11.04.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -270,7 +270,12 @@ fi
         echo -e "\nSetting libSDL_gfx..."
         sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
     fi
-}
+#Sinden LightGun Requirements
+sudo apt install -y mono-complete
+sudo apt install -y v4l-utils
+sudo apt install -y libsdl1.2-dev
+sudo apt install -y libsdl-image1.2-dev
+sudo apt install -y libjpeg-dev
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
 sudo chown pi:pi /opt/retropie/emulators/openbor/*
@@ -282,6 +287,7 @@ ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
 ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
 ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
 ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
+}
 
 # Global Shader
 function global_shader() {
