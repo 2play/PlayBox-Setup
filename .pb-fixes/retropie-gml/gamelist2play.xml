@@ -10,41 +10,50 @@
 	<game>
 		<path>./Emulation/Sinden LightGun</path>
 		<name>: Sinden LightGun</name>
-		<desc>This folder contains the Sinden LightGun related scripts.</desc>
+		<desc>This folder contains the Sinden LightGun related scripts. You can find below in a txt file in /home/pi/apps/LightGun
+		STEPS:	- Add your lightgun games to a RetroArch system. Example LightGun, Arcade, NES etc.
+				- Start SindenLightgunStartP1/P2 here (Options/Retropie Menu)
+				- Go to System and start the lighgun game
+				- Enter RetroArch GUI, HOTKEY+X, QUICK MENU/CONTROLS/PORT 2 CONTROLS set Device Type to Zapper
+				- Back to SETTINGS/INPUT/PORT 2 CONTROLS To Assign LightGun Trigger to A. Its the first Lighgun Option from top.
+				Then point your gun at the screen and press the trigger. Mouse 1 should appear next to it on the screen.
+				- Back to QUICK MENU/OPTIONS, SHOW CROSSHAIR to ON (Recoil guns may require PORTS, RECOIL, STARTSINGLESHOT for crosshairs to display)
+				- Go MAIN MENU, Configuration file, Save New Configuration. (If you want to delete, you ll find it with core name in /configs/all/retroarch/config
+		</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/Sinden LightGun/SindenLightgunStartP1.sh</path>
-		<name>Sinden LightGun Start P1</name>
+		<name>Sinden LightGun: Start P1</name>
 		<desc>Start Sinden LighGun P1 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/Sinden LightGun/SindenLightgunStartP2.sh</path>
-		<name>Sinden LightGun Start P2</name>
+		<name>Sinden LightGun: Start P2</name>
 		<desc>Start Sinden LighGun P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/Sinden LightGun/SindenLightgunTestP1.sh</path>
-		<name>Sinden LightGun Test P1</name>
+		<name>Sinden LightGun: Test P1</name>
 		<desc>Test Sinden LighGun P1 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/Sinden LightGun/SindenLightgunTestP2.sh</path>
-		<name>Sinden LightGun Test P2</name>
+		<name>Sinden LightGun: Test P2</name>
 		<desc>Test Sinden LighGun P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/Sinden LightGun/StopSindenLightgun(s).sh</path>
-		<name>Sinden LightGun Start P1</name>
+		<name>Sinden LightGun: Stop P1/P1</name>
 		<desc>Stop Sinden LighGun P1/P2 Script</desc>
 		<image>./icons/sinden.png</image>
 		<video>./icons/sinden.mp4</video>
