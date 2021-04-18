@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 02.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 18.04.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1598,30 +1598,36 @@ echo ""
 echo "STEP 3. Compiling Driver & Extras... "
 echo ""
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
 sudo apt-get update
 sudo apt-get build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
 cd $HOME/code/
 #Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
 #WARNING: This will destroy your desktop system if you are using one
 #sudo apt-get purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 21.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
 ##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
 #Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
 ##Based On Igalia
 #meson --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
-meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug -Dprefix=/usr build
+meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P-NoX11
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j4
 sudo ninja -C build install
 echo ""
+sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2
+sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
 #Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
 
 cd $HOME/code/
@@ -1656,9 +1662,18 @@ echo ""
 #echo "STEP 4. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
 ## Check Global variables: printenv or export -p
-export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json
-#export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
-#echo ""
+if ! grep 'VK_ICD_FILENAMES' /home/pi/.bashrc; then
+echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /home/pi/.bashrc
+#echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
+else
+echo "Already set in .bashrc ..."; sleep 1
+fi
+if ! grep 'VK_ICD_FILENAMES' /etc/environment; then
+echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment
+#echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
+else
+echo "Already setin environment..."; sleep 1
+fi
 sleep 2
 cd $HOME/code/
 rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
