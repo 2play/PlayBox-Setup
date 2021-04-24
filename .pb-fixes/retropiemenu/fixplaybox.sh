@@ -2742,15 +2742,15 @@ clear
             - "*** RETROFLAG SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Turn switch 'SAFE SHUTDOWN' on PCB to ON position. ***" \
 			- "	" \
-			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown Script [ON] " \
-			2 " - RetroFlag GPi-Case Safe Shutdown Script [ON] " \
-			3 " - RetroFlag All Cases Safe Shutdown Script [OFF] " \
+			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown [ON] " \
+			2 " - RetroFlag GPi-Case Safe Shutdown [ON] " \
+			3 " - RetroFlag All Cases Safe Shutdown [OFF] " \
 			- "	" \
 			- "*** ARGON ONE SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Extra Settings Check https://bit.ly/3nfaID6 ***" \
 			- "	" \
-			4 " - Argon ONE Safe Shutdown & Fan Script [ON] " \
-			5 " - Argon ONE Safe Shutdown & Fan Script [OFF] " \
+			4 " - Argon ONE Safe Shutdown & Fan [ON] " \
+			5 " - Argon ONE Safe Shutdown & Fan [OFF] " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
