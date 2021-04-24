@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 18.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 24.04.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -624,6 +624,7 @@ function apps_pbt() {
 		   11 " - OMXPlayer Volume Control Script" \
 		   12 " - Emulators Custom Compile From Source" \
 		   13 " - Emulator Tweaks Options" \
+		   14 " - Safe Shutdown Case Script Options" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -640,6 +641,7 @@ function apps_pbt() {
 		   11) omxvol  ;;
 		   12) emus_compile  ;;
 		   13) emus_tks  ;;
+		   14) safe_shut  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2725,6 +2727,96 @@ function lrpuae_custom_sh_on() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+}
+
+
+function safe_shut() {
+clear
+# Safe Shutdown RetroFlag and Argon Scripts On/Off
+# 24.04.21
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " SAFE SHUTDOWN SCRIPTS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Apply the script you need..." 25 75 20 \
+            - "*** RETROFLAG SHUTDOWN SCRIPT SELECTIONS ***" \
+			- "*** Turn switch 'SAFE SHUTDOWN' on PCB to ON position. ***" \
+			- "	" \
+			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown Script [ON] " \
+			2 " - RetroFlag GPi-Case Safe Shutdown Script [ON] " \
+			3 " - RetroFlag All Cases Safe Shutdown Script [OFF] " \
+			- "	" \
+			- "*** ARGON ONE SHUTDOWN SCRIPT SELECTIONS ***" \
+			- "*** Extra Settings Check https://bit.ly/3nfaID6 ***" \
+			- "	" \
+			4 " - Argon ONE Safe Shutdown & Fan Script [ON] " \
+			5 " - Argon ONE Safe Shutdown & Fan Script [OFF] " \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) rflag_on  ;;
+            2) rflaggpi_on  ;;
+            3) rflag_off  ;;
+			4) argon1_on  ;;
+            5) argon1_off  ;;
+			-) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function rflag_on() {
+	clear
+	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/install.sh" | sudo bash
+}
+
+function rflaggpi_on() {
+	clear
+	wget -q -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/gpi/install.sh" | bash
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+	sleep 2
+}
+
+function rflag_off() {
+	clear
+	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/uninstall_all.sh" | sudo bash
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function argon1_on() {
+	clear
+	curl https://download.argon40.com/argon1.sh | bash
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function argon1_off() {
+	clear
+	exec /usr/bin/argonone-uninstall
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
 }
 
 
