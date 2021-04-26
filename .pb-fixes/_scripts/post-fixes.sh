@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 11.04.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 26.04.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -297,8 +297,8 @@ function global_shader() {
 			--menu "Choose Enable or Disable!" 25 75 20 \
             - "*** GLOBAL RETRO SHADER ***" \
             - "" \
-			1 " -  Enable The Chris Kekrides Global Retro Shader" \
-            2 " -  Disable The Chris Kekrides Global Retro Shader" \
+			1 " -  [ON]  Global Retro Shader By Chris Kekrides or 2P! " \
+            2 " -  [OFF] Global Retro Shader By Chris Kekrides or 2P! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -350,19 +350,18 @@ function amiga_setup() {
 		   - "	" \
 		   - "*** AMIGA CUSTOM LR-PUAE SETUP ***" \
 		   - "	" \
-           3 " -  Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
+           3 " -  Amiga Overlays Set For The Loaded Image (Art/View) " \
 		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
-		   4 " -  Disable Shader from Custom Setup Option #3 " \
 		   - "	" \
-           5 " -  SKIP THIS STEP: If You Enabled Already Any Of The Above! " \
+           4 " -  SKIP THIS STEP: If You Enabled Already Any Of The Above! " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) lrpuae_on  ;;
            2) amiberry_on  ;;
 		   3) lrpuae_custom_on  ;;
-		   4) lrpuae_custom_sh_off  ;;
-		   5) skip_step  ;;
+		   #4) lrpuae_custom_sh_off  ;;
+		   4) skip_step  ;;
            -) none ;;
            *) break ;;
         esac
