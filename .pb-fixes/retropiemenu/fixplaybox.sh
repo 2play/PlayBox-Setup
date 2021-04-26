@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 24.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 26.04.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -617,7 +617,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System" \
 			5 " - 2Play! Music Selections" \
 			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - Vulkan [Pi4] Driver Related Options" \
+		    7 " - MESA & Vulkan Drivers [Pi4] Related Options" \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
 		    9 " - Single Saves Directory By RPC80" \
 		   10 " - SD/USB Storage Benchmark" \
@@ -634,7 +634,7 @@ function apps_pbt() {
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
-			7) igalia_vk  ;;
+			7) mesa_vk  ;;
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
@@ -1548,7 +1548,7 @@ function skyscraper() {
 
 
 
-function igalia_vk() {
+function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
@@ -1558,13 +1558,13 @@ function igalia_vk() {
 	
     local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " RASPBERRRY PI4 VULKAN OPTIONS MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " MESA & VULKAN OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
-            --menu "Let's do some Vulkan work..." 25 75 20 \
-            - "*** RASPBERRRY PI4 VULKAN SELECTIONS ***" \
+            --menu "Let's do some magic..." 25 75 20 \
+            - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - [ON] Update PlayBox Vulkan Driver: Latest MESA Code" \
-           2 " - [ON] Update PlayBox Vulkan RetroArch" \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable" \
+           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1674,7 +1674,7 @@ if ! grep 'VK_ICD_FILENAMES' /etc/environment; then
 echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment
 #echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
 else
-echo "Already setin environment..."; sleep 1
+echo "Already set in environment..."; sleep 1
 fi
 sleep 2
 cd $HOME/code/
@@ -1689,6 +1689,16 @@ echo "Script By 2Play!"
 echo ""
 echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
 echo ""
+echo
+	while true; do
+		echo ""
+		read -p 'Whould you like to compile latest RetroArch with Vulkan Support [y] or [n]? ' yn
+		case $yn in
+		[Yy]*) vulkan_ra;;
+		[Nn]*) echo "OK!"; echo ""; break;;
+		* ) echo ""; echo "Please answer yes or no.";;
+		esac
+	done
 read -n 1 -s -r -p "Press any key to reboot"
 echo ""
 echo "[OK System Will Restart now...]"
