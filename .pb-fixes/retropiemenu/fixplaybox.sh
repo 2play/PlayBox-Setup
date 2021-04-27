@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 26.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 27.04.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3659,36 +3659,37 @@ declare -a HDMI_SETTINGS_DMT=(
         4:DMT09 " - SVGA    800x600   60Hz   [4:3] " \
         5:DMT16 " - XGA    1024x768   60Hz   [4:3] " \
 		6:DMT32 " - SXGA   1280x960   60Hz   [4:3] " \
-            - "" \
+		7:DMT51 " - UXGA  1600×1200   60Hz   [4:3] " \
+		    - "" \
             - "*** HDMI PORT [16:9] SELECTIONS ***" \
-		7:CEA03 " - 480p    720x480   60Hz  [16:9] " \
-		8:CEA18 " - 576p    720x576   50Hz  [16:9] " \
-		9:CEA04 " - 720p   1280x720   60Hz  [16:9] " \
-	   10:CEA19 " - 720p   1280x720   50Hz  [16:9] " \
-	   11:CEA16 " - 1080p 1920x1080   60Hz  [16:9] " \
-	   12:CEA31 " - 1080p 1920x1080   50Hz  [16:9] " \
-	   13:CEA97 " - 2160p 3840x2160   60Hz  [16:9] " \
-	   14:DMT85 " - 720p   1280x720   60Hz  [16:9] " \
-       15:DMT82 " - 1080p 1920x1080   60Hz  [16:9] " \
+		8:CEA03 " - 480p    720x480   60Hz  [16:9] " \
+		9:CEA18 " - 576p    720x576   50Hz  [16:9] " \
+	   10:CEA04 " - 720p   1280x720   60Hz  [16:9] " \
+	   11:CEA19 " - 720p   1280x720   50Hz  [16:9] " \
+	   12:CEA16 " - 1080p 1920x1080   60Hz  [16:9] " \
+	   13:CEA31 " - 1080p 1920x1080   50Hz  [16:9] " \
+	   14:CEA97 " - 2160p 3840x2160   60Hz  [16:9] " \
+	   15:DMT85 " - 720p   1280x720   60Hz  [16:9] " \
+       16:DMT82 " - 1080p 1920x1080   60Hz  [16:9] " \
 	        - "" \
             - "*** HDMI PORT [x:x] SELECTIONS ***" \
-       16:DMT35 " - SXGA   1280x1024  60Hz   [5:4] " \
-       17:DMT47 " - WXGA+  1440x900   60Hz [16:10] " \
-	   18:DMT58 " - WSXGA+ 1680x1050  60Hz [16:10] " \
-	   19:CEA76 " - 1080p  1920x1080  60Hz [64:27] " \
-	   20:CEA75 " - 1080p  1920x1080  50Hz [64:27] " \
-	   21:DMT87 " - CUSTOM .NOTxSET.  60Hz [xx:xx] " \
+       17:DMT35 " - SXGA   1280x1024  60Hz   [5:4] " \
+       18:DMT47 " - WXGA+  1440x900   60Hz [16:10] " \
+	   19:DMT58 " - WSXGA+ 1680x1050  60Hz [16:10] " \
+	   20:CEA76 " - 1080p  1920x1080  60Hz [64:27] " \
+	   21:CEA75 " - 1080p  1920x1080  50Hz [64:27] " \
+	   22:DMT87 " - CUSTOM .NOTxSET.  60Hz [xx:xx] " \
 	        - "" \
             - "*** SDTV - COMPOSITE VIDEO PORT SELECTIONS ***" \
             - "*** Default values are: NTSC & [4:3] No Change ***" \
-       22:STD " - Composite Video Port Mode   JP NTSC " \
-       23:STD " - Composite Video Port Mode   PAL " \
-       24:STD " - Composite Video Port Mode   Brazil PAL " \
-       25:STR " - Composite Video Port Ratio  [14:9] " \
-       26:STR " - Composite Video Port Ratio  [16:9] " \
+       23:STD " - Composite Video Port Mode   JP NTSC " \
+       24:STD " - Composite Video Port Mode   PAL " \
+       25:STD " - Composite Video Port Mode   Brazil PAL " \
+       26:STR " - Composite Video Port Ratio  [14:9] " \
+       27:STR " - Composite Video Port Ratio  [16:9] " \
             - "" \
             - "*** DISABLE HDMI SELECTIONS ***" \
-       27:ALL " - Disable Any CEA/DMT HDMI or STDTV Setting Applied " \
+       28:ALL " - Disable Any CEA/DMT HDMI or STDTV Setting Applied " \
             2>&1 > /dev/tty)
 			
         case "$choice" in
@@ -3703,27 +3704,28 @@ declare -a HDMI_SETTINGS_DMT=(
 		4:DMT09) enable_vrd 9 ;;
         5:DMT16) enable_vrd 16 ;;
         6:DMT32) enable_vrd 32 ;;
-        7:CEA03) enable_vr 3 ;;
-		8:CEA18) enable_vr 18 ;;
-		9:CEA04) enable_vr 4 ;;
-       10:CEA19) enable_vr 19 ;;
-       11:CEA16) enable_vr 16 ;;
-	   12:CEA31) enable_vr 31 ;;
-	   13:CEA97) enable_vr 97 ;;
-       14:DMT85) enable_vrd 85 ;;
-       15:DMT82) enable_vrd 82 ;;
-	   16:DMT35) enable_vrd 35 ;;
-	   17:DMT47) enable_vrd 47 ;;
-	   18:DMT58) enable_vrd 58 ;;
-	   19:CEA76) enable_vr 76 ;;
-	   20:CEA75) enable_vr 75 ;;
-	   21:DMT87) enable_vrdcX 87 ;;
-       22:STD) enable_sdtvm 1 ;;
-       23:STD) enable_sdtvm 2 ;;
-       24:STD) enable_sdtvm 3 ;;
-       25:STR) enable_sdtvr 2 ;;
-       26:STR) enable_sdtvr 3 ;;
-       27:ALL) disable_vrALL ;;
+        7:DMT51) enable_vrd 51 ;;
+        8:CEA03) enable_vr 3 ;;
+		9:CEA18) enable_vr 18 ;;
+	   10:CEA04) enable_vr 4 ;;
+       11:CEA19) enable_vr 19 ;;
+       12:CEA16) enable_vr 16 ;;
+	   13:CEA31) enable_vr 31 ;;
+	   14:CEA97) enable_vr 97 ;;
+       15:DMT85) enable_vrd 85 ;;
+       16:DMT82) enable_vrd 82 ;;
+	   17:DMT35) enable_vrd 35 ;;
+	   18:DMT47) enable_vrd 47 ;;
+	   19:DMT58) enable_vrd 58 ;;
+	   20:CEA76) enable_vr 76 ;;
+	   21:CEA75) enable_vr 75 ;;
+	   22:DMT87) enable_vrdcX 87 ;;
+       23:STD) enable_sdtvm 1 ;;
+       24:STD) enable_sdtvm 2 ;;
+       25:STD) enable_sdtvm 3 ;;
+       26:STR) enable_sdtvr 2 ;;
+       27:STR) enable_sdtvr 3 ;;
+       29:ALL) disable_vrALL ;;
 	        -) none ;;
             *) break ;;
         esac
