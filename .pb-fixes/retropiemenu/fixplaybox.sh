@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 27.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 30.04.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1690,15 +1690,20 @@ echo ""
 echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
 echo ""
 echo
-	while true; do
-		echo ""
-		read -p 'Whould you like to compile latest RetroArch with Vulkan Support [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) vulkan_ra;;
-		[Nn]*) echo "OK!"; echo ""; break;;
-		* ) echo ""; echo "Please answer yes or no.";;
-		esac
-	done
+#	while true; do
+#		echo ""
+#		read -p 'Whould you like to compile latest RetroArch with Vulkan Support [y] or [n]? ' yn
+#		case $yn in
+#		[Yy]*) vulkan_ra;;
+#		[Nn]*) echo "OK!"; echo ""; break;;
+#		* ) echo ""; echo "Please answer yes or no.";;
+#		esac
+#	done
+echo -e 'Now I will update also the RetroArch binary with latest code and supporting latest drivers...\n\nJust sit back and wait a little longer ;-) ...\n*** IF FAILS for any reason,  please re-run RetroArch compile from drivers menu... ***'
+echo
+read -n 1 -s -r -p "Press any key to continue..."
+vulkan_ra
+echo
 read -n 1 -s -r -p "Press any key to reboot"
 echo ""
 echo "[OK System Will Restart now...]"
