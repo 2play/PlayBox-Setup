@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 30.04.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 01.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -560,7 +560,7 @@ function def_audio_out() {
 
 function hdmi_sound_out() {
 	clear
-	if grep "^#hdmi_ignore_edid_audio=1" /boot/config.txt; then
+	if grep "^hdmi_ignore_edid_audio=1" /boot/config.txt; then
 	sudo sed -i 's|^hdmi_ignore_edid_audio=1|#hdmi_ignore_edid_audio=1|g' /boot/config.txt;
 	fi
 	if grep 'audio_device = ""' /opt/retropie/configs/all/retroarch.cfg; then
@@ -578,7 +578,7 @@ function hdmi_sound_out() {
 
 function jack_sound_out() {
 	clear
-	if ! grep -E "hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
+	if ! grep -E "^#hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
 	sudo sed -i '84i#hdmi_force_edid_audio' /boot/config.txt
 	sudo sed -i '85i#hdmi_ignore_edid_audio=1' /boot/config.txt
 	fi
