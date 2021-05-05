@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 27.04.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 05.05.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -57,9 +57,10 @@ amiga_setup
 function next_steps() {
 clear
 #Sync New Files
-rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' . /
+rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'var' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' . /
 sudo rsync -urv boot/ /boot/
 sudo rsync -urv etc/ /etc/
+sudo rsync -urv var/ /var/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
 sudo rsync -urv opt/retropie/emulators/ /opt/retropie/emulators/
