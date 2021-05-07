@@ -592,7 +592,7 @@ function jack_sound_out() {
 	sed -i 's|^audio_device = "default"|#audio_device = "default"|' /opt/retropie/configs/all/retroarch.cfg;
 	fi
 	sudo sed -i 's|^#set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|' /etc/pulse/default.pa;
-	sudo sed -i '^s|set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|#set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|' /etc/pulse/default.pa;
+	sudo sed -i 's|^set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|#set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|' /etc/pulse/default.pa;
 	clear
 	echo "We need to restart system now..."
 	echo
