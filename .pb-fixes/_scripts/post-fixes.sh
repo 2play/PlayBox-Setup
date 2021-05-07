@@ -88,6 +88,10 @@ fi
 if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
 sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 fi
+# cmdline.txt
+if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
+sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
+fi
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
@@ -154,7 +158,7 @@ sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_r
 # Intellivision lr-freeintv fix due to latest video driver 
 cd /opt/retropie/configs/intellivision
 sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
-# RA Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
+# RetroArch Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
@@ -162,6 +166,22 @@ echo "Already has a custom volume setting..."; sleep 1
 else
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+fi
+if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
+sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
+fi
+if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg ; then
+sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 fi
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then

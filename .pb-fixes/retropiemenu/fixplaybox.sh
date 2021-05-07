@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 07.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -563,9 +563,9 @@ function hdmi_sound_out() {
 	if grep "^hdmi_ignore_edid_audio=1" /boot/config.txt; then
 	sudo sed -i 's|^hdmi_ignore_edid_audio=1|#hdmi_ignore_edid_audio=1|g' /boot/config.txt;
 	fi
-	if grep 'audio_device = ""' /opt/retropie/configs/all/retroarch.cfg; then
-	sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
-	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+	if grep '#audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg; then
+	sed -i 's|^audio_device = "hw:CARD=ALSA,DEV=0"|#audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
+	sed -i 's|#audio_device = "default"|audio_device = "default"|' /opt/retropie/configs/all/retroarch.cfg;
 	fi
 	clear
 	echo "We need to restart system now..."
@@ -585,9 +585,9 @@ function jack_sound_out() {
 	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
 	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
 	fi
-	if grep 'audio_device = ""' /opt/retropie/configs/all/retroarch.cfg; then
-	sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
-	#sed -i 's|audio_device = ""|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+	if grep '#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg; then
+	sed -i 's|^#audio_device = "hw:CARD=ALSA,DEV=0"|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
+	sed -i 's|^audio_device = "default"|#audio_device = "default"|' /opt/retropie/configs/all/retroarch.cfg;
 	fi
 	clear
 	echo "We need to restart system now..."
