@@ -183,6 +183,16 @@ sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/a
 sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 fi
+if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
+sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
+else
+echo "All OK!" 
+fi
+if ! [[ `dpkg -l | grep pavucontrol` ]]; then
+sudo apt install pavucontrol;
+else
+echo "All OK!" 
+fi 
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
 echo "Already has corrected value..."; sleep 1
