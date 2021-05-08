@@ -3,7 +3,7 @@
 # Skyscraper by Lars Muldjor
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-# 31.12.20
+# 08.05.21
 
 infobox=""
 infobox="${infobox}Skyscraper Update, Install & How to  Run script by 2Play!\n\n"
@@ -28,8 +28,8 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "Which Skyscraper option you want to run?" 25 75 20 \
             - "*** SKYSCRAPER SELECTIONS ***" \
-            1 " - Update Skyscraper by Lars Muldjord" \
-            2 " - Install Skyscraper by Lars Muldjord - PlayBox" \
+            1 " - Update Playbox Skyscraper by Lars Muldjord" \
+            2 " - Clean\Default Install Playbox Skyscraper by Lars Muldjord" \
             3 " - How To Run Skyscraper..." \
             2>&1 > /dev/tty)
 
