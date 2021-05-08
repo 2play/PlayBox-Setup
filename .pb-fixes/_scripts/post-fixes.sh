@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.05.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.05.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -92,6 +92,10 @@ fi
 if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
 sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
 fi
+# Skyscraper New Setup 2P!
+chmod 755 /home/pi/.skyscraper/*.sh
+sudo ln -sfn /home/pi/.skyscraper/2PSkyscape_boxart.sh /usr/local/bin/2PSkyscape_boxart
+sudo ln -sfn /home/pi/.skyscraper/2PSkyscape_mixart.sh /usr/local/bin/2PSkyscape_mixart
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
