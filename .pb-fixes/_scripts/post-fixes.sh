@@ -94,8 +94,11 @@ sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bc
 fi
 # Skyscraper New Setup 2P!
 chmod 755 /home/pi/.skyscraper/*.sh
-sudo ln -sfn /home/pi/.skyscraper/2PSkyscape_boxart.sh /usr/local/bin/2PSkyscape_boxart
-sudo ln -sfn /home/pi/.skyscraper/2PSkyscape_mixart.sh /usr/local/bin/2PSkyscape_mixart
+if [[ `ls /usr/local/bin/2PSkyscape_* | grep 2PSkyscape_` ]]; then
+sudo rm -f /usr/local/bin/2PSkyscape_*;
+fi
+sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
+sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
