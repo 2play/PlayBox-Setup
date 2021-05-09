@@ -193,12 +193,14 @@ fi
 if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
 sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
 else
-echo "All OK!" 
+echo "All OK!"
+echo 
 fi
 if ! [[ `dpkg -l | grep pavucontrol` ]]; then
 sudo apt install pavucontrol;
 else
-echo "All OK!" 
+echo "All OK!"
+echo 
 fi 
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
@@ -231,8 +233,9 @@ sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/confi
 # Enable exFAT Support
 sudo apt-get install exfat-fuse -y
 sudo apt-get install exfat-utils -y
-# Clean Mesa Old Lib Files
+# Clean Mesa/Vulkan Old Lib Files
 cd /usr/local/lib
+if [ -f libEGL.so ]; then
 sudo rm libEGL.so libEGL.so.1 libEGL.so.1.0.0 libgbm.so libgbm.so.1 libgbm.so.1.0.0 libGL.so libGL.so.1 libGL.so.1.2.0 libglapi.so libglapi.so.0 libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 libvulkan_broadcom.so libglapi.so.0.0.0
 sudo rm -rf /usr/local/lib/dri
 cd /usr/local/share
@@ -241,6 +244,10 @@ cd /usr/local/include
 sudo rm -rf EGL GL GLES GLES2 GLES3 KHR
 cd /usr/local/lib/pkgconfig
 sudo rm gl.pc dri.pc egl.pc gbm.pc glesv1_cm.pc glesv2.pc
+else
+echo "All OK!"
+echo
+fi
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;

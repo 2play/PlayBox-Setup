@@ -64,8 +64,8 @@ function run_ss() {
 	echo '1. Go back to Emulation Station' 
 	echo '2. Press F4 to EXIT EmulationStation or "START" button and Select QUIT'
 	echo '3. At CLi Type "Skyscraper" or Use Arrow Up Key to select it from  my custom CLi history commands'
-	echo '3a. At CLi Type "2PSkyscape_boxart" or Just "2PS" Press TAB then "b" TAB'
-	echo '3a. At CLi Type "2PSkyscape_mixart" or Just "2PS" Press TAB then "m" TAB'
+	echo '3a. At CLi Type "2PSkyscrape_boxart" or Just "2PS" Press TAB then "b" TAB'
+	echo '3a. At CLi Type "2PSkyscrape_mixart" or Just "2PS" Press TAB then "m" TAB'
 	read -n 1 -s -r -p "Press any key to go back..."
 }
 
