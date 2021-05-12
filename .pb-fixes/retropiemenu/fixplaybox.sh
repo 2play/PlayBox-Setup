@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 07.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 12.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3614,7 +3614,9 @@ function temp_rt() {
 function cores_status() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
-	cat /sys/devices/system/cpu/online
+	echo -E "Your system has `getconf _NPROCESSORS_ONLN` cores"
+	sleep 2
+	echo -E "Out of which online: `cat /sys/devices/system/cpu/online` ... "
 	echo
 	read -n 1 -s -r -p "Press any key to continue"
 }
