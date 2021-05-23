@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 12.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 23.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3271,7 +3271,7 @@ function sys_pbt() {
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
-		   1 " - Force A Filesystem Check At Next Boot " \
+		   1 " - Filesystem Check is Automated every 15 Boots [Info]" \
            2 " - Show Partitions & Space Info" \
 		   3 " - Show Folders Size [home/pi]" \
            4 " - Show System Free Memory Info" \
@@ -3301,13 +3301,15 @@ function sys_pbt() {
 }
 
 function fschk_bt() {
-	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
+	#dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 	clear
 	echo
-	echo "Please be patient..."
-	echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
-	sleep 5
-	sudo touch /forcefsck && sudo reboot
+	#echo "Please be patient..."
+	#echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
+	echo -e 'The old way is deprecated.\nI have applied to run a filsystem check automatically at every 15th boot.\n\nIf you have warning or other fs system problems its required to do a manual check or using gparted to CHECK the rootfs partition on another host linux system or live distro...\n\nCheck in Discord:\n**How to Scan-Fix your linux file system (Pi or similar)**\nUPDATE 23.05.2021\n'
+	read -n 1 -s -r -p "Press any key to continue"
+	#sleep 5
+	#sudo touch /forcefsck && sudo reboot
 }
 
 
