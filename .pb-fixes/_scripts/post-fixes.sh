@@ -286,7 +286,7 @@ sudo chmod 755 /opt/retropie/emulators/duckstation/*
 if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
 echo 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
 else
-echo "Already inserted..."; sleep 1
+echo "Already inserted!"; sleep 1
 fi
 sudo chmod 755 /opt/retropie/latestcores/duckstation_libretro.so
 if ! grep -E 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
