@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.05.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 23.05.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -75,6 +75,12 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
+# Set filesystem check every 15 boots
+if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      15"` ]]; then
+echo "Already set to check every 15 boots!"
+else
+sudo tune2fs -c 15 /dev/sda2
+fi
 # Config.txt OC additions & Pi400 Fix
 if ! grep "gpu_freq=750" /boot/config.txt ; then
 sudo sed -i '66i#gpu_freq=750' /boot/config.txt
