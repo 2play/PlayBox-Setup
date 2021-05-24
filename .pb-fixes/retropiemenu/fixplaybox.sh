@@ -1059,9 +1059,8 @@ function sys_overlay_off() {
 function all_overlay_on() {
 	clear
 	echo
-	#cd /opt/retropie/configs/ 
-	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	mv /opt/retropie/configs/all/retroarch/overlay.OFF/  /opt/retropie/configs/all/retroarch/overlay/
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
@@ -1072,9 +1071,8 @@ function all_overlay_on() {
 function all_overlay_off() {
 	clear
 	echo
-	#cd /opt/retropie/configs/ 
-	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	 mv /opt/retropie/configs/all/retroarch/overlay/ /opt/retropie/configs/all/retroarch/overlay.OFF/
+	cd /opt/retropie/configs/ 
+	find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
 	cd $HOME
 	clear
 	echo
