@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 24.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 25.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1061,7 +1061,13 @@ function all_overlay_on() {
 	echo
 	#cd /opt/retropie/configs/ 
 	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	mv /opt/retropie/configs/all/retroarch/overlay.OFF/  /opt/retropie/configs/all/retroarch/overlay/
+	if [ -d /opt/retropie/configs/all/retroarch/overlay ]; then
+	mv /opt/retropie/configs/all/retroarch/overlay.OFF/*  /opt/retropie/configs/all/retroarch/overlay/
+	mv /opt/retropie/configs/all/retroarch/overlay.OFF/.[!.]*  /opt/retropie/configs/all/retroarch/overlay/
+	rm -rf /opt/retropie/configs/all/retroarch/overlay.OFF/
+	else
+	mv /opt/retropie/configs/all/retroarch/overlay.OFF  /opt/retropie/configs/all/retroarch/overlay
+	fi
 	cd $HOME
 	clear
 	echo
@@ -1074,7 +1080,7 @@ function all_overlay_off() {
 	echo
 	#cd /opt/retropie/configs/ 
 	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	 mv /opt/retropie/configs/all/retroarch/overlay/ /opt/retropie/configs/all/retroarch/overlay.OFF/
+	mv /opt/retropie/configs/all/retroarch/overlay/ /opt/retropie/configs/all/retroarch/overlay.OFF
 	cd $HOME
 	clear
 	echo
