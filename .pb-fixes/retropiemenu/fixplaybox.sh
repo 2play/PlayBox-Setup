@@ -1470,7 +1470,7 @@ function music_2p() {
 
         case "$choice" in
             1) Synthpop  ;;
-            2) Syntwave  ;;
+            2) Synthwave  ;;
             3) RoyalFree  ;;
             4) Mix  ;;
             -) none ;;
@@ -1502,7 +1502,7 @@ function Synthpop() {
 	sudo reboot
 }
 
-function Syntwave() {
+function Synthwave() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	if [ -d $HOME/addonusb ]; then
