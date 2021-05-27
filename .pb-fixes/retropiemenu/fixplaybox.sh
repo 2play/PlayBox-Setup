@@ -1462,15 +1462,17 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "I want to listen to 2Play!'s Selection" \
-            2 "I want to listen to nice Royalty Free Tracks" \
-            3 "I want to listen to a custom mix!" \
+            1 "I want to listen to nice 80's Selection" \
+            2 "I want to listen to nice Synthwave Tracks" \
+            3 "I want to listen to nice Royalty Free Tracks" \
+            4 "I want to listen to image builder's Custom Tracks !" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) Synthpop  ;;
-            2) RoyalFree  ;;
-            3) Mix  ;;
+            2) Syntwave  ;;
+            3) RoyalFree  ;;
+            4) Mix  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -1492,6 +1494,29 @@ function Synthpop() {
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
 	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
+	fi
+	echo
+	echo "[OK System Will Restart now...]"
+	sleep 3
+	clear
+	sudo reboot
+}
+
+function Syntwave() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	if [ -d $HOME/addonusb ]; then
+	echo
+    echo "You have enabled the External USB Script..."
+	echo "Using correct paths..."
+    echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/localroms/music
+	else
+	rm -rf $HOME/RetroPie/roms/music/*
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
@@ -1545,6 +1570,7 @@ function Mix() {
 	clear
 	sudo reboot
 }
+
 
 
 function skyscraper() {
