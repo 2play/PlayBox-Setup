@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 25.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 27.05.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1570,7 +1570,6 @@ function Mix() {
 	clear
 	sudo reboot
 }
-
 
 
 function skyscraper() {
