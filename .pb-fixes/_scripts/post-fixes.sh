@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 28.05.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.06.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -98,6 +98,10 @@ fi
 if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
 sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
 fi
+#Misc Updates
+#GSPlus roms symlink update
+sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
+sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
 # Skyscraper New Setup 2P!
 chmod 755 /home/pi/.skyscraper/*.sh
 if [[ `ls /usr/local/bin/2PSkyscape_* | grep 2PSkyscape_` ]]; then
