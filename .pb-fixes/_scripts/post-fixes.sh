@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.06.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.06.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -102,6 +102,8 @@ fi
 #GSPlus roms symlink update
 sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
 sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
+#totalchaos update save img 1.5GB
+rm /home/pi/RetroPie/roms/ports/doom/Skins/totalchaos.pk3
 # Skyscraper New Setup 2P!
 chmod 755 /home/pi/.skyscraper/*.sh
 if [[ `ls /usr/local/bin/2PSkyscape_* | grep 2PSkyscape_` ]]; then
