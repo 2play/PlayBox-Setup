@@ -280,13 +280,14 @@ else
 		if [ -d ~/RetroPie/roms/pico8.* ]; then
 			echo "You have it disabled. We continue..."
 			else
-			mkdir ~/RetroPie/roms/pico8 && cd pico8
+			mkdir ~/RetroPie/roms/pico8 && cd ~/RetroPie/roms/pico8
 			if [ ! -f ~/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
 			chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
 			fi
 		fi
 	fi
 fi
+cd $HOME
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
 if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
