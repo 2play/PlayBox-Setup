@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.06.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.07.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -57,7 +57,7 @@ amiga_setup
 function next_steps() {
 clear
 #Sync New Files
-rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'var' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' . /
+rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'var' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' --exclude 'roms' . /
 sudo rsync -urv boot/ /boot/
 sudo rsync -urv etc/ /etc/
 sudo rsync -urv var/ /var/
@@ -273,20 +273,21 @@ else
 	if [ -d ~/RetroPie/localroms ]; then
 	mkdir ~/RetroPie/localroms/pico8 && mkdir ~/addonusb/pico8
 	cd ~/RetroPie/localroms/pico8
-		if [ ! -f ~/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/localroms/pico8/%2BStart%20PICO8.sh
+		if [ ! -f ~/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
 		chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
 		fi
 	else
 		if [ -d ~/RetroPie/roms/pico8.* ]; then
 			echo "You have it disabled. We continue..."
 			else
-			mkdir ~/RetroPie/roms/pico8 && cd pico8
+			mkdir ~/RetroPie/roms/pico8 && cd ~/RetroPie/roms/pico8
 			if [ ! -f ~/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
 			chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
 			fi
 		fi
 	fi
 fi
+cd $HOME
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
 if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then

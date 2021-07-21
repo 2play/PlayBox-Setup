@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 28.05.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 07.07.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3720,8 +3720,8 @@ declare -a HDMI_SETTINGS_DMT=(
 	        - "" \
             - "*** HDMI PORT [x:x] SELECTIONS ***" \
        17:DMT35 " - SXGA   1280x1024  60Hz   [5:4] " \
-       18:DMT47 " - WXGA+  1440x900   60Hz [16:10] " \
-	   19:DMT58 " - WSXGA+ 1680x1050  60Hz [16:10] " \
+       18:DMT58 " - WSXGA+ 1680x1050  60Hz [16:10] " \
+	   19:DMT69 " - WUXGA  1920x1200  60Hz [16:10] " \
 	   20:CEA76 " - 1080p  1920x1080  60Hz [64:27] " \
 	   21:CEA75 " - 1080p  1920x1080  50Hz [64:27] " \
 	   22:DMT87 " - CUSTOM .NOTxSET.  60Hz [xx:xx] " \
@@ -3761,8 +3761,8 @@ declare -a HDMI_SETTINGS_DMT=(
        15:DMT85) enable_vrd 85 ;;
        16:DMT82) enable_vrd 82 ;;
 	   17:DMT35) enable_vrd 35 ;;
-	   18:DMT47) enable_vrd 47 ;;
-	   19:DMT58) enable_vrd 58 ;;
+	   18:DMT58) enable_vrd 58 ;;
+	   19:DMT69) enable_vrd 69 ;;
 	   20:CEA76) enable_vr 76 ;;
 	   21:CEA75) enable_vr 75 ;;
 	   22:DMT87) enable_vrdcX 87 ;;
