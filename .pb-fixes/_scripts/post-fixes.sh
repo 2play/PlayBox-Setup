@@ -94,6 +94,9 @@ fi
 if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
 sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 fi
+if grep "gpu_mem_" /boot/config.txt ; then
+sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
+fi
 # cmdline.txt
 if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
 sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
