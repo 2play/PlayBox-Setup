@@ -5,7 +5,7 @@
 # Copyright (C)2018-2020 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 07.07.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 24.08.2021"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1649,6 +1649,7 @@ cd $HOME/code/
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 git clone --depth 1 --branch 21.1 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
