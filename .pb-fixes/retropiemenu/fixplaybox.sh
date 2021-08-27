@@ -123,6 +123,8 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
+	if [ -f $HOME/RetroPie/retropiemenu.OFF ]; then echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; sleep 1; echo
+	else
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
@@ -131,6 +133,7 @@ function fix_rpmenu() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
+	fi
 }
 
 
