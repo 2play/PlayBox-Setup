@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.07.2021"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 27.08.2021"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
@@ -94,9 +94,18 @@ fi
 if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
 sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 fi
-if grep "gpu_mem_" /boot/config.txt ; then
-sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
-fi
+#Kernel error fix After OS Full update (5.10.17)
+if [[ `uname -r | grep 5.10.17-` ]]; then
+	if grep "gpu_mem_" /boot/config.txt ; then
+	sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
+	fi
+	else
+	if grep "gpu_mem_" /boot/config.txt ; then
+	sudo sed -i 's|#gpu_mem_*|gpu_mem_|g' /boot/config.txt;
+	fi
+	echo "Your Kernel isn't at 5.10.17 so All OK!"
+	echo
+fi	
 # cmdline.txt
 if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
 sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
