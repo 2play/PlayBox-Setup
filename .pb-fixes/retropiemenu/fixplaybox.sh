@@ -1654,6 +1654,7 @@ sudo rm -rf mesa*
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 git clone --depth 1 --branch 21.1 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
