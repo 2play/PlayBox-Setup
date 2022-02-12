@@ -7,8 +7,7 @@ python3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d
 sudo raspi-config
 Skyscraper
 startx
-glances
-bpytop
+btop
 sudo ~/RetroPie-Setup/retropie_setup.sh
 emulationstation
 2p-FixPlayBox
