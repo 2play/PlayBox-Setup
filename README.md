@@ -1,5 +1,5 @@
 # The PlayBox Project
-# Copyright (C) 2018-2022 S.R. (2Play!)
+Copyright (C) 2018-2022 S.R. (2Play!)
 # Welcome to the PlayBox Setup.
 
 I have created this to make it easier for all to keep up with updates I will release to the main setup.
