@@ -1,9 +1,8 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 02.02.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 15.02.2022"
 echo $pb_version
 sleep 3
-mkdir /home/pi/lmp4
 cd $HOME/code/
 
 # Get Post Fixes Clean Burn Update Or Normal Post Fix Update
