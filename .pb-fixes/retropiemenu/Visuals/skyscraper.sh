@@ -2,7 +2,7 @@
 # Skyscraper Install and Update script by 2Play!
 # Skyscraper by Lars Muldjor
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 09.05.21
 
 infobox=""
@@ -54,7 +54,7 @@ function update_ss() {
 function install_ss() {
 	dialog --infobox "...Installing..." 3 22 ; sleep 2
 	clear
-	sudo apt-get update && sudo apt-get install qt5-default && cd /home/pi/code && sudo rm -rf skysource && mkdir skysource && cd skysource && curl https://raw.githubusercontent.com/muldjord/skyscraper/master/update_skyscraper.sh | bash
+	sudo apt update && sudo apt install qt5-default && cd /home/pi/code && sudo rm -rf skysource && mkdir skysource && cd skysource && curl https://raw.githubusercontent.com/muldjord/skyscraper/master/update_skyscraper.sh | bash
 
 }
 

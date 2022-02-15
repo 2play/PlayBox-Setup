@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)+
+# Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 27.08.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 12.02.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -79,7 +79,7 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu" \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL)" \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF]" \
 			3 " - Repair PlayBox Background Music Mute File" \
             4 " - Repair 2Play! Slideshow Screensaver" \
 			5 " - Reset All RetroPie Controllers" \
@@ -90,7 +90,7 @@ function fixes_pbt() {
 
         case "$choice" in
             1) fix_rpmenu  ;;
-            2) fix_region  ;;
+            #2) fix_region  ;;
 			3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
@@ -585,8 +585,8 @@ function hdmi_sound_out() {
 function jack_sound_out() {
 	clear
 	if ! grep -E "^#hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
-	sudo sed -i '84i#hdmi_force_edid_audio' /boot/config.txt
-	sudo sed -i '85i#hdmi_ignore_edid_audio=1' /boot/config.txt
+	sudo sed -i '94i#hdmi_force_edid_audio' /boot/config.txt
+	sudo sed -i '95i#hdmi_ignore_edid_audio=1' /boot/config.txt
 	fi
 	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
 	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
@@ -631,7 +631,7 @@ function apps_pbt() {
 		   10 " - SD/USB Storage Benchmark" \
 		   11 " - OMXPlayer Volume Control Script" \
 		   12 " - Emulators Custom Compile From Source" \
-		   13 " - Emulator Tweaks Options" \
+		   13 " - Emulator Tweaks Options [OFF]" \
 		   14 " - Safe Shutdown Case Script Options" \
 		   2>&1 > /dev/tty)
 
@@ -648,7 +648,7 @@ function apps_pbt() {
 		   10) strg_bench  ;;
 		   11) omxvol  ;;
 		   12) emus_compile  ;;
-		   13) emus_tks  ;;
+		   #13) emus_tks  ;;
 		   14) safe_shut  ;;
 		   -) none ;;
             *)  break ;;
@@ -795,28 +795,28 @@ function ra_options_tool() {
 			5 " - Set Default RetroArch Level " \
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
-            6 " - Disable Global Retro Shader " \
-            7 " - Enable  Global Retro Shader" \
+            6 " - Disable Global Retro Shader [OFF]" \
+            7 " - Enable  Global Retro Shader [OFF]" \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay " \
-            9 " - Disable A System Preset Overlay " \
+		    8 " - Enable A System Preset Overlay [OFF]" \
+            9 " - Disable A System Preset Overlay [OFF]" \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade) " \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) " \
-		   14 " - Enable Atomiswave Cabinet Overlay " \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay " \
-		   16 " - Enable Naomi Cabinet Overlay " \
-		   17 " - Disable Naomi Cabinet Overlay " \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF]" \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF]" \
+		   14 " - Enable Atomiswave Cabinet Overlay [OFF]" \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF]" \
+		   16 " - Enable Naomi Cabinet Overlay [OFF]" \
+		   17 " - Disable Naomi Cabinet Overlay [OFF]" \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System " \
-           19 " - Disable Video Smooth - Single System " \
-		   20 " - Enable Video Smooth - All Systems " \
-           21 " - Disable Video Smooth - All Systems " \
+		   18 " - Enable Video Smooth - Single System [OFF]" \
+           19 " - Disable Video Smooth - Single System [OFF]" \
+		   20 " - Enable Video Smooth - All Systems [OFF]" \
+           21 " - Disable Video Smooth - All Systems [OFF]" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -829,20 +829,20 @@ function ra_options_tool() {
             #7) enable_shaders  ;;
 		    6) disable_global_sh  ;;
             7) enable_global_sh  ;;
-		    8) sys_overlay_on  ;;
-            9) sys_overlay_off  ;;
+		    #8) sys_overlay_on  ;;
+            #9) sys_overlay_off  ;;
 		   10) all_overlay_on  ;;
 		   11) all_overlay_off  ;;
-		   12) arc_cab_on  ;;
-           13) arc_cab_off  ;;
-           14) atomwv_cab_on  ;;
-           15) atomwv_cab_off  ;;
-		   16) naomi_dx_on  ;;
-           17) naomi_dx_off  ;;
-		   18) v_smooth_sys_on  ;;
-		   19) v_smooth_sys_off  ;;
-		   20) all_v_smooth_on  ;;
-		   21) all_v_smooth_off  ;;
+		   #12) arc_cab_on  ;;
+           #13) arc_cab_off  ;;
+           #14) atomwv_cab_on  ;;
+           #15) atomwv_cab_off  ;;
+		   #16) naomi_dx_on  ;;
+           #17) naomi_dx_off  ;;
+		   #18) v_smooth_sys_on  ;;
+		   #19) v_smooth_sys_off  ;;
+		   #20) all_v_smooth_on  ;;
+		   #21) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
@@ -1466,9 +1466,9 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "I want to listen to nice 80's Selection" \
-            2 "I want to listen to nice Synthwave Tracks" \
-            3 "I want to listen to nice Royalty Free Tracks" \
+            1 "Great 80's Selection" \
+            2 "Cool Synthwave Tracks" \
+            3 "Smooth Royalty Free Tracks" \
             4 "I want to listen to image builder's Custom Tracks !" \
             2>&1 > /dev/tty)
 
@@ -1592,7 +1592,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 13.02.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
@@ -1652,9 +1652,7 @@ cd $HOME/code/
 #sudo apt-get purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 21.1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
@@ -1694,10 +1692,10 @@ sudo ldconfig
 #Test libdrm with something like: modetest -s 89:#0
 #sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
 ##Update SDL2: USE Custom version in RPie Scritpmodule (just change version)
+#wget https://www.libsdl.org/release/SDL2-2.0.20.tar.gz
 #cd $HOME/code/
-#wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
-#tar xvpf SDL2-2.0.14.tar.gz
-#cd SDL2-2.0.14/
+#tar xvpf SDL2-2.0.20.tar.gz
+#cd SDL2-2.0.20/
 #./configure --enable-video-kmsdrm
 #make -j3
 #sudo make install	
@@ -1867,7 +1865,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -2226,32 +2224,32 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4" \
-			2 "Amiberry :  Pi4 SDL2" \
-			3 "Amiberry :  Pi4 x64" \
+			1 "Amiberry :  Pi3" \
+			2 "Amiberry :  Pi3 SDL2" \
+			3 "Amiberry :  Pi3 x64" \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi4      - Swap To This Binary" \
-			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
+			4 "Amiberry :  Pi3      - Swap To This Binary" \
+			5 "Amiberry :  Pi3 SDL2 - Swap To This Binary" \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
-			6 "Amiberry :  Latest Known Stable Binary" \
+			6 "Amiberry :  Latest Known Stable Binary [OFF]" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) amiberry_pi4  ;;
-            2) amiberry_pi4sdl2  ;;
-			3) amiberry_pi4x64  ;;
-			4) amiberry_pi4swap  ;;
-			5) amiberry_pi4sdl2swap  ;;
-			6) amiberry_stable  ;;
+            1) amiberry_pi3  ;;
+            2) amiberry_pi3sdl2  ;;
+			3) amiberry_pi3x64  ;;
+			4) amiberry_pi3swap  ;;
+			5) amiberry_pi3sdl2swap  ;;
+			#6) amiberry_stable  ;;
 			-) none ;;
             *)  break ;;
         esac
     done
 }
 
-function amiberry_pi4() {
+function amiberry_pi3() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2262,22 +2260,22 @@ function amiberry_pi4() {
 	cd amiberry
 	make clean
 	git pull
-	make -j4 PLATFORM=rpi4
-	#make -j4 PLATFORM=rpi3
+	#make -j4 PLATFORM=rpi4
+	make -j4 PLATFORM=rpi3
 	#make PLATFORM=rpi1
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4
-	sudo ln -sfn amiberryrpi4 amiberry
+	sudo chmod 755 amiberryrpi3
+	sudo ln -sfn amiberryrpi3 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi4sdl2() {
+function amiberry_pi3sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2288,15 +2286,15 @@ function amiberry_pi4sdl2() {
 	cd amiberry
 	make clean
 	git pull
-	make -j4 PLATFORM=rpi4-sdl2
-	#make -j4 PLATFORM=rpi3-sdl2
+	#make -j4 PLATFORM=rpi4-sdl2
+	make -j4 PLATFORM=rpi3-sdl2
 	#make PLATFORM=rpi1-sdl2
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4SDL2
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3SDL2
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4SDL2
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	sudo chmod 755 amiberryrpi3SDL2
+	sudo ln -sfn amiberryrpi3SDL2 amiberry
 	
 	cd $HOME
 	echo
@@ -2304,7 +2302,7 @@ function amiberry_pi4sdl2() {
 	sleep 1
 }
 
-function amiberry_pi4x64() {
+function amiberry_pi3x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2317,31 +2315,31 @@ function amiberry_pi4x64() {
 	git pull
 	make -j4 PLATFORM=pi64
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3x64
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi4x64
-	sudo ln -sfn amiberryrpi4x64 amiberry
+	sudo chmod 755 amiberryrpi3x64
+	sudo ln -sfn amiberryrpi3x64 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi4swap() {
+function amiberry_pi3swap() {
 	clear
 	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4 amiberry
+	sudo ln -sfn amiberryrpi3 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi4sdl2swap() {
+function amiberry_pi3sdl2swap() {
 	clear
 	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi4SDL2 amiberry
+	sudo ln -sfn amiberryrpi3SDL2 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -3278,7 +3276,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '15,1000d' .bash_history
+	sed -i '10,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3468,24 +3466,24 @@ function fw_pi() {
             --ok-label OK --cancel-label Back \
             --menu "Let's check or upgrade your firmware!" 25 75 20 \
             - "*** Pi4 FIRMWARE OPTIONS ***" \
-            1 " - Set To STABLE Firmware" \
-            2 " - Set To CRITICAL Firmware" \
-			3 " - Set To BETA Firmware" \
+            1 " - Set To STABLE Firmware [OFF]" \
+            2 " - Set To CRITICAL Firmware [OFF]" \
+			3 " - Set To BETA Firmware [OFF]" \
             - "" \
             - "*** EXPERIMENTAL FIRMWARE (RPI-UPDATE) SELECTIONS ***" \
             4 " - Experimental Firmware & Kernel Upgrade - All RPi Boards" \
             5 " - Revert to Last STABLE Firmware For NON Pi4 Boards" \
             - "" \
             - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
-            6 " - Show Current Bootloader Version & Configuration" \
-			7 " - Verify If A New Available Firmware Version" \
-			8 " - Update Official/Published Firmware" \
+            6 " - Show Current Bootloader Version & Configuration [Pi4]" \
+			7 " - Verify If A New Available Firmware Version [Pi4]" \
+			8 " - Update Official/Published Firmware [Pi4]" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) fw_st  ;;
-            2) fw_ct  ;;
-            3) fw_bt  ;;
+            #1) fw_st  ;;
+            #2) fw_ct  ;;
+            #3) fw_bt  ;;
             4) fw_exp  ;;
             5) fw_down  ;;
 			6) fw_pi4  ;;
@@ -3598,15 +3596,8 @@ function fwup_pi4() {
 
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
-# 11.07.2020
+# 02.02.2022
 	clear
-let upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
-let secs=$((${upSeconds}%60))
-let mins=$((${upSeconds}/60%60))
-let hours=$((${upSeconds}/3600%24))
-let days=$((${upSeconds}/86400))
-UPTIME=`printf "%d days, %02dh%02dm%02ds" "$days" "$hours" "$mins" "$secs"`
-
 echo "
         $(tput setaf 1)__________.__                 $(tput setaf 7)__________
         $(tput setaf 1)\______   \  | _____   ___.__.$(tput setaf 7)\______   \ ________  ___
@@ -3615,30 +3606,29 @@ echo "
         $(tput setaf 1) |____|   |____(____  )/ ____| $(tput setaf 7)|______  /\_____/__/\_ \ 
         $(tput setaf 1)                    \/ \/      $(tput setaf 7)       \/             \/
                                                       By $(tput setaf 1)2$(tput setaf 7)Play!
-		$(tput setaf 2)
-`uname -srmo` - `lsb_release -ds`
 
-`date +"%A, %e %B %Y, %r"`
-Uptime    : ${UPTIME}
-Last Login: `exec -- last | head -1`
-$(tput setaf 7)
-...SYSTEM INFO...$(tput setaf 3)
-                            Size 	Used	Avail 	Used%
+$(tput setaf 2)`uname -srmo` - `lsb_release -ds`
+$(tput setaf 2)Your $(tput setaf 1)Play$(tput setaf 7)Box $(tput setaf 2)is `uptime -p` since `uptime -s` 😃
+User `exec -- last | head -1`
+$(tput bold)$(tput setaf 5)
+Date & Time     : `date +"%A, %e %B %Y, %r"`
+$(tput bold)$(tput setaf 7)
+...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
+                            $(tput bold)Size 	Used	Avail 	Used%
 SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
 SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-$(tput setaf 1)
-$(tput setaf 7)`grep Model /proc/cpuinfo`
+Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
 
-$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU `grep Hardware /proc/cpuinfo` - `lscpu | grep "Model name"`
-CPU Max Speed   : `lscpu | grep max`
-GPU Version     : `exec -- /opt/vc/bin/vcgencmd version`
+$(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
+CPU `grep Hardware /proc/cpuinfo`,  -  `lscpu | grep "Model name"`
+GPU Version     : `exec -- /opt/vc/bin/vcgencmd version | awk 'FNR == 1'`
+
+$(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
+CPU Max Speed   : `lscpu | grep max`$(tput sgr0)
 $(tput setaf 6)
-Memory            : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Running Processes : `ps ax | wc -l | tr -d " "`
-Local & Public IP : `hostname -I`and `curl -4 icanhazip.com 2>/dev/null | awk '{print $NF; exit}'`
-$(tput setaf 7)"
+Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
+Local IP        : `hostname -I`
+$(tput setaf 7)$(tput sgr0)"
 echo
 read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh

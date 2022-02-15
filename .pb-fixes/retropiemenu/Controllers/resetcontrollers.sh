@@ -1,7 +1,7 @@
 #!/bin/bash
 # Reset all of your ES controller configuration. Similar to EZH & RetroPie Setup Script.
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 25.06.19
 
 infobox=""

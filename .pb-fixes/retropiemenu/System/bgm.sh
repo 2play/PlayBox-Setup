@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# Original script By Forrest aka Eazy Hax, based on Livewire Python BGM
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 10.02.2021
+# Copyright (C)2018-2022 2Play! (S.R.)
+# 14.02.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -28,9 +29,9 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** BACKGROUND MUSIC SELECTIONS ***" \
-            1 " - Remove Background Music" \
+            1 " - Remove/Disable Background Music" \
             2 " - Set Background Music Volume - Only after installed" \
-            3 " - Install Background Music" \
+            3 " - Clean Install Background Music" \
             2>&1 > /dev/tty)
 
         case "$choice" in
