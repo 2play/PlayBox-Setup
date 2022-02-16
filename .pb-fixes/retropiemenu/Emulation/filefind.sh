@@ -5,7 +5,7 @@
 # iname, iregex vs name, regex is independent of upper lower cases
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# Dual Script with USB Roms check, 14.02.22 By 2Play! (Based/Using Original Creator's script)
+# Dual Script with USB Roms check, 15.02.22 By 2Play! (Based/Using Original Creator's script)
 
 infobox=""
 infobox="${infobox}\n"
@@ -50,7 +50,8 @@ readonly COLLECTION_DIR="/opt/retropie/configs/all/emulationstation/collections"
 readonly ignore_list=("the" "The" "and" "is" "III" "II" "I")
 
 # Possible Backups
-readonly BACKUP_DIR="$(cd "$(dirname "$0")" && pwd)/collection_backup"
+#readonly BACKUP_DIR="$(cd "$(dirname "$0")" && pwd)/collection_backup"
+readonly BACKUP_DIR="/opt/retropie/configs/all/emulationstation/collection_backup"
 readonly CURRENT_TIME="$(date +%s)"
 [[ -d $BACKUP_DIR ]] || mkdir -p "$BACKUP_DIR"
 
@@ -616,7 +617,8 @@ readonly COLLECTION_DIR="/opt/retropie/configs/all/emulationstation/collections"
 readonly ignore_list=("the" "The" "and" "is" "III" "II" "I")
 
 # Possible Backups
-readonly BACKUP_DIR="$(cd "$(dirname "$0")" && pwd)/collection_backup"
+#readonly BACKUP_DIR="$(cd "$(dirname "$0")" && pwd)/collection_backup"
+readonly BACKUP_DIR="/opt/retropie/configs/all/emulationstation/collection_backup"
 readonly CURRENT_TIME="$(date +%s)"
 [[ -d $BACKUP_DIR ]] || mkdir -p "$BACKUP_DIR"
 

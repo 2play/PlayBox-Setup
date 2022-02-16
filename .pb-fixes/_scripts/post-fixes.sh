@@ -8,6 +8,7 @@ cd $HOME/code/
 # Get Post Fixes Clean Burn Update Or Normal Post Fix Update
 function post_fix_update() {
     local choice
+	
 	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
@@ -26,7 +27,7 @@ function post_fix_update() {
             -) none ;;
             *) break ;;
         esac
-		done
+	done
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
@@ -39,8 +40,8 @@ git clone --depth 1 --branch=clean-vanilla-pi3 https://github.com/2play/PBv2-Pos
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
-#global_shader
-#amiga_setup
+global_shader
+amiga_setupOFF
 }
 
 function post_up_normal() {
@@ -74,11 +75,17 @@ sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 sleep 2
-# Set filesystem check every 15 boots
+# Set USB filesystem check every 50 boots [reset -1]
 if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      50"` ]]; then
 echo "Already set to check every 50 boots!"
 else
 sudo tune2fs -c 50 /dev/sda2
+fi
+# Set SD filesystem check every 50 boots [reset -1]
+if [[ `sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:      50"` ]]; then
+echo "Already set to check every 50 boots!"
+else
+sudo tune2fs -c 50 /dev/mmcblk0p2
 fi
 # Config.txt OC additions & Pi400 Fix
 #if ! grep "gpu_freq=750" /boot/config.txt ; then
@@ -151,7 +158,7 @@ cd /opt/retropie/configs/all/retroarch/config
 #fi
 echo
 # Core Options Per System Config Folder
-cd /opt/retropie/configs
+#cd /opt/retropie/configs
 #find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
 # ES Video ScreenSaver Options
@@ -163,7 +170,12 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 #sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Xinit?
 sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
-sudo apt install xscreensaver -y
+if ! [[ `dpkg -l | grep xscreensaver` ]]; then
+sudo apt install xscreensaver y;
+else
+echo "All OK!"
+echo 
+fi 
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/bin/yt-dlp ]; then echo "Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
 else 
@@ -172,7 +184,7 @@ sudo chmod 755 /usr/bin/yt-dlp
 sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
 fi
 # WWF Typo Fix
-rm -rf $HOME/RetroPie/saves-unified
+#rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
 #if [ -d /opt/retropie/configs/all/retroarch/config/PUAE.OFF ]; then rm -rf /opt/retropie/configs/all/retroarch/config/PUAE
 #fi
@@ -181,8 +193,6 @@ rm -rf $HOME/RetroPie/saves-unified
 # N64 Core Option ThreadedRenderer
 #cd /opt/retropie/configs/n64
 #sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
-# Joy Selection Meleu Clean Setup
-#wget -O- "https://raw.githubusercontent.com/meleu/RetroPie-joystick-selection/master/install.sh" | sudo bash
 # Amiga Aga ra cfg minor update
 #cd /opt/retropie/configs/amiga-aga
 #sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
@@ -200,7 +210,7 @@ sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retrop
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
 sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
 sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
 sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
@@ -209,7 +219,7 @@ sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retro
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -258,7 +268,7 @@ fi
 # Enable exFAT Support
 sudo apt install exfat-fuse -y
 sudo apt install exfat-utils -y
-# Clean Mesa/Vulkan Old Lib Files
+# Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib
 if [ -f libEGL.so ]; then
 sudo rm libEGL.so libEGL.so.1 libEGL.so.1.0.0 libgbm.so libgbm.so.1 libgbm.so.1.0.0 libGL.so libGL.so.1 libGL.so.1.2.0 libglapi.so libglapi.so.0 libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 libvulkan_broadcom.so libglapi.so.0.0.0
@@ -377,11 +387,13 @@ function global_shader() {
             - "" \
 			1 " -  [ON]  Global Retro Shader By Chris Kekrides or 2P! " \
             2 " -  [OFF] Global Retro Shader By Chris Kekrides or 2P! " \
+			3 " -  SKIP THIS STEP " \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) glb_shon  ;;
             2) glb_shoff  ;;
+			3) skip_step  ;;
             -) none ;;
             *) break ;;
         esac
@@ -416,8 +428,8 @@ sleep 2
 
 
 # Amiga Emulator Setup Option
-#function amiga_setup() {
-    local choice
+function amiga_setup() {
+    #local choice
 		choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
