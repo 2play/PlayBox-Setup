@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 15.02.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 17.02.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -130,7 +130,7 @@ function fix_rpmenu() {
 	sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
-	echo "We need to apply REGION script now..."
+	#echo "We need to apply REGION script now..."
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	#fix_region
@@ -4053,9 +4053,10 @@ function update_pbs() {
 	find -name "*.py" -print0 | xargs -0 chmod 755
 	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
 	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controllers/joystick_selection.sh
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controllers/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
-	/home/pi/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
+	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
 	fix_rpmenu
 	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
