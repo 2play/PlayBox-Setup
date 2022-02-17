@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 15.02.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 17.02.2022"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -41,7 +41,7 @@ cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
 global_shader
-amiga_setupOFF
+#amiga_setup
 }
 
 function post_up_normal() {
@@ -411,6 +411,7 @@ echo ""
 echo "[OK DONE!...]"
 cd $HOME
 sleep 2
+exit
 }
 
 function glb_shoff() {
@@ -424,6 +425,7 @@ echo ""
 echo "[OK DONE!...]"
 cd $HOME
 sleep 2
+exit
 }
 
 
