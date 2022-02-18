@@ -1,7 +1,7 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 14.02.2022
+# 18.02.2022
 
 infobox=""
 infobox="${infobox}\n"
@@ -82,7 +82,7 @@ function enable_oc() {
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
-  #sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -102,6 +102,7 @@ function enable_oc+() {
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
+  sudo sed -i "s|^over_voltage=2|#over_voltage=2|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -120,7 +121,7 @@ function disable_oc() {
     sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
   done
   sudo sed -i "s|^gpu_freq=500|#gpu_freq=500|" "${CONFIG_PATH}"; 
-  sudo sed -i "s|^over_voltage=[0-9]*|#over_voltage=2|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=[0-9]*|#over_voltage=[0-9]|" "${CONFIG_PATH}"; 
   #sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
   echo
 clear
