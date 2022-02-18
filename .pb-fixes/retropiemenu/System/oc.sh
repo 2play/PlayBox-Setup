@@ -13,7 +13,6 @@ infobox="${infobox}>>> For the 1600: as above plus 2x 5v fans or a good cooling 
 infobox="${infobox}Options:\nPi3 at 1400(Best Stable)/1500/1600MHz \n\n"
 infobox="${infobox}**Enable**\n"
 infobox="${infobox}Overclocks the CPU\n"
-infobox="${infobox}\n"
 infobox="${infobox}**Disable**\n"
 infobox="${infobox}Disables Overclocking"
 infobox="${infobox}\n"
@@ -53,14 +52,14 @@ function main_menu() {
             1 " - Enable Best Stable - Pi3 [1400MHz]" \
             2 " - Enable Push - Pi3 [1500MHz]" \
             3 " - Enable Max but read infobox/CAUTION - Pi3 [1600MHz]" \
-			5 " - Disable OverClocking" \
+			4 " - Disable OverClocking" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) enable_oc 1400;;
             2) enable_oc 1500;;
             3) enable_oc+ 1600;;
-			5) disable_oc ;;
+			4) disable_oc ;;
             -) none ;;
             *) break ;;
         esac
@@ -111,12 +110,15 @@ read -n 1 -s -r -p "Press any key to reboot"
 function disable_oc() {
   dialog --infobox "...Applying..." 3 20 ; sleep 2
 #  overclock_setup
-  sudo sed -i "s|arm_freq=|#arm_freq=|" "${CONFIG_PATH}";
+  sudo sed -i "s|^arm_freq=|#arm_freq=|" "${CONFIG_PATH}";
   for val in ${OVERCLOCK_SETTINGS[@]}; do
     sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
   done
+  for val in ${OVERCLOCK_SETTINGS1[@]}; do
+    sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
+  done
   sudo sed -i "s|^gpu_freq=500|#gpu_freq=500|" "${CONFIG_PATH}"; 
-  sudo sed -i "s|^over_voltage=[0-9]*|#over_voltage=[0-9]|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=[0-9]*|#over_voltage=[0-9]*|" "${CONFIG_PATH}"; 
   #sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
   echo
 clear
