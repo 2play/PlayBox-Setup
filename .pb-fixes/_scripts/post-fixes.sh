@@ -170,6 +170,7 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 #sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Xinit?
 sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+clear
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
 sudo apt install xscreensaver y;
 else
@@ -182,6 +183,7 @@ else
 sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
 sudo chmod 755 /usr/bin/yt-dlp
 sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
+echo
 fi
 # Net Manager Check/Install
 if ! [[ `dpkg -l | grep network-manager-gnome` ]]
@@ -195,6 +197,7 @@ then
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
 	fi
 else
+	echo
 	echo "Network Manager already installed!"
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
@@ -204,9 +207,11 @@ else
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
 	fi
 fi
+echo
 echo "No WPA_Supplicant conflict found."
 sleep 2
 echo "Network Manager in place. You can connect to your Wi-FI if needed."
+echo
 # WWF Typo Fix
 #rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
