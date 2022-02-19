@@ -795,8 +795,8 @@ function ra_options_tool() {
 			5 " - Set Default RetroArch Level " \
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
-            6 " - Disable Global Retro Shader [OFF]" \
-            7 " - Enable  Global Retro Shader [OFF]" \
+            6 " - Disable Global Retro Shader " \
+            7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
 		    8 " - Enable A System Preset Overlay [OFF]" \
@@ -3289,7 +3289,7 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	else
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
@@ -3298,9 +3298,7 @@ function cl_wifi() {
 	echo
 	echo "[OK DONE!...]"
 	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	#sudo reboot
+	echo "[Don't forget to Restart your system...]"
 	sleep 1
 }
 
