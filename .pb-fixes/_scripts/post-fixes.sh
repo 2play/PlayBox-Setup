@@ -151,7 +151,7 @@ then
 	sudo apt install network-manager-gnome -y
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
-	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
 	else
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
@@ -161,7 +161,7 @@ else
 	echo "Network Manager already installed!"
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
-	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
 	else
 	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
