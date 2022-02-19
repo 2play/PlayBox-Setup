@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 17.02.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 19.02.2022"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -183,6 +183,30 @@ sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o
 sudo chmod 755 /usr/bin/yt-dlp
 sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
 fi
+# Net Manager Check/Install
+if ! [[ `dpkg -l | grep network-manager-gnome` ]]
+then
+	sudo apt install network-manager-gnome -y
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	fi
+else
+	echo "Network Manager already installed!"
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	fi
+fi
+echo "No WPA_Supplicant conflict found."
+sleep 2
+echo "Network Manager in place. You can connect to your Wi-FI if needed."
 # WWF Typo Fix
 #rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
