@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 17.02.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 19.02.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -625,7 +625,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System" \
 			5 " - 2Play! Music Selections" \
 			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - MESA & Vulkan Drivers [Pi4] Related Options" \
+		    7 " - MESA & Vulkan Drivers Related Options" \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
 		    9 " - Single Saves Directory By RPC80" \
 		   10 " - SD/USB Storage Benchmark" \
@@ -2893,7 +2893,8 @@ function clean_pbt() {
 		   3 " - Clean all save, hi, dat etc files in roms folder" \
            4 " - Remove ES Auto-gen Gamelists" \
 		   5 " - Clean & Set 2Play! Top CLi Commands History" \
-           6 " - Clean Filesystem Cache" \
+		   6 " - Clean Wi-Fi Settings" \
+           7 " - Clean Filesystem Cache" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2902,7 +2903,8 @@ function clean_pbt() {
 		   3) cl_saves  ;;
 		   4) cl_es_gamelist  ;;
 		   5) cl_cli_hist  ;;
-           6) cl_cache  ;;
+           6) cl_wifi  ;;
+           7) cl_cache  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3277,6 +3279,17 @@ function cl_cli_hist() {
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '10,1000d' .bash_history
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+
+function cl_wifi() {
+	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
+	clear
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	clear
 	echo
 	echo "[OK DONE!...]"
