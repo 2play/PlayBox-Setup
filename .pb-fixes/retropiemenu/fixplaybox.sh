@@ -3365,6 +3365,8 @@ function fschk_bt() {
 	#echo "Please be patient..."
 	#echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
 	echo -e 'The old way is deprecated.\nI have applied to run a filsystem check automatically at every 50th boot.\n\nIf you have warning or other fs system problems its REQUIRED to do a manual check or using gparted to CHECK the rootfs partition on another host linux system or live distro...\n\nCheck in Discord:\n**How to Scan-Fix your linux file system (Pi or similar)**\nUPDATE 28.05.2021\n'
+	#sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:"
+	#sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:"
 	read -n 1 -s -r -p "Press any key to continue"
 	#sleep 5
 	#sudo touch /forcefsck && sudo reboot
