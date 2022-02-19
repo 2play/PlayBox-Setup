@@ -433,14 +433,12 @@ function global_shader() {
             - "" \
 			1 " -  [ON]  Global Retro Shader By Chris Kekrides or 2P! " \
             2 " -  [OFF] Global Retro Shader By Chris Kekrides or 2P! " \
-			3 " -  SKIP THIS STEP " \
-            2>&1 > /dev/tty)
+			2>&1 > /dev/tty)
 
         case "$choice" in
             1) glb_shon  ;;
             2) glb_shoff  ;;
-			3) skip_step  ;;
-            -) none ;;
+			-) none ;;
             *) break ;;
         esac
     clear
