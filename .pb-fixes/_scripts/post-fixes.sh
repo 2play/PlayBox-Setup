@@ -5,7 +5,7 @@ echo $pb_version
 sleep 3
 cd $HOME/code/
 
-# Get Post Fixes Clean Burn Update Or Normal Post Fix Update
+# Get Post Fixes Clean Burn Or Normal Post Fix Update
 function post_fix_update() {
     local choice
 	
@@ -16,9 +16,9 @@ function post_fix_update() {
             - "*** POST FIXES SETUP OPTIONS ***" \
             - "" \
 			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
-			- "    (Use On Clean Burn Or Revert To Clean Status)" \
+			- "    (Use After Clean Burn Or Restore All To Clean Status)" \
 			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
-            - "    (Use This If You Already Been Updating)" \
+            - "    (Use To Apply New Updates)" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -129,6 +129,64 @@ sudo rm -f /usr/local/bin/2PSkyscape_*;
 fi
 sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
 sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
+clear
+# Check xscreensaver install
+if ! [[ `dpkg -l | grep xscreensaver` ]]; then
+sudo apt install xscreensaver y;
+else
+echo "All OK!"
+echo 
+fi 
+# Install Latest Youtube-dl/yt-dlp
+if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
+else 
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
+sudo chmod 755 /usr/bin/yt-dlp
+sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
+echo
+fi
+# Net Manager Check/Install
+if ! [[ `dpkg -l | grep network-manager-gnome` ]]
+then
+	sudo apt install network-manager-gnome -y
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	fi
+else
+	echo
+	echo "Network Manager already installed!"
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	fi
+fi
+echo
+echo "No WPA_Supplicant conflict found."
+sleep 2
+echo "Network Manager in place. You can connect to your Wi-FI if needed."
+echo
+# Pulse Control Gui 
+if ! [[ `dpkg -l | grep pavucontrol` ]]; then
+sudo apt install pavucontrol -y
+else
+echo "All OK!"
+echo 
+fi
+# Enable exFAT Support
+if ! [[ `dpkg -l | grep exfat-*` ]]; then
+sudo apt install exfat-fuse -y
+sudo apt install exfat-utils -y
+else
+echo "All OK!"
+echo 
+fi
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
@@ -170,48 +228,6 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 #sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Xinit?
 sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
-clear
-if ! [[ `dpkg -l | grep xscreensaver` ]]; then
-sudo apt install xscreensaver y;
-else
-echo "All OK!"
-echo 
-fi 
-# Install Latest Youtube-dl/yt-dlp
-if [ -f /usr/bin/yt-dlp ]; then echo "Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
-else 
-sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
-sudo chmod 755 /usr/bin/yt-dlp
-sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
-echo
-fi
-# Net Manager Check/Install
-if ! [[ `dpkg -l | grep network-manager-gnome` ]]
-then
-	sudo apt install network-manager-gnome -y
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
-	then
-	rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	fi
-else
-	echo
-	echo "Network Manager already installed!"
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
-	then
-	rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	fi
-fi
-echo
-echo "No WPA_Supplicant conflict found."
-sleep 2
-echo "Network Manager in place. You can connect to your Wi-FI if needed."
-echo
 # WWF Typo Fix
 #rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
@@ -232,7 +248,7 @@ echo
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
-echo "Already has a custom volume setting..."; sleep 1
+echo "Already a custom volume been set..."; sleep 1
 else
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -261,12 +277,6 @@ fi
 #echo "All OK!"
 #echo 
 #fi
-if ! [[ `dpkg -l | grep pavucontrol` ]]; then
-sudo apt install pavucontrol;
-else
-echo "All OK!"
-echo 
-fi 
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
 echo "Already has corrected value..."; sleep 1
@@ -294,9 +304,9 @@ fi
 #sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 #sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
 #sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
-# Enable exFAT Support
-sudo apt install exfat-fuse -y
-sudo apt install exfat-utils -y
+					  
+							  
+							   
 # Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib
 if [ -f libEGL.so ]; then
@@ -312,6 +322,8 @@ else
 echo "All OK!"
 echo
 fi
+sleep 1
+clear
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
@@ -388,11 +400,16 @@ fi
         sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
     fi
 #Sinden LightGun Requirements
+if ! [[ `dpkg -l | egrep 'mono-complete|v4l-utils|libsdl1.2-dev|ibsdl-image1.2-dev|libjpeg-dev'`  ]]; then
 sudo apt install -y mono-complete
 sudo apt install -y v4l-utils
 sudo apt install -y libsdl1.2-dev
 sudo apt install -y libsdl-image1.2-dev
 sudo apt install -y libjpeg-dev
+else
+echo "All OK!"
+echo 
+fi
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
 sudo chown pi:pi /opt/retropie/emulators/openbor/*
