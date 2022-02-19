@@ -3289,10 +3289,18 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
+	fi
 	clear
 	echo
 	echo "[OK DONE!...]"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	#sudo reboot
 	sleep 1
 }
 
