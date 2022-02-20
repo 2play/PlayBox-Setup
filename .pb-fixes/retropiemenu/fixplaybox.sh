@@ -3299,6 +3299,9 @@ function cl_wifi() {
 	echo "[OK DONE!...]"
 	echo
 	echo "[Don't forget to Restart your system...]"
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
 	sleep 1
 }
 
