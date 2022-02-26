@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 19.02.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 26.02.2022"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -36,7 +36,7 @@ sleep 2
 
 function post_up_clean() {
 clear
-git clone --depth 1 --branch=clean-vanilla-pi3 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=clean-vanilla-pi0 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -46,7 +46,7 @@ global_shader
 
 function post_up_normal() {
 clear
-git clone --depth 1 --branch=main-vanilla-pi3 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=main-vanilla-pi0 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps

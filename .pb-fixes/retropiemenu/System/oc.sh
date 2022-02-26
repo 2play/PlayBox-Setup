@@ -1,7 +1,7 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 18.02.2022
+# 26.02.2022
 
 infobox=""
 infobox="${infobox}\n"
@@ -9,8 +9,8 @@ infobox="${infobox}OverClocking Your Pi Board\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}This will apply necessary configuration to enable/disable overclocking.\n\n"
 infobox="${infobox}A 3A or more PSU & a fan for good CPU cooling is recommended!\n\n"
-infobox="${infobox}>>> For the 1600: as above plus 2x 5v fans or a good cooling heatsink/fan setup! <<<\n\n"
-infobox="${infobox}Options:\nPi3 at 1400(Best Stable)/1500/1600MHz \n\n"
+infobox="${infobox}>>> For the 1500: as above a good cooling heatsink/fan setup is mandatory! <<<\n\n"
+infobox="${infobox}Options:\nPi Zero at 1100(Best Stable)/1500MHz \n\n"
 infobox="${infobox}**Enable**\n"
 infobox="${infobox}Overclocks the CPU\n"
 infobox="${infobox}**Disable**\n"
@@ -28,14 +28,14 @@ CONFIG_PATH=/boot/config.txt
 OVERCLOCK_DESCRIPTION="#uncomment to enable custom overclock settings"
 
 declare -a OVERCLOCK_SETTINGS=(
-	"core_freq=500"
-	"over_voltage=4"
+	"core_freq=450"
+	"over_voltage=6"
 )
 
 declare -a OVERCLOCK_SETTINGS1=(
-    "gpu_freq=500"
-	"core_freq=500"
-	"sdram_freq=500"
+    "gpu_freq=450"
+	"core_freq=450"
+	"sdram_freq=450"
 	"sdram_schmoo=0x02000020"
 	"over_voltage=6"
 	"sdram_over_voltage=2"
@@ -48,18 +48,16 @@ function main_menu() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " OVERCLOCKING MENU " \
             --ok-label OK --cancel-label Exit \
             --menu "Choose your OverClocking Option:" 25 75 20 \
-            - "*** OVERCLOCKING OPTIONS Pi3  ***" \
-            1 " - Enable Best Stable - Pi3 [1400MHz]" \
-            2 " - Enable Push - Pi3 [1500MHz]" \
-            3 " - Enable Max but read infobox/CAUTION - Pi3 [1600MHz]" \
-			4 " - Disable OverClocking" \
+            - "*** OVERCLOCKING OPTIONS Pi Zero  ***" \
+            1 " - Enable Best Stable - Pi Zero [1100MHz]" \
+            2 " - Enable Push - Pi Zero [1500MHz]" \
+            3 " - Disable OverClocking" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) enable_oc 1400;;
+            1) enable_oc 1100;;
             2) enable_oc 1500;;
-            3) enable_oc+ 1600;;
-			4) disable_oc ;;
+            3) disable_oc ;;
             -) none ;;
             *) break ;;
         esac
