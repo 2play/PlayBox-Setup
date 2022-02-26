@@ -2224,24 +2224,24 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi3" \
-			2 "Amiberry :  Pi3 SDL2" \
-			3 "Amiberry :  Pi3 x64" \
+			1 "Amiberry :  Pi Zero" \
+			2 "Amiberry :  Pi Zero SDL2" \
+			3 "Amiberry :  Pi Zero x64" \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi3      - Swap To This Binary" \
-			5 "Amiberry :  Pi3 SDL2 - Swap To This Binary" \
+			4 "Amiberry :  Pi Zero      - Swap To This Binary" \
+			5 "Amiberry :  Pi Zero SDL2 - Swap To This Binary" \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
 			6 "Amiberry :  Latest Known Stable Binary [OFF]" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) amiberry_pi3  ;;
-            2) amiberry_pi3sdl2  ;;
-			3) amiberry_pi3x64  ;;
-			4) amiberry_pi3swap  ;;
-			5) amiberry_pi3sdl2swap  ;;
+            1) amiberry_pi0  ;;
+            2) amiberry_pi0sdl2  ;;
+			3) amiberry_pi0x64  ;;
+			4) amiberry_pi0swap  ;;
+			5) amiberry_pi0sdl2swap  ;;
 			#6) amiberry_stable  ;;
 			-) none ;;
             *)  break ;;
@@ -2249,7 +2249,7 @@ function amiberry_git() {
     done
 }
 
-function amiberry_pi3() {
+function amiberry_pi0() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2261,21 +2261,21 @@ function amiberry_pi3() {
 	make clean
 	git pull
 	#make -j4 PLATFORM=rpi4
-	make -j4 PLATFORM=rpi3
-	#make PLATFORM=rpi1
+	#make -j4 PLATFORM=rpi3
+	make PLATFORM=rpi1
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi0
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi3
-	sudo ln -sfn amiberryrpi3 amiberry
+	sudo chmod 755 amiberryrpi0
+	sudo ln -sfn amiberryrpi0 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi3sdl2() {
+function amiberry_pi0sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2287,14 +2287,14 @@ function amiberry_pi3sdl2() {
 	make clean
 	git pull
 	#make -j4 PLATFORM=rpi4-sdl2
-	make -j4 PLATFORM=rpi3-sdl2
-	#make PLATFORM=rpi1-sdl2
+	#make -j4 PLATFORM=rpi3-sdl2
+	make PLATFORM=rpi1-sdl2
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3SDL2
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi0SDL2
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi3SDL2
-	sudo ln -sfn amiberryrpi3SDL2 amiberry
+	sudo chmod 755 amiberryrpi0SDL2
+	sudo ln -sfn amiberryrpi0SDL2 amiberry
 	
 	cd $HOME
 	echo
@@ -2302,7 +2302,7 @@ function amiberry_pi3sdl2() {
 	sleep 1
 }
 
-function amiberry_pi3x64() {
+function amiberry_pi0x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
@@ -2315,31 +2315,31 @@ function amiberry_pi3x64() {
 	git pull
 	make -j4 PLATFORM=pi64
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi3x64
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi0x64
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryrpi3x64
-	sudo ln -sfn amiberryrpi3x64 amiberry
+	sudo chmod 755 amiberryrpi0x64
+	sudo ln -sfn amiberryrpi0x64 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi3swap() {
+function amiberry_pi0swap() {
 	clear
 	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi3 amiberry
+	sudo ln -sfn amiberryrpi0 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
 }
 
-function amiberry_pi3sdl2swap() {
+function amiberry_pi0sdl2swap() {
 	clear
 	cd /opt/retropie/emulators/amiberry/
-	sudo ln -sfn amiberryrpi3SDL2 amiberry
+	sudo ln -sfn amiberryrpi0SDL2 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -3669,7 +3669,7 @@ function temp_rt() {
 function cores_status() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
-	echo -E "Your system has `getconf _NPROCESSORS_ONLN` cores"
+	echo -E "Your system has `getconf _NPROCESSORS_ONLN` core(s)"
 	sleep 2
 	echo -E "Out of which online: `cat /sys/devices/system/cpu/online` ... "
 	echo
