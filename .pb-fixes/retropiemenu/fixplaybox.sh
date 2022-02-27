@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 19.02.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 27.02.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1632,24 +1632,24 @@ echo ""
 sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Dependencies... "
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
-sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
+sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo pip3 install meson
 sudo pip3 install mako
-sudo apt-get install -y cmake
+sudo apt install -y cmake
 echo ""
 echo "STEP 3. Compiling Driver & Extras... "
 echo ""
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
-sudo apt-get update
-sudo apt-get build-dep mesa -y
+sudo apt update
+sudo apt build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
 cd $HOME/code/
 #Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
 #WARNING: This will destroy your desktop system if you are using one
-#sudo apt-get purge mesa-* libgl* libdrm*
+#sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
 git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
@@ -1764,11 +1764,11 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get build-dep retroarch -y
+sudo apt update
+sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 #By BT (No Neon)
@@ -1820,7 +1820,7 @@ echo "Vulkan Demos... "
 echo ""
 cd $HOME/code/
 if [ ! -d sascha-willems ]; then
-sudo apt-get install libassimp-dev
+sudo apt install libassimp-dev
 git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems
 cd sascha-willems
 python3 download_assets.py
@@ -3309,7 +3309,7 @@ function cl_wifi() {
 function cl_cache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo apt-get clean
+	sudo apt clean
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3458,8 +3458,7 @@ dialog --backtitle "PlayBox Toolkit" \
 function update_distro() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove --purge && sudo apt-get clean
-	clean
+	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3471,7 +3470,7 @@ function update_distro() {
 function update_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y && sudo apt full-upgrade -y && sudo apt-get autoremove --purge && sudo apt-get clean
+	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3561,7 +3560,7 @@ function fw_exp() {
 function fw_down() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y; sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
+	sudo apt update -y; sudo apt install --reinstall raspberrypi-bootloader raspberrypi-kernel
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
