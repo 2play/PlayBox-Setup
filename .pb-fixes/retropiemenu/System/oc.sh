@@ -8,9 +8,9 @@ infobox="${infobox}\n"
 infobox="${infobox}OverClocking Your Pi Board\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}This will apply necessary configuration to enable/disable overclocking.\n\n"
-infobox="${infobox}A 3A or more PSU & a fan for good CPU cooling is recommended!\n\n"
-infobox="${infobox}>>> For the 1500: as above a good cooling heatsink/fan setup is mandatory! <<<\n\n"
-infobox="${infobox}Options:\nPi Zero at 1100(Best Stable)/1500MHz \n\n"
+infobox="${infobox}A 3A or more PSU & a heatsink/fan combo for good CPU cooling is recommended!\n\n"
+infobox="${infobox}>>> For the anything above 1100 good cooling heatsink/fan setup is mandatory! <<<\n\n"
+infobox="${infobox}Options:\nPi Zero at 1100/1300MHz \n\n"
 infobox="${infobox}**Enable**\n"
 infobox="${infobox}Overclocks the CPU\n"
 infobox="${infobox}**Disable**\n"
@@ -49,14 +49,14 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "Choose your OverClocking Option:" 25 75 20 \
             - "*** OVERCLOCKING OPTIONS Pi Zero  ***" \
-            1 " - Enable Best Stable - Pi Zero [1100MHz]" \
-            2 " - Enable Push - Pi Zero [1500MHz]" \
+            1 " - Enable - Pi Zero [1100MHz]" \
+            2 " - Enable - Pi Zero [1300MHz]" \
             3 " - Disable OverClocking" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) enable_oc 1100;;
-            2) enable_oc 1500;;
+            2) enable_oc 1300;;
             3) disable_oc ;;
             -) none ;;
             *) break ;;
@@ -115,7 +115,7 @@ function disable_oc() {
   for val in ${OVERCLOCK_SETTINGS1[@]}; do
     sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
   done
-  sudo sed -i "s|^gpu_freq=500|#gpu_freq=500|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^gpu_freq=450|#gpu_freq=450|" "${CONFIG_PATH}"; 
   sudo sed -i "s|^over_voltage=[0-9]*|#over_voltage=[0-9]*|" "${CONFIG_PATH}"; 
   #sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
   echo
