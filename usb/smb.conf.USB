@@ -297,15 +297,6 @@ create mask = 0644
 directory mask = 0755
 force user = pi
 
-[attractmode]
-comment = Attract Mode
-path = "/home/pi/.attract"
-writeable = yes
-guest ok = yes
-create mask = 0644
-directory mask = 0755
-force user = pi
-
 [themes]
 comment = Themes
 path = "/etc/emulationstation/themes"
