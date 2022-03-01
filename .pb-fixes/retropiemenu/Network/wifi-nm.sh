@@ -1,7 +1,7 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 20.02.2022
+# 01.03.2022
 
 
 function main_menu() {
@@ -9,7 +9,7 @@ function main_menu() {
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " WiFi MENU " \
             --ok-label OK --cancel-label Exit \
-            --menu "Choose your OverClocking Option:" 25 75 20 \
+            --menu "Choose your Option:" 25 75 20 \
             - "*** Network Manager WiFi OPTIONS  ***" \
             1 " - Check WiFi & Network Devices Status " \
             2 " - Connect to a WiFi [Wizard also on desktop]" \
