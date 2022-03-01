@@ -625,7 +625,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System" \
 			5 " - 2Play! Music Selections" \
 			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - MESA & Vulkan Drivers Related Options" \
+		    7 " - MESA & Vulkan Drivers Related Options [OFF]" \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
 		    9 " - Single Saves Directory By RPC80" \
 		   10 " - SD/USB Storage Benchmark" \
@@ -642,7 +642,7 @@ function apps_pbt() {
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
-			7) mesa_vk  ;;
+			#7) mesa_vk  ;;
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
