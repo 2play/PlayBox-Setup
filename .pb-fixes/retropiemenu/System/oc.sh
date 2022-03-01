@@ -74,7 +74,7 @@ function enable_oc() {
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
-  sudo sed -i "s|^over_voltage=6|#over_voltage=6|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=4|#over_voltage=4|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
@@ -94,7 +94,7 @@ function enable_oc+() {
       sudo sed -i "s|#${val}|${val}|" "${CONFIG_PATH}"; 
     fi
   done
-  sudo sed -i "s|^over_voltage=4|#over_voltage=2|" "${CONFIG_PATH}"; 
+  sudo sed -i "s|^over_voltage=4|#over_voltage=4|" "${CONFIG_PATH}"; 
   echo
 clear
 echo
