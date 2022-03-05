@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)+
+# Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 27.08.2021"
+pb_version="PlayBox ToolKit Version 2.0 Dated 05.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -520,6 +520,7 @@ function themes_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	cd $HOME/code
+	sudo chown pi:pi -R /etc/emulationstation/themes
 	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
 	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
@@ -585,8 +586,8 @@ function hdmi_sound_out() {
 function jack_sound_out() {
 	clear
 	if ! grep -E "^#hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
-	sudo sed -i '84i#hdmi_force_edid_audio' /boot/config.txt
-	sudo sed -i '85i#hdmi_ignore_edid_audio=1' /boot/config.txt
+	sudo sed -i '99i#hdmi_force_edid_audio' /boot/config.txt
+	sudo sed -i '100i#hdmi_ignore_edid_audio=1' /boot/config.txt
 	fi
 	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
 	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
@@ -625,7 +626,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System" \
 			5 " - 2Play! Music Selections" \
 			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - MESA & Vulkan Drivers [Pi4] Related Options" \
+		    7 " - MESA & Vulkan Drivers Related Options" \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
 		    9 " - Single Saves Directory By RPC80" \
 		   10 " - SD/USB Storage Benchmark" \
@@ -796,7 +797,7 @@ function ra_options_tool() {
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
             6 " - Disable Global Retro Shader " \
-            7 " - Enable  Global Retro Shader" \
+            7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
 		    8 " - Enable A System Preset Overlay " \
@@ -1466,9 +1467,9 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "I want to listen to nice 80's Selection" \
-            2 "I want to listen to nice Synthwave Tracks" \
-            3 "I want to listen to nice Royalty Free Tracks" \
+            1 "Great 80's Selection" \
+            2 "Cool Synthwave Tracks" \
+            3 "Smooth Royalty Free Tracks" \
             4 "I want to listen to image builder's Custom Tracks !" \
             2>&1 > /dev/tty)
 
@@ -1592,7 +1593,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 13.02.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
@@ -1632,29 +1633,27 @@ echo ""
 sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Dependencies... "
-sudo apt-get install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
-sudo apt-get remove meson -y && sudo apt-get autoremove --purge -y && sudo apt-get clean
+sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
+sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo pip3 install meson
 sudo pip3 install mako
-sudo apt-get install -y cmake
+sudo apt install -y cmake
 echo ""
 echo "STEP 3. Compiling Driver & Extras... "
 echo ""
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
-sudo apt-get update
-sudo apt-get build-dep mesa -y
+sudo apt update
+sudo apt build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
 cd $HOME/code/
 #Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
 #WARNING: This will destroy your desktop system if you are using one
-#sudo apt-get purge mesa-* libgl* libdrm*
+#sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 21.1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.2 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
@@ -1694,10 +1693,10 @@ sudo ldconfig
 #Test libdrm with something like: modetest -s 89:#0
 #sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
 ##Update SDL2: USE Custom version in RPie Scritpmodule (just change version)
+#wget https://www.libsdl.org/release/SDL2-2.0.20.tar.gz
 #cd $HOME/code/
-#wget https://www.libsdl.org/release/SDL2-2.0.14.tar.gz
-#tar xvpf SDL2-2.0.14.tar.gz
-#cd SDL2-2.0.14/
+#tar xvpf SDL2-2.0.20.tar.gz
+#cd SDL2-2.0.20/
 #./configure --enable-video-kmsdrm
 #make -j3
 #sudo make install	
@@ -1766,11 +1765,11 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt-get install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
 git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get build-dep retroarch -y
+sudo apt update
+sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 cd retroarch
 #By BT (No Neon)
@@ -1822,7 +1821,7 @@ echo "Vulkan Demos... "
 echo ""
 cd $HOME/code/
 if [ ! -d sascha-willems ]; then
-sudo apt-get install libassimp-dev
+sudo apt install libassimp-dev
 git clone --recursive https://github.com/SaschaWillems/Vulkan.git  sascha-willems
 cd sascha-willems
 python3 download_assets.py
@@ -1867,7 +1866,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2022 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -2895,7 +2894,8 @@ function clean_pbt() {
 		   3 " - Clean all save, hi, dat etc files in roms folder" \
            4 " - Remove ES Auto-gen Gamelists" \
 		   5 " - Clean & Set 2Play! Top CLi Commands History" \
-           6 " - Clean Filesystem Cache" \
+		   6 " - Clean Wi-Fi Settings" \
+           7 " - Clean Filesystem Cache" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2904,7 +2904,8 @@ function clean_pbt() {
 		   3) cl_saves  ;;
 		   4) cl_es_gamelist  ;;
 		   5) cl_cli_hist  ;;
-           6) cl_cache  ;;
+           6) cl_wifi  ;;
+           7) cl_cache  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3278,7 +3279,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '15,1000d' .bash_history
+	sed -i '14,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3286,10 +3287,30 @@ function cl_cli_hist() {
 }
 
 
+function cl_wifi() {
+	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
+	clear
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	else
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
+	fi
+	clear
+	echo
+	echo "[OK DONE!...]"
+	echo
+	echo "[Don't forget to Restart your system...]"
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	sleep 1
+}
+
+
 function cl_cache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo apt-get clean
+	sudo apt clean
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3346,6 +3367,8 @@ function fschk_bt() {
 	#echo "Please be patient..."
 	#echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
 	echo -e 'The old way is deprecated.\nI have applied to run a filsystem check automatically at every 50th boot.\n\nIf you have warning or other fs system problems its REQUIRED to do a manual check or using gparted to CHECK the rootfs partition on another host linux system or live distro...\n\nCheck in Discord:\n**How to Scan-Fix your linux file system (Pi or similar)**\nUPDATE 28.05.2021\n'
+	#sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:"
+	#sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:"
 	read -n 1 -s -r -p "Press any key to continue"
 	#sleep 5
 	#sudo touch /forcefsck && sudo reboot
@@ -3432,12 +3455,11 @@ dialog --backtitle "PlayBox Toolkit" \
     done
 }
 
-#dist-upgrade in addition to performing the function of upgrade, also intelligently handles changing dependencies with new versions of packages; apt-get has a "smart" conflict resolution system,and it will attempt to upgrade the most important packages at the expense of less important ones if necessary. The dist-upgrade command may therefore remove some packages. The /etc/apt/sources.list file contains a list of locations from which to retrieve desired package files. See also apt_preferences(5) for a mechanism for overriding the general settings for individual packages.
+#dist-upgrade in addition to performing the function of upgrade, also intelligently handles changing dependencies with new versions of packages; apt has a "smart" conflict resolution system,and it will attempt to upgrade the most important packages at the expense of less important ones if necessary. The dist-upgrade command may therefore remove some packages. The /etc/apt/sources.list file contains a list of locations from which to retrieve desired package files. See also apt_preferences(5) for a mechanism for overriding the general settings for individual packages.
 function update_distro() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove --purge && sudo apt-get clean
-	clean
+	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3449,7 +3471,7 @@ function update_distro() {
 function update_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y && sudo apt full-upgrade -y && sudo apt-get autoremove --purge && sudo apt-get clean
+	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3477,9 +3499,9 @@ function fw_pi() {
             5 " - Revert to Last STABLE Firmware For NON Pi4 Boards" \
             - "" \
             - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
-            6 " - Show Current Bootloader Version & Configuration" \
-			7 " - Verify If A New Available Firmware Version" \
-			8 " - Update Official/Published Firmware" \
+            6 " - Show Current Bootloader Version & Configuration [Pi4]" \
+			7 " - Verify If A New Available Firmware Version [Pi4]" \
+			8 " - Update Official/Published Firmware [Pi4]" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3539,7 +3561,7 @@ function fw_exp() {
 function fw_down() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt-get update -y; sudo apt-get install --reinstall raspberrypi-bootloader raspberrypi-kernel
+	sudo apt update -y; sudo apt install --reinstall raspberrypi-bootloader raspberrypi-kernel
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3598,15 +3620,8 @@ function fwup_pi4() {
 
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
-# 11.07.2020
+# 02.02.2022
 	clear
-let upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
-let secs=$((${upSeconds}%60))
-let mins=$((${upSeconds}/60%60))
-let hours=$((${upSeconds}/3600%24))
-let days=$((${upSeconds}/86400))
-UPTIME=`printf "%d days, %02dh%02dm%02ds" "$days" "$hours" "$mins" "$secs"`
-
 echo "
         $(tput setaf 1)__________.__                 $(tput setaf 7)__________
         $(tput setaf 1)\______   \  | _____   ___.__.$(tput setaf 7)\______   \ ________  ___
@@ -3615,30 +3630,29 @@ echo "
         $(tput setaf 1) |____|   |____(____  )/ ____| $(tput setaf 7)|______  /\_____/__/\_ \ 
         $(tput setaf 1)                    \/ \/      $(tput setaf 7)       \/             \/
                                                       By $(tput setaf 1)2$(tput setaf 7)Play!
-		$(tput setaf 2)
-`uname -srmo` - `lsb_release -ds`
 
-`date +"%A, %e %B %Y, %r"`
-Uptime    : ${UPTIME}
-Last Login: `exec -- last | head -1`
-$(tput setaf 7)
-...SYSTEM INFO...$(tput setaf 3)
-                            Size 	Used	Avail 	Used%
+$(tput setaf 2)`uname -srmo` - `lsb_release -ds`
+$(tput setaf 2)Your $(tput setaf 1)Play$(tput setaf 7)Box $(tput setaf 2)is `uptime -p` since `uptime -s` 😃
+User `exec -- last | head -1`
+$(tput bold)$(tput setaf 5)
+Date & Time     : `date +"%A, %e %B %Y, %r"`
+$(tput bold)$(tput setaf 7)
+...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
+                            $(tput bold)Size 	Used	Avail 	Used%
 SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
 SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-$(tput setaf 1)
-$(tput setaf 7)`grep Model /proc/cpuinfo`
+Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
 
-$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU `grep Hardware /proc/cpuinfo` - `lscpu | grep "Model name"`
-CPU Max Speed   : `lscpu | grep max`
-GPU Version     : `exec -- /opt/vc/bin/vcgencmd version`
+$(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
+CPU `grep Hardware /proc/cpuinfo`,  -  `lscpu | grep "Model name"`
+GPU Version     : `exec -- /opt/vc/bin/vcgencmd version | awk 'FNR == 1'`
+
+$(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
+CPU Max Speed   : `lscpu | grep max`$(tput sgr0)
 $(tput setaf 6)
-Memory            : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Running Processes : `ps ax | wc -l | tr -d " "`
-Local & Public IP : `hostname -I`and `curl -4 icanhazip.com 2>/dev/null | awk '{print $NF; exit}'`
-$(tput setaf 7)"
+Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
+Local IP        : `hostname -I`
+$(tput setaf 7)$(tput sgr0)"
 echo
 read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
@@ -3655,7 +3669,7 @@ function temp_rt() {
 function cores_status() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
-	echo -E "Your system has `getconf _NPROCESSORS_ONLN` cores"
+	echo -E "Your system has `getconf _NPROCESSORS_ONLN` core(s)"
 	sleep 2
 	echo -E "Out of which online: `cat /sys/devices/system/cpu/online` ... "
 	echo
@@ -4062,10 +4076,11 @@ function update_pbs() {
 	find -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
 	find -name "*.py" -print0 | xargs -0 chmod 755
 	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controllers/joystick_selection.sh
 	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
-	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Emulation/joystick_selection.sh
+	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controllers/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
-	/home/pi/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
+	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
 	fix_rpmenu
 	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
