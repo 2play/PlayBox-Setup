@@ -50,7 +50,7 @@ git clone --depth 1 --branch=main-vanilla-pi3 https://github.com/2play/PBv2-Post
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
-#global_shader
+global_shader
 #amiga_setup
 }
 
@@ -304,9 +304,6 @@ fi
 #sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 #sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
 #sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
-					  
-							  
-							   
 # Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib
 if [ -f libEGL.so ]; then
