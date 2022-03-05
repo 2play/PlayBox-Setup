@@ -79,7 +79,7 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu" \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL)" \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF]" \
 			3 " - Repair PlayBox Background Music Mute File" \
             4 " - Repair 2Play! Slideshow Screensaver" \
 			5 " - Reset All RetroPie Controllers" \
@@ -90,7 +90,7 @@ function fixes_pbt() {
 
         case "$choice" in
             1) fix_rpmenu  ;;
-            2) fix_region  ;;
+            #2) fix_region  ;;
 			3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
@@ -130,10 +130,10 @@ function fix_rpmenu() {
 	sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
-	echo "We need to apply REGION script now..."
+	#echo "We need to apply REGION script now..."
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
+	#fix_region
 	fi
 }
 
@@ -632,7 +632,7 @@ function apps_pbt() {
 		   10 " - SD/USB Storage Benchmark" \
 		   11 " - OMXPlayer Volume Control Script" \
 		   12 " - Emulators Custom Compile From Source" \
-		   13 " - Emulator Tweaks Options" \
+		   13 " - Emulator Tweaks Options [OFF]" \
 		   14 " - Safe Shutdown Case Script Options" \
 		   2>&1 > /dev/tty)
 
@@ -649,7 +649,7 @@ function apps_pbt() {
 		   10) strg_bench  ;;
 		   11) omxvol  ;;
 		   12) emus_compile  ;;
-		   13) emus_tks  ;;
+		   #13) emus_tks  ;;
 		   14) safe_shut  ;;
 		   -) none ;;
             *)  break ;;
@@ -800,24 +800,24 @@ function ra_options_tool() {
             7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay " \
-            9 " - Disable A System Preset Overlay " \
+		    8 " - Enable A System Preset Overlay [OFF]" \
+            9 " - Disable A System Preset Overlay [OFF]" \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade) " \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) " \
-		   14 " - Enable Atomiswave Cabinet Overlay " \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay " \
-		   16 " - Enable Naomi Cabinet Overlay " \
-		   17 " - Disable Naomi Cabinet Overlay " \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF]" \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF]" \
+		   14 " - Enable Atomiswave Cabinet Overlay [OFF]" \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF]" \
+		   16 " - Enable Naomi Cabinet Overlay [OFF]" \
+		   17 " - Disable Naomi Cabinet Overlay [OFF]" \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System " \
-           19 " - Disable Video Smooth - Single System " \
-		   20 " - Enable Video Smooth - All Systems " \
-           21 " - Disable Video Smooth - All Systems " \
+		   18 " - Enable Video Smooth - Single System [OFF]" \
+           19 " - Disable Video Smooth - Single System [OFF]" \
+		   20 " - Enable Video Smooth - All Systems [OFF]" \
+           21 " - Disable Video Smooth - All Systems [OFF]" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -830,20 +830,20 @@ function ra_options_tool() {
             #7) enable_shaders  ;;
 		    6) disable_global_sh  ;;
             7) enable_global_sh  ;;
-		    8) sys_overlay_on  ;;
-            9) sys_overlay_off  ;;
+		    #8) sys_overlay_on  ;;
+            #9) sys_overlay_off  ;;
 		   10) all_overlay_on  ;;
 		   11) all_overlay_off  ;;
-		   12) arc_cab_on  ;;
-           13) arc_cab_off  ;;
-           14) atomwv_cab_on  ;;
-           15) atomwv_cab_off  ;;
-		   16) naomi_dx_on  ;;
-           17) naomi_dx_off  ;;
-		   18) v_smooth_sys_on  ;;
-		   19) v_smooth_sys_off  ;;
-		   20) all_v_smooth_on  ;;
-		   21) all_v_smooth_off  ;;
+		   #12) arc_cab_on  ;;
+           #13) arc_cab_off  ;;
+           #14) atomwv_cab_on  ;;
+           #15) atomwv_cab_off  ;;
+		   #16) naomi_dx_on  ;;
+           #17) naomi_dx_off  ;;
+		   #18) v_smooth_sys_on  ;;
+		   #19) v_smooth_sys_off  ;;
+		   #20) all_v_smooth_on  ;;
+		   #21) all_v_smooth_off  ;;
 			-) none  ;;
             *)  break ;;
         esac
