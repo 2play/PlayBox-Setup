@@ -69,6 +69,7 @@ sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
 sudo chmod 644 /etc/mopidy/mopidy.conf
+sudo chmod 755 ~/scripts/themerandom.sh
 sudo cp /home/pi/PieMarquee2/PieMarquee2/PieMarquee2.py /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py
 sleep 1
 cd /.
