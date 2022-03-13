@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 12.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1653,8 +1653,8 @@ cd $HOME/code/
 #sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 20.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
