@@ -250,7 +250,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	<game>
 		<path>./System/oc.sh</path>
 		<name>✭ OverClock Pi0 Optimized, 2P!</name>
-		<desc>Overclock your Pi0. Settings to cover all avaiable valid speeds 1110/1500MHz. Original code done by dev RPC.</desc>
+		<desc>Overclock your Pi0. Settings to cover all avaiable valid speeds 1100/1300MHz. Original code done by dev RPC.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>
