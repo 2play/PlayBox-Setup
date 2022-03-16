@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 02.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 15.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2807,6 +2807,7 @@ clear
 			- "	" \
 			4 " - Argon ONE Safe Shutdown & Fan [ON] " \
 			5 " - Argon ONE Safe Shutdown & Fan [OFF] " \
+			6 " - Argon ONE Adjust Fan Settings " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2815,6 +2816,7 @@ clear
             3) rflag_off  ;;
 			4) argon1_on  ;;
             5) argon1_off  ;;
+            6) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
