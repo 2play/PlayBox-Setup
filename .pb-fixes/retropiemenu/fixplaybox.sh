@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 12.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 15.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -634,6 +634,7 @@ function apps_pbt() {
 		   12 " - Emulators Custom Compile From Source" \
 		   13 " - Emulator Tweaks Options [OFF]" \
 		   14 " - Safe Shutdown Case Script Options" \
+		   15 " - Swap Desktop Enviroment (mate-session, xfce4-session" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -651,6 +652,7 @@ function apps_pbt() {
 		   12) emus_compile  ;;
 		   #13) emus_tks  ;;
 		   14) safe_shut  ;;
+		   15) desk_env  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2874,6 +2876,20 @@ function argon1_off() {
 	echo "[OK System Will Restart now...]"
 	clear
 	sudo reboot
+}
+
+
+function desk_env() {
+	clear
+	echo "You need a keyboard..."
+	echo
+	echo "Choose the Desktop Environment you want by typing the selection/number..."
+	echo "Pick from the ones with the (-session), from the seletions table below..."
+	echo "(-session) ones start the Desktop Environment. "
+	echo "Option 0 is the default one."
+	echo
+	sleep 1
+	sudo update-alternatives --config x-session-manager
 }
 
 
