@@ -2810,6 +2810,7 @@ clear
 			- "	" \
 			4 " - Argon ONE Safe Shutdown & Fan [ON] " \
 			5 " - Argon ONE Safe Shutdown & Fan [OFF] " \
+			6 " - Argon ONE Adjust Fan Settings " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2818,6 +2819,7 @@ clear
             3) rflag_off  ;;
 			4) argon1_on  ;;
             5) argon1_off  ;;
+            6) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
