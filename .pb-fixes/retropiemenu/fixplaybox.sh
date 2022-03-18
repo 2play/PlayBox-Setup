@@ -679,7 +679,7 @@ function swap_theme_view() {
             --ok-label OK --cancel-label Back \
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
             - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "	" \
+			- "" \
 			1 "Single Window Art:  Image and then Video " \
 			2 "Dual Window Art  :  Image Under Gamelist + Big Video " \
 			3 "Dual Window Art  :  Full Gamelist, Image Next to Video " \
