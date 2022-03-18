@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 15.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 18.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -39,16 +39,16 @@ function main_menu() {
             --menu "$pb_version" 25 75 20 \
             - "*** PLAYBOX TOOLKIT SELECTIONS ***" \
             - "" \
-			1 " - FIXES OPTIONS MENU" \
-            2 " - APPS & TWEAKS OPTIONS MENU" \
-            3 " - CLEANUP TOOLS OPTIONS MENU" \
-            4 " - SYSTEM TOOLS OPTIONS MENU" \
-            5 " - THANK YOU! - CREDITS" \
+			1 " - FIXES OPTIONS MENU " \
+            2 " - APPS & TWEAKS OPTIONS MENU " \
+            3 " - CLEANUP TOOLS OPTIONS MENU " \
+            4 " - SYSTEM TOOLS OPTIONS MENU " \
+            5 " - THANK YOU! - CREDITS " \
 			- "" \
-			6 " - UPDATE YOUR PLAYBOX SETUP" \
+			6 " - UPDATE YOUR PLAYBOX SETUP " \
 			- "" \
-            7 " - POWER OFF" \
-            8 " - RESTART" \
+            7 " - POWER OFF " \
+            8 " - RESTART " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -78,14 +78,14 @@ function fixes_pbt() {
             --menu "Apply the fix(es) you need..." 25 75 20 \
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
-			1 " - Fix The PlayBox RetropieMenu" \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF]" \
-			3 " - Repair PlayBox Background Music Mute File" \
-            4 " - Repair 2Play! Slideshow Screensaver" \
-			5 " - Reset All RetroPie Controllers" \
-			6 " - Fix RetroPie-Setup Git Update" \
-			7 " - Update 2Play! PlayBox v2 Themes" \
-			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI" \
+			1 " - Fix The PlayBox RetropieMenu " \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
+			3 " - Repair PlayBox Background Music Mute File " \
+            4 " - Repair 2Play! Slideshow Screensaver " \
+			5 " - Reset All RetroPie Controllers " \
+			6 " - Fix RetroPie-Setup Git Update " \
+			7 " - Update 2Play! PlayBox v2 Themes " \
+			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -166,14 +166,14 @@ dialog --backtitle "Region based ES Systems" \
             --ok-label OK --cancel-label Back \
             --menu "Select the REGION setup you want to apply..." 25 75 20 \
             - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
-            1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2" \
-            2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac" \
-            3 " - ALL:   All systems will be enabled" \
+            1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
+            2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
+            3 " - ALL:   All systems will be enabled " \
             - "" \
             - "*** REGION SYSTEM OPTIONS with KODI ***" \
-            4 " - US\JP: As option 1 + Kodi" \
-            5 " - EU\JP: As option 2 + Kodi" \
-            6 " - ALL:   As option 3 + Kodi" \
+            4 " - US\JP: As option 1 + Kodi " \
+            5 " - EU\JP: As option 2 + Kodi " \
+            6 " - ALL:   As option 3 + Kodi " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -620,21 +620,21 @@ function apps_pbt() {
             --menu "Run the application you need..." 25 75 20 \
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " - Take HD ScreenShot" \
+			1 " - Take HD ScreenShot " \
 			2 " - Gamelist Views - 2Play! Themes " \
-		    3 " - RetroArch Visual & Audio ON/OFF Options+" \
-			4 " - Hide or Show a System" \
-			5 " - 2Play! Music Selections" \
-			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - MESA & Vulkan Drivers Related Options [OFF]" \
-		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
-		    9 " - Single Saves Directory By RPC80" \
-		   10 " - SD/USB Storage Benchmark" \
-		   11 " - OMXPlayer Volume Control Script" \
-		   12 " - Emulators Custom Compile From Source" \
-		   13 " - Emulator Tweaks Options [OFF]" \
-		   14 " - Safe Shutdown Case Script Options" \
-		   15 " - Swap Desktop Enviroment (mate-session, xfce4-session" \
+		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
+			4 " - Hide or Show a System " \
+			5 " - 2Play! Music Selections " \
+			6 " - Skyscraper By Lars Muldjord " \
+		    7 " - MESA & Vulkan Drivers Related Options [OFF] " \
+		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
+		    9 " - Single Saves Directory By RPC80 " \
+		   10 " - SD/USB Storage Benchmark " \
+		   11 " - OMXPlayer Volume Control Script " \
+		   12 " - Emulators Custom Compile From Source " \
+		   13 " - Emulator Tweaks Options [OFF] " \
+		   14 " - Safe Shutdown Case Script Options " \
+		   15 " - Swap Desktop Enviroment (mate-session, xfce4-session " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -679,13 +679,13 @@ function swap_theme_view() {
             --ok-label OK --cancel-label Back \
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
             - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "	" \
-			1 "Single Window Art:  Image and then Video" \
-			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
-			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
-			- "	" \
-			4 "ES Systems Browsing: Vertical" \
-			5 "ES Systems Browsing: Horizontal" \
+			- "" \
+			1 "Single Window Art:  Image and then Video " \
+			2 "Dual Window Art  :  Image Under Gamelist + Big Video " \
+			3 "Dual Window Art  :  Full Gamelist, Image Next to Video " \
+			- "" \
+			4 "ES Systems Browsing: Vertical " \
+			5 "ES Systems Browsing: Horizontal " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -802,24 +802,24 @@ function ra_options_tool() {
             7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay [OFF]" \
-            9 " - Disable A System Preset Overlay [OFF]" \
+		    8 " - Enable A System Preset Overlay [OFF] " \
+            9 " - Disable A System Preset Overlay [OFF] " \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF]" \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF]" \
-		   14 " - Enable Atomiswave Cabinet Overlay [OFF]" \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF]" \
-		   16 " - Enable Naomi Cabinet Overlay [OFF]" \
-		   17 " - Disable Naomi Cabinet Overlay [OFF]" \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF] " \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF] " \
+		   14 " - Enable Atomiswave Cabinet Overlay [OFF] " \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF] " \
+		   16 " - Enable Naomi Cabinet Overlay [OFF] " \
+		   17 " - Disable Naomi Cabinet Overlay [OFF] " \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System [OFF]" \
-           19 " - Disable Video Smooth - Single System [OFF]" \
-		   20 " - Enable Video Smooth - All Systems [OFF]" \
-           21 " - Disable Video Smooth - All Systems [OFF]" \
+		   18 " - Enable Video Smooth - Single System [OFF] " \
+           19 " - Disable Video Smooth - Single System [OFF] " \
+		   20 " - Enable Video Smooth - All Systems [OFF] " \
+           21 " - Disable Video Smooth - All Systems [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1311,12 +1311,12 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
             --ok-label OK --cancel-label Back \
             --menu "OK Let's decide what would you like to hide/show..." 25 75 20 \
             - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
-            1 " - Hide RetroPie/Options Menu" \
-            2 " - Show RetroPie/Options Menu" \
+            1 " - Hide RetroPie/Options Menu " \
+            2 " - Show RetroPie/Options Menu " \
             - "" \
             - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
-		    3 " - Hide A System..." \
-            4 " - Show A System..." \
+		    3 " - Hide A System... " \
+            4 " - Show A System... " \
             - "" \
             5 " - Show/Restore ALL HIDDEN Systems" \
 		   2>&1 > /dev/tty)
@@ -1469,10 +1469,10 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "Great 80's Selection" \
-            2 "Cool Synthwave Tracks" \
-            3 "Smooth Royalty Free Tracks" \
-            4 "I want to listen to image builder's Custom Tracks !" \
+            1 "Great 80's Selection " \
+            2 "Cool Synthwave Tracks " \
+            3 "Smooth Royalty Free Tracks " \
+            4 "I want to listen to image builder's Custom Tracks ! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1607,8 +1607,8 @@ function mesa_vk() {
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable" \
-           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest" \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable " \
+           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1879,8 +1879,8 @@ function rpc80_saves() {
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
             - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
-           1 " - Enable Single Saves Directory" \
-           2 " - Revert Single Saves Directory" \
+           1 " - Enable Single Saves Directory " \
+           2 " - Revert Single Saves Directory " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2074,16 +2074,16 @@ function omxvol() {
             --menu "Please Set OMXPlayer Volume:" 25 75 20 \
             - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
             - "" \
-			1 " - Set to 90%" \
-			2 " - Set to 85%" \
-			3 " - Set to 80%" \
-			4 " - Set to 75%" \
-            5 " - Set to 70%" \
-            6 " - Set to 60%" \
-            7 " - Set to 50%" \
-            8 " - Set to 25%" \
-            9 " - Set to 100% (Default - Reset)" \
-            10 " - Set to 0% (Mute)" \
+			1 " - Set to 90% " \
+			2 " - Set to 85% " \
+			3 " - Set to 80% " \
+			4 " - Set to 75% " \
+            5 " - Set to 70% " \
+            6 " - Set to 60% " \
+            7 " - Set to 50% " \
+            8 " - Set to 25% " \
+            9 " - Set to 100% (Default - Reset) " \
+            10 " - Set to 0% (Mute) " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2227,16 +2227,16 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi3" \
-			2 "Amiberry :  Pi3 SDL2" \
-			3 "Amiberry :  Pi3 x64" \
+			1 "Amiberry :  Pi3 " \
+			2 "Amiberry :  Pi3 SDL2 " \
+			3 "Amiberry :  Pi3 x64 " \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi3      - Swap To This Binary" \
-			5 "Amiberry :  Pi3 SDL2 - Swap To This Binary" \
+			4 "Amiberry :  Pi3      - Swap To This Binary " \
+			5 "Amiberry :  Pi3 SDL2 - Swap To This Binary " \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
-			6 "Amiberry :  Latest Known Stable Binary [OFF]" \
+			6 "Amiberry :  Latest Known Stable Binary [OFF] " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2880,6 +2880,15 @@ function argon1_off() {
 	sudo reboot
 }
 
+function argon1_fan() {
+	clear
+	exec /usr/bin/argonone-config
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
 
 function desk_env() {
 	clear
@@ -2907,13 +2916,13 @@ function clean_pbt() {
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
 			- "	" \
-           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P!" \
-		   2 " - Clean LastPlayed & PlayCount or Favorites Options" \
-		   3 " - Clean all save, hi, dat etc files in roms folder" \
-           4 " - Remove ES Auto-gen Gamelists" \
-		   5 " - Clean & Set 2Play! Top CLi Commands History" \
-		   6 " - Clean Wi-Fi Settings" \
-           7 " - Clean Filesystem Cache" \
+           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
+		   2 " - Clean LastPlayed & PlayCount or Favorites Options " \
+		   3 " - Clean all save, hi, dat etc files in roms folder " \
+           4 " - Remove ES Auto-gen Gamelists " \
+		   5 " - Clean & Set 2Play! Top CLi Commands History " \
+		   6 " - Clean Wi-Fi Settings " \
+           7 " - Clean Filesystem Cache " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3074,10 +3083,10 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** CLEANUP AUTO-LISTS SELECTIONS ***" \
-            1 " - Clear AutoLastPlayed & PlayCount" \
+            1 " - Clear AutoLastPlayed & PlayCount " \
             - "" \
             - "*** CLEANUP FAVORITES SELECTIONS ***" \
-            2 " - Clear Favorites" \
+            2 " - Clear Favorites " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3349,16 +3358,16 @@ function sys_pbt() {
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
-		   1 " - Filesystem Check is Automated every 50 Boots [Info]" \
-           2 " - Show Partitions & Space Info" \
-		   3 " - Show Folders Size [home/pi]" \
-           4 " - Show System Free Memory Info" \
-           5 " - Show OS Version & Info" \
-           6 " - System & FW Update Options" \
-           7 " - System Full Info" \
-		   8 " - Monitor In Real Time Board Temperature" \
-		   9 " - Show CPU Cores Status" \
-		  10 " - Ratio Video Tool Options" \
+		   1 " - Filesystem Check is Automated every 50 Boots [Info] " \
+           2 " - Show Partitions & Space Info " \
+		   3 " - Show Folders Size [home/pi] " \
+           4 " - Show System Free Memory Info " \
+           5 " - Show OS Version & Info " \
+           6 " - System & FW Update Options " \
+           7 " - System Full Info " \
+		   8 " - Monitor In Real Time Board Temperature " \
+		   9 " - Show CPU Cores Status " \
+		  10 " - Ratio Video Tool Options " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3456,11 +3465,11 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "Let's update & upgrade your system!" 25 75 20 \
             - "*** OS UPDATING SELECTIONS ***" \
-            1 " - OS Package List Update & Distro System Upgrade" \
-            2 " - OS Package List Update & Full Upgrade" \
+            1 " - OS Package List Update & Distro System Upgrade " \
+            2 " - OS Package List Update & Full Upgrade " \
             - "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
-            3 " - Pi Firmware Check or Upgrade" \
+            3 " - Pi Firmware Check or Upgrade " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3508,18 +3517,18 @@ function fw_pi() {
             --ok-label OK --cancel-label Back \
             --menu "Let's check or upgrade your firmware!" 25 75 20 \
             - "*** Pi4 FIRMWARE OPTIONS ***" \
-            1 " - Set To STABLE Firmware [OFF]" \
-            2 " - Set To CRITICAL Firmware [OFF]" \
-			3 " - Set To BETA Firmware [OFF]" \
+            1 " - Set To STABLE Firmware [OFF] " \
+            2 " - Set To CRITICAL Firmware [OFF] " \
+			3 " - Set To BETA Firmware [OFF] " \
             - "" \
             - "*** EXPERIMENTAL FIRMWARE (RPI-UPDATE) SELECTIONS ***" \
-            4 " - Experimental Firmware & Kernel Upgrade - All RPi Boards" \
-            5 " - Revert to Last STABLE Firmware For NON Pi4 Boards" \
+            4 " - Experimental Firmware & Kernel Upgrade - All RPi Boards " \
+            5 " - Revert to Last STABLE Firmware For NON Pi4 Boards " \
             - "" \
             - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
-            6 " - Show Current Bootloader Version & Configuration [Pi4]" \
-			7 " - Verify If A New Available Firmware Version [Pi4]" \
-			8 " - Update Official/Published Firmware [Pi4]" \
+            6 " - Show Current Bootloader Version & Configuration [Pi4] " \
+			7 " - Verify If A New Available Firmware Version [Pi4] " \
+			8 " - Update Official/Published Firmware [Pi4] " \
             2>&1 > /dev/tty)
 
         case "$choice" in
