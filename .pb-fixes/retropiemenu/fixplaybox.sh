@@ -1598,7 +1598,7 @@ function mesa_vk() {
 # Copyright (C)2018-2022 2Play! (S.R.)
 # 13.02.2021
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
+	--title "MESA & VULKAN OPTIONS MENU" \
 	
     local choice
     while true; do
