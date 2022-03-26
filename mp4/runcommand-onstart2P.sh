@@ -1,1 +1,1 @@
-loader --blank /home/pi/PlayBox-Setup/getready2play.mp4
+mpv --really-quiet /home/pi/PlayBox-Setup/getready2play.mp4

@@ -3,9 +3,9 @@
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)+
-# PlayBox ToolKit
+# PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 15.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 26.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -39,16 +39,16 @@ function main_menu() {
             --menu "$pb_version" 25 75 20 \
             - "*** PLAYBOX TOOLKIT SELECTIONS ***" \
             - "" \
-			1 " - FIXES OPTIONS MENU" \
-            2 " - APPS & TWEAKS OPTIONS MENU" \
-            3 " - CLEANUP TOOLS OPTIONS MENU" \
-            4 " - SYSTEM TOOLS OPTIONS MENU" \
-            5 " - THANK YOU! - CREDITS" \
+			1 " - FIXES OPTIONS MENU " \
+            2 " - APPS & TWEAKS OPTIONS MENU " \
+            3 " - CLEANUP TOOLS OPTIONS MENU " \
+            4 " - SYSTEM TOOLS OPTIONS MENU " \
+            5 " - THANK YOU! - CREDITS " \
 			- "" \
-			6 " - UPDATE YOUR PLAYBOX SETUP" \
+			6 " - UPDATE YOUR PLAYBOX SETUP " \
 			- "" \
-            7 " - POWER OFF" \
-            8 " - RESTART" \
+            7 " - POWER OFF " \
+            8 " - RESTART " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -78,14 +78,14 @@ function fixes_pbt() {
             --menu "Apply the fix(es) you need..." 25 75 20 \
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
-			1 " - Fix The PlayBox RetropieMenu" \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF]" \
-			3 " - Repair PlayBox Background Music Mute File" \
-            4 " - Repair 2Play! Slideshow Screensaver" \
-			5 " - Reset All RetroPie Controllers" \
-			6 " - Fix RetroPie-Setup Git Update" \
-			7 " - Update 2Play! PlayBox v2 Themes" \
-			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI" \
+			1 " - Fix The PlayBox RetropieMenu " \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
+			3 " - Repair PlayBox Background Music Mute File " \
+            4 " - Repair 2Play! Slideshow Screensaver " \
+			5 " - Reset All RetroPie Controllers " \
+			6 " - Fix RetroPie-Setup Git Update " \
+			7 " - Update 2Play! PlayBox v2 Themes " \
+			#8 " - Set Default Audio-Out To 3.5mm Jack or HDMI [OFF] " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -97,7 +97,7 @@ function fixes_pbt() {
 			5) fix_control  ;;
 			6) git_rs  ;;
 			7) themes_rs  ;;
-			8) def_audio_out  ;;
+			#8) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -166,14 +166,14 @@ dialog --backtitle "Region based ES Systems" \
             --ok-label OK --cancel-label Back \
             --menu "Select the REGION setup you want to apply..." 25 75 20 \
             - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
-            1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2" \
-            2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac" \
-            3 " - ALL:   All systems will be enabled" \
+            1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
+            2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
+            3 " - ALL:   All systems will be enabled " \
             - "" \
             - "*** REGION SYSTEM OPTIONS with KODI ***" \
-            4 " - US\JP: As option 1 + Kodi" \
-            5 " - EU\JP: As option 2 + Kodi" \
-            6 " - ALL:   As option 3 + Kodi" \
+            4 " - US\JP: As option 1 + Kodi " \
+            5 " - EU\JP: As option 2 + Kodi " \
+            6 " - ALL:   As option 3 + Kodi " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -620,25 +620,24 @@ function apps_pbt() {
             --menu "Run the application you need..." 25 75 20 \
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " - Take HD ScreenShot" \
+			1 " - Take HD ScreenShot [OFF] " \
 			2 " - Gamelist Views - 2Play! Themes " \
-		    3 " - RetroArch Visual & Audio ON/OFF Options+" \
-			4 " - Hide or Show a System" \
-			5 " - 2Play! Music Selections" \
-			6 " - Skyscraper By Lars Muldjord" \
-		    7 " - MESA & Vulkan Drivers Related Options" \
-		    8 " - [Disabled] PiKISS By Jose Cerrejon" \
-		    9 " - Single Saves Directory By RPC80" \
-		   10 " - SD/USB Storage Benchmark" \
-		   11 " - OMXPlayer Volume Control Script" \
-		   12 " - Emulators Custom Compile From Source" \
-		   13 " - Emulator Tweaks Options [OFF]" \
-		   14 " - Safe Shutdown Case Script Options" \
-		   15 " - Swap Desktop Enviroment (mate-session, xfce4-session" \
+		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
+			4 " - Hide or Show a System " \
+			5 " - 2Play! Music Selections " \
+			6 " - Skyscraper By Lars Muldjord " \
+		    7 " - MESA & Vulkan Drivers Related Options " \
+		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
+		    9 " - Single Saves Directory By RPC80 " \
+		   10 " - SD/USB Storage Benchmark " \
+		   11 " - Emulators Custom Compile From Source [OFF] " \
+		   12 " - Emulator Tweaks Options [OFF] " \
+		   13 " - Safe Shutdown Case Script Options " \
+		   14 " - Swap Desktop Enviroment (mate-session, xfce4-session " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            1) prntscr  ;;
+            #1) prntscr  ;;
 			2) swap_theme_view ;;
 			3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
@@ -648,11 +647,10 @@ function apps_pbt() {
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
-		   11) omxvol  ;;
-		   12) emus_compile  ;;
-		   #13) emus_tks  ;;
-		   14) safe_shut  ;;
-		   15) desk_env  ;;
+		   11) emus_compile  ;;
+		   #12) emus_tks  ;;
+		   13) safe_shut  ;;
+		   14) desk_env  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -679,13 +677,13 @@ function swap_theme_view() {
             --ok-label OK --cancel-label Back \
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
             - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "	" \
-			1 "Single Window Art:  Image and then Video" \
-			2 "Dual Window Art  :  Image Under Gamelist + Big Video" \
-			3 "Dual Window Art  :  Full Gamelist, Image Next to Video" \
-			- "	" \
-			4 "ES Systems Browsing: Vertical" \
-			5 "ES Systems Browsing: Horizontal" \
+			- "" \
+			1 "Single Window Art:  Image and then Video " \
+			2 "Dual Window Art  :  Image Under Gamelist + Big Video " \
+			3 "Dual Window Art  :  Full Gamelist, Image Next to Video " \
+			- "" \
+			4 "ES Systems Browsing: Vertical " \
+			5 "ES Systems Browsing: Horizontal " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -802,24 +800,24 @@ function ra_options_tool() {
             7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay [OFF]" \
-            9 " - Disable A System Preset Overlay [OFF]" \
+		    8 " - Enable A System Preset Overlay [OFF] " \
+            9 " - Disable A System Preset Overlay [OFF] " \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF]" \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF]" \
-		   14 " - Enable Atomiswave Cabinet Overlay [OFF]" \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF]" \
-		   16 " - Enable Naomi Cabinet Overlay [OFF]" \
-		   17 " - Disable Naomi Cabinet Overlay [OFF]" \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF] " \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF] " \
+		   14 " - Enable Atomiswave Cabinet Overlay [OFF] " \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF] " \
+		   16 " - Enable Naomi Cabinet Overlay [OFF] " \
+		   17 " - Disable Naomi Cabinet Overlay [OFF] " \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System [OFF]" \
-           19 " - Disable Video Smooth - Single System [OFF]" \
-		   20 " - Enable Video Smooth - All Systems [OFF]" \
-           21 " - Disable Video Smooth - All Systems [OFF]" \
+		   18 " - Enable Video Smooth - Single System [OFF] " \
+           19 " - Disable Video Smooth - Single System [OFF] " \
+		   20 " - Enable Video Smooth - All Systems [OFF] " \
+           21 " - Disable Video Smooth - All Systems [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1311,12 +1309,12 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
             --ok-label OK --cancel-label Back \
             --menu "OK Let's decide what would you like to hide/show..." 25 75 20 \
             - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
-            1 " - Hide RetroPie/Options Menu" \
-            2 " - Show RetroPie/Options Menu" \
+            1 " - Hide RetroPie/Options Menu " \
+            2 " - Show RetroPie/Options Menu " \
             - "" \
             - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
-		    3 " - Hide A System..." \
-            4 " - Show A System..." \
+		    3 " - Hide A System... " \
+            4 " - Show A System... " \
             - "" \
             5 " - Show/Restore ALL HIDDEN Systems" \
 		   2>&1 > /dev/tty)
@@ -1469,10 +1467,10 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "Great 80's Selection" \
-            2 "Cool Synthwave Tracks" \
-            3 "Smooth Royalty Free Tracks" \
-            4 "I want to listen to image builder's Custom Tracks !" \
+            1 "Great 80's Selection " \
+            2 "Cool Synthwave Tracks " \
+            3 "Smooth Royalty Free Tracks " \
+            4 "I want to listen to image builder's Custom Tracks ! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1593,12 +1591,12 @@ function skyscraper() {
 
 
 function mesa_vk() {
-# Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
+# For RockChip Midgard SoC - PanFrost MESA
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 13.02.2021
+# 26.03.2022
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "RASPBERRRY PI4 VULKAN OPTIONS MENU" \
+	--title "MESA & VULKAN OPTIONS MENU" \
 	
     local choice
     while true; do
@@ -1607,13 +1605,13 @@ function mesa_vk() {
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable" \
-           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest" \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Dev. Version " \
+           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) mesa_up  ;;
-		   2) vulkan_ra  ;;
+		   #2) vulkan_ra  ;;
 		   #3) igalia_dm  ;;
            -) none ;;
             *)  break ;;
@@ -1624,130 +1622,18 @@ function mesa_vk() {
 function mesa_up() {
 clear
 cd $HOME
-if [ ! -d code ]; then
-mkdir code && cd code/
-else
-cd code/
-fi
 echo ""
 echo "STEP 1. Bring OS Up to date... "
 echo ""
-sudo apt update && sudo apt upgrade -y
+sudo apt update -y && sudo apt upgrade -y
 echo ""
-echo "STEP 2. Installing Dependencies... "
-sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
-sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt install -y cmake
+echo "STEP 2. Installing Repository & Integrate to OS... "
 echo ""
-echo "STEP 3. Compiling Driver & Extras... "
+sudo add-apt-repository ppa:oibaf/graphics-drivers && sudo apt update -y && sudo apt upgrade -y
 echo ""
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
-sudo apt update
-sudo apt build-dep mesa -y
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
-cd $HOME/code/
-#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
-#WARNING: This will destroy your desktop system if you are using one
-#sudo apt purge mesa-* libgl* libdrm*
-sudo rm -rf mesa* 
-#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-cd mesa
-#git checkout wip/igalia/v3dv-conformance-1.0
-##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
-#Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
-##Based On Igalia
-#meson --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
-meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-##2P-NoX11
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-ninja -C build -j4
-sudo ninja -C build install
-echo ""
-sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2
-sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
-#Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
-
-cd $HOME/code/
-#Download & Install MESA DRM
-##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
-cd drm
-##RPI4 Specific
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true -Dbuildtype=release
-meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true
-ninja -C build
-sudo -E ninja -C build install
-#Update RPie MESA DRM file
-sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
-sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
-cd /opt/retropie/supplementary/mesa-drm
-sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
-sudo ldconfig
-#Test libdrm with something like: modetest -s 89:#0
-#sudo rm /opt/retropie/supplementary/mesa-drm/libdrm*
-##Update SDL2: USE Custom version in RPie Scritpmodule (just change version)
-#wget https://www.libsdl.org/release/SDL2-2.0.20.tar.gz
-#cd $HOME/code/
-#tar xvpf SDL2-2.0.20.tar.gz
-#cd SDL2-2.0.20/
-#./configure --enable-video-kmsdrm
-#make -j3
-#sudo make install	
-#Check version of SDL2: sdl2-config --version
-
-echo ""
-#echo "STEP 4. Set EVVVAR to ensure that a Vulkan program finds the driver... "
-#echo ""
-## Check Global variables: printenv or export -p
-if ! grep 'VK_ICD_FILENAMES' /home/pi/.bashrc; then
-echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /home/pi/.bashrc
-#echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
-else
-echo "Already set in .bashrc ..."; sleep 1
-fi
-if ! grep 'VK_ICD_FILENAMES' /etc/environment; then
-echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment
-#echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
-else
-echo "Already set in environment..."; sleep 1
-fi
-sleep 2
-cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-echo ""
-#clear
-echo
 echo "[OK DONE!...]"
 sleep 1
 echo ""
-echo "Script By 2Play!"
-echo ""
-echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
-echo ""
-echo
-#	while true; do
-#		echo ""
-#		read -p 'Whould you like to compile latest RetroArch with Vulkan Support [y] or [n]? ' yn
-#		case $yn in
-#		[Yy]*) vulkan_ra;;
-#		[Nn]*) echo "OK!"; echo ""; break;;
-#		* ) echo ""; echo "Please answer yes or no.";;
-#		esac
-#	done
-echo -e 'Now I will update also the RetroArch binary with latest code and supporting latest drivers...\n\nJust sit back and wait a little longer ;-) ...\n*** IF FAILS for any reason,  please re-run RetroArch compile from drivers menu... ***'
-echo
-read -n 1 -s -r -p "Press any key to continue..."
-vulkan_ra
-echo
 read -n 1 -s -r -p "Press any key to reboot"
 echo ""
 echo "[OK System Will Restart now...]"
@@ -1879,8 +1765,8 @@ function rpc80_saves() {
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
             - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
-           1 " - Enable Single Saves Directory" \
-           2 " - Revert Single Saves Directory" \
+           1 " - Enable Single Saves Directory " \
+           2 " - Revert Single Saves Directory " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2074,16 +1960,16 @@ function omxvol() {
             --menu "Please Set OMXPlayer Volume:" 25 75 20 \
             - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
             - "" \
-			1 " - Set to 90%" \
-			2 " - Set to 85%" \
-			3 " - Set to 80%" \
-			4 " - Set to 75%" \
-            5 " - Set to 70%" \
-            6 " - Set to 60%" \
-            7 " - Set to 50%" \
-            8 " - Set to 25%" \
-            9 " - Set to 100% (Default - Reset)" \
-            10 " - Set to 0% (Mute)" \
+			1 " - Set to 90% " \
+			2 " - Set to 85% " \
+			3 " - Set to 80% " \
+			4 " - Set to 75% " \
+            5 " - Set to 70% " \
+            6 " - Set to 60% " \
+            7 " - Set to 50% " \
+            8 " - Set to 25% " \
+            9 " - Set to 100% (Default - Reset) " \
+            10 " - Set to 0% (Mute) " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2227,16 +2113,16 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4" \
-			2 "Amiberry :  Pi4 SDL2" \
-			3 "Amiberry :  Pi4 x64" \
+			1 "Amiberry :  Pi4 " \
+			2 "Amiberry :  Pi4 SDL2 " \
+			3 "Amiberry :  Pi4 x64 " \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
-			4 "Amiberry :  Pi4      - Swap To This Binary" \
-			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary" \
+			4 "Amiberry :  Pi4      - Swap To This Binary " \
+			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary " \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
-			6 "Amiberry :  Latest Known Stable Binary" \
+			6 "Amiberry :  Latest Known Stable Binary " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2916,13 +2802,13 @@ function clean_pbt() {
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
 			- "	" \
-           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P!" \
-		   2 " - Clean LastPlayed & PlayCount or Favorites Options" \
-		   3 " - Clean all save, hi, dat etc files in roms folder" \
-           4 " - Remove ES Auto-gen Gamelists" \
-		   5 " - Clean & Set 2Play! Top CLi Commands History" \
-		   6 " - Clean Wi-Fi Settings" \
-           7 " - Clean Filesystem Cache" \
+           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
+		   2 " - Clean LastPlayed & PlayCount or Favorites Options " \
+		   3 " - Clean all save, hi, dat etc files in roms folder " \
+           4 " - Remove ES Auto-gen Gamelists " \
+		   5 " - Clean & Set 2Play! Top CLi Commands History " \
+		   6 " - Clean Wi-Fi Settings " \
+           7 " - Clean Filesystem Cache " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3083,10 +2969,10 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** CLEANUP AUTO-LISTS SELECTIONS ***" \
-            1 " - Clear AutoLastPlayed & PlayCount" \
+            1 " - Clear AutoLastPlayed & PlayCount " \
             - "" \
             - "*** CLEANUP FAVORITES SELECTIONS ***" \
-            2 " - Clear Favorites" \
+            2 " - Clear Favorites " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3306,7 +3192,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '14,1000d' .bash_history
+	sed -i '12,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3358,20 +3244,20 @@ function sys_pbt() {
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
-		   1 " - Filesystem Check is Automated every 50 Boots [Info]" \
-           2 " - Show Partitions & Space Info" \
-		   3 " - Show Folders Size [home/pi]" \
-           4 " - Show System Free Memory Info" \
-           5 " - Show OS Version & Info" \
-           6 " - System & FW Update Options" \
-           7 " - System Full Info" \
-		   8 " - Monitor In Real Time Board Temperature" \
-		   9 " - Show CPU Cores Status" \
-		  10 " - Ratio Video Tool Options" \
+		   1 " - Filesystem Check is Automated " \
+           2 " - Show Partitions & Space Info " \
+		   3 " - Show Folders Size [home/pi] " \
+           4 " - Show System Free Memory Info " \
+           5 " - Show OS Version & Info " \
+           6 " - System & FW Update Options " \
+           7 " - System Full Info " \
+		   8 " - Monitor In Real Time Board Temperature " \
+		   9 " - Show CPU Cores Status " \
+		  10 " - Ratio Video Tool Options [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-           1) fschk_bt  ;;
+           #1) fschk_bt  ;;
            2) partitions  ;;
 		   3) fold_sz  ;;
            4) freemem  ;;
@@ -3380,7 +3266,7 @@ function sys_pbt() {
            7) sysinfo  ;;
 		   8) temp_rt  ;;
 		   9) cores_status  ;;
-		  10) ratio_vt  ;;
+		  #10) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3445,12 +3331,11 @@ function os_info() {
 function os_update() {
 	clear
 # SYSTEM Update Options Script by 2Play!
-# 30.08.20
+# 26.03.22
 
 infobox=""
 infobox="${infobox}\n"
 infobox="${infobox}MULTIPLE OPTIONS:\n\nOption 1 is preferred for complete OS update/upgrade.\nOption 2 is classic update & upgrade.\n\n"
-infobox="${infobox}Firmware-Kernel Upgrade is optional to apply and will upgrade to a beta/experminental firmware and kernel. It has it's pros n cons.\nIf it breaks things you can use option 4 to revert back to the last stable supported kernel (tested on non Pi4 boards).\n\nFor Pi4 there are options in #📜guides-tips discord section if you want to downgrade\n\n*** So always take a backup before your do a Firmware-Kernel Upgrade!!!***\n\n                       YOU HAVE BEEN WARNED."
 infobox="${infobox}\n                  IT WILL REBOOT AFTER UPDATING."
 infobox="${infobox}\n"
 
@@ -3465,11 +3350,11 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "Let's update & upgrade your system!" 25 75 20 \
             - "*** OS UPDATING SELECTIONS ***" \
-            1 " - OS Package List Update & Distro System Upgrade" \
-            2 " - OS Package List Update & Full Upgrade" \
+            1 " - OS Package List Update & Distro System Upgrade " \
+            2 " - OS Package List Update & Full Upgrade " \
             - "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
-            3 " - Pi Firmware Check or Upgrade" \
+            3 " - Pi Firmware Check or Upgrade " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3486,11 +3371,11 @@ dialog --backtitle "PlayBox Toolkit" \
 function update_distro() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt clean
+	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
-	echo "[OK] Rebooting Raspberry Pi ... "
+	echo "[OK] Rebooting Your SoC Board ... "
 	sudo reboot
 }
 
@@ -3498,156 +3383,18 @@ function update_distro() {
 function update_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt clean
+	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
-	echo "[OK] Rebooting Raspberry Pi ... "
+	echo "[OK] Rebooting Your SoC Board ... "
 	sudo reboot
 }
-
-
-function fw_pi() {
-	dialog --backtitle "PlayBox Toolkit" \
-	--title "FIRMWARE OPTIONS MENU" \
-	
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " FIRMWARE OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Let's check or upgrade your firmware!" 25 75 20 \
-            - "*** Pi4 FIRMWARE OPTIONS ***" \
-            1 " - Set To STABLE Firmware" \
-            2 " - Set To CRITICAL Firmware" \
-			3 " - Set To BETA Firmware" \
-            - "" \
-            - "*** EXPERIMENTAL FIRMWARE (RPI-UPDATE) SELECTIONS ***" \
-            4 " - Experimental Firmware & Kernel Upgrade - All RPi Boards" \
-            5 " - Revert to Last STABLE Firmware For NON Pi4 Boards" \
-            - "" \
-            - "*** Pi4 FIRMWARE VERSION/INFO & UPDATE ***" \
-            6 " - Show Current Bootloader Version & Configuration [Pi4]" \
-			7 " - Verify If A New Available Firmware Version [Pi4]" \
-			8 " - Update Official/Published Firmware [Pi4]" \
-            2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) fw_st  ;;
-            2) fw_ct  ;;
-            3) fw_bt  ;;
-            4) fw_exp  ;;
-            5) fw_down  ;;
-			6) fw_pi4  ;;
-			7) fwe_pi4  ;;
-			8) fwup_pi4  ;;
-            -) none ;;
-            *) break ;;
-        esac
-    done
-}
-	
-function fw_st() {
-	dialog --infobox "...Please wait!..." 3 23 ; sleep 2
-	clear
-	sudo sed -i -e '/STATUS/s/beta/stable/g; /STATUS/s/critical/stable/g' /etc/default/rpi-eeprom-update
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function fw_ct() {
-	dialog --infobox "...Please wait!..." 3 23 ; sleep 2
-	clear
-	sudo sed -i -e '/STATUS/s/beta/critical/g; /STATUS/s/stable/critical/g' /etc/default/rpi-eeprom-update
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function fw_bt() {
-	dialog --infobox "...Please wait!..." 3 23 ; sleep 2
-	clear
-	sudo sed -i -e '/STATUS/s/stable/beta/g; /STATUS/s/critical/beta/g' /etc/default/rpi-eeprom-update
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function fw_exp() {
-	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
-	clear
-	sudo sudo apt update -y && sudo apt upgrade -y && sudo rpi-update
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
-}
-
-function fw_down() {
-	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
-	clear
-	sudo apt update -y; sudo apt install --reinstall raspberrypi-bootloader raspberrypi-kernel
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
-}
-
-function fw_pi4() {
-	dialog --infobox "...Checking..." 3 19 ; sleep 2
-	clear
-	echo
-	echo "- Bootloader Current Version:"
-	vcgencmd bootloader_version
-	echo
-	echo "- Bootloader Current Configuration:"
-	vcgencmd bootloader_config
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-}
-
-function fwe_pi4() {
-	dialog --infobox "...Checking..." 3 19 ; sleep 2
-	clear
-	echo "Let's make sure you have latest update..."
-	sleep 2
-	sudo apt update && sudo apt upgrade -y
-	sleep 2
-	echo
-	echo
-	sudo rpi-eeprom-update
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-}
-
-function fwup_pi4() {
-	dialog --infobox "...Setting..." 3 18 ; sleep 2
-	clear
-	echo "Let's make sure you have latest update..."
-	sleep 2
-	sudo apt update && sudo apt upgrade -y
-	sleep 2
-	echo
-	echo
-	sudo rpi-eeprom-update -a
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
-}
-#	$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System/update.sh	
-#	sleep 3
 
 
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
-# 02.02.2022
+# 26.03.2022
 	clear
 echo "
         $(tput setaf 1)__________.__                 $(tput setaf 7)__________
@@ -3666,19 +3413,20 @@ Date & Time     : `date +"%A, %e %B %Y, %r"`
 $(tput bold)$(tput setaf 7)
 ...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
                             $(tput bold)Size 	Used	Avail 	Used%
-SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
+SD Boot         Partition: `df -h | grep '/dev/mmcblk2p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
 SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
 Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
 
 $(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
-CPU `grep Hardware /proc/cpuinfo`,  -  `lscpu | grep "Model name"`
-GPU Version     : `exec -- /opt/vc/bin/vcgencmd version | awk 'FNR == 1'`
+CPU & Board     : `tr -d '\0' </proc/device-tree/model`
+GPU Version     : Mali™-T764 ARM MP4 GPU
 
 $(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU Max Speed   : `lscpu | grep max`$(tput sgr0)
+CPU Cur. Speed  : `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq)/1000)); printf "$cpumxs MHz"`
+GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ffa30000.gpu/cur_freq)/1000000)); printf "$gpumxs  MHz"`$(tput sgr0)
 $(tput setaf 6)
 Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Local IP        : `hostname -I`
+Local IP        : `hostname -I` 
 $(tput setaf 7)$(tput sgr0)"
 echo
 read -n 1 -s -r -p "Press any key to continue"

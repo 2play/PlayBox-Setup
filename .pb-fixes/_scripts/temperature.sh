@@ -1,8 +1,8 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 14.12.19
-gpu=$(/opt/vc/bin/vcgencmd measure_temp | awk -F "[=']" '{print $2}')
+# Tinker version 26.03.2022
+#gpu=$(/opt/vc/bin/vcgencmd measure_temp | awk -F "[=']" '{print $2}')
 #cpu=$(</sys/class/thermal/thermal_zone0/temp)
 #cpu=$(echo "$cpu / 100 * 0.1" | bc)
 
@@ -19,4 +19,4 @@ fi
             gpu=""
         fi
     fi
-echo "CPU: $cpu°C ($cpuf°F) - GPU: $gpu°C ($gpuf°F)"
+echo "CPU/GPU: $cpu°C ($cpuf°F)"

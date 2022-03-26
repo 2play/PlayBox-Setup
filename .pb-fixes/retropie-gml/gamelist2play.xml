@@ -248,9 +248,10 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/filemanager.mp4</video>
 	</game>
 	<game>
-		<path>./System/oc.sh</path>
-		<name>✭ OverClock Pi4 Optimized, 2P!</name>
-		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750-2200MHz. Original code done by dev RPC.</desc>
+		<path>./System/OFF.sh</path>
+		<name>✭ OverClock TinkerBoard Optimized, 2P!</name>
+		<desc>Your TinkerBoard is set to operate on PlayBox v2 at max CPU stock speed of 1800 MHz and max GPU speed of 600 MHz. The default GPU speed was set at 200 MHz.
+		You can verify current board speeds at PlayBox Infobox when in CLi or simply run in Toolkit or RetroPie Menu.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>
