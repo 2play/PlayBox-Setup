@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 12.03.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 26.03.2022"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -36,7 +36,7 @@ sleep 2
 
 function post_up_clean() {
 clear
-git clone --depth 1 --branch=clean-vanilla-pi4 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=clean-vanilla-tinker https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -46,7 +46,7 @@ global_shader
 
 function post_up_normal() {
 clear
-git clone --depth 1 --branch=main-vanilla-pi4 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=main-vanilla-tinker https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -84,10 +84,10 @@ else
 sudo tune2fs -c 50 /dev/sda2
 fi
 # Set SD filesystem check every 50 boots [reset -1]
-if [[ `sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:      50"` ]]; then
+if [[ `sudo tune2fs -l /dev/mmcblk2p1* | grep "Maximum mount count:      50"` ]]; then
 echo "Already set to check every 50 boots!"
 else
-sudo tune2fs -c 50 /dev/mmcblk0p2
+sudo tune2fs -c 50 /dev/mmcblk2p1
 fi
 # Config.txt OC additions & Pi400 Fix
 #if ! grep "gpu_freq=750" /boot/config.txt ; then
@@ -103,21 +103,21 @@ fi
 #sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
 #fi
 #Kernel error fix After OS Full update (5.10.17)
-if [[ `uname -r | grep 5.10.17-` ]]; then
-	if grep "gpu_mem_" /boot/config.txt ; then
-	sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
-	fi
-	else
-	if grep "gpu_mem_" /boot/config.txt ; then
-	sudo sed -i 's|#gpu_mem_*|gpu_mem_|g' /boot/config.txt;
-	fi
-	echo "Your Kernel isn't at 5.10.17 so All OK!"
-	echo
-fi	
+#if [[ `uname -r | grep 5.10.17-` ]]; then
+#	if grep "gpu_mem_" /boot/config.txt ; then
+#	sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
+#	fi
+#	else
+#	if grep "gpu_mem_" /boot/config.txt ; then
+#	sudo sed -i 's|#gpu_mem_*|gpu_mem_|g' /boot/config.txt;
+#	fi
+#	echo "Your Kernel isn't at 5.10.17 so All OK!"
+#	echo
+#fi	
 # cmdline.txt
-if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
-sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
-fi
+#if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
+#sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
+#fi
 #Misc Updates
 #GSPlus roms symlink update
 #sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
@@ -229,7 +229,7 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 #cd /opt/retropie/configs/amiga
 #sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Xinit?
-sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+	#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 # WWF Typo Fix
 #rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
