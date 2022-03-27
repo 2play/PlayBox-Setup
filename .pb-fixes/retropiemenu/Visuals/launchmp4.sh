@@ -2,7 +2,7 @@
 # Mp4 Launching Screens.
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 25.06.20
+# 26.03.2022
 
 infobox=""
 infobox="${infobox}\n"
@@ -48,13 +48,15 @@ function main_menu() {
 
 function enable_mp4() {
 	dialog --infobox "...Checking and Applying..." 3 31 ; sleep 2
+	cp /opt/retropie/configs/all/runcommand-onstart.sh /opt/retropie/configs/all/runcommand-onstart.sh.BGM
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstart2P.sh /opt/retropie/configs/all/runcommand-onstart.sh
-	sudo cp /usr/bin/omxplayer /usr/bin/loader
+	#sudo cp /usr/bin/omxplayer /usr/bin/loader
 }
 
 function disable_mp4() {
 	dialog --infobox "...Checking and Applying..." 3 31 ; sleep 2
 	rm /opt/retropie/configs/all/runcommand-onstart.sh
+	mv /opt/retropie/configs/all/runcommand-onstart.sh.BGM /opt/retropie/configs/all/runcommand-onstart.sh
 }
 
 function enable_systems_mp4() {
