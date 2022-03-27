@@ -10,7 +10,7 @@ infobox="${infobox}This script will install and setup background music for you.\
 infobox="${infobox}	NOTE: Your system will reboot after removal or Install of Background Music\n"
 infobox="${infobox}Just copy your mp3 files to the 'music' directory in your roms directory. Or use PlayBox Toolkit to enable one of the selections.\n"
 infobox="${infobox}Once installed you can adjust the volume to your liking with this script as well.\n"
-infobox="${infobox}There is also a 'Music On/Off' script to your default RetropieMenu so you can mute the music off or on at will.\n\n"
+infobox="${infobox}There is also a 'Music [BGM] Settings Menu' script to your default RetropieMenu so you can mute the music off or on at will.\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
 infobox="${infobox} Original script By Luis Torres aka Naprosnia & PlayBox v2 Custom by 2Play!\n"
@@ -60,7 +60,7 @@ function install_bgm() {
 }
 
 function vol_menu() {
-    ./$HOME/RetroPie-BGM-Player/bgm_control/general/bgm_setvolume.sh
+    $HOME/RetroPie-BGM-Player/bgm_control/general/bgm_setvolume.sh
 }
 
 function remove_bgm() {
