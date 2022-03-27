@@ -1,3 +1,4 @@
+bash $HOME/RetroPie-BGM-Player/bgm_system.sh -s
 ifexist=`ls /home/pi/PlayBox-Setup/mp4/$1.mp4 |wc -l`
 if [[ $ifexist > 0 ]];then
 mpv --really-quiet /home/pi/lmp4/$1.mp4
