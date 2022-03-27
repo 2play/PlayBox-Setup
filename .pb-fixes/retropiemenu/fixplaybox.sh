@@ -3355,7 +3355,7 @@ dialog --backtitle "PlayBox Toolkit" \
             2 " - OS Package List Update & Full Upgrade " \
             - "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
-            3 " - Pi Firmware Check or Upgrade " \
+            3 " - Firmware - Check/Upgrade With Armbian-Config" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -3390,6 +3390,11 @@ function update_os() {
 	echo
 	echo "[OK] Rebooting Your SoC Board ... "
 	sudo reboot
+}
+
+function fw_pi() {
+	clear
+	sudo armbian-config
 }
 
 
