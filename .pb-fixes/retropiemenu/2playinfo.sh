@@ -33,6 +33,7 @@ GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ffa30000.gpu/cur_freq)/100
 $(tput setaf 6)
 Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
 Local IP        : `hostname -I` 
+$(tput setaf 7)
 ...WEATHER INFO...
 $(tput setaf 5)
 - City -         Temp  Condition
