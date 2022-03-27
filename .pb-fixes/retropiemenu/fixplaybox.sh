@@ -3667,7 +3667,7 @@ Date & Time     : `date +"%A, %e %B %Y, %r"`
 $(tput bold)$(tput setaf 7)
 ...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
                             $(tput bold)Size 	Used	Avail 	Used%
-SD Boot         Partition: `df -h | grep '/dev/mmcblk0p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
+SD Boot         Partition: `df -h | grep '/dev/mmcblk[0-9]*p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
 SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
 Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
 
