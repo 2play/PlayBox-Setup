@@ -85,7 +85,7 @@ function fixes_pbt() {
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
 			7 " - Update 2Play! PlayBox v2 Themes " \
-			#8 " - Set Default Audio-Out To 3.5mm Jack or HDMI [OFF] " \
+			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI [OFF] " \
             2>&1 > /dev/tty)
 
         case "$choice" in
