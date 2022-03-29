@@ -223,7 +223,7 @@ function install_bgm() {
 		echo
 		echo "After reboot, you can use from PlayBox Toolkit to set a music choice or"
 		sleep 3
-		echo "Copy your music files in the /roms/music fodler"
+		echo "Copy your music files in the /roms/music folder"
 		sleep 3
 		echo "[OK] Rebooting Raspberry Pi ... "
 		sudo reboot
