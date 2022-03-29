@@ -2,7 +2,7 @@
 # Original script By Forrest aka Eazy Hax, based on Livewire Python BGM
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 14.02.2022
+# 29.03.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -171,10 +171,10 @@ function 10_v() {
 }
 
 function install_bgm() {
-        grep livewire /etc/rc.local > /dev/null 2>&1
-        if [ $? -eq 0 ] ; then
         clear
-		echo
+		grep livewire /etc/rc.local > /dev/null 2>&1
+        if [ $? -eq 0 ] ; then
+        echo
 		echo "STEP 1: Checking BGM Status..."
 		sleep 3
 		echo -e "\n\n\n         It looks like Background Music is already installed. Exiting...\n\n\n"
