@@ -235,8 +235,8 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./System/bgm.sh</path>
-		<name>Background Music Setup, LT-2P!</name>
-		<desc>Enabled on PlayBox! Based on Naprosnia's (LT) RetroPie_BGM_Player. You can remove or re-install the background music. If removed, run the relative fix in PlayBox Toolkit to disable BGM when an emulator starts. NOTE: It won't delete your music folder!</desc>
+		<name>Background Music Setup, EZH-2P!</name>
+		<desc>Enabled on PlayBox! You can remove or re-install the background music. If removed, run the relative fix in PlayBox Toolkit to disable BGM when an emulator starts. NOTE: It won't delete your music folder!</desc>
 		<image>./icons/music.png</image>
 		<video>./icons/music.mp4</video>
 	</game>
@@ -375,9 +375,9 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/hurstythemes.mp4</video>
 	</game>
 	<game>
-		<path>./bgm-menu.sh</path>
-		<name>Music [BGM] Settings Menu</name>
-		<desc>Volume, Fade, BGM On/Off and more...</desc>
+		<path>./bgm-mute.sh</path>
+		<name>Music [BGM] On/Off, EZH</name>
+		<desc>Mute or unmute the background music.</desc>
 		<image>./icons/musicoff.png</image>
 		<video>./icons/musicoff.mp4</video>
 	</game>
