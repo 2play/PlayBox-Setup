@@ -174,6 +174,7 @@ function install_bgm() {
         grep livewire /etc/rc.local > /dev/null 2>&1
         if [ $? -eq 0 ] ; then
         clear
+		sleep 1
 		echo
 		echo "STEP 1: Checking BGM Status..."
 		sleep 3
