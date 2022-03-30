@@ -1,0 +1,72 @@
+# Value (in seconds) to delay audio start.  If you have a splash screen with audio and the script is playing music over the top of it, increase this value to delay the script from starting.
+startdelay: 0
+
+# The directory where you will place your music in .mp3 or .ogg format
+musicdir: ~/RetroPie/roms/music
+
+# Whether the music should restart upon unpausing or resume
+# from where it was left out.
+restart: true
+startsong:
+
+# The main process. Upon starting this process, the music will start playing...
+mainprocess: emulationstatio
+
+# unless one of these processes is running, then the music will fade out
+# until only the mainprocess is running again
+emulator_names:
+- retroarch
+- ags
+- uae4all2
+- uae4arm
+- capricerpi
+- linapple
+- hatari
+- stella
+- atari800
+- xroar
+- vice
+- daphne
+- reicast
+- pifba
+- osmose
+- gpsp
+- jzintv
+- basiliskll
+- mame
+- advmame
+- dgen
+- openmsx
+- mupen64plus
+- gngeo
+- dosbox
+- ppsspp
+- simcoupe
+- scummvm
+- snes9x
+- pisnes
+- frotz
+- fbzx
+- fuse
+- gemrb
+- cgenesis
+- zdoom
+- eduke32
+- lincity
+- love
+- kodi
+- alephone
+- micropolis
+- openbor
+- openttd
+- opentyrian
+- cannonball
+- tyrquake
+- ioquake3
+- residualvm
+- xrick
+- sdlpop
+- uqm
+- stratagus
+- wolf4sdl
+- solarus

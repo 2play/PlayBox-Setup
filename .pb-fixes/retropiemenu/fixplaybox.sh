@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 26.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 30.03.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -404,13 +404,15 @@ fi
 function fix_bgm_py() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	if [ -d $HOME/addonusb ]; then
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
+	sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
 	else
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
 	fi
 	clear
 	echo

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Python BGM script by Rydra inspired from original concept script of Livewire
+# Original script By Forrest aka Eazy Hax, based on Livewire Python BGM
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 30.03.2022
+# 29.03.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -14,10 +14,10 @@ infobox="${infobox}Once installed you can adjust the volume to your liking with 
 infobox="${infobox}There is also a 'Music On/Off' script to your default RetropieMenu so you can mute the music off or on at will.\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
-infobox="${infobox} Script by Rydra inspired from original concept script of Livewire & Custom by 2Play!\n"
+infobox="${infobox} Original script By Forrest aka Eazy Hax based on Livewire Python BGM scipt & Custom by 2Play!\n"
 infobox="${infobox}\n"
 
-dialog --backtitle "Background Music Livewire/Rydra - 2Play!" \
+dialog --backtitle "Background Music Livewire/EZH - 2Play!" \
 --title "Background Music Script" \
 --msgbox "${infobox}" 23 80
 
@@ -29,14 +29,14 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** BACKGROUND MUSIC SELECTIONS ***" \
-            1 " - Remove/Disable Background Music " \
-            2 " - Set Background Music Volume - Only after installed [OFF]" \
-            3 " - Clean Install Background Music " \
+            1 " - Remove/Disable Background Music" \
+            2 " - Set Background Music Volume - Only after installed" \
+            3 " - Clean Install Background Music" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) remove_bgm  ;;
-            #2) vol_menu  ;;
+            2) vol_menu  ;;
             3) install_bgm  ;;
             -) none  ;;
             *)  break ;;
@@ -45,15 +45,20 @@ function main_menu() {
 }
 
 function remove_bgm() {
-	echo
+	pgrep -f "python /home/pi/.livewire.py" | xargs sudo kill -9
+    echo
 	echo "STEP: Removing BGM..."
 	sleep 3
+	rm /home/pi/.livewire.py
+	if [ -e /home/pi/.DisableMusic ]; then
+		rm /home/pi/.DisableMusic
+	fi
 	mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
-	curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/main/scripts/install-esbgm.py > install-esbgm.py
-python3 install-esbgm.py --uninstall
+	sudo sed -i '/livewire/d' /etc/rc.local
+	echo -e "\n\n\n         Background Music has been removed from your system.\n\n\n"
 	sleep 2
 	echo
-	echo "[OK] Rebooting... "
+	echo "[OK] Rebooting Raspberry Pi ... "
 	sleep 3
 	sudo reboot
 	
@@ -168,8 +173,8 @@ function 10_v() {
 function install_bgm() {
         clear
 		sleep 1
-		ESBGM=/home/pi/.local/bin/esbgm
-		if [[ -f "$ESBGM" ]]; then
+		grep livewire /etc/rc.local > /dev/null 2>&1
+        if [ $? -eq 0 ] ; then
         echo
 		echo "STEP 1: Checking BGM Status..."
 		sleep 3
@@ -180,19 +185,18 @@ function install_bgm() {
 		echo
 		echo "STEP 2: Checking Requirements..."
 		sleep 2
-        PKG=pygame
-        PKG_OK=$(pip list | grep $PKG)
+        PKG=python-pygame
+        PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PKG|grep "install ok installed")
         if [ "" == "$PKG_OK" ]; then
             echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
             sleep 2
-            sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
+            sudo apt update && sudo apt install -y $PKG
 			else
 			echo -e "\n\n\n         $PKG seems to be installed...\n\nLet's install BGM!"
 			sleep 2
         fi
-		curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/main/scripts/install-esbgm.py | python3 -
-		sleep 2
-        cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
+        cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+        sudo perl -i.bak -pe '$_ = qq[(sudo python /home/pi/.livewire.py) &\n$_] if $_ eq qq[exit 0\n]'  /etc/rc.local
         echo
 		echo "STEP 3: Checking if an external USB Drive Roms exists..."
 		sleep 2
@@ -202,7 +206,7 @@ function install_bgm() {
 		echo
 		sleep 2
 		cd $HOME
-		sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
+		sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' $HOME/.livewire.py
 			if [ -d ~/RetroPie/localroms/music.OFF ]; then mv ~/RetroPie/localroms/music.OFF /home/pi/RetroPie/localroms/music
 			elif [ ! -d ~/RetroPie/localroms/music ]; then mkdir /home/pi/RetroPie/localroms/music
 			fi
@@ -212,7 +216,7 @@ function install_bgm() {
 			echo
 			sleep 2
 			cd $HOME
-			sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+			sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF /home/pi/RetroPie/roms/music
 			elif [ ! -d ~/RetroPie/roms/music ]; then mkdir ~/RetroPie/roms/music
 			fi
@@ -222,7 +226,7 @@ function install_bgm() {
 		sleep 3
 		echo "Copy your music files in the /roms/music folder"
 		sleep 3
-		echo "[OK] Rebooting... "
+		echo "[OK] Rebooting Raspberry Pi ... "
 		sudo reboot
 }
 
