@@ -172,6 +172,7 @@ function 10_v() {
 
 function install_bgm() {
         clear
+		sleep 1
 		grep livewire /etc/rc.local > /dev/null 2>&1
         if [ $? -eq 0 ] ; then
         echo
