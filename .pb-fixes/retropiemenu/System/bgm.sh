@@ -2,7 +2,7 @@
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 30.03.2022
+# 31.03.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -14,7 +14,7 @@ infobox="${infobox}Once installed you can adjust the volume to your liking with 
 infobox="${infobox}There is also a 'Music On/Off' script to your default RetropieMenu so you can mute the music off or on at will.\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
-infobox="${infobox} Script by Rydra inspired from original concept script of Livewire & Custom by 2Play!\n"
+infobox="${infobox} BGM Script by Rydra inspired from original concept script of Livewire & Custom by 2Play!\n"
 infobox="${infobox}\n"
 
 dialog --backtitle "Background Music Livewire/Rydra - 2Play!" \
@@ -36,7 +36,7 @@ function main_menu() {
 
         case "$choice" in
             1) remove_bgm  ;;
-            #2) vol_menu  ;;
+            2) vol_menu  ;;
             3) install_bgm  ;;
             -) none  ;;
             *)  break ;;
@@ -95,74 +95,74 @@ function vol_menu() {
 }
 
 function 100_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 1.0/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 1.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 90_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.90/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.90/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 80_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.80/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.80/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 70_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 70.0/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 70.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 60_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 60.0/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 60.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 50_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.50/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.50/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 40_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.40/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.40/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 30_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.30/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.30/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 20_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.20/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.20/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 function 10_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.livewire.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.10/g' /home/pi/.livewire.py
-        pgrep -f "python /home/pi/.livewire.py"|xargs sudo kill -9
-        (sudo python /home/pi/.livewire.py) &
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.10/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        pgrep -f "esbgm"|xargs sudo kill -9
+        exec esbgm > /dev/null 2>&1 &
 }
 
 function install_bgm() {
