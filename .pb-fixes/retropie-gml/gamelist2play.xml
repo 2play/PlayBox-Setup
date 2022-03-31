@@ -382,11 +382,11 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/musicoff.mp4</video>
 	</game>
 	<game>
-		<path>./raspiconfig.rp</path>
-		<name>Raspi-Config</name>
-		<desc>Expand your SD card filesystem, overscan, memory split, SSH, VNC remote access, change user password, boot options, system configuration, localization configuration, camera, add your pi to Rastrack map and more.</desc>
-		<image>./icons/raspiconfig.png</image>
-		<video>./icons/raspiconfig.mp4</video>
+		<path>./armbconfig.sh</path>
+		<name>Armbian OS Config</name>
+		<desc>System, Network, Personal, Software and Help are the main options. Similar to what you 've been used on Rasbian OS. </desc>
+		<image>./icons/armbian.png</image>
+		<video>./icons/armbian.mp4</video>
 	</game>
 	<game>
 		<path>./rpsetup.rp</path>
