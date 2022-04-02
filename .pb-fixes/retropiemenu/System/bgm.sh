@@ -30,7 +30,7 @@ function main_menu() {
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** BACKGROUND MUSIC SELECTIONS ***" \
             1 " - Remove/Disable Background Music " \
-            2 " - Set Background Music Volume - Only after installed [OFF]" \
+            2 " - Set Background Music Volume - Only after installed " \
             3 " - Clean Install Background Music " \
             2>&1 > /dev/tty)
 
