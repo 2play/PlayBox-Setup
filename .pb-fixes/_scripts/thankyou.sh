@@ -1,13 +1,13 @@
 #!/bin/bash
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 15.06.2021
+# 31.03.2021
 
 infobox=""
 infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, Gomer, BMP, bluestang, Randyslim, QUIZASERAQ, Tisusbr, dbresson, Everblight82, Eliasblizzard, Sunrise169, Yelah05, Aeonis, Traxis, Strunx, ChrisKerkides, Grumpa, TechXero, Mrnebu, Edale and of course any/all MEGA supporters!\n\n
 
 *** Developers & Scripts ***:\n
-Demetris (Tinker PlayBox), rpc80 (Ryan Connors), Folly, EasyHax (aka Forrest), CyperGhost, David Marti (Motion Blue), Meleu, Lars Muldjord (Skyskraper), Bezel Project Team, Valerino, Luis Torres aka Naprosnia.\n\n
+Rpc80 (Ryan Connors), Folly, Rydra, EasyHax (aka Forrest), Demetris Ierokipides aka Ntemis, CyperGhost, David Marti (Motion Blue), Meleu, Lars Muldjord (Skyskraper), Bezel Project Team, Valerino, Aditya Shakya aka adi1090x.\n\n
 
 *** OS & FrontEnd ***:\n
 Raspberry Pi Foundation for the nice clean OS.\n

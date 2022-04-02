@@ -3196,7 +3196,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '13,1000d' .bash_history
+	sed -i '12,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3249,28 +3249,30 @@ function sys_pbt() {
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
 		   1 " - Filesystem Check is Automated " \
-           2 " - Show Partitions & Space Info " \
-		   3 " - Show Folders Size [home/pi] " \
-           4 " - Show System Free Memory Info " \
-           5 " - Show OS Version & Info " \
-           6 " - System & FW Update Options " \
-           7 " - System Full Info " \
-		   8 " - Monitor In Real Time Board Temperature " \
-		   9 " - Show CPU Cores Status " \
-		  10 " - Ratio Video Tool Options [OFF] " \
+           2 " - Expand Armbian OS Partition " \
+           3 " - Show Partitions & Space Info " \
+		   4 " - Show Folders Size [home/pi] " \
+           5 " - Show System Free Memory Info " \
+           6 " - Show OS Version & Info " \
+           7 " - System & FW Update Options " \
+           8 " - System Full Info " \
+		   9 " - Monitor In Real Time Board Temperature " \
+		  10 " - Show CPU Cores Status " \
+		  11 " - Ratio Video Tool Options [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            #1) fschk_bt  ;;
-           2) partitions  ;;
-		   3) fold_sz  ;;
-           4) freemem  ;;
-           5) os_info  ;;
-           6) os_update  ;;
-           7) sysinfo  ;;
-		   8) temp_rt  ;;
-		   9) cores_status  ;;
-		  #10) ratio_vt  ;;
+           2) expand_os  ;;
+           3) partitions  ;;
+		   4) fold_sz  ;;
+           5) freemem  ;;
+           6) os_info  ;;
+           7) os_update  ;;
+           8) sysinfo  ;;
+		   9) temp_rt  ;;
+		  10) cores_status  ;;
+		  #11) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3289,6 +3291,19 @@ function fschk_bt() {
 	read -n 1 -s -r -p "Press any key to continue"
 	#sleep 5
 	#sudo touch /forcefsck && sudo reboot
+}
+
+
+function expand_os() {
+	dialog --infobox "...Expanding..." 3 20 ; sleep 1
+	clear
+	sudo systemctl enable armbian-resize-filesystem >/dev/null 2>&1
+	echo
+	echo "We need to restart system now..."
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
+	sleep 3
+	sudo reboot
 }
 
 
