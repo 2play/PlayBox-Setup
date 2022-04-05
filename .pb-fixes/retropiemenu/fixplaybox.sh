@@ -3443,11 +3443,12 @@ Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3
 
 $(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
 CPU & Board     : `tr -d '\0' </proc/device-tree/model`
-GPU Version     : Mali™-T764 ARM MP4 GPU
+GPU Version     : Mali™-T860 ARM MP4 GPU
 
 $(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU Cur. Speed  : `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq)/1000)); printf "$cpumxs MHz"`
-GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ffa30000.gpu/cur_freq)/1000000)); printf "$gpumxs  MHz"`$(tput sgr0)
+CPU-A53 C. Speed: `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq)/1000)); printf "$cpumxs MHz"`
+CPU-A72 C. Speed: `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_cur_freq)/1000)); printf "$cpumxs MHz"`
+GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ff9a0000.gpu/cur_freq)/1000000)); printf "$gpumxs  MHz"`$(tput sgr0)
 $(tput setaf 6)
 Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
 Local IP        : `hostname -I` 
