@@ -168,15 +168,18 @@ function 10_v() {
 function install_bgm() {
         clear
 		sleep 1
+		echo
+		echo "STEP 1: Checking BGM Status..."
+		sleep 2
 		ESBGM=/home/pi/.local/bin/esbgm
 		if [[ -f "$ESBGM" ]]; then
-        echo
-		echo "STEP 1: Checking BGM Status..."
-		sleep 3
-		echo -e "\n\n\n         It looks like Background Music is already installed. Exiting...\n\n\n"
-        sleep 5
+        sleep 2
+		echo -e "\n\n\n It looks like Background Music is already installed. Exiting...\n\n\n"
+        sleep 3
         exit
         fi
+		echo -e "\n\n\n It looks like Background Music is not installed...\n\n\n"
+        sleep 3
 		echo
 		echo "STEP 2: Checking Requirements..."
 		sleep 2
