@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 26.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 10.04.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -635,7 +635,7 @@ function apps_pbt() {
 		   12 " - Emulators Custom Compile From Source " \
 		   13 " - Emulator Tweaks Options [OFF] " \
 		   14 " - Safe Shutdown Case Script Options " \
-		   15 " - Swap Desktop Enviroment (mate-session, xfce4-session " \
+		   15 " - Swap Desktop Enviroment (mate-session, other-session) " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
