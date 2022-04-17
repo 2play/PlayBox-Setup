@@ -641,7 +641,7 @@ function apps_pbt() {
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            #1) prntscr  ;;
+            1) prntscr  ;;
 			2) swap_theme_view ;;
 			3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
