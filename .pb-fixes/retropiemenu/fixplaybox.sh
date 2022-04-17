@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.05.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 17.04.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -624,7 +624,7 @@ function apps_pbt() {
             --menu "Run the application you need..." 25 75 20 \
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " - Take HD ScreenShot [OFF] " \
+			1 " - Take HD ScreenShot " \
 			2 " - Gamelist Views - 2Play! Themes " \
 		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
 			4 " - Hide or Show a System " \
@@ -665,7 +665,8 @@ function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
-	screenshot > ~/ScreenShots/printscreen$now.jpg
+	#screenshot > ~/ScreenShots/printscreen$now.jpg
+	DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.png
 	clear
 	echo
 	echo "[OK DONE!...]"
