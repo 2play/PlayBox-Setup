@@ -666,7 +666,7 @@ function prntscr() {
 	clear
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
 	#screenshot > ~/ScreenShots/printscreen$now.jpg
-	DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.png
+	DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.jpg
 	clear
 	echo
 	echo "[OK DONE!...]"
