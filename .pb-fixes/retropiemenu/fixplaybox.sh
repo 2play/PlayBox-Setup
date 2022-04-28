@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 17.04.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 25.04.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -666,7 +666,13 @@ function prntscr() {
 	clear
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
 	#screenshot > ~/ScreenShots/printscreen$now.jpg
-	DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.jpg
+	X=$( pidof Xorg )
+	if [ ${#X} -gt 0 ]
+	then
+			DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.jpg
+	else
+			fbgrab ~/ScreenShots/printscreen$now.jpg
+	fi
 	clear
 	echo
 	echo "[OK DONE!...]"
