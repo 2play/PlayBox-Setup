@@ -946,9 +946,9 @@ function enable_global_sh() {
 	fi
 	if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
 	fi
-	if [ ! -f global.glslp ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/opt/retropie/configs/all/retroarch/config/global.glslp
+	if [ ! -f global.glslp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-rockpro64/opt/retropie/configs/all/retroarch/config/global.glslp
 	fi
-	if [ ! -f global.slangp ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/opt/retropie/configs/all/retroarch/config/global.slangp
+	if [ ! -f global.slangp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-rockpro64/opt/retropie/configs/all/retroarch/config/global.slangp
 	fi
 	mv global.glslp.OFF global.glslp
 	mv global.slangp.OFF global.slangp
