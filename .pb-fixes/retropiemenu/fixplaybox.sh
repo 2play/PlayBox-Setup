@@ -673,7 +673,7 @@ function prntscr() {
 	#else
 	#		fbgrab ~/ScreenShots/printscreen$now.jpg
 	#fi
-	sudo kmsgrab ~/ScreenShots/printscreen$now.jpg
+	sudo kmsgrab ~/ScreenShots/printscreen$now.png;	convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; 	rm -f ~/ScreenShots/*.png
 	clear
 	echo
 	echo "[OK DONE!...]"
