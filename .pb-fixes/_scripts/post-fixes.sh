@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 26.03.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.05.2022"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -70,6 +70,7 @@ fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
+sudo chmod 755 /usr/local/bin/*grab
 sudo cp /home/pi/PieMarquee2/PieMarquee2/PieMarquee2.py /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py
 sleep 1
 cd /.
