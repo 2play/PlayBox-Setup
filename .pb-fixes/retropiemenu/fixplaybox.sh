@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 26.03.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 21.04.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -634,7 +634,8 @@ function apps_pbt() {
 		   11 " - OMXPlayer Volume Control Script " \
 		   12 " - Emulators Custom Compile From Source " \
 		   13 " - Emulator Tweaks Options [OFF] " \
-		   14 " - Safe Shutdown Case Script Options " \
+		   14 " - Retroflag GPi Case Official Patches " \
+		   15 " - Safe Shutdown Case Script Options " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -651,7 +652,8 @@ function apps_pbt() {
 		   11) omxvol  ;;
 		   12) emus_compile  ;;
 		   #13) emus_tks  ;;
-		   14) safe_shut  ;;
+		   14) rfgpio  ;;
+		   15) safe_shut  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2776,15 +2778,62 @@ function lrpuae_custom_sh_off() {
 	sleep 2
 }
 
-function lrpuae_custom_sh_on() {
+
+function rfgpio() {
 	clear
-	cd /opt/retropie/configs/all/retroarch/config/PUAE
-	mv PUAE.glslp.OFF PUAE.glslp
+# Official RetroFlag GPi-Case Patches For Pi Zero
+# 21.04.23
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " RETROFLAG GPI-CASE PI0 MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Apply the script you need..." 25 75 20 \
+            - "*** RETROFLAG GPI CASE PI ZERO PATCH SELECTIONS ***" \
+			- "	" \
+			1 " - RetroFlag GPi Case Patch [ON] " \
+			2 " - RetroFlag GPi Case Patch [OFF] " \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) rfgpio_on  ;;
+            2) rfgpio_off  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function rfgpio_on() {
+	cd /boot
+	sudo mv config.txt configPB0.txt
+	sudo cp configGPi.txt config.txt
 	clear
 	echo ""
 	echo "[OK DONE!...]"
 	cd $HOME
-	sleep 2
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function rfgpio_off() {
+	cd /boot
+	sudo mv configPB0.txt config.txt
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
 }
 
 
