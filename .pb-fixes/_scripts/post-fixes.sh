@@ -138,6 +138,13 @@ sudo chmod 755 /usr/bin/yt-dlp
 sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
 echo
 fi
+# Check-Remove NewNetworkManager install on Pi0
+if [[ `dpkg -l | grep network-manager-gnome` ]]; then
+sudo apt remove network-manager-gnome -y;
+else
+echo "All OK!"
+echo 
+fi 
 # Enable exFAT Support
 if ! [[ `dpkg -l | grep exfat-*` ]]; then
 sudo apt install exfat-fuse -y
