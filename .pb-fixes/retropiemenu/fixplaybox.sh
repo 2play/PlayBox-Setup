@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 21.04.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 22.04.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -84,7 +84,7 @@ function fixes_pbt() {
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
-			7 " - Update 2Play! PlayBox v2 Themes " \
+			7 " - Update 2Play! PlayBox v2 Pi0 Themes " \
 			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI " \
             2>&1 > /dev/tty)
 
@@ -522,7 +522,7 @@ function themes_rs() {
 	clear
 	cd $HOME/code
 	sudo chown pi:pi -R /etc/emulationstation/themes
-	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
+	git clone --depth 1 --branch GPiCase https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
 	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
 	rm /etc/emulationstation/themes/*.*
