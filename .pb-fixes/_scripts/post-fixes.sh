@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.05.2022"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 22.04.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -134,7 +134,7 @@ sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscra
 clear
 # Check xscreensaver install
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
-sudo apt install xscreensaver y;
+sudo apt install xscreensaver -y;
 else
 echo "All OK!"
 echo 
