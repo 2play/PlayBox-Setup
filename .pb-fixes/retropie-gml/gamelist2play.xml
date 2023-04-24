@@ -227,13 +227,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/audiosettings.mp4</video>
 	</game>
 	<game>
-		<path>./System/bgm.sh</path>
-		<name>Background Music Setup, EZH-2P!</name>
-		<desc>Enabled on PlayBox! You can remove or re-install the background music. If removed, run the relative fix in PlayBox Toolkit to disable BGM when an emulator starts. NOTE: It won't delete your music folder!</desc>
-		<image>./icons/music.png</image>
-		<video>./icons/music.mp4</video>
-	</game>
-	<game>
 		<path>./System/filemanager.rp</path>
 		<name>File Manager</name>
 		<desc>Basic ASCII file manager for Linux allowing you to browse, copy, delete and move files.</desc>
@@ -285,7 +278,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	<folder>
 		<path>./Visuals</path>
 		<name>: Visual 'n' Theme Tools</name>
-		<desc>This folder contains the Skyscraper install/update script, bezels and other visual settings.</desc>
+		<desc>This folder contains scripts for bezels and other visual settings.</desc>
 		<image>./icons/visuals-cat.png</image>
 		<video>./icons/visuals-cat.mp4</video>
 	</folder>
@@ -339,13 +332,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/cleanup.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals/skyscraper.sh</path>
-		<name>✭ Skyscraper 2P!</name>
-		<desc>A powerful and versatile yet easy to use game scraper. Supports EmulationStation & Attract Mode, 61+ systems. Written by Lars Muldjord. Script by 2Play! to install or update the Skyscraper to latest release. To run actual Skyscraper use PlayBox Toolkit from cli.</desc>
-		<image>./icons/skyscraper.png</image>
-		<video>./icons/skyscraper.mp4</video>
-	</game>
-	<game>
 		<path>./Visuals/racfg-tool.sh</path>
 		<name>✭ RetroArch Options Tool, 2P!</name>
 		<desc>This tool/script will automate few option in the retroarch.cff files in the configs folders. It wont change the default cfg file in configs/all folder. I prefer NOT to touch this file and keep it clean. Any changes applied ONLY to each system. Options are the smooth filter, shaders, overlay/bezel. Apply to all, only 16-bit systems or arcades.</desc>
@@ -368,10 +354,10 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./bgm-mute.sh</path>
-		<name>Music [BGM] On/Off, EZH</name>
-		<desc>Mute or unmute the background music.</desc>
-		<image>./icons/musicoff.png</image>
-		<video>./icons/musicoff.mp4</video>
+		<name>Music [BGM] On/Off</name>
+		<desc>Enable or Disable Pi0 ES background music.</desc>
+		<image>./icons/music.png</image>
+		<video>./icons/music.mp4</video>
 	</game>
 	<game>
 		<path>./raspiconfig.rp</path>
