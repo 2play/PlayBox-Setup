@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 22.04.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 24.04.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,24 +80,21 @@ function fixes_pbt() {
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
-			3 " - Repair PlayBox Background Music Mute File " \
-            4 " - Repair 2Play! Slideshow Screensaver " \
-			5 " - Reset All RetroPie Controllers " \
-			6 " - Fix RetroPie-Setup Git Update " \
-			7 " - Update 2Play! PlayBox v2 Pi0 Themes " \
-			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI " \
-            2>&1 > /dev/tty)
+			3 " - Repair 2Play! Slideshow Screensaver " \
+			4 " - Reset All RetroPie Controllers " \
+			5 " - Fix RetroPie-Setup Git Update " \
+			6 " - Update 2Play! PlayBox v2 Pi0 Themes " \
+			2>&1 > /dev/tty)
 
         case "$choice" in
             1) fix_rpmenu  ;;
             #2) fix_region  ;;
-			3) fix_bgm_py  ;;
-            4) fix_slideshow  ;;
+			3) fix_slideshow  ;;
             #5) fix_roms  ;;
-			5) fix_control  ;;
-			6) git_rs  ;;
-			7) themes_rs  ;;
-			8) def_audio_out  ;;
+			4) fix_control  ;;
+			5) git_rs  ;;
+			6) themes_rs  ;;
+			#7) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -626,7 +623,7 @@ function apps_pbt() {
 		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
 			4 " - Hide or Show a System " \
 			5 " - 2Play! Music Selections " \
-			6 " - Skyscraper By Lars Muldjord " \
+			6 " - Skyscraper By Lars Muldjord [OFF] " \
 		    7 " - MESA & Vulkan Drivers Related Options [OFF] " \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
 		    9 " - Single Saves Directory By RPC80 " \
@@ -644,7 +641,7 @@ function apps_pbt() {
 			3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
-			6) skyscraper  ;;
+			#6) skyscraper  ;;
 			#7) mesa_vk  ;;
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
