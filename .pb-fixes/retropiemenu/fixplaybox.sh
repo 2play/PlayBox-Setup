@@ -522,7 +522,7 @@ function themes_rs() {
 	clear
 	cd $HOME/code
 	sudo chown pi:pi -R /etc/emulationstation/themes
-	git clone --depth 1 --branch GPiCase https://github.com/2play/2Play-v2-Themes.git
+	git clone --depth 1 --branch LCD https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
 	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
 	rm /etc/emulationstation/themes/*.*
