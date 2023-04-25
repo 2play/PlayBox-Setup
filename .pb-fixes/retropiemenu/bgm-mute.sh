@@ -36,7 +36,7 @@ function enable_BGM() {
     clear
     echo -e "\n\n\n                Background Music Enabled\n\n\n"
     sleep 3
-	echo "Your Retropie is about to reboot so that the settings take effect!"
+	echo "Your system is about to reboot so that the settings take effect!"
 	sudo reboot
 }
 
@@ -46,7 +46,7 @@ function disable_BGM() {
 	cp /opt/retropie/configs/all/autostartNOBGM.sh /opt/retropie/configs/all/autostart.sh
     echo -e "\n\n\n                Background Music Disabled\n\n\n"
     sleep 3
-	echo "Your Retropie is about to reboot so that the settings take effect!"
+	echo "Your system is about to reboot so that the settings take effect!"
 	sudo reboot
 }
 
