@@ -2801,8 +2801,11 @@ function rfgpio() {
 
 function rfgpio_on() {
 	cd /boot
-	sudo mv config.txt configPB0.txt
+	sudo mv -f config.txt configPB0.txt
 	sudo cp configGPi.txt config.txt
+	sudo mv /overlays/dpi24.dtbo /overlays/dpi24ORIG.dtbo
+	sudo cp /overlays/dpi24GPi.dtbo /overlays/dpi24.dtbo
+	sudo cp /overlays/pwm-audio-pi-zeroGPi.dtbo /overlays/pwm-audio-pi-zero.dtbo
 	clear
 	echo ""
 	echo "[OK DONE!...]"
@@ -2818,7 +2821,10 @@ function rfgpio_on() {
 
 function rfgpio_off() {
 	cd /boot
-	sudo mv configPB0.txt config.txt
+	sudo mv -f configPB0.txt config.txt
+	sudo rm /overlays/dpi24.dtbo
+	sudo mv /overlays/dpi24ORIG.dtbo /overlays/dpi24.dtbo
+	sudo rm /overlays/pwm-audio-pi-zero.dtbo
 	clear
 	echo ""
 	echo "[OK DONE!...]"
