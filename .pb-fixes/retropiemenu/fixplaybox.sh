@@ -2787,12 +2787,14 @@ function rfgpio() {
             - "*** RETROFLAG GPI CASE PI ZERO PATCH SELECTIONS ***" \
 			- "	" \
 			1 " - RetroFlag GPi Case Patch [ON] " \
-			2 " - RetroFlag GPi Case Patch [OFF] " \
+			2 " - RetroFlag GPi Case Patch 3.5mm By DerRetroBro [ON] " \
+			3 " - RetroFlag GPi Case Patch [OFF] " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) rfgpio_on  ;;
-            2) rfgpio_off  ;;
+            2) rfgpio_35_on  ;;
+            3) rfgpio_off  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -2805,6 +2807,25 @@ function rfgpio_on() {
 	sudo rm overlays/dpi24.dtbo
 	sudo cp overlays/pfiles/dpi24.dtbo overlays/dpi24.dtbo
 	sudo cp overlays/pfiles/pwm-audio-pi-zero.dtbo overlays/pwm-audio-pi-zero.dtbo
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+	sleep 1
+	echo
+	read -n 1 -s -r -p "Press any key to reboot"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function rfgpio_35_on() {
+	cd /boot
+	sudo cp configGPi35.txt config.txt
+	sudo rm overlays/dpi24.dtbo
+	sudo cp overlays/pfiles/dpi24.dtbo overlays/dpi24.dtbo
+	sudo rm overlays/pwm-audio-pi-zero.dtbo
 	clear
 	echo ""
 	echo "[OK DONE!...]"
