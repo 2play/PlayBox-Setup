@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 24.04.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 29.04.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2803,9 +2803,9 @@ function rfgpio_on() {
 	cd /boot
 	sudo mv -f config.txt configPB0.txt
 	sudo cp configGPi.txt config.txt
-	sudo mv /overlays/dpi24.dtbo /overlays/dpi24ORIG.dtbo
-	sudo cp /overlays/dpi24GPi.dtbo /overlays/dpi24.dtbo
-	sudo cp /overlays/pwm-audio-pi-zeroGPi.dtbo /overlays/pwm-audio-pi-zero.dtbo
+	sudo mv /boot/overlays/dpi24.dtbo /boot/overlays/orgfiles/dpi24.dtbo
+	sudo cp /boot/overlays/pfiles/dpi24.dtbo /boot/overlays/dpi24.dtbo
+	sudo cp /boot/overlays/pfiles/pwm-audio-pi-zero.dtbo /boot/overlays/pwm-audio-pi-zero.dtbo
 	clear
 	echo ""
 	echo "[OK DONE!...]"
@@ -2822,9 +2822,9 @@ function rfgpio_on() {
 function rfgpio_off() {
 	cd /boot
 	sudo mv -f configPB0.txt config.txt
-	sudo rm /overlays/dpi24.dtbo
-	sudo mv /overlays/dpi24ORIG.dtbo /overlays/dpi24.dtbo
-	sudo rm /overlays/pwm-audio-pi-zero.dtbo
+	sudo rm /boot/overlays/dpi24.dtbo
+	sudo mv /boot/overlays/dpi24.dtbo /boot/overlays/dpi24.dtbo
+	sudo rm /boot/overlays/pwm-audio-pi-zero.dtbo
 	clear
 	echo ""
 	echo "[OK DONE!...]"
