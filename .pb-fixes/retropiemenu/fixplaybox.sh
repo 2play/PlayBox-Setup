@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 29.04.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 01.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -416,9 +416,55 @@ function fix_bgm_py() {
 
 
 function fix_slideshow() {
+	clear
+# FUll HD and Haf size for GPi Case (Small LCDs)
+# 01.05.2023
+    local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " SCREENSAVER SLIDES MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Apply the script you need..." 25 75 20 \
+            - "*** SCREENSAVER SLIDES SELECTIONS ***" \
+			- "	" \
+			1 " - FULL HD Default Slides " \
+			2 " - Slides For GPi LCD 320*240 " \
+			2 " - Slides For Small Wide LCDs 640*360  " \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) slidesHD  ;;
+            2) slidesGPi  ;;
+            3) slidesSLCDW  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+function slidesHD() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 3
+}
+
+function slidesGPi() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshowGPi/image /opt/retropie/configs/all/emulationstation/slideshow/
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 3
+}
+
+function slidesSLCD() {
+	dialog --infobox "...Fixing..." 3 17 ; sleep 1
+	clear
+	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshowSLCDW/image /opt/retropie/configs/all/emulationstation/slideshow/
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2778,7 +2824,7 @@ function lrpuae_custom_sh_off() {
 function rfgpio() {
 	clear
 # Official RetroFlag GPi-Case Patches For Pi Zero
-# 21.04.23
+# 29.04.23
     local choice
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " RETROFLAG GPI-CASE PI0 MENU " \
