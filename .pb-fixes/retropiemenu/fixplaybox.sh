@@ -2849,6 +2849,7 @@ function rfgpio() {
 
 function rfgpio_on() {
 	cd /boot
+	sudo rm overlays/*GPi.dtbo
 	sudo cp configGPi.txt config.txt
 	sudo rm overlays/dpi24.dtbo
 	sudo cp overlays/pfiles/dpi24.dtbo overlays/dpi24.dtbo
@@ -2868,6 +2869,7 @@ function rfgpio_on() {
 
 function rfgpio_35_on() {
 	cd /boot
+	sudo rm overlays/*GPi.dtbo
 	sudo cp configGPi35.txt config.txt
 	sudo rm overlays/dpi24.dtbo
 	sudo cp overlays/pfiles/dpi24.dtbo overlays/dpi24.dtbo
@@ -2887,6 +2889,7 @@ function rfgpio_35_on() {
 
 function rfgpio_off() {
 	cd /boot
+	sudo rm overlays/*GPi.dtbo
 	sudo cp -f configPB0.txt config.txt
 	sudo rm overlays/dpi24.dtbo
 	sudo cp overlays/orgfiles/dpi24.dtbo overlays/dpi24.dtbo
