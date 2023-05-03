@@ -2,7 +2,7 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)+
+# Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
 pb_version="PlayBox ToolKit Version 2.0 Dated 03.05.2022"
@@ -1596,7 +1596,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 13.02.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1869,7 +1869,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -3307,7 +3307,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '10,1000d' .bash_history
+	sed -i '11,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
