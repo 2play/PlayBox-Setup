@@ -1,9 +1,9 @@
 # Modified version of BGM script version 1.03 made by Livewire
 # BGM Overlay code added by madmodder123
 # Version 1.01 - Changed song_title.png to write to RAM instead of the SD Card (Thanks zerojay!)
-# USB Version changes and other updates by 2Play!
+# USB Version changes and mute options, splashscreen player & other updates by 2Play!
 # PlayBox Project
-# 22.01.2021
+# 29.03.2022
 
 import os
 import time
@@ -134,7 +134,7 @@ if not os.path.exists(overlay_tmp_file):
     os.mknod(overlay_tmp_file)
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
-emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","gzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine","duckstation-qt","duckstation-sdl","duckstation-qt","pico8_dyn","ssam","ssam-tfe","gemrb","abbayev2","arx","spelunky_classic_hd_html5","iowolfsp.arm","iowolfmp.arm","openclaw","openmw","openmw-launcher","openmw-wizard","xash3d","openjk","openjk.openjk-sp","openjk.openjo-sp","bstone","libd2game_sa_arm.exe.so","qpdfview","captain","nblood","avp","hypseus","GSplus","dhewm3"]
+emulatornames = ["retroarch","ags","uae4all2","uae4arm","capriceRPI","linapple","hatari","stella","atari800","xroar","vice","vice.sh","daphne.sh","reicast","reicast.elf","reicast_awave.elf","reicast_naomi.elf","reicast_awave","reicast_naomi","pifba","osmose","gpsp","jzintv","basiliskll","BasiliskII","mame","advmame","advmess","dgen","openmsx","mupen64plus","gngeo","dosbox","PPSSPPSDL","ppsspp","lr-ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","OpenBOR","OpenBOR_galina","openttd","opentyrian","cannonball","tyrquake","ioquake3","residualvm","xrick","sdlpop","uqm","stratagus","solarus-run","smw","drastic","psp","amiberry","fm7","redream","redream.elf","oricutron","cdogs-sdl","cgenius","descent2","descent1","digger","doom","duke3d","giana_rpi","coolcv_pi","cyclone","fruitbox","as1600","dasm1600","minivmac","np2","pcsx","fba2x","px68k","quasi88.sdl","rpix86","sdltrs","ti99sim-sdl","xm7","zesarux","omxplayer.bin","omxplayer","loader","mpv","mpg123","audacious","d1x-rebirth","d2x-rebirth","zsdx","zsxd","zelda_roth_se","beebem","beebem0.13pi3","beebem0.13pi4","CGeniusExe","PicoDrive1.81","PicoDrive1.92","mednafen","yabause","darkplaces-sdl","prince","Xorg","wolf4sdl.sh","wolf4sdl-3dr-v14","wolf4sdl-gt-v14","wolf4sdl-spear","wolf4sdl-sw-v14","xvic","xvic cart","xplus4","xpet","x128","x64sc","x64","breaker","amphetamine","MalditaCastilla","SuperCrateBox","TheyNeedToBeFed","cap32","fillets","abuse","piegalaxy","PieGalaxy.sh","wyvern","innoextract","bgdi-330","splitwolf-wolf3","OpenJazz","openjk_sp.arm","openjk_mp.arm","openjk.arm","xash3d", "lzdoom","gzdoom","sorr","bgdi","doom1mods","doom2mods","doomumods","hexen2","hcl","openjkded.arm","iowolfsp.armv71","rtcw","iowolfded.armv7l","iowolfmp.armv7l","bstone","hurrican","sdl2trs","supertux2","VVVVVV","fury","jumpnbump","ioquake3.arm","srb2","MysticMine","duckstation-qt","duckstation-sdl","duckstation-qt","pico8_dyn","ssam","ssam-tfe","gemrb","abbayev2","arx","spelunky_classic_hd_html5","iowolfsp.arm","iowolfmp.arm","openclaw","openmw","openmw-launcher","openmw-wizard","xash3d","openjk","openjk.openjk-sp","openjk.openjo-sp","bstone","libd2game_sa_arm.exe.so","qpdfview","captain","nblood","avp","hypseus","GSplus","dhewm3"]
 
 #test: Ran into some issues with script crashing on a cold boot, so we're camping for emulationstation (if ES can start, so can we!)
 esStarted = False
@@ -154,17 +154,17 @@ while not esStarted:
 if startdelay > 0:
 	time.sleep(startdelay) # Delay audio start per config option above
 
-#Look for OMXplayer - if it's running, someone's got a splash screen going!
+#Look for SplashScreen Player - if it's running, someone's got a splash screen going!
 pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
 for pid in pids:
 	try:
 		procname = open(os.path.join('/proc',pid,'comm'),'rb').read()
-		if procname[:-1] == "omxplayer" or procname[:-1] == "omxplayer.bin": # Looking for a splash screen!
+		if procname[:-1] == "omxplayer" or procname[:-1] == "omxplayer.bin" or procname[:-1] == "mpv" or procname[:-1] == "mpg123" or procname[:-1] == "vlc": # Looking for a splash screen!
 			while os.path.exists('/proc/'+pid):
 				time.sleep(1) #OMXPlayer is running, sleep 1 to prevent the need for a splash.
 	except IOError:
 		continue
-
+        
 #Check for a starting song
 if not startsong == "":
 	try:
