@@ -97,7 +97,7 @@ function fixes_pbt() {
 			5) fix_control  ;;
 			6) git_rs  ;;
 			7) themes_rs  ;;
-			8) def_audio_outdef_audio_out  ;;
+			8) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac

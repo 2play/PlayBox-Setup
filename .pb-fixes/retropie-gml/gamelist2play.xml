@@ -375,7 +375,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./bgm-mute.sh</path>
-		<name>Music [BGM] On/Off, EZH</name>
+		<name>Music [BGM] On/Off, Rydra-2P</name>
 		<desc>Mute or unmute the background music.</desc>
 		<image>./icons/musicoff.png</image>
 		<video>./icons/musicoff.mp4</video>

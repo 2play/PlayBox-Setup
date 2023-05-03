@@ -2,7 +2,7 @@
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-# 31.03.2022
+# 03.05.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -184,19 +184,19 @@ function install_bgm() {
 		echo "STEP 2: Checking Requirements..."
 		sleep 2
         PKG=pygame
-        PKG_OK=$(pip list | grep $PKG)
+        PKG_OK=$(pip3 list | grep $PKG)
         if [ "" == "$PKG_OK" ]; then
             echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
             sleep 2
-            sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
-			pip3 install pygame
+            sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy && pip3 install pygame
 			else
 			echo -e "\n\n\n         $PKG seems to be installed...\n\nLet's install BGM!"
 			sleep 2
         fi
 		curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/playboxv2/scripts/install-esbgm.py | python3 -
 		sed -i 's|~/RetroPie/music|~/RetroPie/roms/music|g' /home/pi/.local/lib/python3.7/site-packages/bgm/config_default.yaml
-        echo
+		sudo ln -sfn /home/pi/.local/bin/esbgm /usr/local/bin/esbgm
+		echo
 		echo "STEP 3: Checking if an external USB Drive Roms exists..."
 		sleep 2
 		if [ -d ~/RetroPie/localroms ]; then

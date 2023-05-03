@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 22.04.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 03.05.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -152,20 +152,20 @@ then
 	sudo apt install network-manager-gnome -y
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
-	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	#sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	fi
 else
 	echo
 	echo "Network Manager already installed!"
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
-	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	#sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	fi
 fi
 echo
@@ -363,31 +363,6 @@ echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/
 else
 echo "Already inserted..."; sleep 1
 fi
-# New Monitoring Tools
-#if [ -f /usr/local/bin/glances ]; then echo "Already installed!"; sleep 1
-#else 
-#sudo ln -sfn /home/pi/.local/bin/glances /usr/local/bin/glances
-#fi
-#if [ -f /home/pi/.local/bin/glances ]; then echo "Already installed!"; sleep 1
-#else 
-#pip install glances
-##pip install 'glances[action,browser,cloud,cpuinfo,docker,export,folders,gpu,graph,ip,raid,snmp,web,wifi]'
-#pip uninstall glances
-#fi
-#echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
-#wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
-#if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1;
-#else 
-##cd $HOME/code/
-##git clone --depth 1 https://github.com/aristocratos/bpytop.git
-##cd bpytop
-##sudo make install
-##sudo make uninstall
-##cd ..
-##rm -rf bpytop/
-##pip3 install bpytop --upgrade
-#sudo apt install bpytop
-#fi
 #New Ports Dependencies
 	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
 	return 0
@@ -409,16 +384,16 @@ echo "All OK!"
 echo 
 fi
 #Delete Old OpenBor & Fix Logs Link
-sudo rm -rf /opt/retropie/ports/openbor
-sudo chown pi:pi /opt/retropie/emulators/openbor/*
-sudo rm /opt/retropie/emulators/openbor/Logs
-sudo rm /opt/retropie/emulators/openbor/Paks
-sudo rm /opt/retropie/emulators/openbor/Saves
-sudo rm /opt/retropie/emulators/openbor/ScreenShots
-ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
-ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
-ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
-ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
+#sudo rm -rf /opt/retropie/ports/openbor
+#sudo chown pi:pi /opt/retropie/emulators/openbor/*
+#sudo rm /opt/retropie/emulators/openbor/Logs
+#sudo rm /opt/retropie/emulators/openbor/Paks
+#sudo rm /opt/retropie/emulators/openbor/Saves
+#sudo rm /opt/retropie/emulators/openbor/ScreenShots
+#ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
+#ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
+#ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
+#ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
 }
 
 # Global Shader
