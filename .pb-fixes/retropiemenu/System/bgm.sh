@@ -189,6 +189,7 @@ function install_bgm() {
             echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
             sleep 2
             sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
+			pip3 install pygame
 			else
 			echo -e "\n\n\n         $PKG seems to be installed...\n\nLet's install BGM!"
 			sleep 2
