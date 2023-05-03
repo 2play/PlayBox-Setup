@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 30.03.2022
 
 stop_bgm(){
