@@ -5,7 +5,7 @@
 # Copyright (C)2018-2022 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.04.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 03.05.2022"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,7 +80,7 @@ function fixes_pbt() {
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
-			3 " - Repair PlayBox Background Music Mute File " \
+			3 " - Repair PlayBox Background Music Mute File [OFF]" \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
@@ -91,13 +91,13 @@ function fixes_pbt() {
         case "$choice" in
             1) fix_rpmenu  ;;
             #2) fix_region  ;;
-			3) fix_bgm_py  ;;
+			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
 			5) fix_control  ;;
 			6) git_rs  ;;
 			7) themes_rs  ;;
-			8) def_audio_out  ;;
+			8) def_audio_outdef_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -127,8 +127,8 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
-	sudo rm -rf /etc/emulationstation/themes/carbon/
+	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
 	#echo "We need to apply REGION script now..."
@@ -587,8 +587,8 @@ function hdmi_sound_out() {
 function jack_sound_out() {
 	clear
 	if ! grep -E "^#hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
-	sudo sed -i '99i#hdmi_force_edid_audio' /boot/config.txt
-	sudo sed -i '100i#hdmi_ignore_edid_audio=1' /boot/config.txt
+	sudo sed -i '94i#hdmi_force_edid_audio' /boot/config.txt
+	sudo sed -i '95i#hdmi_ignore_edid_audio=1' /boot/config.txt
 	fi
 	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
 	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
@@ -3318,9 +3318,9 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
 	fi
 	clear
