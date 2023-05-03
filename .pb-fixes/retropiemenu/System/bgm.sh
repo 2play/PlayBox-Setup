@@ -48,7 +48,7 @@ function remove_bgm() {
 	echo
 	echo "STEP: Removing BGM..."
 	sleep 3
-	mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
+	#mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
 	curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/main/scripts/install-esbgm.py > install-esbgm.py
 python3 install-esbgm.py --uninstall
 	sleep 2
@@ -216,7 +216,7 @@ function install_bgm() {
 			sleep 2
 			cd $HOME
 			sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
-			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF /home/pi/RetroPie/roms/music
+			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF ~/RetroPie/roms/music
 			elif [ ! -d ~/RetroPie/roms/music ]; then mkdir ~/RetroPie/roms/music
 			fi
 		fi
