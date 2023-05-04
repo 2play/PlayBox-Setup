@@ -52,7 +52,7 @@ function wifi_connect() {
 	echo
 }
 
-# Reset WiFi COnfiguration
+# Reset WiFi Configuration
 function wifi_reset() {
   clear
   sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
