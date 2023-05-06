@@ -135,9 +135,18 @@ clear
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
 sudo apt install xscreensaver -y;
 else
-echo "All OK!"
+echo "All OK!"ls
 echo 
-fi 
+fi
+# Fix NF Lolcat scrambled view...
+cd code
+wget https://github.com/busyloop/lolcat/archive/master.zip
+unzip master.zip
+rm master.zip
+cd lolcat-master/bin
+sudo gem install lolcat
+cd ../.. && rm -rf lolcat-master
+cd $HOME
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
 else 
