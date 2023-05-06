@@ -188,8 +188,8 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<path>./Network/wifi-nm.sh</path>
 		<name>WiFi Network Manager</name>
 		<desc>Connect to a wifi network. If you want to use the GUI, start PlayBox desktop and connect to your wifi</desc>
-		<image>./icons/wifi.png</image>
-		<video>./icons/wifi.mp4</video>
+		<image>./icons/network-mgr.png</image>
+		<video>./icons/network-mgr.mp4</video>
 	</game>
 	<game>
 		<path>./Network/wifi.rp</path>
