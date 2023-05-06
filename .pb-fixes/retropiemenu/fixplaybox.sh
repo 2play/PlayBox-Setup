@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)+
+# Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.04.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 04.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,7 +80,7 @@ function fixes_pbt() {
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
-			3 " - Repair PlayBox Background Music Mute File " \
+			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
@@ -91,7 +91,7 @@ function fixes_pbt() {
         case "$choice" in
             1) fix_rpmenu  ;;
             #2) fix_region  ;;
-			3) fix_bgm_py  ;;
+			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
 			5) fix_control  ;;
@@ -127,8 +127,8 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
-	sudo rm -rf /etc/emulationstation/themes/carbon/
+	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
 	#echo "We need to apply REGION script now..."
@@ -627,7 +627,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System " \
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
-		    7 " - MESA & Vulkan Drivers Related Options " \
+		    7 " - MESA & Vulkan Drivers Related Options [OFF] " \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
@@ -645,7 +645,7 @@ function apps_pbt() {
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
-			7) mesa_vk  ;;
+			#7) mesa_vk  ;;
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
@@ -1596,7 +1596,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 13.02.2021
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1869,7 +1869,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -3307,7 +3307,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '14,1000d' .bash_history
+	sed -i '16,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3318,9 +3318,9 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
 	fi
 	clear

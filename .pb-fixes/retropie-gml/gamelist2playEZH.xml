@@ -235,8 +235,8 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./System/bgm.sh</path>
-		<name>Background Music Setup, Rydra-2P!</name>
-		<desc>Brand New BGM on PlayBox! You can remove or re-install the background music. NOTE: It won't delete your music folder if removed [The best out there!]</desc>
+		<name>Background Music Setup, EZH-2P!</name>
+		<desc>Enabled on PlayBox! You can remove or re-install the background music. If removed, run the relative fix in PlayBox Toolkit to disable BGM when an emulator starts. NOTE: It won't delete your music folder!</desc>
 		<image>./icons/music.png</image>
 		<video>./icons/music.mp4</video>
 	</game>
@@ -249,8 +249,8 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./System/oc.sh</path>
-		<name>✭ OverClock Pi3 Optimized, 2P!</name>
-		<desc>Overclock your Pi3. Settings to cover all avaiable valid speeds 1400/1500/1600MHz. Original code done by dev RPC.</desc>
+		<name>✭ OverClock Pi4 Optimized, 2P!</name>
+		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750-2200MHz. Original code done by dev RPC.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>
@@ -375,7 +375,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./bgm-mute.sh</path>
-		<name>Music [BGM] On/Off, Rydra-2P</name>
+		<name>Music [BGM] On/Off, EZH</name>
 		<desc>Mute or unmute the background music.</desc>
 		<image>./icons/musicoff.png</image>
 		<video>./icons/musicoff.mp4</video>

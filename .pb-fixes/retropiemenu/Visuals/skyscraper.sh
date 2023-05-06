@@ -2,7 +2,7 @@
 # Skyscraper Install and Update script by 2Play!
 # Skyscraper by Lars Muldjor
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 09.05.21
 
 infobox=""

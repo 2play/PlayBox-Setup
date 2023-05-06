@@ -1,6 +1,6 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 01.03.2022
 
 
@@ -52,7 +52,7 @@ function wifi_connect() {
 	echo
 }
 
-# Reset WiFi COnfiguration
+# Reset WiFi Configuration
 function wifi_reset() {
   clear
   sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
