@@ -68,6 +68,7 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
+sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo cp /home/pi/PieMarquee2/PieMarquee2/PieMarquee2.py /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py
 sleep 1
@@ -135,7 +136,7 @@ clear
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
 sudo apt install xscreensaver -y;
 else
-echo "All OK!"ls
+echo "All OK!"
 echo 
 fi
 # Fix NF Lolcat scrambled view...
@@ -393,16 +394,16 @@ echo "All OK!"
 echo 
 fi
 #Delete Old OpenBor & Fix Logs Link
-#sudo rm -rf /opt/retropie/ports/openbor
-#sudo chown pi:pi /opt/retropie/emulators/openbor/*
-#sudo rm /opt/retropie/emulators/openbor/Logs
-#sudo rm /opt/retropie/emulators/openbor/Paks
-#sudo rm /opt/retropie/emulators/openbor/Saves
-#sudo rm /opt/retropie/emulators/openbor/ScreenShots
-#ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
-#ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
-#ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
-#ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
+sudo rm -rf /opt/retropie/ports/openbor
+sudo chown pi:pi /opt/retropie/emulators/openbor/*
+sudo rm /opt/retropie/emulators/openbor/Logs
+sudo rm /opt/retropie/emulators/openbor/Paks
+sudo rm /opt/retropie/emulators/openbor/Saves
+sudo rm /opt/retropie/emulators/openbor/ScreenShots
+ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
+ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
+ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
+ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
 }
 
 # Global Shader
