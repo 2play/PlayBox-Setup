@@ -3616,7 +3616,7 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	sudo apt update #&& sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
@@ -3630,7 +3630,7 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	sudo apt update #&& sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
