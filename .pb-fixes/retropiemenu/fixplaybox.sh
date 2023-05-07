@@ -1470,7 +1470,7 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "Great 80's Selection " \
+            1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
             4 "I want to listen to image builder's Custom Tracks ! " \
@@ -1656,7 +1656,7 @@ cd $HOME/code/
 #sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
@@ -3616,7 +3616,7 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update #&& sudo apt upgrade -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
@@ -3630,7 +3630,7 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update #&& sudo apt upgrade -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
