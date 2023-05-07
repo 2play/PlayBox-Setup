@@ -1470,7 +1470,7 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "Great 80's Selection " \
+            1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
             4 "I want to listen to image builder's Custom Tracks ! " \
