@@ -249,8 +249,8 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./System/oc.sh</path>
-		<name>✭ OverClock Pi3 Optimized, 2P!</name>
-		<desc>Overclock your Pi3. Settings to cover all avaiable valid speeds 1400/1500/1600MHz. Original code done by dev RPC.</desc>
+		<name>✭ OverClock Pi4 Optimized, 2P!</name>
+		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750-2200MHz. Original code done by dev RPC.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>
