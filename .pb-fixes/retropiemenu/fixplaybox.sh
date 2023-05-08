@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 04.05.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 08.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1639,8 +1639,35 @@ echo "STEP 2. Installing Dependencies... "
 sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
 sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo pip3 install meson
+#sudo pip3 install meson==0.64.1
+#sudo pip3 install mako==1.2.4
 sudo pip3 install mako
-sudo apt install -y cmake
+#sudo apt install -y cmake
+cd $HOME/code/
+#cmake
+wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3.tar.gz
+tar -xvf cmake*
+cd cmake*/
+./configure
+make -j4
+sudo make install
+#libdrm
+git clone https://gitlab.freedesktop.org/mesa/drm.git
+cd drm
+meson setup builddir/
+sudo ninja -C builddir/ install
+cd ..
+rm -rf drm/
+#libva
+#required common packages:
+#sudo apt-get install git cmake pkg-config meson libdrm-dev automake libtool -y
+git clone https://github.com/intel/libva.git
+cd libva
+mkdir build 
+cd build 
+meson setup .. -Dprefix=/usr -Dlibdir=/usr/lib
+ninja
+sudo ninja install
 echo ""
 echo "STEP 3. Compiling Driver & Extras... "
 echo ""
@@ -1650,26 +1677,27 @@ sudo apt update
 sudo apt build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
-cd $HOME/code/
 #Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
 #WARNING: This will destroy your desktop system if you are using one
 #sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
 #git checkout wip/igalia/v3dv-conformance-1.0
 ##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
-#Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
+#Examples: meson setup --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
 ##Based On Igalia
-#meson --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
-meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#meson setup --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
+meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P-NoX11
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" setup -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j4
 sudo ninja -C build install
 echo ""
@@ -1680,11 +1708,17 @@ sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
 cd $HOME/code/
 #Download & Install MESA DRM
 ##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
-cd drm
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
+#with libkms
+wget https://gitlab.freedesktop.org/mesa/drm/-/archive/master/drm-master.tar.gz
+tar -xvf drm-master.tar.gz
+cd drm-master/
+meson setup build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true
+#cd drm/
 ##RPI4 Specific
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true -Dbuildtype=release
-meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true -Dbuildtype=release
+##new drm (no libkms - no updates in vc4 last 3y to use new)
+#meson setup build --prefix=/usr -Dintel="disabled" -Dradeon="disabled" -Damdgpu="disabled" -Dexynos="disabled" -Dnouveau="disabled" -Dvmwgfx="disabled" -Domap="disabled" -Dfreedreno="disabled" -Dtegra="disabled" -Detnaviv="disabled" -Dvc4="enabled" -Dinstall-test-programs=true
 ninja -C build
 sudo -E ninja -C build install
 #Update RPie MESA DRM file
@@ -1716,7 +1750,7 @@ else
 echo "Already set in .bashrc ..."; sleep 1
 fi
 if ! grep 'VK_ICD_FILENAMES' /etc/environment; then
-echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment
+sudo sh -c "echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment"
 #echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
 else
 echo "Already set in environment..."; sleep 1
