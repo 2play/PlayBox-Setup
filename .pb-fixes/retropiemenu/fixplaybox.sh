@@ -627,7 +627,7 @@ function apps_pbt() {
 			4 " - Hide or Show a System " \
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
-		    7 " - MESA & Vulkan Drivers Related Options [OFF] " \
+		    7 " - MESA & Vulkan Drivers Related Options " \
 		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
@@ -645,7 +645,7 @@ function apps_pbt() {
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
-			#7) mesa_vk  ;;
+			7) mesa_vk  ;;
 			#8) pikiss_git  ;;
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
@@ -3577,7 +3577,8 @@ function fw_bt() {
 function fw_exp() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo sudo apt update -y && sudo apt upgrade -y && sudo rpi-update
+	#sudo sudo apt update -y && sudo apt upgrade -y && sudo rpi-update
+	sudo sudo apt update -y && sudo rpi-update
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3616,7 +3617,8 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	#sudo apt update && sudo apt upgrade -y
+	sudo apt update -y
 	sleep 2
 	echo
 	echo
@@ -3630,7 +3632,8 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	#sudo apt update && sudo apt upgrade -y
+	sudo apt update -y
 	sleep 2
 	echo
 	echo
