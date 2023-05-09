@@ -1758,9 +1758,10 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
 #sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
 #git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
 cd mesa
@@ -1771,7 +1772,10 @@ cd mesa
 #meson setup --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
 ##Direct Overwrite
 #meson setup --libdir arm-linux-gnueabihf -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr/lib build
-meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dllvm=disabled -Dbuildtype=release -Dprefix=/usr build
+##No LLVM
+#meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dllvm=disabled -Dbuildtype=release -Dprefix=/usr build
+##With LLVM
+meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P-NoX11
@@ -1801,7 +1805,7 @@ echo "Already set in environment..."; sleep 1
 fi
 sleep 2
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 #clear
 echo
@@ -1847,12 +1851,17 @@ cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
 sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
-git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
+##Latest RA
+git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
+##Retroarch 1.14
+#wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
+#tar -xvf v1.14.0.tar.gz
+cd RetroArch*/
+#
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-cd retroarch
 #By BT (No Neon)
 #./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P
@@ -1881,7 +1890,7 @@ read -n 1 -s -r -p "Press any key to continue..."
 break
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 cd $HOME
 clear
 echo
@@ -1918,7 +1927,7 @@ echo ""
 echo "Directory exists so most probably you compiled before!!!"
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo ""
