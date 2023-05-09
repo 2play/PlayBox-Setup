@@ -1639,7 +1639,6 @@ sudo apt update && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Dependencies... "
 sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ libgstreamer1.0-dev --no-install-recommends
-sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 #sudo apt autoremove --purge -y && sudo apt clean
 #sudo pip3 install meson
 #sudo pip3 install mako
@@ -1692,7 +1691,7 @@ else
 #required common packages:
 #sudo apt-get install git cmake pkg-config meson libdrm-dev automake libtool -y
 vlibva=$(pkg-config --modversion libva)
-if [ "$vlibva" \< "1.8.0" ]; then
+if [ "$vlibva" \< "1.10.0" ]; then
 	git clone https://github.com/intel/libva.git;
 	git clone https://github.com/intel/libva-utils.git;
 	cd libva;
@@ -1705,10 +1704,54 @@ if [ "$vlibva" \< "1.8.0" ]; then
 	cd ~/code;
 	rm -rf libva*;
 else
-echo "Libva requirement OK!"
-echo 
+	echo "Libva requirement OK!"
+	echo 
 fi
 cd $HOME/code/
+echo ""
+echo "STEP 3. Compiling Driver & Extras... "
+echo ""
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
+sudo apt update
+sudo apt build-dep mesa -y
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
+sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
+#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
+#WARNING: This will destroy your desktop system if you are using one
+#sudo apt purge mesa-* libgl* libdrm*
+sudo rm -rf mesa* 
+#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
+cd mesa/
+#git checkout wip/igalia/v3dv-conformance-1.0
+##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
+#Examples: meson setup --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
+##Based On Igalia
+#meson setup --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
+##Direct Overwrite
+#meson setup --libdir arm-linux-gnueabihf -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr/lib build
+##No LLVM
+meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dllvm=disabled -Dbuildtype=release -Dprefix=/usr build
+##With LLVM
+#meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+##2P
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+##2P-NoX11
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" setup -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+ninja -C build -j4
+sudo ninja -C build install
+echo ""
+sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2
+sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
+#Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
+
 #Download & Install MESA DRM
 ##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
@@ -1743,49 +1786,6 @@ sudo ldconfig
 #make -j3
 #sudo make install	
 #Check version of SDL2: sdl2-config --version
-
-echo ""
-echo "STEP 3. Compiling Driver & Extras... "
-echo ""
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
-sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
-sudo apt update
-sudo apt build-dep mesa -y
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
-#Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
-#WARNING: This will destroy your desktop system if you are using one
-#sudo apt purge mesa-* libgl* libdrm*
-sudo rm -rf mesa* 
-#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
-git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-cd mesa
-#git checkout wip/igalia/v3dv-conformance-1.0
-##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
-#Examples: meson setup --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
-##Based On Igalia
-#meson setup --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
-##Direct Overwrite
-#meson setup --libdir arm-linux-gnueabihf -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr/lib build
-##No LLVM
-#meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dllvm=disabled -Dbuildtype=release -Dprefix=/usr build
-##With LLVM
-meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-##2P-NoX11
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" setup -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
-ninja -C build -j4
-sudo ninja -C build install
-echo ""
-sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2
-sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
-#Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
 
 echo ""
 #echo "STEP 4. Set EVVVAR to ensure that a Vulkan program finds the driver... "
