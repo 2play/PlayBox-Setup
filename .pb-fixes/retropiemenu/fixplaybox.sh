@@ -3416,7 +3416,7 @@ function cl_wifi() {
 function cl_sysncache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo apt autoremove --purge && sudo apt clean
+	sudo apt autoremove --purge -y && sudo apt clean
 	clear
 	echo
 	echo "[OK DONE!...]"
