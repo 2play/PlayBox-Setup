@@ -1723,8 +1723,8 @@ sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo rm -rf mesa* 
 #git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
-git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
@@ -1854,7 +1854,7 @@ vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
 if [ "$vffmpeg" != "git-2023-05-10-5ce7650" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
-	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree --enable-mmal;
+	CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --enable-libx264 --enable-gpl --enable-libmp3lame --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree --enable-mmal;
 	make -j4;
 	sudo make install;
 	cd ~/code/;
@@ -1866,7 +1866,6 @@ else
 fi
 echo
 ##Latest RA
-echo
 git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
 ##Retroarch 1.14
 #wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
@@ -1881,10 +1880,10 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 #./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure  --disable-caca --disable-jack --disable-opengl1 --disable-oss --disable-sdl --disable-sdl2 --disable-videocore --enable-vulkan --enable-wayland --enable-x11 --enable-alsa --enable-egl --enable-floathard --enable-kms --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2 --disable-pulse --enable-udev
-##2P BT With Neon GLES3
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##With Pulse & jack
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
+##2P BT With Neon GLES3
+CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 make -j4
 if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
