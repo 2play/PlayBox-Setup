@@ -1851,13 +1851,14 @@ fi
 sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
 ##Custom FFMPEG
 vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
-if [ "$vffmpeg" != "git-2023-05-10-5ce7650" ]; then
+if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
-	CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --enable-libx264 --enable-gpl --enable-libmp3lame --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree --enable-mmal;
+	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
 	make -j4;
 	sudo make install;
 	cd ~/code/;
+	sudo ldconfig;
 	rm -rf ffmpeg*;
 else
 	echo
