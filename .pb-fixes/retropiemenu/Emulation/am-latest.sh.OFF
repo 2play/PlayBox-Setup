@@ -1,8 +1,8 @@
 #!/bin/bash
 # Pi4 Install or Update Attract Mode Script By 2Play! 
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 25.06.2020
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 10.05.2023
 
 infobox=""
 infobox="${infobox}\n"
@@ -37,11 +37,11 @@ function main_menu() {
 
         case "$choice" in
             1) AM_KMS_Pi4  ;;
-            2) AM_X11_Pi4  ;;
-            3) AM_X11_GLES_Pi3  ;;
-            4) FFMPEG  ;;
-            5) SFML_KMS  ;;
-            6) SFML_X11  ;;
+            2) AM_GLES_Pi4  ;;
+            2) AM_GLES_Pi3  ;;
+            3) FFMPEG  ;;
+            4) SFML_KMS  ;;
+            5) SFML_X11  ;;
             -) none  ;;
             *) break ;;
         esac
@@ -70,8 +70,11 @@ function AM_KMS_Pi4() {
 	cd code	
 	git clone --depth 1 https://github.com/mickelson/attract attract
 	cd attract
-	make USE_DRM=1 USE_MMAL=1
-	sudo make install USE_DRM=1 USE_MMAL=1
+	#Xinerama (for multiple monitor support).
+	#libarchive (for .7z, .rar, .tar.gz and .tar.bz2 archive support).
+	#Libcurl (for network info/artwork scraping).
+	make USE_DRM=1 USE_MMAL=1 USE_XINERAMA=1 USE_LIBCURL=1 USE_LIBARCHIVE=1
+	sudo make install USE_DRM=1 USE_MMAL=1 USE_XINERAMA=1 USE_LIBCURL=1 USE_LIBARCHIVE=1
 	cd util/linux/drm
 	make
 	sudo make install
@@ -89,7 +92,7 @@ function AM_KMS_Pi4() {
 	sudo reboot
 }
 
-function AM_X11_Pi4() {
+function AM_GLES_Pi4() {
 	cd ~; mkdir code
 	cd ~/code/
 	clear
@@ -97,7 +100,7 @@ function AM_X11_Pi4() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue and install SFML-PI"
 	clear
-	SFML_X11
+	SFML_KMS
 	echo
 	read -n 1 -s -r -p "Press any key to continue and install ATTRACT MODE"
 	clear
@@ -105,13 +108,19 @@ function AM_X11_Pi4() {
 	echo
 	echo "*** Install or Update Attract Mode Pi4 Dependencies! ***"
 	echo
-	sudo apt-get install -y cmake libflac-dev libogg-dev libvorbis-dev libavutil-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libavresample-dev libopenal-dev libfreetype6-dev libudev-dev libjpeg-dev libudev-dev libfontconfig1-dev libglu1-mesa-dev libsfml-dev libxinerama-dev libcurl4-openssl-dev
+	sudo apt-get install -y cmake libflac-dev libogg-dev libvorbis-dev libavutil-dev libavcodec-dev libavformat-dev libavfilter-dev libswscale-dev libavresample-dev libopenal-dev libfreetype6-dev libudev-dev libjpeg-dev libudev-dev libfontconfig1-dev libglu1-mesa-dev libsfml-dev libxinerama-dev libcurl4-openssl-dev libx11-dev libx11-xcb-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxrandr2 libxrandr-dev libgles2-mesa-dev
 	sleep 2
 	cd code	
 	git clone --depth 1 https://github.com/mickelson/attract attract
 	cd attract
-	make USE_XINERAMA=1 USE_LIBCURL=1
-	sudo make install USE_XINERAMA=1 USE_LIBCURL=1
+	#Xinerama (for multiple monitor support).
+	#libarchive (for .7z, .rar, .tar.gz and .tar.bz2 archive support).
+	#Libcurl (for network info/artwork scraping).
+	make USE_GLES=1 USE_MMAL=1 USE_XINERAMA=1 USE_LIBCURL=1 USE_LIBARCHIVE=1
+	sudo make install USE_GLES=1 USE_MMAL=1 USE_XINERAMA=1 USE_LIBCURL=1 USE_LIBARCHIVE=1
+	cd util/linux/drm
+	make
+	sudo make install
 	echo
 	sleep 2
 	echo
@@ -126,7 +135,7 @@ function AM_X11_Pi4() {
 	sudo reboot
 }
 
-function AM_X11_GLES_Pi3() {
+function AM_GLES_Pi3() {
 	cd ~; mkdir code
 	cd ~/code/
 	clear
@@ -174,10 +183,10 @@ if [ "$vffmpeg" != "git-2023-05-10-5ce7650" ]; then
 	#git clone --depth 1 git://source.ffmpeg.org/ffmpeg.git
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
-	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --arch=armel --target-os=linux --enable-gpl --enable-omx --enable-omx-rpi --enable-nonfree --enable-mmal;
+	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
 	make -j4;
 	sudo make install;
-	sudo ldconfig:
+	sudo ldconfig;
 	cd ~/code/;
 	rm -rf ffmpeg*;
 else
