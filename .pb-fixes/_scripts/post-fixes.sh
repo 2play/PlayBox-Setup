@@ -71,6 +71,7 @@ sudo chown pi:pi -R /etc/emulationstation/themes/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo cp /home/pi/PieMarquee2/PieMarquee2/PieMarquee2.py /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py
+sudo cp /home/pi/.local/bin/* /usr/bin/
 sleep 1
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
