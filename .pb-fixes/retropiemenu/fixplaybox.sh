@@ -2924,7 +2924,7 @@ clear
             3) rflag_off  ;;
 			4) argon1_on  ;;
             5) argon1_off  ;;
-            6) argon1_fan  ;;
+			6) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
