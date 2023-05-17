@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.05.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 17.05.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -142,8 +142,8 @@ echo
 fi 
 # Check IPTV install
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
-cd code
-wget https://github.com/4gray/iptvnator/releases/download/v0.13.0/iptvnator_0.13.0_armv7l.deb
+cd code;
+wget https://github.com/4gray/iptvnator/releases/download/v0.13.0/iptvnator_0.13.0_armv7l.deb;
 sudo dpkg -i iptvnator_0.13.0_armv7l.deb;
 cd ~;
 else
