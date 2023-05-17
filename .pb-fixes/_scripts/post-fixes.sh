@@ -140,6 +140,16 @@ else
 echo "All OK!"
 echo 
 fi 
+# Check IPTV install
+if ! [[ `dpkg -l | grep iptvnator` ]]; then
+cd code
+wget https://github.com/4gray/iptvnator/releases/download/v0.13.0/iptvnator_0.13.0_armv7l.deb
+sudo dpkg -i iptvnator_0.13.0_armv7l.deb;
+cd ~;
+else
+echo "All OK!"
+echo 
+fi 
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
 else 
