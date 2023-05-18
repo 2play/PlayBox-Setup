@@ -422,7 +422,7 @@ function fix_bgm_py() {
 function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
+	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
 	clear
 	echo
 	echo "[OK DONE!...]"
