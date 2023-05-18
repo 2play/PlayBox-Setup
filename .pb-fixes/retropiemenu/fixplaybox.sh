@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 11.05.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 17.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -422,7 +422,7 @@ function fix_bgm_py() {
 function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
+	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
 	clear
 	echo
 	echo "[OK DONE!...]"
