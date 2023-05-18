@@ -2923,7 +2923,7 @@ function clean_pbt() {
            4 " - Remove ES Auto-gen Gamelists " \
 		   5 " - Clean & Set 2Play! Top CLi Commands History " \
 		   6 " - Clean Wi-Fi Settings " \
-           7 " - Clean Filesystem Cache " \
+           7 " - Clean Filesystem & Cache " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2933,7 +2933,7 @@ function clean_pbt() {
 		   4) cl_es_gamelist  ;;
 		   5) cl_cli_hist  ;;
            6) cl_wifi  ;;
-           7) cl_cache  ;;
+           7) cl_sysncache  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3335,10 +3335,10 @@ function cl_wifi() {
 }
 
 
-function cl_cache() {
+function cl_sysncache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo apt clean
+	sudo apt autoremove --purge -y && sudo apt clean
 	clear
 	echo
 	echo "[OK DONE!...]"
