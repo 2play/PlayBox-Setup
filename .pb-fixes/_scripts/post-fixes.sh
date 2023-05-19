@@ -17,13 +17,13 @@ function post_fix_update() {
             - "" \
 			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
 			- "    (Use After Clean Burn Or Restore All To Clean Status)" \
-			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
+			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES [DISABLED]" \
             - "    (Use To Apply New Updates)" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             CLEAN) post_up_clean  ;;
-            NORMAL) post_up_normal  ;;
+            #NORMAL) post_up_normal  ;;
             -) none ;;
             *) break ;;
         esac
@@ -36,7 +36,7 @@ sleep 2
 
 function post_up_clean() {
 clear
-git clone --depth 1 --branch=clean-vanilla-pi4 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=clean-vanilla-rpe-pi4 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -46,7 +46,7 @@ global_shader
 
 function post_up_normal() {
 clear
-git clone --depth 1 --branch=main-vanilla-pi4 https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=main-vanilla-rpe-pi4 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
