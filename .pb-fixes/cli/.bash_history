@@ -8,7 +8,7 @@ Skyscraper
 startx
 btop
 sudo ~/RetroPie-Setup/retropie_setup.sh
-qt
+yt
 emulationstation
 2p-FixPlayBox
 -------------
