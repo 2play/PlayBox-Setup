@@ -415,4 +415,10 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<image>./icons/playbox.png</image>
 		<video>./icons/playbox.mp4</video>
 	</game>
+	<game>
+		<path>./update_tool.sh</path>
+		<name>Update Tool</name>
+		<desc>Install updates to the Rick Dangerous Insanium/Retro Power Edition, fix common issues, etc.</desc>
+		<image>./icons/update_tool.png</image>
+	</game>
 </gameList>
