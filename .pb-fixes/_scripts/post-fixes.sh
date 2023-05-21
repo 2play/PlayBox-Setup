@@ -68,6 +68,7 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
+sudo cp /home/pi/.local/bin/* /usr/bin/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo cp /home/pi/.local/bin/* /usr/bin/
