@@ -186,14 +186,14 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./Network/wifi-nm.sh</path>
-		<name>WiFi Network Manager</name>
-		<desc>Connect to a wifi network. If you want to use the GUI, start PlayBox desktop and connect to your wifi</desc>
+		<name>WiFi New Network Manager</name>
+		<desc>Connect to a wifi network. You can also connect from the desktop GUI. Start PlayBox desktop and connect to your WiFi.</desc>
 		<image>./icons/network-mgr.png</image>
 		<video>./icons/network-mgr.mp4</video>
 	</game>
 	<game>
-		<path>./Network/wifi.rp</path>
-		<name>WiFi RPie Setup</name>
+		<path>./Network/wifi.rp.OFF</path>
+		<name>WiFi RPie Manager [Disabled]</name>
 		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
 		<image>./icons/wifi.png</image>
 		<video>./icons/wifi.mp4</video>
