@@ -127,7 +127,7 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
@@ -3447,10 +3447,13 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf;
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	echo "No WPA_Supplicant conflict found! Wi-Fi reset completed."
 	fi
 	clear
 	echo
