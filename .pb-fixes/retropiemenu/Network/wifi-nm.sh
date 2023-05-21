@@ -40,13 +40,14 @@ function wifi_connect() {
   clear
   dialog --infobox "...Let's find the available WiFi SSID..." 3 45 ; sleep 2
 	clear
-	sudo nmcli dev wifi
-	echo
-	echo ***PLEASE TYPE OR COPY/PASTE THE 'SSID' NAME AS SHOWN IN THE LIST***
-	echo 
-	read -p 'Which WiFi you want to connect to: ' wifiname
-	echo
-	sudo nmcli --ask dev wifi connect $wifiname
+	#sudo nmcli dev wifi
+	#echo
+	#echo ***PLEASE TYPE OR COPY/PASTE THE 'SSID' NAME AS SHOWN IN THE LIST***
+	#echo 
+	#read -p 'Which WiFi you want to connect to: ' wifiname
+	#echo
+	#sudo nmcli --ask dev wifi connect $wifiname
+	sudo nmtui connect
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
