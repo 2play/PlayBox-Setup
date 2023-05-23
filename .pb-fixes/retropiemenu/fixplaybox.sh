@@ -628,7 +628,7 @@ function apps_pbt() {
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
 		    7 " - MESA & Vulkan Drivers Related Options " \
-		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
+		    8 " - PiKISS By Jose Cerrejon [OFF] " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
 		   11 " - OMXPlayer Volume Control Script " \
@@ -3193,7 +3193,7 @@ function cl_saves() {
 	clear
 	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi)$" -type f -delete
 	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
-	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
+	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|hi|ldci|dat)$" -type f -delete
 	clear
 	echo
 	echo "[OK DONE!...]"
