@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 17.05.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 21.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,7 +80,7 @@ function fixes_pbt() {
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
-			3 " - Repair PlayBox Background Music Mute File [OFF]" \
+			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
@@ -628,7 +628,7 @@ function apps_pbt() {
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
 		    7 " - MESA & Vulkan Drivers Related Options [OFF] " \
-		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
+		    8 " - PiKISS By Jose Cerrejon [OFF] " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
 		   11 " - OMXPlayer Volume Control Script " \
@@ -1597,7 +1597,7 @@ function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-# 13.02.2021
+# 10.05.2023
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
 	
@@ -1608,13 +1608,17 @@ function mesa_vk() {
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable " \
-           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest " \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Source " \
+           2 " - [ON/OFF] Latest Mesa Vulkan Drivers " \
+		   3 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
+           4 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) mesa_up  ;;
-		   2) vulkan_ra  ;;
+		   2) drv_default  ;;
+		   3) vulkan_ra  ;;
+		   4) ra_default  ;;
 		   #3) igalia_dm  ;;
            -) none ;;
             *)  break ;;
@@ -1630,63 +1634,145 @@ mkdir code && cd code/
 else
 cd code/
 fi
-echo ""
+echo
 echo "STEP 1. Bring OS Up to date... "
-echo ""
+echo
 sudo apt update && sudo apt upgrade -y
-echo ""
+echo
 echo "STEP 2. Installing Dependencies... "
-sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ meson libgstreamer1.0-dev --no-install-recommends
-sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
-sudo pip3 install meson
-sudo pip3 install mako
-sudo apt install -y cmake
-echo ""
+sudo apt install -y libxcb-randr0-dev libxrandr-dev libxcb-xinerama0-dev libxinerama-dev libxcursor-dev libxcb-cursor-dev libxkbcommon-dev libpthread-stubs0-dev libffi-dev x11proto-xext-dev libxcb1-dev libxcb-*dev bison flex libssl-dev libgnutls28-dev x11proto-dri2-dev x11proto-dri3-dev libx11-dev libxcb-glx0-dev libx11-xcb-dev libxext-dev libxdamage-dev libxfixes-dev libva-dev x11proto-randr-dev x11proto-present-dev libclc-dev libelf-dev git build-essential mesa-utils libvulkan-dev ninja-build libvulkan1 python-mako libxshmfence-dev libxxf86vm-dev python3-mako python3-setuptools libexpat1-dev libudev-dev gettext ca-certificates xz-utils zlib1g-dev vulkan-tools xutils-dev libpciaccess-dev libegl-dev libegl1-mesa-dev libdrm-dev xsltproc libtool make automake pkg-config gcc g++ libgstreamer1.0-dev --no-install-recommends
+#sudo apt autoremove --purge -y && sudo apt clean
+#sudo pip3 install meson
+#sudo pip3 install mako
+#meson & Mako
+vmeson=$(meson --version)
+if [ "$vmeson" \< "0.60.0" ]; then
+	sudo pip3 install meson==0.64.1;
+	sudo ln -s /usr/local/bin/meson /usr/bin/meson;
+else
+	echo "Meson requirement OK!"
+	echo
+fi
+vmako=$(pip3 freeze | grep Mako | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/')
+if [ "$vmako" \< "1.2.4" ]; then
+	sudo pip3 install Mako==1.2.4;
+else
+	echo "Mako requirement OK!"
+	echo
+fi
+#sudo apt install -y cmake
+cd $HOME/code/
+#cmake
+vcmake=$( cmake --version | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/' )
+if [ "$vcmake" \< "3.17.0" ]; then
+wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3.tar.gz;
+tar -xvf cmake*;
+cd cmake*/;
+./configure;
+make -j4;
+sudo make install;
+cd ~/code;
+rm -rf cmake*;
+else
+echo "CMake requirement OK!"
+echo 
+fi
+#libdrm
+vlib=$(pkg-config --modversion libdrm)
+if [ "$vlib" \< "2.4.115" ]; then
+	git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm.git;
+	cd drm;
+	meson setup builddir/;
+	sudo ninja -C builddir/ install;
+	cd ~/code;
+	rm -rf drm*;
+else
+	echo "Libdrm requirement OK!";
+	echo
+ fi
+#libva
+#required common packages:
+#sudo apt-get install git cmake pkg-config meson libdrm-dev automake libtool -y
+vlibva=$(pkg-config --modversion libva)
+if [ "$vlibva" \< "1.10.0" ]; then
+	git clone --depth 1 https://github.com/intel/libva.git;
+	git clone --depth 1 https://github.com/intel/libva-utils.git;
+	cd libva;
+	mkdir build;
+	cd build;
+	#meson setup .. -Dprefix=/usr -Dlibdir=/usr/lib;
+	meson setup .. -Dprefix=/usr -Dlibdir=/usr/lib/arm-linux-gnueabihf;
+	ninja;
+	sudo ninja install;
+	cd ~/code;
+	rm -rf libva*;
+else
+	echo "Libva requirement OK!"
+	echo 
+fi
+cd $HOME/code/
+echo
 echo "STEP 3. Compiling Driver & Extras... "
-echo ""
+echo
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list.d/raspi.list
 sudo apt update
 sudo apt build-dep mesa -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list.d/raspi.list
-cd $HOME/code/
+sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 #Remove your current MESA version. MESA comes in Raspberry Pi OS in outdated fashion
 #WARNING: This will destroy your desktop system if you are using one
 #sudo apt purge mesa-* libgl* libdrm*
 sudo rm -rf mesa* 
-#git clone https://gitlab.freedesktop.org/apinheiro/mesa.git 
-git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-cd mesa
+cd mesa/
 #git checkout wip/igalia/v3dv-conformance-1.0
 ##Not needed to use drm... drm is obsolete -Dplatforms=x11,drm
-#Examples: meson --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
+#Examples: meson setup --prefix /usr --libdir lib or with -Dprefix=/usr -Dbuildtype=debug
 ##Based On Igalia
-#meson --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
-meson --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#meson setup --prefix /home/pi/local-install --libdir lib -Dplatforms=x11,drm -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4 -Dbuildtype=debug build
+##Direct Overwrite
+#meson setup --libdir arm-linux-gnueabihf -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr/lib build
+##No LLVM
+meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dllvm=disabled -Dbuildtype=release -Dprefix=/usr build
+##With LLVM
+#meson setup --libdir lib -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup -Dplatforms=x11 -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ##2P-NoX11
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" setup -Dglx=disabled -Dllvm=disabled -Dplatforms= -Dvulkan-drivers=broadcom -Ddri-drivers= -Dgallium-drivers=v3d,kmsro,vc4,zink,virgl -Dbuildtype=release -Dprefix=/usr build
 ninja -C build -j4
 sudo ninja -C build install
-echo ""
+echo
 sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2
 sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri
 #Run “vulkaninfo”. PLEASE BE SURE THAT it WORKS!
-
-cd $HOME/code/
+echo
 #Download & Install MESA DRM
 ##git clone --depth 1 git://anongit.freedesktop.org/mesa/drm
-git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
-cd drm
+#git clone --depth 1 https://gitlab.freedesktop.org/mesa/drm
+#with libkms
+wget https://gitlab.freedesktop.org/mesa/drm/-/archive/master/drm-master.tar.gz
+tar -xvf drm-master.tar.gz
+cd drm-master/
+meson setup build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true
+#cd drm/
 ##RPI4 Specific
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true -Dbuildtype=release
-meson build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" meson setup build --prefix=/usr -Dintel=false -Dradeon=false -Damdgpu=false -Dexynos=false -Dnouveau=false -Dvmwgfx=false -Domap=false -Dfreedreno=false -Dtegra=false -Detnaviv=false -Dvc4=true -Dinstall-test-programs=true -Dbuildtype=release
+##new drm (no libkms - no updates in vc4 last 3y to use new)
+#meson setup build --prefix=/usr -Dintel="disabled" -Dradeon="disabled" -Damdgpu="disabled" -Dexynos="disabled" -Dnouveau="disabled" -Dvmwgfx="disabled" -Domap="disabled" -Dfreedreno="disabled" -Dtegra="disabled" -Detnaviv="disabled" -Dvc4="enabled" -Dinstall-test-programs=true
 ninja -C build
 sudo -E ninja -C build install
+cd ~/code
+rm -rf drm*
+echo
 #Update RPie MESA DRM file
 sudo cp /usr/lib/arm-linux-gnueabihf/libkms.so.1.0.0 /opt/retropie/supplementary/mesa-drm
 sudo cp /usr/lib/arm-linux-gnueabihf/libdrm.so.2.4.0 /opt/retropie/supplementary/mesa-drm
@@ -1704,36 +1790,34 @@ sudo ldconfig
 #make -j3
 #sudo make install	
 #Check version of SDL2: sdl2-config --version
-
-echo ""
+echo
 #echo "STEP 4. Set EVVVAR to ensure that a Vulkan program finds the driver... "
 #echo ""
 ## Check Global variables: printenv or export -p
 if ! grep 'VK_ICD_FILENAMES' /home/pi/.bashrc; then
-echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /home/pi/.bashrc
+echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /home/pi/.bashrc;
 #echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
 else
 echo "Already set in .bashrc ..."; sleep 1
 fi
 if ! grep 'VK_ICD_FILENAMES' /etc/environment; then
-echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment
+sudo sh -c "echo export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/broadcom_icd.armv7l.json >> /etc/environment";
 #echo export VK_ICD_FILENAMES=/home/pi/local-install/share/vulkan/icd.d/broadcom_icd.armv7l.json
 else
 echo "Already set in environment..."; sleep 1
 fi
 sleep 2
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
-echo ""
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
+echo
 #clear
 echo
 echo "[OK DONE!...]"
 sleep 1
-echo ""
+echo
 echo "Script By 2Play!"
-echo ""
+echo
 echo -e 'You can invoke a Vulkan demo to test (if you installed) from the OS desktop.\n- Start a terminal\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B | less]...'
-echo ""
 echo
 #	while true; do
 #		echo ""
@@ -1750,10 +1834,34 @@ read -n 1 -s -r -p "Press any key to continue..."
 vulkan_ra
 echo
 read -n 1 -s -r -p "Press any key to reboot"
-echo ""
+echo
 echo "[OK System Will Restart now...]"
 clear
 sudo reboot
+}
+
+function drv_default() {
+clear
+if [ -d /usr/lib/arm-linux-gnueabihf/dri_19.3.2 ]; then
+sudo rm -f /usr/lib/arm-linux-gnueabihf/dri;
+sudo mv /usr/lib/arm-linux-gnueabihf/dri_19.3.2 /usr/lib/arm-linux-gnueabihf/dri;
+else
+	dricheck=$(/usr/lib/arm-linux-gnueabihf/dri)
+	if [[ -L "$dricheck" && -d "$dricheck" ]]; then
+	sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2;
+	sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri;
+	else
+	vc4date=$(stat /usr/lib/dri/vc4_dri.so | grep "Modify: 2023-05-10" | cut -f2 -d' ')
+	if [ "$vc4date" = "2023-05-10" ]; then sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2; sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri; else echo -e "You have not uprgaded to latest MESA Driver or not using the Vulkan base! \nNothing to apply here..."; fi
+	fi
+fi
+echo
+#read -n 1 -s -r -p "Press any key to reboot"
+#echo
+#echo "[OK System Will Restart now...]"
+echo "[OK Swap Complete...]"
+clear
+#sudo reboot
 }
 
 function vulkan_ra() {
@@ -1768,8 +1876,31 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
-git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
+##Custom FFMPEG
+vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
+	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
+	cd ffmpeg/;
+	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
+	make -j4;
+	sudo make install;
+	cd ~/code/;
+	sudo ldconfig;
+	rm -rf ffmpeg*;
+else
+	echo
+	echo "Ffmpeg Custom requirement OK!"
+	echo
+fi
+echo
+##Latest RA
+git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
+##Retroarch 1.14
+#wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
+#tar -xvf v1.14.0.tar.gz
+cd RetroArch*/
+#
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
@@ -1779,6 +1910,8 @@ cd retroarch
 #./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure  --disable-caca --disable-jack --disable-opengl1 --disable-oss --disable-sdl --disable-sdl2 --disable-videocore --enable-vulkan --enable-wayland --enable-x11 --enable-alsa --enable-egl --enable-floathard --enable-kms --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2 --disable-pulse --enable-udev
+##With Pulse & jack
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P BT With Neon GLES3
 CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 make -j4
@@ -1786,6 +1919,7 @@ if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
+sudo mv retroarch retroarchORIG
 sudo ln -sf retroarchNEW retroarch
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -1803,12 +1937,32 @@ read -n 1 -s -r -p "Press any key to continue..."
 break
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 cd $HOME
 clear
 echo
 echo "[OK DONE!...]"
 sleep 2
+}
+
+function ra_default() {
+clear
+cd /opt/retropie/emulators/retroarch/bin
+rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
+rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
+if [ "$rasymlinkN" = "retroarchNEW" ]; then
+	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
+else
+	if [ "$rasymlinkO" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
+	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
+	fi
+fi
+echo
+#read -n 1 -s -r -p "Press any key to reboot"
+#echo
+#echo "[OK System Will Restart now...]"
+cd ~
+#sudo reboot
 }
 
 function igalia_dm() {
@@ -1840,7 +1994,7 @@ echo ""
 echo "Directory exists so most probably you compiled before!!!"
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo ""
@@ -2820,7 +2974,7 @@ clear
             3) rflag_off  ;;
 			4) argon1_on  ;;
             5) argon1_off  ;;
-            6) argon1_fan  ;;
+			6) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -3040,7 +3194,7 @@ function cl_saves() {
 	clear
 	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi)$" -type f -delete
 	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
-	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
+	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|hi|ldci|dat)$" -type f -delete
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3580,7 +3734,8 @@ function fw_bt() {
 function fw_exp() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo sudo apt update -y && sudo apt upgrade -y && sudo rpi-update
+	#sudo sudo apt update -y && sudo apt upgrade -y && sudo rpi-update
+	sudo sudo apt update -y && sudo rpi-update
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3619,7 +3774,8 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	#sudo apt update && sudo apt upgrade -y
+	sudo apt update -y
 	sleep 2
 	echo
 	echo
@@ -3633,7 +3789,8 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	sudo apt update && sudo apt upgrade -y
+	#sudo apt update && sudo apt upgrade -y
+	sudo apt update -y
 	sleep 2
 	echo
 	echo
@@ -3651,7 +3808,9 @@ function fwup_pi4() {
 
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
-# 02.02.2022
+# The PlayBox Project
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 26.03.2022
 	clear
 echo "
         $(tput setaf 1)__________.__                 $(tput setaf 7)__________
