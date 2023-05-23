@@ -48,8 +48,8 @@ function wifi_connect() {
 	#echo
 	#sudo nmcli --ask dev wifi connect $wifiname
 	sudo nmtui connect
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
+	#echo
+	#read -n 1 -s -r -p "Press any key to continue..."
 	echo
 }
 
