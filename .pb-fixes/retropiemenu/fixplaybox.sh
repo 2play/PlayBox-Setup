@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 17.05.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 21.05.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1608,15 +1608,17 @@ function mesa_vk() {
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable " \
-           2 " - Enable/Disable Latest Mesa Drivers (Use Original) " \
-           3 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest " \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Source " \
+           2 " - [ON/OFF] Latest Mesa Vulkan Drivers " \
+		   3 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
+           4 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) mesa_up  ;;
-		   2) mesa_default  ;;
+		   2) drv_default  ;;
 		   3) vulkan_ra  ;;
+		   4) ra_default  ;;
 		   #3) igalia_dm  ;;
            -) none ;;
             *)  break ;;
@@ -1838,7 +1840,7 @@ clear
 sudo reboot
 }
 
-function mesa_default() {
+function drv_default() {
 clear
 if [ -d /usr/lib/arm-linux-gnueabihf/dri_19.3.2 ]; then
 sudo rm -f /usr/lib/arm-linux-gnueabihf/dri;
@@ -1854,11 +1856,12 @@ else
 	fi
 fi
 echo
-read -n 1 -s -r -p "Press any key to reboot"
-echo
-echo "[OK System Will Restart now...]"
+#read -n 1 -s -r -p "Press any key to reboot"
+#echo
+#echo "[OK System Will Restart now...]"
+echo "[OK Swap Complete...]"
 clear
-sudo reboot
+#sudo reboot
 }
 
 function vulkan_ra() {
@@ -1915,6 +1918,7 @@ if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
+sudo mv retroarch retroarchORIG
 sudo ln -sf retroarchNEW retroarch
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -1938,6 +1942,26 @@ clear
 echo
 echo "[OK DONE!...]"
 sleep 2
+}
+
+function ra_default() {
+clear
+cd /opt/retropie/emulators/retroarch/bin
+rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
+rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
+if [ "$rasymlinkN" = "retroarchNEW" ]; then
+	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
+else
+	if [ "$rasymlinkO" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
+	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
+	fi
+fi
+echo
+#read -n 1 -s -r -p "Press any key to reboot"
+#echo
+#echo "[OK System Will Restart now...]"
+cd ~
+#sudo reboot
 }
 
 function igalia_dm() {
