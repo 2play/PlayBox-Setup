@@ -1609,7 +1609,7 @@ function mesa_vk() {
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Source " \
-           2 " - [ON/OFF] Latest Mesa Vulkan Drivers " \
+           2 " - [ON/OFF] Latest MESA Vulkan Drivers " \
 		   3 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
            4 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
@@ -1830,7 +1830,7 @@ echo
 #	done
 echo -e 'Now I will update also the RetroArch binary with latest code and supporting latest drivers...\n\nJust sit back and wait a little longer ;-) ...\n*** IF FAILS for any reason,  please re-run RetroArch compile from drivers menu... ***'
 echo
-read -n 1 -s -r -p "Press any key to continue..."
+read -n 1 -s -r -p "Press any key to continue to RetroArch compiling..."
 vulkan_ra
 echo
 read -n 1 -s -r -p "Press any key to reboot"
@@ -1851,17 +1851,19 @@ else
 	sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2;
 	sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri;
 	else
-	vc4date=$(stat /usr/lib/dri/vc4_dri.so | grep "Modify: 2023-05-10" | cut -f2 -d' ')
-	if [ "$vc4date" = "2023-05-10" ]; then sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2; sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri; else echo -e "You have not uprgaded to latest MESA Driver or not using the Vulkan base! \nNothing to apply here..."; fi
+	vc4date=$(stat /usr/lib/dri/vc4_dri.so | grep "Modify: 2023-05-24" | cut -f2 -d' ')
+	if [ "$vc4date" == "2023-05-24" ]; then sudo mv /usr/lib/arm-linux-gnueabihf/dri /usr/lib/arm-linux-gnueabihf/dri_19.3.2; sudo ln -sf /usr/lib/dri /usr/lib/arm-linux-gnueabihf/dri; else echo -e "You have not uprgaded to latest MESA Driver or not using the Vulkan base! \nNothing to apply here..."; fi
 	fi
 fi
+clear
 echo
 #read -n 1 -s -r -p "Press any key to reboot"
 #echo
 #echo "[OK System Will Restart now...]"
 echo "[OK Swap Complete...]"
-clear
+sleep 1
 #sudo reboot
+cd ~
 }
 
 function vulkan_ra() {
@@ -1956,12 +1958,14 @@ else
 	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
 	fi
 fi
+clear
 echo
 #read -n 1 -s -r -p "Press any key to reboot"
 #echo
 #echo "[OK System Will Restart now...]"
+echo "[OK Swap Complete...]"
+sleep 1
 cd ~
-#sudo reboot
 }
 
 function igalia_dm() {
