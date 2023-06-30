@@ -1727,7 +1727,8 @@ sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo rm -rf mesa* 
 #git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 23.1 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 21.3 https://gitlab.freedesktop.org/mesa/mesa.git
@@ -2385,9 +2386,9 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4 " \
+			1 "Amiberry :  Pi4 SDL2 with Dispmanx" \
 			2 "Amiberry :  Pi4 SDL2 " \
-			3 "Amiberry :  Pi4 x64 " \
+			3 "Amiberry :  Pi4 x64 SDL2 with Dispmanx" \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
 			4 "Amiberry :  Pi4      - Swap To This Binary " \
@@ -2413,10 +2414,11 @@ function amiberry_git() {
 function amiberry_pi4() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
+	cd $HOME/code
 	rm -rf amiberry*
-	git clone --depth 1 https://github.com/midwan/amiberry.git
-	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
+	git clone --depth 1 https://github.com/BlitterStudio/amiberry
+	#git clone --depth 1 --branch=dev https://github.com/BlitterStudio/amiberry amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
@@ -2439,10 +2441,11 @@ function amiberry_pi4() {
 function amiberry_pi4sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
+	cd $HOME/code
 	rm -rf amiberry*
-	git clone --depth 1 https://github.com/midwan/amiberry.git
-	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
+	git clone --depth 1 https://github.com/BlitterStudio/amiberry
+	#git clone --depth 1 --branch=dev https://github.com/BlitterStudio/amiberry amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
@@ -2466,15 +2469,16 @@ function amiberry_pi4sdl2() {
 function amiberry_pi4x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
+	cd $HOME/code
 	rm -rf amiberry*
-	git clone --depth 1 https://github.com/midwan/amiberry.git
-	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
+	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
+	git clone --depth 1 https://github.com/BlitterStudio/amiberry
+	#git clone --depth 1 --branch=dev https://github.com/BlitterStudio/amiberry amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
 	git pull
-	make -j4 PLATFORM=pi64
+	make -j4 PLATFORM=rpi4-64-dmx
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
 	rm -rf amiberry*
@@ -2521,7 +2525,7 @@ function amiberry_stable() {
 function ppsspp_git() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
+	cd $HOME/code
 	git clone --recurse-submodules https://github.com/hrydgard/ppsspp.git
 	cd ppsspp
 	./b.sh --rpi	
@@ -3777,8 +3781,7 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	#sudo apt update && sudo apt upgrade -y
-	sudo apt update -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
@@ -3792,8 +3795,7 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	#sudo apt update && sudo apt upgrade -y
-	sudo apt update -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo

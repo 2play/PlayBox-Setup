@@ -1,15 +1,15 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 08.01.2021
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 15.03.2022
 
 infobox=""
 infobox="${infobox}\n"
 infobox="${infobox}OverClocking Your Pi Board\n\n"
 infobox="${infobox}\n"
 infobox="${infobox}This will apply necessary configuration to enable/disable overclocking.\n"
-infobox="${infobox}A 3A+ PSU & a fan for good CPU cooling is recommended!\n"
-infobox="${infobox}Options:\nPi4 at 1750/2000/2100/2147/2200-2300MHz \n"
+infobox="${infobox}A 3A or more PSU & a fan for good CPU cooling is recommended!\n"
+infobox="${infobox}Options:\nPi4 at 1750/2000/2100/2200-2300MHz \n"
 infobox="${infobox}NOTE: Last Pi4 Option Requires Firmware vl805-000137ab.bin or newer!!! Enabled on PlayBox\n\n"
 infobox="${infobox}**Enable**\n"
 infobox="${infobox}Overclocks the CPU\n"
