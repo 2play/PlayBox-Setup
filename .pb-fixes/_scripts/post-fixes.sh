@@ -142,12 +142,12 @@ echo
 fi
 # Fix NF Lolcat scrambled view...
 cd code
-wget https://github.com/busyloop/lolcat/archive/master.zip
-unzip *master.zip
-rm *master.zip
+sudo wget https://github.com/busyloop/lolcat/archive/master.zip && sudo unzip *master.zip && sudo rm *master.zip
 cd lolcat-master/bin
 sudo gem install lolcat
-cd ../.. && rm -rf lolcat-master
+cd ../.. && sudo rm -rf lolcat-master
+sudo apt install figlet && figlet 2play!
+sudo apt install boxes
 cd $HOME
 # Check IPTV install
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
