@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 17.05.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 25.07.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -141,12 +141,15 @@ echo "All OK!"
 echo 
 fi
 # Fix NF Lolcat scrambled view...
-cd code
-sudo wget https://github.com/busyloop/lolcat/archive/master.zip && sudo unzip *master.zip && sudo rm *master.zip
-cd lolcat-master/bin
-sudo gem install lolcat
-cd ../.. && sudo rm -rf lolcat-master
-sudo apt install figlet && figlet 2play!
+cd ~/code
+if [ -f /usr/local/bin/lolcat ]; then echo "Already installed!";
+else
+sudo wget https://github.com/busyloop/lolcat/archive/master.zip && sudo unzip *master.zip && sudo rm *master.zip;
+cd lolcat-master/bin;
+sudo gem install lolcat;
+cd ../.. && sudo rm -rf lolcat-master;
+fi
+sudo apt install figlet && figlet OK 2Play!
 sudo apt install boxes
 cd $HOME
 # Check IPTV install
