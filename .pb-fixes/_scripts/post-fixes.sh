@@ -1,6 +1,6 @@
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 22.04.2023"
+# Copyright (C)2018-2023 2Play! (S.R.)
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 08.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -140,6 +140,13 @@ else
 echo "All OK!"
 echo 
 fi 
+# Check IPTV install
+if ! [[ `dpkg -l | grep iptvnator` ]]; then
+cd code; wget https://github.com/4gray/iptvnator/releases/download/v0.13.0/iptvnator_0.13.0_armv7l.deb; sudo dpkg -i iptvnator_0.13.0_armv7l.deb; rm iptvnator_0.13.0_armv7l.deb; cd ~;
+else
+echo "All OK!"
+echo 
+fi 
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
 else 
@@ -155,9 +162,9 @@ then
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
 	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	#else
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	fi
 else
 	echo
@@ -165,9 +172,9 @@ else
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
 	then
 	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
-	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	#else
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
 	fi
 fi
 echo
@@ -248,7 +255,7 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 #cd /opt/retropie/configs/intellivision
 #sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 # RetroArch Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
 echo "Already a custom volume been set..."; sleep 1
@@ -365,31 +372,6 @@ echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/
 else
 echo "Already inserted..."; sleep 1
 fi
-# New Monitoring Tools
-#if [ -f /usr/local/bin/glances ]; then echo "Already installed!"; sleep 1
-#else 
-#sudo ln -sfn /home/pi/.local/bin/glances /usr/local/bin/glances
-#fi
-#if [ -f /home/pi/.local/bin/glances ]; then echo "Already installed!"; sleep 1
-#else 
-#pip install glances
-##pip install 'glances[action,browser,cloud,cpuinfo,docker,export,folders,gpu,graph,ip,raid,snmp,web,wifi]'
-#pip uninstall glances
-#fi
-#echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
-#wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
-#if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1;
-#else 
-##cd $HOME/code/
-##git clone --depth 1 https://github.com/aristocratos/bpytop.git
-##cd bpytop
-##sudo make install
-##sudo make uninstall
-##cd ..
-##rm -rf bpytop/
-##pip3 install bpytop --upgrade
-#sudo apt install bpytop
-#fi
 #New Ports Dependencies
 	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
 	return 0

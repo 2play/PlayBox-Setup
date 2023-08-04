@@ -1,6 +1,6 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 01.03.2022
 
 
@@ -40,19 +40,20 @@ function wifi_connect() {
   clear
   dialog --infobox "...Let's find the available WiFi SSID..." 3 45 ; sleep 2
 	clear
-	sudo nmcli dev wifi
-	echo
-	echo ***PLEASE TYPE OR COPY/PASTE THE 'SSID' NAME AS SHOWN IN THE LIST***
-	echo 
-	read -p 'Which WiFi you want to connect to: ' wifiname
-	echo
-	sudo nmcli --ask dev wifi connect $wifiname
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
+	#sudo nmcli dev wifi
+	#echo
+	#echo ***PLEASE TYPE OR COPY/PASTE THE 'SSID' NAME AS SHOWN IN THE LIST***
+	#echo 
+	#read -p 'Which WiFi you want to connect to: ' wifiname
+	#echo
+	#sudo nmcli --ask dev wifi connect $wifiname
+	sudo nmtui connect
+	#echo
+	#read -n 1 -s -r -p "Press any key to continue..."
 	echo
 }
 
-# Reset WiFi COnfiguration
+# Reset WiFi Configuration
 function wifi_reset() {
   clear
   sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null

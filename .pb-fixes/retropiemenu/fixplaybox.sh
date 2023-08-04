@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)+
+# Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.05.2022"
+pb_version="PlayBox ToolKit Version 2.0 Dated 08.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -80,7 +80,7 @@ function fixes_pbt() {
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
-			3 " - Repair PlayBox Background Music Mute File " \
+			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
@@ -91,7 +91,7 @@ function fixes_pbt() {
         case "$choice" in
             1) fix_rpmenu  ;;
             #2) fix_region  ;;
-			3) fix_bgm_py  ;;
+			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
 			5) fix_control  ;;
@@ -129,7 +129,7 @@ function fix_rpmenu() {
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
-	sudo rm -rf /etc/emulationstation/themes/carbon/
+	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
 	#echo "We need to apply REGION script now..."
@@ -414,6 +414,7 @@ function fix_bgm_py() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
 	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
 	clear
 	echo
@@ -425,7 +426,7 @@ function fix_bgm_py() {
 function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
+	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -631,7 +632,7 @@ function apps_pbt() {
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
 		    7 " - MESA & Vulkan Drivers Related Options " \
-		    8 " - [Disabled] PiKISS By Jose Cerrejon " \
+		    8 " - PiKISS By Jose Cerrejon [OFF] " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
 		   11 " - Emulators Custom Compile From Source [OFF] " \
@@ -1479,7 +1480,7 @@ function music_2p() {
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
 			- "" \
-            1 "Great 80's Selection " \
+            1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
             4 "I want to listen to image builder's Custom Tracks ! " \
@@ -1605,7 +1606,7 @@ function skyscraper() {
 function mesa_vk() {
 # For RockChip Midgard SoC - PanFrost MESA
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 26.03.2022
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1618,12 +1619,14 @@ function mesa_vk() {
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Dev. Version " \
-           2 " - Update PlayBox RetroArch Vulkan/GLES Support: Latest [OFF] " \
+           2 " - Update PlayBox RetroArch GLES Support: Latest Stable Source [OFF] " \
+		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) mesa_up  ;;
 		   #2) vulkan_ra  ;;
+		   #3) ra_default  ;;
 		   #3) igalia_dm  ;;
            -) none ;;
             *)  break ;;
@@ -1665,8 +1668,31 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev
-git clone --depth 1 https://github.com/libretro/RetroArch.git retroarch
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
+##Custom FFMPEG
+vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
+	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
+	cd ffmpeg/;
+	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
+	make -j4;
+	sudo make install;
+	cd ~/code/;
+	sudo ldconfig;
+	rm -rf ffmpeg*;
+else
+	echo
+	echo "Ffmpeg Custom requirement OK!"
+	echo
+fi
+echo
+##Latest RA
+git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
+##Retroarch 1.14
+#wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
+#tar -xvf v1.14.0.tar.gz
+cd RetroArch*/
+#
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
@@ -1683,6 +1709,7 @@ if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
 sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
 cd /opt/retropie/emulators/retroarch/bin
+sudo mv retroarch retroarchORIG
 sudo ln -sf retroarchNEW retroarch
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -1700,12 +1727,34 @@ read -n 1 -s -r -p "Press any key to continue..."
 break
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 cd $HOME
 clear
 echo
 echo "[OK DONE!...]"
 sleep 2
+}
+
+function ra_default() {
+clear
+cd /opt/retropie/emulators/retroarch/bin
+rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
+rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
+if [ "$rasymlinkN" = "retroarchNEW" ]; then
+	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
+else
+	if [ "$rasymlinkO" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
+	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
+	fi
+fi
+clear
+echo
+#read -n 1 -s -r -p "Press any key to reboot"
+#echo
+#echo "[OK System Will Restart now...]"
+echo "[OK Swap Complete...]"
+sleep 1
+cd ~
 }
 
 function igalia_dm() {
@@ -1737,7 +1786,7 @@ echo ""
 echo "Directory exists so most probably you compiled before!!!"
 fi
 cd $HOME/code/
-rm -rf retroarch && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm && rm -rf libdrm* && rm -rf SDL2*
+rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 echo ""
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo ""
@@ -1766,7 +1815,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -2717,7 +2766,7 @@ clear
             3) rflag_off  ;;
 			4) argon1_on  ;;
             5) argon1_off  ;;
-            6) argon1_fan  ;;
+			6) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -2820,7 +2869,7 @@ function clean_pbt() {
            4 " - Remove ES Auto-gen Gamelists " \
 		   5 " - Clean & Set 2Play! Top CLi Commands History " \
 		   6 " - Clean Wi-Fi Settings " \
-           7 " - Clean Filesystem Cache " \
+           7 " - Clean Filesystem & Cache " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2830,7 +2879,7 @@ function clean_pbt() {
 		   4) cl_es_gamelist  ;;
 		   5) cl_cli_hist  ;;
            6) cl_wifi  ;;
-           7) cl_cache  ;;
+           7) cl_sysncache  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2937,7 +2986,7 @@ function cl_saves() {
 	clear
 	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi)$" -type f -delete
 	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
-	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
+	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|hi|ldci|dat)$" -type f -delete
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3204,7 +3253,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '12,1000d' .bash_history
+	sed -i '15,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3215,10 +3264,13 @@ function cl_cli_hist() {
 function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf; sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf;
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
 	else
-	sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/OLD.conf; sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-	echo "No WPA_Supplicant conflict found! Wi-Fi reset."
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+	echo "No WPA_Supplicant conflict found! Wi-Fi reset completed."
 	fi
 	clear
 	echo
@@ -3232,10 +3284,10 @@ function cl_wifi() {
 }
 
 
-function cl_cache() {
+function cl_sysncache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	sudo apt clean
+	sudo apt autoremove --purge -y && sudo apt clean
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3398,7 +3450,7 @@ dialog --backtitle "PlayBox Toolkit" \
 function update_distro() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
+	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3410,7 +3462,7 @@ function update_distro() {
 function update_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
+	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3426,6 +3478,8 @@ function fw_pi() {
 
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
+# The PlayBox Project
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 26.03.2022
 	clear
 echo "

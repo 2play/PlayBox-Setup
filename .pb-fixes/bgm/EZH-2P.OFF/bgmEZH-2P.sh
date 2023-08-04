@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Original script By Forrest aka Eazy Hax, based on Livewire Python BGM
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
+# Copyright (C)2018-2023 2Play! (S.R.)
 # 29.03.2022
 
 infobox= ""
