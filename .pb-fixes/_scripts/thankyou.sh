@@ -1,23 +1,23 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-# 25.10.2020
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 08.2023
 
 infobox=""
-infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, Gomer, Aeonis, Traxis, Yelah05, BMP, Randyslim, Strunx, bluestang, Sunrise169, Tisusbr, ChrisKerkides, Grumpa, TechXero, Mrnebu, Edale, haxel66 and of course all supporters!\n\n
+infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, BMP, bluestang, Randyslim, Tisusbr, Yelah05, Traxis, Strunx, ChrisKerkides,  TechXero, Mrnebu, Edale, Gomer, QUIZASERAQ, dbresson, Everblight82, Eliasblizzard, Sunrise169, Aeonis, Grumpa and of course any/all MEGA supporters!\n\n
 
 *** Developers & Scripts ***:\n
-Demetris (Tinker PlayBox), rpc80 (Ryan Connors), EasyHax (aka Forrest), CyperGhost, David Marti (Motion Blue), Meleu, Lars Muldjord (Skyskraper), Bezel Project Team.\n\n
+Rpc80 (Ryan Connors), Rydra, EasyHax (aka Forrest), Demetris Ierokipides aka Ntemis, CyperGhost, Meleu, Lars Muldjord (Skyskraper), David Marti (Motion Blue), Bezel Project Team, Folly, Valerino, Aditya Shakya aka adi1090x, Paul Cercueil aka pcercuei.\n\n
 
 *** OS & FrontEnd ***:\n
-Raspberry Pi Foundation for the nice clean OS.\n
+Armbian Team for the nice clean OS.\n
 Retropie Team (Retropie), Andrew Mickelson (Attract Mode), HyperPie Team (HyperPie), Mátyás Mustoha (Pegasus-FE).\n\n
 
-*** Themes ***:\n
-Chicuelo, Ricky Romero, Rachid Lotf and all devianart\art creators.\n\n
+*** Themes & Art Ideas ***:\n
+Chicuelo & c64-dev, GeekOB, Ricky Romero, TreyM, Mr_RetroLust, Rachid Lotf and all devianart\art creators.\n\n
 
 *** Builders ***:\n
-Rick Dangerous, VirtualMan\n
+Schmoomer, VirtualMan\n
 "
 infobox="${infobox}\n"
 
