@@ -1,13 +1,13 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
-# 10.05.2022
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 08.2023
 
 infobox=""
-infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, Gomer, BMP, bluestang, Randyslim, QUIZASERAQ, Tisusbr, dbresson, Everblight82, Eliasblizzard, Sunrise169, Yelah05, Aeonis, Traxis, Strunx, ChrisKerkides, Grumpa, TechXero, Mrnebu, Edale and of course any/all MEGA supporters!\n\n
+infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, BMP, bluestang, Randyslim, Tisusbr, Yelah05, Traxis, Strunx, ChrisKerkides,  TechXero, Mrnebu, Edale, Gomer, QUIZASERAQ, dbresson, Everblight82, Eliasblizzard, Sunrise169, Aeonis, Grumpa and of course any/all MEGA supporters!\n\n
 
 *** Developers & Scripts ***:\n
-Rpc80 (Ryan Connors), Folly, Rydra, EasyHax (aka Forrest), Demetris Ierokipides aka Ntemis, CyperGhost, David Marti (Motion Blue), Meleu, Lars Muldjord (Skyskraper), Bezel Project Team, Valerino, Aditya Shakya aka adi1090x, Paul Cercueil aka pcercuei.\n\n
+Rpc80 (Ryan Connors), Rydra, EasyHax (aka Forrest), Demetris Ierokipides aka Ntemis, CyperGhost, Meleu, Lars Muldjord (Skyskraper), David Marti (Motion Blue), Bezel Project Team, Folly, Valerino, Aditya Shakya aka adi1090x, Paul Cercueil aka pcercuei.\n\n
 
 *** OS & FrontEnd ***:\n
 Armbian Team & Raspberry Pi Foundation for OS!.\n
@@ -17,7 +17,7 @@ Retropie Team (Retropie), Andrew Mickelson (Attract Mode), HyperPie Team (HyperP
 Chicuelo & c64-dev, GeekOB, Ricky Romero, TreyM, Mr_RetroLust, Rachid Lotf and all devianart\art creators.\n\n
 
 *** Builders ***:\n
-Schmoomer, VirtualMan, Rick Dangerous\n
+Schmoomer, VirtualMan\n
 "
 infobox="${infobox}\n"
 
