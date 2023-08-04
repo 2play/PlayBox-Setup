@@ -404,13 +404,16 @@ fi
 function fix_bgm_py() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	if [ -d $HOME/addonusb ]; then
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
+	sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
 	else
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
 	clear
 	echo
@@ -3777,8 +3780,7 @@ function fwe_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	#sudo apt update && sudo apt upgrade -y
-	sudo apt update -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
@@ -3792,8 +3794,7 @@ function fwup_pi4() {
 	clear
 	echo "Let's make sure you have latest update..."
 	sleep 2
-	#sudo apt update && sudo apt upgrade -y
-	sudo apt update -y
+	sudo apt update && sudo apt upgrade -y
 	sleep 2
 	echo
 	echo
