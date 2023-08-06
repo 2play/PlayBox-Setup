@@ -59,13 +59,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Controllers/joystick_selection.sh</path>
-		<name>✭ Controller Selection Script, Meleu</name>
-		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
-		<image>./icons/controllers2.png</image>
-		<video>./icons/controllers2.mp4</video>
-	</game>
-	<game>
 		<path>./Controllers/LightGunAimtrak.sh</path>
 		<name>LightGun Aimtrak Install, EZH-2P [OFF]</name>
 		<desc>Enabled on Full PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
@@ -87,6 +80,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/xinmo.mp4</video>
 	</game>
 	<game>
+		<path>./Controllers/joystick_selection.sh</path>
+		<name>✭ Controller Selection Script, Meleu</name>
+		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
+		<image>./icons/controllers2.png</image>
+		<video>./icons/controllers2.mp4</video>
+	</game>
+	<game>
 		<path>./Controllers/resetcontrollers.sh</path>
 		<name>✭ Reset All Controllers, 2P!</name>
 		<desc>It will reset all ES cotroller configurations and remove any previous controller profiles. This will give you a clean controllers setup!</desc>
@@ -100,13 +100,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<image>./icons/emulators.png</image>
 		<video>./icons/emulators.mp4</video>
 	</folder>
-	<game>
+	<folder>
 		<path>./Emulation/Amiga</path>
 		<name>: Amiga Tools</name>
 		<desc>This folder contains Amiga emulator related scripts.</desc>
 		<image>./icons/amiga.png</image>
 		<video>./icons/amiga.mp4</video>
-	</game>
+	</folder>
 	<game>
 		<path>./Emulation/Amiga/UAE Config Maker.sh</path>
 		<name>UAE Config Maker, HS</name>
@@ -120,13 +120,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Change common RetroArch options, and manually edit RetroArch configs, global configs, and non-RetroArch configs.</desc>
 		<image>./icons/configedit.png</image>
 		<video>./icons/configedit.mp4</video>
-	</game>
-	<game>
-		<path>./Emulation/am-latest.sh</path>
-		<name>✭ Install or Update Attract Mode</name>
-		<desc>It will install or update your Attract Mode. Any needed extras etc.</desc>
-		<image>./icons/attract.png</image>
-		<video>./icons/attract.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/filefind.sh</path>
@@ -148,6 +141,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Launches the RetroArch GUI so you can change RetroArch options. Note: Changes will not be saved unless you have enabled the "Save Configuration On Exit" option.</desc>
 		<image>./icons/retroarch.png</image>
 		<video>./icons/retroarch.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/am-latest.sh</path>
+		<name>✭ Install or Update Attract Mode</name>
+		<desc>It will install or update your Attract Mode. Any needed extras etc.</desc>
+		<image>./icons/attract.png</image>
+		<video>./icons/attract.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/retronetplay.rp</path>
@@ -176,6 +176,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Displays your current IP address, as well as other information provided by the command, "ip addr show."</desc>
 		<image>./icons/showip.png</image>
 		<video>./icons/showip.mp4</video>
+	</game>
+	<game>
+		<path>./Network/wifi.rp.OFF</path>
+		<name>WiFi RPie Manager [Disabled]</name>
+		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
+		<image>./icons/wifi.png</image>
+		<video>./icons/wifi.mp4</video>
 	</game>
 	<game>
 		<path>./Network/wifi-nm.sh</path>
