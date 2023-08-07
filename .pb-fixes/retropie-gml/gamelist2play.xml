@@ -242,13 +242,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/oc.mp4</video>
 	</game>
 	<game>
-		<path>./System/ratio.sh</path>
-		<name>✭ Screen Ratio Script, 2P!</name>
-		<desc>Due to many requests this script will apply a different screen ratio/resolution when you start your Raspberry Pi. You can choose your screen ratio or resolution from the detailed menu. HDMI or SDTV.</desc>
-		<image>./icons/ratio.png</image>
-		<video>./icons/ratio.mp4</video>
-	</game>
-	<game>
 		<path>./System/runcommand.rp</path>
 		<name>RunCommand Settings</name>
 		<desc>Change what appears on the runcommand screen. Enable or disable the menu, enable or disable box art and change CPU configuration.</desc>
