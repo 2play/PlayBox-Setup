@@ -130,6 +130,8 @@ function fix_rpmenu() {
 	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
 	rm -f $HOME/RetroPie/retropiemenu/Visuals/splashscreen.rp
+	rm -f $HOME/RetroPie/retropiemenu/System/audiosettings.rp
+	rm -f $HOME/RetroPie/retropiemenu/Network/wifi.rp
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
