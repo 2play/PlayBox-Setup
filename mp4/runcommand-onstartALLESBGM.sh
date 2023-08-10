@@ -1,7 +1,5 @@
-touch ~/.musicpaused.flag
-ifexist=`ls /home/pi/PlayBox-Setup/mp4/$1.mp4 |wc -l`
-if [[ $ifexist > 0 ]];then
-loader --blank /home/pi/lmp4/$1.mp4
+ifexist=`ls ~/lmp4/$1.mp4 |wc -l`
+if [[ $ifexist > 0 ]];then mpv ~/lmp4/$1.mp4 >/dev/null 2>&1; touch ~/.musicpaused.flag;
 else
-loader --blank /home/pi/PlayBox-Setup/getready2play.mp4
+mpv ~/PlayBox-Setup/getready2play.mp4 >/dev/null 2>&1;
 fi

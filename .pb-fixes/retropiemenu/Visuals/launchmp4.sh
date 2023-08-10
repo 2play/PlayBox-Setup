@@ -32,13 +32,13 @@ function main_menu() {
             - "*** VIDEO LAUNCHING SCREEN SELECTIONS ***" \
             1 " - Enable 2lay! Mp4 Launching Screen" \
             2 " - Disable Mp4 Launching Screen(s)" \
-            3 " - Per System Mp4 Launching Screens or..." \
+            3 " - Per System Mp4 Launching Screens or... [OFF]" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) enable_mp4  ;;
             2) disable_mp4  ;;
-            3) enable_systems_mp4  ;;
+            #3) enable_systems_mp4  ;;
             -) none  ;;
             *)  break ;;
         esac
@@ -54,9 +54,6 @@ function enable_mp4() {
 	else
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstart2P.sh /opt/retropie/configs/all/runcommand-onstart.sh
 	fi
-	if [ ! -f "/usr/bin/loader" ]; then
-	sudo cp /usr/bin/omxplayer /usr/bin/loader
-	fi
 }
 
 function disable_mp4() {
@@ -65,8 +62,11 @@ function disable_mp4() {
 	if [ -f "/home/pi/.local/bin/esbgm" ]; then
 	rm /opt/retropie/configs/all/runcommand-onstart.sh;
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onendESBGM.sh /opt/retropie/configs/all/runcommand-onend.sh
+	rm /opt/retropie/configs/all/*.orig
 	else
 	rm /opt/retropie/configs/all/runcommand-onstart.sh
+	rm /opt/retropie/configs/all/runcommand-onend.sh
 	fi
 }
 

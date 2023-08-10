@@ -1,1 +1,1 @@
-loader --blank /home/pi/PlayBox-Setup/getready2play.mp4
+mpv /home/pi/PlayBox-Setup/getready2play.mp4 >/dev/null 2>&1;
