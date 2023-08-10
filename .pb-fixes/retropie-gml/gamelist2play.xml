@@ -178,7 +178,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/showip.mp4</video>
 	</game>
 	<game>
-		<path>./Network/wifi.rp.OFF</path>
+		<path>./Network/wifi.rp</path>
 		<name>WiFi RPie Manager [Disabled]</name>
 		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
 		<image>./icons/wifi.png</image>
@@ -305,7 +305,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/overscan.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals/splashscreen.rp.OFF</path>
+		<path>./Visuals/splashscreen.rp</path>
 		<name>Splash Screens [ONLY For Pi]</name>
 		<desc>Enable or disable the RetroPie splashscreen during boot. Choose a splashscreen, download new splashscreens or return splashscreen to default.</desc>
 		<image>./icons/splashscreen.png</image>
