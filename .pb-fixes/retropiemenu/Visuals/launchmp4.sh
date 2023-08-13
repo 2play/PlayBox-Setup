@@ -54,9 +54,6 @@ function enable_mp4() {
 	else
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstart2P.sh /opt/retropie/configs/all/runcommand-onstart.sh
 	fi
-	if [ ! -f "/usr/bin/loader" ]; then
-	sudo cp /usr/bin/omxplayer /usr/bin/loader
-	fi
 }
 
 function disable_mp4() {
@@ -65,8 +62,11 @@ function disable_mp4() {
 	if [ -f "/home/pi/.local/bin/esbgm" ]; then
 	rm /opt/retropie/configs/all/runcommand-onstart.sh;
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onendESBGM.sh /opt/retropie/configs/all/runcommand-onend.sh
+	rm /opt/retropie/configs/all/*.orig
 	else
 	rm /opt/retropie/configs/all/runcommand-onstart.sh
+	rm /opt/retropie/configs/all/runcommand-onend.sh
 	fi
 }
 
@@ -77,6 +77,7 @@ function enable_systems_mp4() {
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartALLESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
 	else
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartALL.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	fi
 }
 
 main_menu

@@ -59,16 +59,9 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/sinden.mp4</video>
 	</game>
 	<game>
-		<path>./Controllers/joystick_selection.sh</path>
-		<name>✭ Controller Selection Script, Meleu</name>
-		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
-		<image>./icons/controllers2.png</image>
-		<video>./icons/controllers2.mp4</video>
-	</game>
-	<game>
 		<path>./Controllers/LightGunAimtrak.sh</path>
-		<name>LightGun Aimtrak Install, EZH-2P</name>
-		<desc>Enabled on PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame v3.9. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
+		<name>LightGun Aimtrak Install, EZH-2P [OFF]</name>
+		<desc>Enabled on Full PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
 		<image>./icons/aimtrak.png</image>
 		<video>./icons/aimtrak.mp4</video>
 	</game>
@@ -87,6 +80,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/xinmo.mp4</video>
 	</game>
 	<game>
+		<path>./Controllers/joystick_selection.sh</path>
+		<name>✭ Controller Selection Script, Meleu</name>
+		<desc>Lets the user define which controller to use for RetroArch players 1-4, global and system specific. The joystick selection has two methods of work: 1) selection by joystick index and 2) by joystick name.</desc>
+		<image>./icons/controllers2.png</image>
+		<video>./icons/controllers2.mp4</video>
+	</game>
+	<game>
 		<path>./Controllers/resetcontrollers.sh</path>
 		<name>✭ Reset All Controllers, 2P!</name>
 		<desc>It will reset all ES cotroller configurations and remove any previous controller profiles. This will give you a clean controllers setup!</desc>
@@ -100,13 +100,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<image>./icons/emulators.png</image>
 		<video>./icons/emulators.mp4</video>
 	</folder>
-	<game>
+	<folder>
 		<path>./Emulation/Amiga</path>
 		<name>: Amiga Tools</name>
 		<desc>This folder contains Amiga emulator related scripts.</desc>
 		<image>./icons/amiga.png</image>
 		<video>./icons/amiga.mp4</video>
-	</game>
+	</folder>
 	<game>
 		<path>./Emulation/Amiga/UAE Config Maker.sh</path>
 		<name>UAE Config Maker, HS</name>
@@ -120,13 +120,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Change common RetroArch options, and manually edit RetroArch configs, global configs, and non-RetroArch configs.</desc>
 		<image>./icons/configedit.png</image>
 		<video>./icons/configedit.mp4</video>
-	</game>
-	<game>
-		<path>./Emulation/am-latest.sh</path>
-		<name>✭ Install or Update AM on Pi3/4</name>
-		<desc>It will install or update your Attract Mode on Pi3 or Pi4. Any needed extras SFML-Pi & FFMPEG with mmal HW Video Encoding Support. To Enable mmal you need also to set it in the attract.cfg in the general section 'video_decoder   mmal'. Can be done also while in AM by pressing TAB.</desc>
-		<image>./icons/attract.png</image>
-		<video>./icons/attract.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/filefind.sh</path>
@@ -148,6 +141,13 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Launches the RetroArch GUI so you can change RetroArch options. Note: Changes will not be saved unless you have enabled the "Save Configuration On Exit" option.</desc>
 		<image>./icons/retroarch.png</image>
 		<video>./icons/retroarch.mp4</video>
+	</game>
+	<game>
+		<path>./Emulation/am-latest.sh</path>
+		<name>✭ Install or Update AM on Pi3/4</name>
+		<desc>It will install or update your Attract Mode on Pi3 or Pi4. Any needed extras SFML-Pi & FFMPEG with mmal HW Video Encoding Support. To Enable mmal you need also to set it in the attract.cfg in the general section 'video_decoder   mmal'. Can be done also while in AM by pressing TAB.</desc>
+		<image>./icons/attract.png</image>
+		<video>./icons/attract.mp4</video>
 	</game>
 	<game>
 		<path>./Emulation/retronetplay.rp</path>
@@ -184,19 +184,19 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<image>./icons/showip.png</image>
 		<video>./icons/showip.mp4</video>
 	</game>
-		<game>
-		<path>./Network/wifi-nm.sh</path>
-		<name>WiFi New Network Manager</name>
-		<desc>Connect to a wifi network. You can also connect from the desktop GUI. Start PlayBox desktop and connect to your WiFi.</desc>
-		<image>./icons/network-mgr.png</image>
-		<video>./icons/network-mgr.mp4</video>
-	</game>
 	<game>
 		<path>./Network/wifi.rp.OFF</path>
 		<name>WiFi RPie Manager [Disabled]</name>
 		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
 		<image>./icons/wifi.png</image>
 		<video>./icons/wifi.mp4</video>
+	</game>
+	<game>
+		<path>./Network/wifi-nm.sh</path>
+		<name>WiFi New Network Manager</name>
+		<desc>Connect to a wifi network. You can also connect from the desktop GUI. Start PlayBox desktop and connect to your WiFi.</desc>
+		<image>./icons/network-mgr.png</image>
+		<video>./icons/network-mgr.mp4</video>
 	</game>
 	<folder>
 		<path>./System</path>
@@ -255,20 +255,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/oc.mp4</video>
 	</game>
 	<game>
-		<path>./System/ratio.sh</path>
-		<name>✭ Screen Ratio Script, 2P!</name>
-		<desc>Due to many requests this script will apply a different screen ratio/resolution when you start your Raspberry Pi. You can choose your screen ratio or resolution from the detailed menu. HDMI or SDTV.</desc>
-		<image>./icons/ratio.png</image>
-		<video>./icons/ratio.mp4</video>
-	</game>
-	<game>
-		<path>./System/Raspbian Desktop.sh</path>
-		<name>✭ Raspberry Pi OS Desktop</name>
-		<desc>You can start the Raspberry Pi OS Desktop!</desc>
-		<image>./icons/raspiconfig.png</image>
-		<video>./icons/raspiconfig.mp4</video>
-	</game>
-	<game>
 		<path>./System/reference.sh</path>
 		<name>Reference Utility Menu, DM</name>
 		<desc>Find out common information about Retropie, Emulation Station, Attract Mode, RetroArch and ROM information.</desc>
@@ -281,13 +267,6 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<desc>Change what appears on the runcommand screen. Enable or disable the menu, enable or disable box art and change CPU configuration.</desc>
 		<image>./icons/runcommand.png</image>
 		<video>./icons/runcommand.mp4</video>
-	</game>
-	<game>
-		<path>./System/update.sh</path>
-		<name>✭ Update & Upgrade OS, 2P!</name>
-		<desc>You can update and upgrade your OS in one click!</desc>
-		<image>./icons/update.png</image>
-		<video>./icons/update.mp4</video>
 	</game>
 	<folder>
 		<path>./Visuals</path>
@@ -311,60 +290,11 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/bezelproject.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals/bezels.sh</path>
-		<name>Bezel Custom Sets, DM-2P!</name>
-		<desc>You can enable or disable custom folder bezels such as Motion Blue #2 set or future sets by 2Play!.</desc>
-		<image>./icons/bezels.png</image>
-		<video>./icons/bezels.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/launchmp4.sh</path>
-		<name>Launching MP4 Screen, 2P!</name>
-		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the /home/pi/lmp4/ folder and match PlayBox system names. Create a folder named lmp4 and copy your per system launching videos in there.</desc>
-		<image>./icons/videosettings.png</image>
-		<video>./icons/videosettings.mp4</video>
-	</game>
-	<game>
 		<path>./Visuals/esthemes.rp</path>
 		<name>ES Themes</name>
 		<desc>Install, uninstall, or update EmulationStation themes. Officialy supported themes can be previewed at https://github.com/retropie/RetroPie-Setup/wiki/themes.</desc>
 		<image>./icons/esthemes.png</image>
 		<video>./icons/esthemes.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/OverscanOn-Off.sh</path>
-		<name>OverScan On/Off, EZH-2P!</name>
-		<desc>This script will let quickly enable or disable the overscan setting.</desc>
-		<image>./icons/overscan.png</image>
-		<video>./icons/overscan.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/removemedia.sh</path>
-		<name>Media Removal Util, DM-2P!</name>
-		<desc>This utility will remove extra media files (mixart, boxart, cartart, snap and wheel) for a chosen system when there is not a matching game/rom for it. Mixart tweak added.</desc>
-		<image>./icons/cleanup.png</image>
-		<video>./icons/cleanup.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/skyscraper.sh</path>
-		<name>✭ Skyscraper 2P!</name>
-		<desc>A powerful and versatile yet easy to use game scraper. Supports EmulationStation & Attract Mode, 61+ systems. Written by Lars Muldjord. Script by 2Play! to install or update the Skyscraper to latest release. To run actual Skyscraper use PlayBox Toolkit from cli.</desc>
-		<image>./icons/skyscraper.png</image>
-		<video>./icons/skyscraper.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/racfg-tool.sh</path>
-		<name>✭ RetroArch Options Tool, 2P!</name>
-		<desc>This tool/script will automate few option in the retroarch.cff files in the configs folders. It wont change the default cfg file in configs/all folder. I prefer NOT to touch this file and keep it clean. Any changes applied ONLY to each system. Options are the smooth filter, shaders, overlay/bezel. Apply to all, only 16-bit systems or arcades.</desc>
-		<image>./icons/retroarcht.png</image>
-		<video>./icons/retroarcht.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals/splashscreen.rp</path>
-		<name>Splash Screens</name>
-		<desc>Enable or disable the RetroPie splashscreen during boot. Choose a splashscreen, download new splashscreens or return splashscreen to default.</desc>
-		<image>./icons/splashscreen.png</image>
-		<video>./icons/splashscreen.mp4</video>
 	</game>
 	<game>
 		<path>./Visuals/hurstythemes.sh</path>
@@ -374,8 +304,43 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/hurstythemes.mp4</video>
 	</game>
 	<game>
+		<path>./Visuals/launchmp4.sh</path>
+		<name>Launching MP4 Screen, 2P!</name>
+		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the /home/pi/lmp4/ folder and match PlayBox system names. Create a folder named lmp4 and copy your per system launching videos in there.</desc>
+		<image>./icons/videosettings.png</image>
+		<video>./icons/videosettings.mp4</video>
+	</game>
+	<game>
+		<path>./Visuals/removemedia.sh</path>
+		<name>Media Removal Util, DM-2P!</name>
+		<desc>This utility will remove extra media files (mixart, boxart, cartart, snap and wheel) for a chosen system when there is not a matching game/rom for it. Mixart tweak added.</desc>
+		<image>./icons/cleanup.png</image>
+		<video>./icons/cleanup.mp4</video>
+	</game>
+	<game>
+		<path>./Visuals/OverscanOn-Off.sh</path>
+		<name>OverScan On/Off, EZH-2P!</name>
+		<desc>This script will let quickly enable or disable the overscan setting.</desc>
+		<image>./icons/overscan.png</image>
+		<video>./icons/overscan.mp4</video>
+	</game>
+	<game>
+		<path>./Visuals/splashscreen.rp</path>
+		<name>Splash Screens</name>
+		<desc>Enable or disable the RetroPie splashscreen during boot. Choose a splashscreen, download new splashscreens or return splashscreen to default.</desc>
+		<image>./icons/splashscreen.png</image>
+		<video>./icons/splashscreen.mp4</video>
+	</game>
+	<game>
+		<path>./Visuals/skyscraper.sh</path>
+		<name>✭ Skyscraper 2P!</name>
+		<desc>A powerful and versatile yet easy to use game scraper. Supports EmulationStation & Attract Mode, 61+ systems. Written by Lars Muldjord. Script by 2Play! to install or update the Skyscraper to latest release. To run actual Skyscraper use PlayBox Toolkit from cli.</desc>
+		<image>./icons/skyscraper.png</image>
+		<video>./icons/skyscraper.mp4</video>
+	</game>
+	<game>
 		<path>./bgm-mute.sh</path>
-		<name>Music [BGM] On/Off, Rydra-2P</name>
+		<name>Music [BGM] On/Off, Rydra-2P!</name>
 		<desc>Mute or unmute the background music.</desc>
 		<image>./icons/musicoff.png</image>
 		<video>./icons/musicoff.mp4</video>
