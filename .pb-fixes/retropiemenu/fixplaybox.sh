@@ -1610,7 +1610,7 @@ function mesa_vk() {
 # For RockChip Midgard SoC - PanFrost MESA
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-# 26.03.2022
+# 08.2023
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
 	
@@ -1647,7 +1647,7 @@ sudo apt update -y && sudo apt upgrade -y
 echo ""
 echo "STEP 2. Installing Repository & Integrate to OS... "
 echo ""
-sudo add-apt-repository ppa:oibaf/graphics-drivers && sudo apt update -y && sudo apt upgrade -y
+sudo add-apt-repository ppa:kisak/kisak-mesa && sudo apt update -y && sudo apt upgrade -y
 echo ""
 echo "[OK DONE!...]"
 sleep 1
@@ -1700,13 +1700,14 @@ sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-cd retroarch
 #By BT (No Neon)
 #./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure  --disable-caca --disable-jack --disable-opengl1 --disable-oss --disable-sdl --disable-sdl2 --disable-videocore --enable-vulkan --enable-wayland --enable-x11 --enable-alsa --enable-egl --enable-floathard --enable-kms --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2 --disable-pulse --enable-udev
-##2P BT With Neon GLES3
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
+##With Pulse & jack
+#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
+##2P BT With GLES3
+CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 make -j4
 if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
@@ -1720,8 +1721,8 @@ sudo ln -sf retroarchNEW retroarch
 #sed -i 's|^core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 #sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 else
 echo
 echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
@@ -3256,7 +3257,7 @@ function cl_cli_hist() {
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
-	sed -i '15,1000d' .bash_history
+	sed -i '14,1000d' .bash_history
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -3383,7 +3384,6 @@ function hide_uboot() {
 	sudo reboot
 }
 
-
 function partitions() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
@@ -3471,7 +3471,7 @@ function update_distro() {
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
-	echo "[OK] Rebooting Your SoC Board ... "
+	echo "[OK] Rebooting... "
 	sudo reboot
 }
 
@@ -3483,7 +3483,7 @@ function update_os() {
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
-	echo "[OK] Rebooting Your SoC Board ... "
+	echo "[OK] Rebooting... "
 	sudo reboot
 }
 
