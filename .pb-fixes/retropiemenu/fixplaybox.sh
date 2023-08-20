@@ -516,7 +516,7 @@ function fix_control() {
 
 function git_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	cd RetroPie-Setup && git reset --hard && git clean -f -d
+	cd RetroPie-Setup && git reset --hard && git clean -f -d && git pull
 	clear
 	echo
 	echo "[OK DONE!...]"
