@@ -1621,16 +1621,16 @@ function mesa_vk() {
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
-           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Dev. Version " \
-           2 " - Update PlayBox RetroArch GLES Support: Latest Stable Source [OFF] " \
-		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES [OFF] " \
+           1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
+           2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
+		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            1) mesa_up  ;;
-		   #2) vulkan_ra  ;;
-		   #3) ra_default  ;;
-		   #3) igalia_dm  ;;
+		   2) vulkan_ra  ;;
+		   3) ra_default  ;;
+		   #4) igalia_dm  ;;
            -) none ;;
             *)  break ;;
         esac
@@ -3314,7 +3314,7 @@ function sys_pbt() {
 			- "	" \
 		   1 " - Filesystem Check is Automated " \
            2 " - Expand Armbian OS Partition " \
-           3 " - Fix/Hide Firmware Boot Screen After OS Upgrade " \
+		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade " \
            4 " - Show Partitions & Space Info " \
 		   5 " - Show Folders Size [home/pi] " \
            6 " - Show System Free Memory Info " \
@@ -3329,7 +3329,7 @@ function sys_pbt() {
         case "$choice" in
            #1) fschk_bt  ;;
            2) expand_os  ;;
-           3) hide_uboot  ;;
+		   3) hide_uboot  ;;
            4) partitions  ;;
 		   5) fold_sz  ;;
            6) freemem  ;;
