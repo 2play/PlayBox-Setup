@@ -1,8 +1,8 @@
 #!/bin/bash
 # Mp4 Launching Screens.
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
-# 26.03.2022
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 08.2023
 
 infobox=""
 infobox="${infobox}\n"
@@ -32,13 +32,13 @@ function main_menu() {
             - "*** VIDEO LAUNCHING SCREEN SELECTIONS ***" \
             1 " - Enable 2lay! Mp4 Launching Screen" \
             2 " - Disable Mp4 Launching Screen(s)" \
-            3 " - Per System Mp4 Launching Screens or..." \
+            3 " - Per System Mp4 Launching Screens or... [OFF]" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) enable_mp4  ;;
             2) disable_mp4  ;;
-            3) enable_systems_mp4  ;;
+            #3) enable_systems_mp4  ;;
             -) none  ;;
             *)  break ;;
         esac
@@ -48,20 +48,36 @@ function main_menu() {
 
 function enable_mp4() {
 	dialog --infobox "...Checking and Applying..." 3 31 ; sleep 2
-	cp /opt/retropie/configs/all/runcommand-onstart.sh /opt/retropie/configs/all/runcommand-onstart.sh.BGM
+	#Check If ESBGM them apply correct files
+	if [ -f "/home/pi/.local/bin/esbgm" ]; then
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstart2PESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	else
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstart2P.sh /opt/retropie/configs/all/runcommand-onstart.sh
-	#sudo cp /usr/bin/omxplayer /usr/bin/loader
+	fi
 }
 
 function disable_mp4() {
 	dialog --infobox "...Checking and Applying..." 3 31 ; sleep 2
+	#Check If ESBGM them apply correct files
+	if [ -f "/home/pi/.local/bin/esbgm" ]; then
+	rm /opt/retropie/configs/all/runcommand-onstart.sh;
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onendESBGM.sh /opt/retropie/configs/all/runcommand-onend.sh
+	rm /opt/retropie/configs/all/*.orig
+	else
 	rm /opt/retropie/configs/all/runcommand-onstart.sh
-	mv /opt/retropie/configs/all/runcommand-onstart.sh.BGM /opt/retropie/configs/all/runcommand-onstart.sh
+	rm /opt/retropie/configs/all/runcommand-onend.sh
+	fi
 }
 
 function enable_systems_mp4() {
 	dialog --infobox "...Checking if Systems mp4 exist..." 3 41 ; sleep 2
+	#Check If ESBGM them apply correct files
+	if [ -f "/home/pi/.local/bin/esbgm" ]; then
+	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartALLESBGM.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	else
 	cp /home/pi/PlayBox-Setup/mp4/runcommand-onstartALL.sh /opt/retropie/configs/all/runcommand-onstart.sh
+	fi
 }
 
 main_menu

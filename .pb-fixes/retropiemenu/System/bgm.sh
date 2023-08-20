@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
-# Copyright (C)2018-2022 2Play! (S.R.)
-# 31.03.2022
+# Copyright (C)2018-2023 2Play! (S.R.)
+# 08.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -48,7 +48,7 @@ function remove_bgm() {
 	echo
 	echo "STEP: Removing BGM..."
 	sleep 3
-	mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
+	#mv ~/RetroPie/roms/music ~/RetroPie/roms/music.OFF
 	curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/main/scripts/install-esbgm.py > install-esbgm.py
 python3 install-esbgm.py --uninstall
 	sleep 2
@@ -184,19 +184,19 @@ function install_bgm() {
 		echo "STEP 2: Checking Requirements..."
 		sleep 2
         PKG=pygame
-        PKG_OK=$(pip list | grep $PKG)
+        PKG_OK=$(pip3 list | grep $PKG)
         if [ "" == "$PKG_OK" ]; then
             echo -e "\n\n\n     No $PKG installed. Setting up $PKG.\n\n\n"
             sleep 2
-            sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
+            sudo apt update && sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy && pip3 install pygame==2.5.0
 			else
 			echo -e "\n\n\n         $PKG seems to be installed...\n\nLet's install BGM!"
 			sleep 2
         fi
-		curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/main/scripts/install-esbgm.py | python3 -
-		sleep 2
-        cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
-        echo
+		curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/playboxv2/scripts/install-esbgm.py | python3 -
+		sed -i 's|~/RetroPie/music|~/RetroPie/roms/music|g' /home/pi/.local/lib/python3.7/site-packages/bgm/config_default.yaml
+		sudo ln -sfn /home/pi/.local/bin/esbgm /usr/local/bin/esbgm
+		echo
 		echo "STEP 3: Checking if an external USB Drive Roms exists..."
 		sleep 2
 		if [ -d ~/RetroPie/localroms ]; then
@@ -216,14 +216,14 @@ function install_bgm() {
 			sleep 2
 			cd $HOME
 			sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
-			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF /home/pi/RetroPie/roms/music
+			if [ -d ~/RetroPie/roms/music.OFF ]; then mv ~/RetroPie/roms/music.OFF ~/RetroPie/roms/music
 			elif [ ! -d ~/RetroPie/roms/music ]; then mkdir ~/RetroPie/roms/music
 			fi
 		fi
 		echo
 		echo "After reboot, you can use from PlayBox Toolkit to set a music choice or"
 		sleep 3
-		echo "Copy your music files in the /roms/music folder"
+		echo "Select from PlayBox Toolkit a Music option or copy your music files in the /roms/music folder"
 		sleep 3
 		echo "[OK] Rebooting... "
 		sudo reboot

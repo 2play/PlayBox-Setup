@@ -3314,29 +3314,31 @@ function sys_pbt() {
 			- "	" \
 		   1 " - Filesystem Check is Automated " \
            2 " - Expand Armbian OS Partition " \
-           3 " - Show Partitions & Space Info " \
-		   4 " - Show Folders Size [home/pi] " \
-           5 " - Show System Free Memory Info " \
-           6 " - Show OS Version & Info " \
-           7 " - System & FW Update Options " \
-           8 " - System Full Info " \
-		   9 " - Monitor In Real Time Board Temperature " \
-		  10 " - Show CPU Cores Status " \
-		  11 " - Ratio Video Tool Options [OFF] " \
+		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade " \
+           4 " - Show Partitions & Space Info " \
+		   5 " - Show Folders Size [home/pi] " \
+           6 " - Show System Free Memory Info " \
+           7 " - Show OS Version & Info " \
+           8 " - System & FW Update Options " \
+           9 " - System Full Info " \
+		  10 " - Monitor In Real Time Board Temperature " \
+		  11 " - Show CPU Cores Status " \
+		  12 " - Ratio Video Tool Options [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            #1) fschk_bt  ;;
            2) expand_os  ;;
-           3) partitions  ;;
-		   4) fold_sz  ;;
-           5) freemem  ;;
-           6) os_info  ;;
-           7) os_update  ;;
-           8) sysinfo  ;;
-		   9) temp_rt  ;;
-		  10) cores_status  ;;
-		  #11) ratio_vt  ;;
+		   3) hide_uboot  ;;
+           4) partitions  ;;
+		   5) fold_sz  ;;
+           6) freemem  ;;
+           7) os_info  ;;
+           8) os_update  ;;
+           9) sysinfo  ;;
+		  10) temp_rt  ;;
+		  11) cores_status  ;;
+		  #12) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3373,7 +3375,7 @@ function expand_os() {
 function hide_uboot() {
 	dialog --infobox "...Fixing..." 3 20 ; sleep 1
 	clear
-	sudo dpkg -i code/linux-u-boot-rockpro64-current_23.08.0-trunk_arm64__2023.01-S62e2-Pcd27-He8c0-V2d4f-B9963-R448a.deb
+	sudo dpkg -i code/linux-u-boot-rockpro64-current_23.08.0-trunk_arm64__xxx.deb
 	echo
 	echo "We need to restart system now..."
 	echo
