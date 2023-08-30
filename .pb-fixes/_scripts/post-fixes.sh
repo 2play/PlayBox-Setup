@@ -144,7 +144,7 @@ fi
 if ! [[ `dpkg -l | grep armbian-config` ]]; then
 sudo apt install armbian-config -y;
 else
-echo "All OK!"
+echo "Armbian-config OK!"
 echo 
 fi 
 # Check IPTV install
@@ -155,7 +155,7 @@ echo "IPTV OK!"
 echo 
 fi 
 # Install Latest Youtube-dl/yt-dlp
-if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
+if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
 else 
 sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
 sudo chmod 755 /usr/bin/yt-dlp
