@@ -140,6 +140,13 @@ else
 echo "All OK!"
 echo 
 fi 
+# Check armbian-config install
+if ! [[ `dpkg -l | grep armbian-config` ]]; then
+sudo apt install armbian-config -y;
+else
+echo "All OK!"
+echo 
+fi 
 # Check IPTV install
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
 cd code; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
