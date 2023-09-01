@@ -2,7 +2,7 @@
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-# 08.2022
+# 09.2022
 
 infobox= ""
 infobox="${infobox}\n"
@@ -95,72 +95,72 @@ function vol_menu() {
 }
 
 function 100_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 1.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 1.0/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 90_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.90/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.90/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 80_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.80/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.80/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 70_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 70.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 70.0/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 60_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 60.0/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 60.0/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 50_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.50/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.50/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 40_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.40/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.40/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 30_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.30/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.30/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 20_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.20/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.20/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
 function 10_v() {
-        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py|awk '{print $3}'`
+        CUR_VAL=`grep "maxvolume =" /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py|awk '{print $3}'`
         export CUR_VAL
-        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.10/g' /home/pi/.local/lib/python3.8/site-packages/bgm/music_player.py
+        perl -p -i -e 's/maxvolume = $ENV{CUR_VAL}/maxvolume = 0.10/g' /home/pi/.local/lib/python3*/site-packages/bgm/music_player.py
         pgrep -f "esbgm"|xargs sudo kill -9
         exec esbgm > /dev/null 2>&1 &
 }
@@ -194,7 +194,7 @@ function install_bgm() {
 			sleep 2
         fi
 		curl -sSL https://raw.githubusercontent.com/2play/bgm-for-es/playboxv2/scripts/install-esbgm.py | python3 -
-		sed -i 's|~/RetroPie/music|~/RetroPie/roms/music|g' /home/pi/.local/lib/python3.7/site-packages/bgm/config_default.yaml
+		sed -i 's|~/RetroPie/music|~/RetroPie/roms/music|g' /home/pi/.local/lib/python3*/site-packages/bgm/config_default.yaml
 		sudo ln -sfn /home/pi/.local/bin/esbgm /usr/local/bin/esbgm
 		echo
 		echo "STEP 3: Checking if an external USB Drive Roms exists..."
