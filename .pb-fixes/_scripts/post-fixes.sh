@@ -341,6 +341,7 @@ clear
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
+rm *.sh
 cd ~
 # Pico8 & DuckStation Standalone & Core
 sudo chown pi:pi -R /opt/retropie/emulators/pico8/
