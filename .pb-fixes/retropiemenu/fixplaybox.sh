@@ -1623,7 +1623,7 @@ function mesa_vk() {
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
            2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
-           3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
+		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
