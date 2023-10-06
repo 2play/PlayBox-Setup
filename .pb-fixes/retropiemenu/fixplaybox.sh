@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 21.05.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 10.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1954,10 +1954,12 @@ clear
 cd /opt/retropie/emulators/retroarch/bin
 rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
 rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
-if [ "$rasymlinkN" = "retroarchNEW" ]; then
+rasymlinkN2=$(ls -la retroarch | grep "retroarchNEW" | cut -f12 -d' ')
+rasymlinkO2=$(ls -la retroarch | grep "retroarchORIG" | cut -f12 -d' ')
+if [ "$rasymlinkN" = "retroarchNEW" ] || [ "$rasymlinkN2" = "retroarchNEW" ]; then
 	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
 else
-	if [ "$rasymlinkO" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
+	if [ "$rasymlinkO" = "retroarchORIG" ] || [ "$rasymlinkO2" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
 	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
 	fi
 fi
