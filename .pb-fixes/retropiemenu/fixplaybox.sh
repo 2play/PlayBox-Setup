@@ -1623,7 +1623,7 @@ function mesa_vk() {
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
            2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
-           3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
+		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1742,6 +1742,8 @@ sleep 2
 function ra_default() {
 clear
 cd /opt/retropie/emulators/retroarch/bin
+rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
+rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
 rasymlinkN2=$(ls -la retroarch | grep "retroarchNEW" | cut -f12 -d' ')
 rasymlinkO2=$(ls -la retroarch | grep "retroarchORIG" | cut -f12 -d' ')
 if [ "$rasymlinkN" = "retroarchNEW" ] || [ "$rasymlinkN2" = "retroarchNEW" ]; then
