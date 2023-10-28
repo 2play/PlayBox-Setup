@@ -15,6 +15,7 @@ cd /.
 sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
+rm -rf ~/PBv2-PostFixes/
 sleep 2
 #Overlay Fixes
 echo
