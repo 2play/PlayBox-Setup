@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.2023"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -76,6 +76,7 @@ cd /.
 sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
+rm -rf ~/PBv2-PostFixes/
 sleep 2
 # Set USB filesystem check every 50 boots [reset -1]
 if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      50"` ]]; then
