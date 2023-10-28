@@ -77,6 +77,7 @@ cd /.
 sudo rm -rf samba/ && sudo rm smb*
 sleep 1
 rm -rf ~/code/PBv2-PostFixes/
+rm -rf ~/PBv2-PostFixes/
 sleep 2
 # Set USB filesystem check every 50 boots [reset -1]
 if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      50"` ]]; then
