@@ -134,7 +134,7 @@ function fix_rpmenu() {
 	rm -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
-	#clear
+	clear
 	#echo "We need to apply REGION script now..."
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
