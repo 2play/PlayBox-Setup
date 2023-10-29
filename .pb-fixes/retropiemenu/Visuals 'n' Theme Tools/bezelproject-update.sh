@@ -4,12 +4,12 @@
 # Copyright (C)2018-2023 2Play! (S.R.)
 # 30.01.19
 
-cd /home/pi/RetroPie/retropiemenu/Visuals/
+cd /home/pi/RetroPie/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/
 rm bezelproject.sh
 wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh
 chmod 755 bezelproject.sh
 
-cd /home/pi/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals/
+cd /home/pi/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/
 rm bezelproject.sh
 wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh
 chmod 755 bezelproject.sh

@@ -113,28 +113,28 @@ function fix_rpmenu() {
 	else
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
-	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
+	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
-	rm -f $HOME/RetroPie/retropiemenu/Visuals/splashscreen.rp
-	rm -f $HOME/RetroPie/retropiemenu/System/audiosettings.rp
-	rm -f $HOME/RetroPie/retropiemenu/Network/wifi.rp
+	rm -f $HOME/RetroPie/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/splashscreen.rp
+	rm -f $HOME/RetroPie/retropiemenu/System\ Tools/audiosettings.rp
+	rm -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
-	clear
+	#clear
 	#echo "We need to apply REGION script now..."
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
@@ -3957,9 +3957,9 @@ function update_pbs() {
 	find -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
 	find -name "*.py" -print0 | xargs -0 chmod 755
 	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controllers/joystick_selection.sh
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
-	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controllers/joystick_selection.sh
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools/joystick_selection.sh
+	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
