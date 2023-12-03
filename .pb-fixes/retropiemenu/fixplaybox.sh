@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 12.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -79,7 +79,7 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) " \
 			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
@@ -90,7 +90,7 @@ function fixes_pbt() {
 
         case "$choice" in
             1) fix_rpmenu  ;;
-            #2) fix_region  ;;
+            2) fix_region  ;;
 			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
@@ -146,7 +146,7 @@ function fix_rpmenu() {
 function fix_region() {
 	clear
 # Set PlayBox Systems Based On Region, by 2Play!
-# 13.10.20
+# RockPro64 04.10.23
 
 infobox=""
 infobox="${infobox}\n"
@@ -158,7 +158,7 @@ infobox="${infobox}- The US\JP Region will use Genesis, Sega 32X/CD, TG16/CD, Od
 infobox="${infobox}- The EU\JP Region will use Mega Drive, Mega 32X/CD, PC Engine/CD, VideoPac systems.\n"
 infobox="${infobox}- The ALL Region will show all systems.\n"
 infobox="${infobox}\n"
-infobox="${infobox}- The extra 3 options as above but with clean Kodi (Lite Version) instead PlayBox (Full Version When Enabled)."
+infobox="${infobox}- PlayBox Vanilla Setup Only"
 infobox="${infobox}\n"
 
 dialog --backtitle "Region based ES Systems" \
@@ -175,19 +175,19 @@ dialog --backtitle "Region based ES Systems" \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
             3 " - ALL:   All systems will be enabled " \
             - "" \
-            - "*** REGION SYSTEM OPTIONS with KODI ***" \
-            4 " - US\JP: As option 1 + Kodi " \
-            5 " - EU\JP: As option 2 + Kodi " \
-            6 " - ALL:   As option 3 + Kodi " \
-            2>&1 > /dev/tty)
+														 
+											   
+											   
+											   
+             2>&1 > /dev/tty)
 
         case "$choice" in
             1) us_es  ;;
             2) eu_es  ;;
             3) all_es  ;;
-            4) us_esnpb  ;;
-            5) eu_esnpb  ;;
-            6) all_esnpb  ;;
+            #4) us_esnpb  ;;
+            #5) eu_esnpb  ;;
+            #6) all_esnpb  ;;
             -) none ;;
             *) break ;;
         esac
@@ -197,20 +197,20 @@ dialog --backtitle "Region based ES Systems" \
 function us_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
+	sudo cp /etc/emulationstation/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
+																		
+																									  
+																		
+																		
+																					
+	 
+													
+														  
+															  
+															  
+																		  
+  
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -223,20 +223,20 @@ fi
 function eu_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
+	sudo cp /etc/emulationstation/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
+															  
+																									  
+																		
+																		
+																					
+	 
+													
+														  
+															  
+															  
+																		  
+  
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -249,46 +249,46 @@ fi
 function all_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/genesis.OFF ~/RetroPie/localroms/genesis
-	mv -f ~/RetroPie/localroms/genesish.OFF ~/RetroPie/localroms/genesish
-#	mv -f ~/RetroPie/localroms/genh.OFF ~/RetroPie/localroms/genh
-	mv -f ~/RetroPie/localroms/tg16.OFF ~/RetroPie/localroms/tg16
-	mv -f ~/RetroPie/localroms/tg16cd.OFF ~/RetroPie/localroms/tg16cd
-	mv -f ~/RetroPie/localroms/odyssey2.OFF ~/RetroPie/localroms/odyssey2
-	mv -f ~/RetroPie/localroms/megacd.OFF ~/RetroPie/localroms/megacd
-	mv -f ~/RetroPie/localroms/megadrive.OFF ~/RetroPie/localroms/megadrive
-	mv -f ~/RetroPie/localroms/megadriveh.OFF ~/RetroPie/localroms/megadriveh
-#	mv -f ~/RetroPie/localroms/megh.OFF ~/RetroPie/localroms/megh
-	mv -f ~/RetroPie/localroms/pcengine.OFF ~/RetroPie/localroms/pcengine
-	mv -f ~/RetroPie/localroms/pcenginecd.OFF ~/RetroPie/localroms/pcenginecd
-	mv -f ~/RetroPie/localroms/videopac.OFF ~/RetroPie/localroms/videopac
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/genesis.OFF ~/RetroPie/roms/genesis
-	mv -f ~/RetroPie/roms/genesish.OFF ~/RetroPie/roms/genesish
-#	mv -f ~/RetroPie/roms/genh.OFF ~/RetroPie/roms/genh
-	mv -f ~/RetroPie/roms/tg16.OFF ~/RetroPie/roms/tg16
-	mv -f ~/RetroPie/roms/tg16cd.OFF ~/RetroPie/roms/tg16cd
-	mv -f ~/RetroPie/roms/odyssey2.OFF ~/RetroPie/roms/odyssey2
-	mv -f ~/RetroPie/roms/megacd.OFF ~/RetroPie/roms/megacd
-	mv -f ~/RetroPie/roms/megadrive.OFF ~/RetroPie/roms/megadrive
-	mv -f ~/RetroPie/roms/megadriveh.OFF ~/RetroPie/roms/megadriveh
-#	mv -f ~/RetroPie/roms/megh.OFF ~/RetroPie/roms/megh
-	mv -f ~/RetroPie/roms/pcengine.OFF ~/RetroPie/roms/pcengine
-	mv -f ~/RetroPie/roms/pcenginecd.OFF ~/RetroPie/roms/pcenginecd
-	mv -f ~/RetroPie/roms/videopac.OFF ~/RetroPie/roms/videopac
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
+	sudo cp /etc/emulationstation/es_systems.cfgFULL /etc/emulationstation/es_systems.cfg
+															  
+																									  
+																		
+																		
+																									  
+																										 
+															   
+															  
+																  
+																										 
+																  
+																		
+																		  
+															   
+																										 
+																		  
+																										 
+																					
+	 
+													
+														  
+															  
+															  
+														  
+															
+													 
+													
+														
+															
+														
+															  
+																
+													 
+															
+																
+															
+																		  
+  
 	clear
 	echo "We need to restart system now..."
 	echo
