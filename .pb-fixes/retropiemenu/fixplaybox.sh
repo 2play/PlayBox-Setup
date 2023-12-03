@@ -175,10 +175,6 @@ dialog --backtitle "Region based ES Systems" \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
             3 " - ALL:   All systems will be enabled " \
             - "" \
-														 
-											   
-											   
-											   
              2>&1 > /dev/tty)
 
         case "$choice" in
@@ -199,18 +195,6 @@ function us_es() {
 	clear
 	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
 	sudo cp /etc/emulationstation/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-																		
-																									  
-																		
-																		
-																					
-	 
-													
-														  
-															  
-															  
-																		  
-  
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -225,18 +209,6 @@ function eu_es() {
 	clear
 	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
 	sudo cp /etc/emulationstation/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-															  
-																									  
-																		
-																		
-																					
-	 
-													
-														  
-															  
-															  
-																		  
-  
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -251,44 +223,6 @@ function all_es() {
 	clear
 	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
 	sudo cp /etc/emulationstation/es_systems.cfgFULL /etc/emulationstation/es_systems.cfg
-															  
-																									  
-																		
-																		
-																									  
-																										 
-															   
-															  
-																  
-																										 
-																  
-																		
-																		  
-															   
-																										 
-																		  
-																										 
-																					
-	 
-													
-														  
-															  
-															  
-														  
-															
-													 
-													
-														
-															
-														
-															  
-																
-													 
-															
-																
-															
-																		  
-  
 	clear
 	echo "We need to restart system now..."
 	echo
