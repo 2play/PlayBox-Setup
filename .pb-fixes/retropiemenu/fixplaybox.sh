@@ -5,7 +5,7 @@
 # Copyright (C)2018-2023 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 12.2023"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -109,7 +109,7 @@ function fix_rpmenu() {
 	clear
 	sleep 2
 	if [ -d $HOME/RetroPie/retropiemenu.OFF ]; then echo; echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; echo; read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
+	#fix_region
 	else
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
@@ -404,13 +404,16 @@ fi
 function fix_bgm_py() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	if [ -d $HOME/addonusb ]; then
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
+	sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
 	else
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
 	clear
 	echo
@@ -1949,6 +1952,8 @@ sleep 2
 function ra_default() {
 clear
 cd /opt/retropie/emulators/retroarch/bin
+rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
+rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
 rasymlinkN2=$(ls -la retroarch | grep "retroarchNEW" | cut -f12 -d' ')
 rasymlinkO2=$(ls -la retroarch | grep "retroarchORIG" | cut -f12 -d' ')
 if [ "$rasymlinkN" = "retroarchNEW" ] || [ "$rasymlinkN2" = "retroarchNEW" ]; then
@@ -2364,8 +2369,8 @@ function emus_compile() {
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
 			- "	" \
-			1 "Amiberry Pi Compile and Update From GitHub" \
-			2 "PPSSPP Pi Compile and Update From GitHub" \
+			1 "Amiberry Pi Compile and Update From GitHub " \
+			2 "PPSSPP Pi Compile and Update From GitHub " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
