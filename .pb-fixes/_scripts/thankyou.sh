@@ -10,7 +10,7 @@ infobox="${infobox}\n*** 2Play! Top Supporters & Friends***:\n- Jahitu, BMP, blu
 Rpc80 (Ryan Connors), Rydra, EasyHax (aka Forrest), Demetris Ierokipides aka Ntemis, CyperGhost, Meleu, Lars Muldjord (Skyskraper), David Marti (Motion Blue), Bezel Project Team, Folly, Valerino, Aditya Shakya aka adi1090x, Paul Cercueil aka pcercuei.\n\n
 
 *** OS & FrontEnd ***:\n
-Raspberry Pi Foundation for the nice clean OS.\n
+Raspberry Pi Foundation for the nice clean OS!.\n
 Retropie Team (Retropie), Andrew Mickelson (Attract Mode), HyperPie Team (HyperPie), Mátyás Mustoha (Pegasus-FE).\n\n
 
 *** Themes & Art Ideas ***:\n

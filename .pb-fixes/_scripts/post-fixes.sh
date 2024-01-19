@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -138,7 +138,7 @@ clear
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
 sudo apt install xscreensaver -y;
 else
-echo "All OK!"
+echo "Xscreensaver OK!"
 echo 
 fi
 # Fix NF Lolcat scrambled view...
@@ -157,7 +157,7 @@ cd $HOME
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
 cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
 else
-echo "All OK!"
+echo "IPTV OK!"
 echo 
 fi
 # Install Latest Youtube-dl/yt-dlp
@@ -199,7 +199,7 @@ echo
 if ! [[ `dpkg -l | grep pavucontrol` ]]; then
 sudo apt install pavucontrol -y
 else
-echo "All OK!"
+echo "Pulse Control OK!"
 echo 
 fi
 # Enable exFAT Support
@@ -207,7 +207,7 @@ if ! [[ `dpkg -l | grep exfat-*` ]]; then
 sudo apt install exfat-fuse -y
 sudo apt install exfat-utils -y
 else
-echo "All OK!"
+echo "exFAT OK!"
 echo 
 fi
 # Enable input_libretro_device_p2 = "513"
@@ -268,8 +268,8 @@ sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /et
 #cd /opt/retropie/configs/intellivision
 #sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 # RetroArch Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g; s|"~/.config/retroarch/system"|"~/RetroPie/BIOS"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/system"|"~/RetroPie/BIOS"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
 echo "Already a custom volume been set..."; sleep 1
 else
