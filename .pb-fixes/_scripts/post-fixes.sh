@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 12.2023"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -68,6 +68,7 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
+sudo cp /home/pi/.local/bin/* /usr/bin/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo chmod 755 /usr/local/bin/*grab
