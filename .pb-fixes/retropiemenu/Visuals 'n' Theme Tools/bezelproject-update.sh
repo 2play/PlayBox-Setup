@@ -1,7 +1,7 @@
 #!/bin/bash
 # Quick Manual Update of Bezels Project by 2Play!
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 30.01.19
 
 cd /home/pi/RetroPie/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/
