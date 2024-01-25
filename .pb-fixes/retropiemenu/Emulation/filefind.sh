@@ -4,7 +4,7 @@
 # Without using IFS or other bad tricks!
 # iname, iregex vs name, regex is independent of upper lower cases
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # Dual Script with USB Roms check, 15.02.22 By 2Play! (Based/Using Original Creator's script)
 
 infobox=""

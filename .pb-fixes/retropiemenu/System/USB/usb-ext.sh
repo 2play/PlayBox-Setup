@@ -2,7 +2,7 @@
 # Advanced USB External Script by 2Play!
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 14.02.2022
 
 

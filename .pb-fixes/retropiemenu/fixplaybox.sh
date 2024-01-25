@@ -2,7 +2,7 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)+
+# Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
 pb_version="PlayBox ToolKit Version 2.0 Dated 12.2023"
@@ -1609,7 +1609,7 @@ function skyscraper() {
 function mesa_vk() {
 # For RockChip Midgard SoC - PanFrost MESA
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 08.2023
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1821,7 +1821,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -3402,7 +3402,7 @@ function fw_pi() {
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 26.03.2022
 	clear
 echo "

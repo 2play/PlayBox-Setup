@@ -1,7 +1,7 @@
 #!/bin/bash
 # OverScan On/Off Switch
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 25.06.20
 
 infobox=""
