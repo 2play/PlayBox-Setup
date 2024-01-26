@@ -2,7 +2,7 @@
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
 # Copyright (C)2018-2024 2Play! (S.R.)
-# 09.2022
+# 09.2023
 
 infobox= ""
 infobox="${infobox}\n"

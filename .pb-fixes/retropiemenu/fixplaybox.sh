@@ -5,7 +5,7 @@
 # Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 12.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 01.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -79,7 +79,7 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) [OFF] " \
+            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) " \
 			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
 			5 " - Reset All RetroPie Controllers " \
@@ -90,7 +90,7 @@ function fixes_pbt() {
 
         case "$choice" in
             1) fix_rpmenu  ;;
-            #2) fix_region  ;;
+            2) fix_region  ;;
 			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
             #5) fix_roms  ;;
@@ -109,36 +109,36 @@ function fix_rpmenu() {
 	clear
 	sleep 2
 	if [ -d $HOME/RetroPie/retropiemenu.OFF ]; then echo; echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; echo; read -n 1 -s -r -p "Press any key to continue..."
-	#fix_region
+	fix_region
 	else
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
-	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	#mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
+	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
-	rm -f $HOME/RetroPie/retropiemenu/Visuals/splashscreen.rp
-	rm -f $HOME/RetroPie/retropiemenu/System/audiosettings.rp
-	rm -f $HOME/RetroPie/retropiemenu/Network/wifi.rp
+	rm -f $HOME/RetroPie/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/splashscreen.rp
+	rm -f $HOME/RetroPie/retropiemenu/System\ Tools/audiosettings.rp
+	rm -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
-	#echo "We need to apply REGION script now..."
+	echo "We need to apply REGION script now..."
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
-	#fix_region
+	fix_region
 	fi
 }
 
@@ -146,7 +146,7 @@ function fix_rpmenu() {
 function fix_region() {
 	clear
 # Set PlayBox Systems Based On Region, by 2Play!
-# 13.10.20
+# Simple Region Script 19.01.24
 
 infobox=""
 infobox="${infobox}\n"
@@ -158,7 +158,7 @@ infobox="${infobox}- The US\JP Region will use Genesis, Sega 32X/CD, TG16/CD, Od
 infobox="${infobox}- The EU\JP Region will use Mega Drive, Mega 32X/CD, PC Engine/CD, VideoPac systems.\n"
 infobox="${infobox}- The ALL Region will show all systems.\n"
 infobox="${infobox}\n"
-infobox="${infobox}- The extra 3 options as above but with clean Kodi (Lite Version) instead PlayBox (Full Version When Enabled)."
+infobox="${infobox}- PlayBox Vanilla Setup Only"
 infobox="${infobox}\n"
 
 dialog --backtitle "Region based ES Systems" \
@@ -175,19 +175,15 @@ dialog --backtitle "Region based ES Systems" \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
             3 " - ALL:   All systems will be enabled " \
             - "" \
-            - "*** REGION SYSTEM OPTIONS with KODI ***" \
-            4 " - US\JP: As option 1 + Kodi " \
-            5 " - EU\JP: As option 2 + Kodi " \
-            6 " - ALL:   As option 3 + Kodi " \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) us_es  ;;
             2) eu_es  ;;
             3) all_es  ;;
-            4) us_esnpb  ;;
-            5) eu_esnpb  ;;
-            6) all_esnpb  ;;
+            #4) us_esnpb  ;;
+            #5) eu_esnpb  ;;
+            #6) all_esnpb  ;;
             -) none ;;
             *) break ;;
         esac
@@ -197,20 +193,8 @@ dialog --backtitle "Region based ES Systems" \
 function us_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
+	sudo cp /etc/emulationstation/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -223,20 +207,8 @@ fi
 function eu_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
+	sudo cp /etc/emulationstation/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -249,46 +221,8 @@ fi
 function all_es() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
-if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/kodi ~/RetroPie/localroms/kodi.OFF
-	mv -f ~/RetroPie/localroms/playbox.OFF ~/RetroPie/localroms/playbox
-	mv -f ~/RetroPie/localroms/amiga1200 ~/RetroPie/localroms/amiga1200.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga.OFF ~/RetroPie/localroms/amiga-aga
-	mv -f ~/RetroPie/localroms/genesis.OFF ~/RetroPie/localroms/genesis
-	mv -f ~/RetroPie/localroms/genesish.OFF ~/RetroPie/localroms/genesish
-#	mv -f ~/RetroPie/localroms/genh.OFF ~/RetroPie/localroms/genh
-	mv -f ~/RetroPie/localroms/tg16.OFF ~/RetroPie/localroms/tg16
-	mv -f ~/RetroPie/localroms/tg16cd.OFF ~/RetroPie/localroms/tg16cd
-	mv -f ~/RetroPie/localroms/odyssey2.OFF ~/RetroPie/localroms/odyssey2
-	mv -f ~/RetroPie/localroms/megacd.OFF ~/RetroPie/localroms/megacd
-	mv -f ~/RetroPie/localroms/megadrive.OFF ~/RetroPie/localroms/megadrive
-	mv -f ~/RetroPie/localroms/megadriveh.OFF ~/RetroPie/localroms/megadriveh
-#	mv -f ~/RetroPie/localroms/megh.OFF ~/RetroPie/localroms/megh
-	mv -f ~/RetroPie/localroms/pcengine.OFF ~/RetroPie/localroms/pcengine
-	mv -f ~/RetroPie/localroms/pcenginecd.OFF ~/RetroPie/localroms/pcenginecd
-	mv -f ~/RetroPie/localroms/videopac.OFF ~/RetroPie/localroms/videopac
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f ~/RetroPie/roms/kodi ~/RetroPie/roms/kodi.OFF
-	mv -f ~/RetroPie/roms/playbox.OFF ~/RetroPie/roms/playbox
-	mv -f ~/RetroPie/roms/amiga1200 ~/RetroPie/roms/amiga1200.OFF
-	mv -f ~/RetroPie/roms/amiga-aga.OFF ~/RetroPie/roms/amiga-aga
-	mv -f ~/RetroPie/roms/genesis.OFF ~/RetroPie/roms/genesis
-	mv -f ~/RetroPie/roms/genesish.OFF ~/RetroPie/roms/genesish
-#	mv -f ~/RetroPie/roms/genh.OFF ~/RetroPie/roms/genh
-	mv -f ~/RetroPie/roms/tg16.OFF ~/RetroPie/roms/tg16
-	mv -f ~/RetroPie/roms/tg16cd.OFF ~/RetroPie/roms/tg16cd
-	mv -f ~/RetroPie/roms/odyssey2.OFF ~/RetroPie/roms/odyssey2
-	mv -f ~/RetroPie/roms/megacd.OFF ~/RetroPie/roms/megacd
-	mv -f ~/RetroPie/roms/megadrive.OFF ~/RetroPie/roms/megadrive
-	mv -f ~/RetroPie/roms/megadriveh.OFF ~/RetroPie/roms/megadriveh
-#	mv -f ~/RetroPie/roms/megh.OFF ~/RetroPie/roms/megh
-	mv -f ~/RetroPie/roms/pcengine.OFF ~/RetroPie/roms/pcengine
-	mv -f ~/RetroPie/roms/pcenginecd.OFF ~/RetroPie/roms/pcenginecd
-	mv -f ~/RetroPie/roms/videopac.OFF ~/RetroPie/roms/videopac
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
-fi
+	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
+	sudo cp /etc/emulationstation/es_systems.cfgFULL /etc/emulationstation/es_systems.cfg
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -3859,10 +3793,10 @@ function update_pbs() {
 	echo
 	find -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
 	find -name "*.py" -print0 | xargs -0 chmod 755
-	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controllers/joystick_selection.sh
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
-	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controllers/joystick_selection.sh
+	find . -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools/joystick_selection.sh
+	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
