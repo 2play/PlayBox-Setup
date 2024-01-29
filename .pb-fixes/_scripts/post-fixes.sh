@@ -267,10 +267,10 @@ sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSa
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g; s|"~/.config/retroarch/system"|"~/RetroPie/BIOS"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/system"|"~/RetroPie/BIOS"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
-echo "Already a custom volume been set..."; sleep 1
+sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 else
-sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+echo "Already a default volume level is set..."; sleep 1
 fi
 #if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
 #sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
