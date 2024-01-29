@@ -1,6 +1,6 @@
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.2023"
+# Copyright (C)2018-2024 2Play! (S.R.)
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
 echo $pb_version
 sleep 3
 cd $HOME/code/
@@ -68,6 +68,7 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
+sudo cp /home/pi/.local/bin/* /usr/bin/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo cp /home/pi/.local/bin/* /usr/bin/
@@ -137,14 +138,14 @@ clear
 if ! [[ `dpkg -l | grep xscreensaver` ]]; then
 sudo apt install xscreensaver -y;
 else
-echo "All OK!"
+echo "Xscreensaver OK!"
 echo 
 fi 
 # Check IPTV install
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
 cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
 else
-echo "All OK!"
+echo "IPTV OK!"
 echo 
 fi 
 # Install Latest Youtube-dl/yt-dlp
@@ -187,7 +188,7 @@ echo
 if ! [[ `dpkg -l | grep pavucontrol` ]]; then
 sudo apt install pavucontrol -y
 else
-echo "All OK!"
+echo "Pulse Control OK!"
 echo 
 fi
 # Enable exFAT Support
@@ -195,7 +196,7 @@ if ! [[ `dpkg -l | grep exfat-*` ]]; then
 sudo apt install exfat-fuse -y
 sudo apt install exfat-utils -y
 else
-echo "All OK!"
+echo "exFAT OK!"
 echo 
 fi
 # Enable input_libretro_device_p2 = "513"

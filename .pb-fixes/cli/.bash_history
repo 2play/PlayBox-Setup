@@ -7,8 +7,8 @@ sudo raspi-config
 Skyscraper
 startx
 btop
-sudo ~/RetroPie-Setup/retropie_setup.sh
 yt
+sudo ~/RetroPie-Setup/retropie_setup.sh
 emulationstation
 2p-FixPlayBox
 -------------
