@@ -3,7 +3,7 @@
 	<folder>
 		<path>./Controllers</path>
 		<name>: Controller Tools</name>
-		<desc>This folder contains all the controllers related scritps. All in one place. Kind suggestion by our builder friend Schmoomer!</desc>
+		<desc>This folder contains all the controllers related scripts. All in one place. Kind suggestion by our builder friend Schmoomer!</desc>
 		<image>./icons/controllers3.png</image>
 		<video>./icons/controllers3.mp4</video>
 	</folder>
