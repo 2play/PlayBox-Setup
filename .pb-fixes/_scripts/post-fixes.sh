@@ -94,13 +94,13 @@ sudo tune2fs -c 50 /dev/mmcblk0p2
 fi
 # Config.txt OC additions & Pi400 Fix
 if ! grep "gpu_freq=750" /boot/config.txt ; then
-sudo sed -i '66i#gpu_freq=750' /boot/config.txt
+sudo sed -i '79i#gpu_freq=750' /boot/config.txt
 fi
 if ! grep "over_voltage=8" /boot/config.txt ; then
-sudo sed -i '67i#over_voltage=8' /boot/config.txt
+sudo sed -i '80i#over_voltage=8' /boot/config.txt
 fi
 if ! grep "force_turbo=1" /boot/config.txt ; then
-sudo sed -i '69i#force_turbo=1' /boot/config.txt
+sudo sed -i '81i#force_turbo=1' /boot/config.txt
 fi
 if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
 sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
@@ -228,9 +228,9 @@ else
 mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
 fi
 echo
-# Core Options Per System Config Folder
-cd /opt/retropie/configs
-find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
+# Core Options Per System Config Folder (old setup)
+#cd /opt/retropie/configs
+#find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
 echo
 # ES Video ScreenSaver Options
 cd /opt/retropie/configs/all/emulationstation
@@ -289,7 +289,7 @@ fi
 if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
 sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
 else
-echo "All OK!"
+echo "gtk3 OK!"
 echo 
 fi
 #Redream Path Fix
@@ -422,12 +422,12 @@ function global_shader() {
             - "" \
 			1 " -  [ON]  Global Retro Shader By Chris Kekrides or 2P! " \
             2 " -  [OFF] Global Retro Shader By Chris Kekrides or 2P! " \
-            2>&1 > /dev/tty)
+			2>&1 > /dev/tty)
 
         case "$choice" in
             1) glb_shon  ;;
             2) glb_shoff  ;;
-            -) none ;;
+			-) none ;;
             *) break ;;
         esac
     clear

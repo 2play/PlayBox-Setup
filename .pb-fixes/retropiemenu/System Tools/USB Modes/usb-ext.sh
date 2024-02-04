@@ -3,7 +3,7 @@
 # Based on Eazy Hax USB Enable/Disable Script
 # The PlayBox Project
 # Copyright (C)2018-2024 2Play! (S.R.)
-# 08.12.20
+# 14.02.2022
 
 
 function main_menu() {
@@ -17,20 +17,20 @@ function main_menu() {
             1 " - ENABLE External USB ROMs" \
             2 " - DISABLE External USB ROMs" \
 			3 " - FORMAT External USB to NTFS" \
-			4 " - FIX Missing Symbolic Links - External USB Roms Path" \
+			4 " - FIX Missing Symbolic Links - External USB (PlayBox v2 Full Only)" \
 			- "" \
             - "          *** ART FOLDERS & GAMELIST.XML OPTIONS ***" \
             - "               -> Single System Update <-" \
-			5 " - My ADD-ON System: ART Folders on USB & Have XML on USB " \
-			6 " - My ADD-ON System: ART Folders on USB & Have XML on SD " \
-			7 " - Restore Default Relative Paths To A Single USB based gamelist.xml " \
+			5 " - As ADD-ON System: Have ART Folders & gamelist.xml on USB " \
+			6 " - As ADD-ON System: Have ART Folders on USB & gamelist.xml on SD " \
+			7 " - Restore Default Relative (./) Paths To A Single USB based gamelist.xml " \
 			- "" \
 			- "               -> Multi System Update <-" \
 		    8 " - Restore Default Relative Paths To ALL my gamelist.xml(s) " \
 			- "" \
 			- "              *** MOVE A SYSTEM SELECTIONS ***" \
-            9 " - I want to move a SYSTEM in FULL from SD => Ext. USB" \
-		   10 " - I want to move a SYSTEM in FULL from Ext. USB => SD" \
+            9 " - Move a SYSTEM from SD => External USB" \
+		   10 " - Move a SYSTEM from External USB => SD" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
