@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)+
+# Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 15.06.2023"
+pb_version="PlayBox ToolKit Version 2.0 Dated 01.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -113,21 +113,21 @@ function fix_rpmenu() {
 	else
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
-	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network
-	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System
-	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals
-	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	mv -f $HOME/RetroPie/retropiemenu/Network/wifi.rp $HOME/RetroPie/retropiemenu/Network/wifi.rp.OFF
+	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
+	mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
@@ -404,13 +404,16 @@ fi
 function fix_bgm_py() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	if [ -d $HOME/addonusb ]; then
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/roms+/home/pi/RetroPie/localroms+g' .livewire.py
+	sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
 	else
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
+	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
 	clear
 	echo
@@ -1596,7 +1599,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 10.05.2023
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1727,7 +1730,8 @@ sudo apt remove meson -y && sudo apt autoremove --purge -y && sudo apt clean
 sudo rm -rf mesa* 
 #git clone --depth 1 https://gitlab.freedesktop.org/apinheiro/mesa.git 
 #git clone --depth 1 https://gitlab.freedesktop.org/mesa/mesa.git
-git clone --depth 1 --branch 23.1 https://gitlab.freedesktop.org/mesa/mesa.git
+git clone --depth 1 --branch 24.0 https://gitlab.freedesktop.org/mesa/mesa.git
+#git clone --depth 1 --branch 23.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 23.0 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.3 https://gitlab.freedesktop.org/mesa/mesa.git
 #git clone --depth 1 --branch 22.0 https://gitlab.freedesktop.org/mesa/mesa.git
@@ -1952,10 +1956,12 @@ clear
 cd /opt/retropie/emulators/retroarch/bin
 rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
 rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
-if [ "$rasymlinkN" = "retroarchNEW" ]; then
+rasymlinkN2=$(ls -la retroarch | grep "retroarchNEW" | cut -f12 -d' ')
+rasymlinkO2=$(ls -la retroarch | grep "retroarchORIG" | cut -f12 -d' ')
+if [ "$rasymlinkN" = "retroarchNEW" ] || [ "$rasymlinkN2" = "retroarchNEW" ]; then
 	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
 else
-	if [ "$rasymlinkO" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
+	if [ "$rasymlinkO" = "retroarchORIG" ] || [ "$rasymlinkO2" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
 	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
 	fi
 fi
@@ -2027,7 +2033,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -2365,8 +2371,8 @@ function emus_compile() {
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
 			- "	" \
-			1 "Amiberry Pi Compile and Update From GitHub" \
-			2 "PPSSPP Pi Compile and Update From GitHub" \
+			1 "Amiberry Pi Compile and Update From GitHub " \
+			2 "PPSSPP Pi Compile and Update From GitHub " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2386,16 +2392,16 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  Pi4 SDL2 with Dispmanx" \
+			1 "Amiberry :  Pi4 SDL2 with Dispmanx Deprecated)" \
 			2 "Amiberry :  Pi4 SDL2 " \
-			3 "Amiberry :  Pi4 x64 SDL2 with Dispmanx" \
+			3 "Amiberry :  Pi4 x64 " \
 			- "" \
             - "*** If you compiled 1 & 2 use below to swap between them! ***" \
 			4 "Amiberry :  Pi4      - Swap To This Binary " \
 			5 "Amiberry :  Pi4 SDL2 - Swap To This Binary " \
 			- "" \
 			- "*** Restore Last Known Stable Amiberry! ***" \
-			6 "Amiberry :  Latest Known Stable Binary " \
+			6 "Amiberry :  Older 3.2b05.08.20 Stable Binary [OFF]" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2414,11 +2420,13 @@ function amiberry_git() {
 function amiberry_pi4() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME/code
+	cd $HOME && cd code
 	rm -rf amiberry*
 	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
 	git clone --depth 1 https://github.com/BlitterStudio/amiberry
 	#git clone --depth 1 --branch=dev https://github.com/BlitterStudio/amiberry amiberry_dev
+	#git clone --depth 1 https://github.com/midwan/amiberry.git
+	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
 	#cd amiberry_dev
 	cd amiberry
 	make clean
@@ -2441,7 +2449,7 @@ function amiberry_pi4() {
 function amiberry_pi4sdl2() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME/code
+	cd $HOME && cd code
 	rm -rf amiberry*
 	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
 	git clone --depth 1 https://github.com/BlitterStudio/amiberry
@@ -2469,7 +2477,7 @@ function amiberry_pi4sdl2() {
 function amiberry_pi4x64() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME/code
+	cd $HOME && cd code
 	rm -rf amiberry*
 	sudo apt install -y libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev
 	git clone --depth 1 https://github.com/BlitterStudio/amiberry
@@ -2478,7 +2486,7 @@ function amiberry_pi4x64() {
 	cd amiberry
 	make clean
 	git pull
-	make -j4 PLATFORM=rpi4-64-dmx
+	make -j4 PLATFORM=rpi4-64-sdl2
 	clear
 	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryrpi4x64
 	rm -rf amiberry*
@@ -2525,7 +2533,7 @@ function amiberry_stable() {
 function ppsspp_git() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME/code
+	cd $HOME && cd code
 	git clone --recurse-submodules https://github.com/hrydgard/ppsspp.git
 	cd ppsspp
 	./b.sh --rpi	
@@ -3814,7 +3822,7 @@ function fwup_pi4() {
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 26.03.2022
 	clear
 echo "
@@ -4270,10 +4278,10 @@ function update_pbs() {
 	echo
 	find -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
 	find -name "*.py" -print0 | xargs -0 chmod 755
-	find -name "*.rp" ! -name "raspiconfig.rp" ! -name "rpsetup.rp" | xargs sudo chown root:root
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controllers/joystick_selection.sh
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation/joystick_selection.sh
-	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controllers/joystick_selection.sh
+	find . -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools/joystick_selection.sh
+	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME

@@ -1,6 +1,6 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2024 2Play! (S.R.)
 # 14.07.20
 let upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
 let secs=$((${upSeconds}%60))

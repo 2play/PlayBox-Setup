@@ -185,8 +185,15 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/showip.mp4</video>
 	</game>
 	<game>
+		<path>./Network/wifi-nm.sh</path>
+		<name>WiFi Network Manager</name>
+		<desc>Connect to a wifi network. If you want to use the GUI, start PlayBox desktop and connect to your wifi</desc>
+		<image>./icons/network-mgr.png</image>
+		<video>./icons/network-mgr.mp4</video>
+	</game>
+	<game>
 		<path>./Network/wifi.rp</path>
-		<name>WiFi</name>
+		<name>WiFi RPie Setup</name>
 		<desc>Connect to or disconnect from a wifi network and configure wifi settings. On Pi3B+ you might need to set location.</desc>
 		<image>./icons/wifi.png</image>
 		<video>./icons/wifi.mp4</video>
@@ -243,7 +250,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	<game>
 		<path>./System/oc.sh</path>
 		<name>✭ OverClock Pi4 Optimized, 2P!</name>
-		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750/2000/2100/2147MHz. Original code done by dev RPC.</desc>
+		<desc>Overclock your Pi4. Settings to cover all avaiable valid speeds 1750-2200MHz. Original code done by dev RPC.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>

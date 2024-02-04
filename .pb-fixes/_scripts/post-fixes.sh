@@ -1,12 +1,12 @@
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 10.2023"
+# Copyright (C)2018-2024 2Play! (S.R.)
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
 echo $pb_version
 sleep 3
 mkdir /home/pi/lmp4
 cd $HOME/code/
 
-# Get Post Fixes Clean Burn Update Or Normal Post Fix Update
+# Get Post Fixes Clean Burn Or Normal Post Fix Update
 function post_fix_update() {
     local choice
 	while true; do
@@ -16,9 +16,9 @@ function post_fix_update() {
             - "*** POST FIXES SETUP OPTIONS ***" \
             - "" \
 			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
-			- "    (Use On Clean Burn Or Revert To Clean Status)" \
+			- "    (Use After Clean Burn Or Restore All To Clean Status)" \
 			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
-            - "    (Use This If You Already Been Updating)" \
+            - "    (Use To Apply New Updates)" \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -27,7 +27,7 @@ function post_fix_update() {
             -) none ;;
             *) break ;;
         esac
-		done
+	done
 echo ""
 echo "[OK DONE!...]"
 cd $HOME
@@ -68,6 +68,10 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 sudo chown pi:pi -R /etc/emulationstation/themes/
+sudo cp /home/pi/.local/bin/* /usr/bin/
+sudo chmod 644 /etc/mopidy/mopidy.conf
+sudo chmod 755 ~/scripts/themerandom.sh
+sudo cp /home/pi/.local/bin/* /usr/bin/
 sudo cp /home/pi/PieMarquee2/PieMarquee2/PieMarquee2.py /opt/retropie/configs/all/PieMarquee2/PieMarquee2.py
 sleep 1
 cd /.
@@ -76,11 +80,17 @@ sleep 1
 rm -rf ~/code/PBv2-PostFixes/
 rm -rf ~/PBv2-PostFixes/
 sleep 2
-# Set filesystem check every 15 boots
+# Set USB filesystem check every 50 boots [reset -1]
 if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      50"` ]]; then
 echo "Already set to check every 50 boots!"
 else
 sudo tune2fs -c 50 /dev/sda2
+fi
+# Set SD filesystem check every 50 boots [reset -1]
+if [[ `sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:      50"` ]]; then
+echo "Already set to check every 50 boots!"
+else
+sudo tune2fs -c 50 /dev/mmcblk0p2
 fi
 # Config.txt OC additions & Pi400 Fix
 if ! grep "gpu_freq=750" /boot/config.txt ; then
@@ -124,6 +134,72 @@ sudo rm -f /usr/local/bin/2PSkyscape_*;
 fi
 sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
 sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
+clear
+# Check xscreensaver install
+if ! [[ `dpkg -l | grep xscreensaver` ]]; then
+sudo apt install xscreensaver -y;
+else
+echo "Xscreensaver OK!"
+echo 
+fi 
+# Check IPTV install
+if ! [[ `dpkg -l | grep iptvnator` ]]; then
+cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
+else
+echo "IPTV OK!"
+echo 
+fi 
+# Install Latest Youtube-dl/yt-dlp
+sudo pip3 install --upgrade yt-dlp 
+if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it..."; sudo yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
+else 
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
+sudo chmod 755 /usr/bin/yt-dlp
+sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
+echo
+fi
+# Net Manager Check/Install
+if ! [[ `dpkg -l | grep network-manager-gnome` ]]
+then
+	sudo apt install network-manager-gnome -y
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	#else
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	fi
+else
+	echo
+	echo "Network Manager already installed!"
+	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+	then
+	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	#else
+	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
+	fi
+fi
+echo
+echo "No WPA_Supplicant conflict found."
+sleep 2
+echo "Network Manager in place. You can connect to your Wi-FI if needed."
+echo
+# Pulse Control Gui 
+if ! [[ `dpkg -l | grep pavucontrol` ]]; then
+sudo apt install pavucontrol -y
+else
+echo "Pulse Control OK!"
+echo 
+fi
+# Enable exFAT Support
+if ! [[ `dpkg -l | grep exfat-*` ]]; then
+sudo apt install exfat-fuse -y
+sudo apt install exfat-utils -y
+else
+echo "exFAT OK!"
+echo 
+fi
 # Enable input_libretro_device_p2 = "513"
 cd /opt/retropie/configs/
 find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
@@ -165,13 +241,6 @@ cd /opt/retropie/configs/amiga
 sed -i 's|3do|amiga|g' retroarch.cfg
 # Disable Dim Xinit?
 sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
-sudo apt-get install xscreensaver -y
-# Install Latest Youtube-dl
-if [ -f /usr/bin/youtube-dl ]; then echo "Already installed!"; sleep 1
-else 
-sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/bin/youtube-dl
-sudo chmod 755 /usr/bin/youtube-dl
-fi
 # WWF Typo Fix
 rm -rf $HOME/RetroPie/saves-unified
 #Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
@@ -180,19 +249,19 @@ rm -rf $HOME/RetroPie/saves-unified
 cd $HOME/RetroPie/saves
 mkdir amiga amiga1200 amigacd32 cdtv
 # N64 Core Option ThreadedRenderer
-cd /opt/retropie/configs/n64
-sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
+#cd /opt/retropie/configs/n64
+#sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
 # Joy Selection Meleu Clean Setup
 #wget -O- "https://raw.githubusercontent.com/meleu/RetroPie-joystick-selection/master/install.sh" | sudo bash
 # Amiga Aga ra cfg minor update
 cd /opt/retropie/configs/amiga-aga
 sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
 # Intellivision lr-freeintv fix due to latest video driver 
-cd /opt/retropie/configs/intellivision
-sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
+#cd /opt/retropie/configs/intellivision
+#sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 # RetroArch Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -201,19 +270,21 @@ echo "Already a default volume level is set..."; sleep 1
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch.cfg;
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0""' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 fi
 if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
 sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
@@ -221,12 +292,6 @@ else
 echo "All OK!"
 echo 
 fi
-if ! [[ `dpkg -l | grep pavucontrol` ]]; then
-sudo apt install pavucontrol;
-else
-echo "All OK!"
-echo 
-fi 
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
 echo "Already has corrected value..."; sleep 1
@@ -250,15 +315,11 @@ sed -i '20iinput_player2_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retro
 sed -i '21iinput_player3_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
 sed -i '22iinput_player4_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
 fi
-
-sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
+#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
 #sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
-# Enable exFAT Support
-sudo apt-get install exfat-fuse -y
-sudo apt-get install exfat-utils -y
-# Clean Mesa/Vulkan Old Lib Files
+# Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib
 if [ -f libEGL.so ]; then
 sudo rm libEGL.so libEGL.so.1 libEGL.so.1.0.0 libgbm.so libgbm.so.1 libgbm.so.1.0.0 libGL.so libGL.so.1 libGL.so.1.2.0 libglapi.so libglapi.so.0 libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 libvulkan_broadcom.so libglapi.so.0.0.0
@@ -273,6 +334,8 @@ else
 echo "All OK!"
 echo
 fi
+sleep 1
+clear
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
@@ -316,31 +379,6 @@ echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/
 else
 echo "Already inserted..."; sleep 1
 fi
-# New Monitoring Tools
-if [ -f /usr/local/bin/glances ]; then echo "Already installed!"; sleep 1
-else 
-sudo ln -sfn /home/pi/.local/bin/glances /usr/local/bin/glances
-fi
-if [ -f /home/pi/.local/bin/glances ]; then echo "Already installed!"; sleep 1
-else 
-pip install glances
-#pip install 'glances[action,browser,cloud,cpuinfo,docker,export,folders,gpu,graph,ip,raid,snmp,web,wifi]'
-#pip uninstall glances
-fi
-echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
-wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
-if [ -f /usr/local/bin/bpytop ]; then echo "Already installed!"; sleep 1;
-else 
-#cd $HOME/code/
-#git clone --depth 1 https://github.com/aristocratos/bpytop.git
-#cd bpytop
-#sudo make install
-#sudo make uninstall
-#cd ..
-#rm -rf bpytop/
-#pip3 install bpytop --upgrade
-sudo apt install bpytop
-fi
 #New Ports Dependencies
 	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
 	return 0
@@ -351,11 +389,16 @@ fi
         sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
     fi
 #Sinden LightGun Requirements
+if ! [[ `dpkg -l | egrep 'mono-complete|v4l-utils|libsdl1.2-dev|ibsdl-image1.2-dev|libjpeg-dev'`  ]]; then
 sudo apt install -y mono-complete
 sudo apt install -y v4l-utils
 sudo apt install -y libsdl1.2-dev
 sudo apt install -y libsdl-image1.2-dev
 sudo apt install -y libjpeg-dev
+else
+echo "All OK!"
+echo 
+fi
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
 sudo chown pi:pi /opt/retropie/emulators/openbor/*
@@ -401,6 +444,7 @@ echo ""
 echo "[OK DONE!...]"
 cd $HOME
 sleep 2
+exit
 }
 
 function glb_shoff() {
@@ -414,6 +458,7 @@ echo ""
 echo "[OK DONE!...]"
 cd $HOME
 sleep 2
+exit
 }
 
 
