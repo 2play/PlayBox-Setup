@@ -3,12 +3,12 @@
 pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
 echo $pb_version
 sleep 3
+mkdir /home/pi/lmp4
 cd $HOME/code/
 
 # Get Post Fixes Clean Burn Or Normal Post Fix Update
 function post_fix_update() {
     local choice
-	
 	while true; do
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
@@ -267,20 +267,20 @@ echo "Already a default volume level is set..."; sleep 1
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
+sed -i '15i#audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch.cfg;
 fi
 if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg ; then
 sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15iaudio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i '15i#audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 fi
 #if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
