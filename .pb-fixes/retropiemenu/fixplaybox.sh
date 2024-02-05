@@ -5,7 +5,7 @@
 # Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 02.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -111,6 +111,7 @@ function fix_rpmenu() {
 	if [ -d $HOME/RetroPie/retropiemenu.OFF ]; then echo; echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; echo; read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
 	else
+	sudo rm -rf RetroPie/retropiemenu/*
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
@@ -128,6 +129,8 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
+	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
+	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
 	echo
 	clear
