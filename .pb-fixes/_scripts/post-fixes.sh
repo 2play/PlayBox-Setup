@@ -144,7 +144,7 @@ echo
 fi 
 # Check IPTV install
 if ! [[ `dpkg -l | grep iptvnator` ]]; then
-cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
+cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.15.0/iptvnator_0.15.0_armv7l.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
 else
 echo "IPTV OK!"
 echo 
