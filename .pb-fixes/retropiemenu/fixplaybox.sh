@@ -1889,8 +1889,8 @@ fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
 sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
 ##Custom FFMPEG
-vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
-if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
+vffmpeg=$(ffmpeg -version | grep "git-2024-03-14-8e207bf" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2024-03-14-8e207bf" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
 	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
