@@ -177,8 +177,8 @@ function FFMPEG() {
 	echo
 	sleep 2
 	##Custom FFMPEG
-vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
-if [ "$vffmpeg" != "git-2023-05-10-5ce7650" ]; then
+vffmpeg=$(ffmpeg -version | grep "git-2024-03-14-8e207bf" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2024-03-14-8e207bf" ]; then
 	#Orig
 	#git clone --depth 1 git://source.ffmpeg.org/ffmpeg.git
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
