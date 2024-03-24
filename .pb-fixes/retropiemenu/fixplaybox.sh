@@ -3095,6 +3095,8 @@ function cl_cli_hist() {
 	#cat /dev/null > ~/.bash_history
 	history -cw && clear
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
+	cp $HOME/PlayBox-Setup/.pb-fixes/cli/input_history $HOME/.config/mps-youtube/
+	cp $HOME/PlayBox-Setup/.pb-fixes/cli/play_history.m3u $HOME/.config/mps-youtube/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '15,1000d' .bash_history
