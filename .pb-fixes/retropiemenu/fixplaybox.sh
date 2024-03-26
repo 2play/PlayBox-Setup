@@ -1607,8 +1607,8 @@ fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
 sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
 ##Custom FFMPEG
-vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
-if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
+vffmpeg=$(ffmpeg -version | grep "git-2024-03-26-f872b19" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2024-03-26-f872b19" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
 	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
@@ -1630,6 +1630,8 @@ git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
 #tar -xvf v1.14.0.tar.gz
 cd RetroArch*/
 #
+# Check sources.list if extra space after # and fix as needed 
+sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
@@ -1641,7 +1643,7 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 ##With Pulse & jack
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P BT With GLES3
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
+CFLAGS="-march=native" CXXFLAGS="-march=native" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-opengles3_2
 make -j4
 if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
