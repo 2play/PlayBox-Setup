@@ -612,8 +612,8 @@ function prntscr() {
 	#		fbgrab ~/ScreenShots/printscreen$now.jpg
 	#fi
 	#sudo kmsgrab ~/ScreenShots/printscreen$now.png;	convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; 	rm -f ~/ScreenShots/*.png
-	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -vframes 1 ~/ScreenShots/printscreen$now.png; convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; rm -f ~/ScreenShots/*.png
-	sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -vframes 1 ~/ScreenShots/printscreen$now.jpg
+	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png; convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; rm -f ~/ScreenShots/*.png
+	sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.jpg
 	clear
 	echo
 	echo "[OK DONE!...]"
