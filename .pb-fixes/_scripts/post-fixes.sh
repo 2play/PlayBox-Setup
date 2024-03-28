@@ -36,7 +36,7 @@ sleep 2
 
 function post_up_clean() {
 clear
-git clone --depth 1 --branch=clean-vanilla-tinker https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=clean-vanilla-x86 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
@@ -46,7 +46,7 @@ global_shader
 
 function post_up_normal() {
 clear
-git clone --depth 1 --branch=main-vanilla-tinker https://github.com/2play/PBv2-PostFixes.git
+git clone --depth 1 --branch=main-vanilla-x86 https://github.com/2play/PBv2-PostFixes.git
 cd PBv2-PostFixes/
 #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
 next_steps
