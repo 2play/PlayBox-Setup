@@ -5,7 +5,7 @@
 # Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024 (RC)"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1605,7 +1605,7 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libraspberrypi-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
 ##Custom FFMPEG
 vffmpeg=$(ffmpeg -version | grep "git-2023-05-10-5ce7650" | cut -f3 -d' ')
 if [ "$vffmpeg" != "git-2023-05-10-0412e1d" ]; then
@@ -1640,8 +1640,8 @@ sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure  --disable-caca --disable-jack --disable-opengl1 --disable-oss --disable-sdl --disable-sdl2 --disable-videocore --enable-vulkan --enable-wayland --enable-x11 --enable-alsa --enable-egl --enable-floathard --enable-kms --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2 --disable-pulse --enable-udev
 ##With Pulse & jack
 #CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
-##2P BT With GLES3
-CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
+##2P Native With GLES3 No Vulkan Tinker
+CFLAGS="-march=native" CXXFLAGS="-march=native" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --disable-vulkan --disable-sdl --enable-sdl2 --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-opengles3_2
 make -j4
 if [ -f "retroarch" ]; then
 mv retroarch retroarchNEW
@@ -3095,6 +3095,8 @@ function cl_cli_hist() {
 	#cat /dev/null > ~/.bash_history
 	history -cw && clear
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
+	cp $HOME/PlayBox-Setup/.pb-fixes/cli/input_history $HOME/.config/mps-youtube/
+	cp $HOME/PlayBox-Setup/.pb-fixes/cli/play_history.m3u $HOME/.config/mps-youtube/
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '15,1000d' .bash_history
