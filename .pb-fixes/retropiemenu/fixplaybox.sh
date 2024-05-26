@@ -5,7 +5,7 @@
 # Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit RockChip
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 01.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -2880,9 +2880,9 @@ function cl_gm_xml_sys() {
 function cl_saves() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
-	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi)$" -type f -delete
-	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat)$" -type f -delete
-	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|hi|ldci|dat)$" -type f -delete
+	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$" -type f -delete
+	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm|dat)$" -type f -delete
+	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$" -type f -delete
 	clear
 	echo
 	echo "[OK DONE!...]"
