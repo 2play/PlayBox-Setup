@@ -3,7 +3,7 @@
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
 # Copyright (C)2018-2024 2Play! (S.R.)+
-# PlayBox ToolKit RockChip
+# PlayBox ToolKit x86
 
 pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024"
 
@@ -1542,7 +1542,7 @@ function skyscraper() {
 
 
 function mesa_vk() {
-# For RockChip Midgard SoC - PanFrost MESA
+# For x86
 # The PlayBox Project
 # Copyright (C)2018-2024 2Play! (S.R.)
 # 08.2023
