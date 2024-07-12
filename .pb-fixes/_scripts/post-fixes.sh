@@ -150,6 +150,8 @@ echo
 fi 
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
+#to update pip3
+#python3 -m pip install --upgrade pip
 else 
 sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
 sudo chmod 755 /usr/bin/yt-dlp
