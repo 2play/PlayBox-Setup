@@ -1,1 +1,0 @@
-touch ~/.musicpaused.flag
