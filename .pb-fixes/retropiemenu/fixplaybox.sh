@@ -3,9 +3,9 @@
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
 # Copyright (C)2018-2024 2Play! (S.R.)+
-# PlayBox ToolKit x86
+# PlayBox ToolKit For Batocera
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 09.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -78,7 +78,7 @@ function fixes_pbt() {
             --menu "Apply the fix(es) you need..." 25 75 20 \
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
-			1 " - Fix The PlayBox RetropieMenu " \
+			1 " - Fix Black Screen At Boot " \
             2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) " \
 			3 " - Repair PlayBox Background Music Mute File [OFF] " \
             4 " - Repair 2Play! Slideshow Screensaver " \
@@ -89,7 +89,8 @@ function fixes_pbt() {
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) fix_rpmenu  ;;
+            1) blackscr  ;;
+            #1) fix_rpmenu  ;;
             2) fix_region  ;;
 			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
@@ -140,6 +141,27 @@ function fix_rpmenu() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
 	fi
+}
+
+
+function blackscr() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
+	clear
+	mount -o remount,rw /boot
+	sleep 1
+	if ! grep "## false -> Use the open-source Nouveau drivers." /boot/batocera-boot.conf; then
+	sudo sed '/## legacy390 -> Use the older 390 driver./a ## false -> Use the open-source Nouveau drivers.' /boot/batocera-boot.conf;
+	fi
+	echo
+	if grep '^nvidia-driver=true' /boot/batocera-boot.conf; then
+	sed -i 's|^nvidia-driver=true"|nvidia-driver=false|' /boot/batocera-boot.conf;
+	fi
+	clear
+	echo "We need to restart system now..."
+	echo
+	sleep 2
+	sudo reboot
+	echo
 }
 
 
@@ -562,8 +584,9 @@ function apps_pbt() {
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
 			1 " - Take HD ScreenShot " \
-			2 " - Gamelist Views - 2Play! Themes " \
-		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
+			2 " - Enable Video Splash Exact Duration " \
+		    3 " - Rotate Screen at 0/90/180/270 " \
+		    OFF3 " - RetroArch Visual & Audio ON/OFF Options+ " \
 			4 " - Hide or Show a System " \
 			5 " - 2Play! Music Selections " \
 			6 " - Skyscraper By Lars Muldjord " \
@@ -579,8 +602,9 @@ function apps_pbt() {
 
         case "$choice" in
             1) prntscr  ;;
-			2) swap_theme_view ;;
-			3) ra_options_tool  ;;
+			2) vsplashduration ;;
+			3) rotatescr  ;;
+			#3) ra_options_tool  ;;
 			4) hd_sh_sys  ;;
 			5) music_2p  ;;
 			6) skyscraper  ;;
@@ -601,18 +625,7 @@ function apps_pbt() {
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
-	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
-	#screenshot > ~/ScreenShots/printscreen$now.jpg
-	#X=$( pidof Xorg )
-	#if [ ${#X} -gt 0 ]
-	#then
-	#		DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.jpg
-	#else
-	#		fbgrab ~/ScreenShots/printscreen$now.jpg
-	#fi
-	#sudo kmsgrab ~/ScreenShots/printscreen$now.png;	convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; 	rm -f ~/ScreenShots/*.png
-	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png; convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; rm -f ~/ScreenShots/*.png
-	sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.jpg
+	batocera-screenshot
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -620,33 +633,25 @@ function prntscr() {
 }
 
 
-function swap_theme_view() {
+function vsplashduration() {
+	dialog --infobox "...Applying..." 3 20 ; sleep 1
 	clear
-	local choice
-	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " 2PLAY! THEME VIEWS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
-            - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "" \
-			1 "Single Window Art:  Image and then Video " \
-			2 "Dual Window Art  :  Image Under Gamelist + Big Video " \
-			3 "Dual Window Art  :  Full Gamelist, Image Next to Video " \
-			- "" \
-			4 "ES Systems Browsing: Vertical " \
-			5 "ES Systems Browsing: Horizontal " \
-			2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) single_art  ;;
-            2) dual_art_hz  ;;
-			3) dual_art_vrt  ;;
-			4) sys_verical  ;;
-			5) sys_horizontal  ;;
-			-) none ;;
-			*)  break ;;
-        esac
-    done
+	if ! grep "^splash.screen.length=" /userdata/system/batocera.conf; then
+	sudo sed '/^splash.screen.sound=1/a #splash.screen.length=auto' /userdata/system/batocera.conf;
+	fi
+	echo
+	echo ***PLEASE TYPE DURATION OF THE SPLASH VIDEO IN SECONDS***
+	echo 
+	read -n 1 -s -r -p "Press any key to continue..."
+	echo
+	read -p 'So what is the fixed duration you want to apply to the video splash?: ' durdig
+	echo
+	if grep '^splash.screen.length=auto' /userdata/system/batocera.conf; then
+	sed -i 's|splash.screen.length=auto"|splash.screen.length=$durdig|' /userdata/system/batocera.conf;
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
 }
 
 function single_art() {
@@ -700,7 +705,7 @@ function dual_art_vrt() {
 	sudo reboot
 }
 
-function sys_verical() {
+function sys_vertical() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd /etc/emulationstation/themes
@@ -728,6 +733,32 @@ function sys_horizontal() {
 	sudo reboot
 }
 
+
+function rotatescr() {
+	clear
+	local choice
+    while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " SCREEN ROTATION OPTIONS MENU " \
+            --ok-label OK --cancel-label Back \
+            --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
+            - "*** SCREEN ROTATION SELECTIONS ***" \
+            1 " - Rotate Screen  90 Degrees " \
+            2 " - Rotate Screen 180 Degrees " \
+            3 " - Rotate Screen 270 Degrees " \
+            4 " - Reset  Screen   0 Degrees " \
+			- "" \
+			2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) rotatescr90  ;;
+            2) rotatescr180  ;;
+            3) rotatescr270  ;;
+            4) rotatescr0  ;;
+			-) none  ;;
+            *)  break ;;
+        esac
+    done
+}
 
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
@@ -3157,8 +3188,8 @@ function sys_pbt() {
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
-		   1 " - Filesystem Check is Automated " \
-           2 " - Expand Armbian OS Partition " \
+		   1 " - Enable Auto Expand OS Partition " \
+           2 " - Other " \
 		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade " \
            4 " - Show Partitions & Space Info " \
 		   5 " - Show Folders Size [home/pi] " \
@@ -3172,8 +3203,8 @@ function sys_pbt() {
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-           #1) fschk_bt  ;;
-           2) expand_os  ;;
+           1) expand_os  ;;
+          #2) expand_os  ;;
 		   3) hide_uboot  ;;
            4) partitions  ;;
 		   5) fold_sz  ;;
@@ -3208,13 +3239,14 @@ function fschk_bt() {
 function expand_os() {
 	dialog --infobox "...Expanding..." 3 20 ; sleep 1
 	clear
-	sudo systemctl enable armbian-resize-filesystem >/dev/null 2>&1
 	echo
-	echo "We need to restart system now..."
+	echo "The Auto Expand will be enabled..."
+	echo "Shutdown, Bakcup to .img and burn to new drive. It will expand on first boot."
 	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 3
-	sudo reboot
+	mount -o remount,rw /boot
+	sleep 1
+	sed -i 's|^autoresize=true"|autoresize=true|' /boot/batocera-boot.conf;
+	echo	
 }
 
 function hide_uboot() {
