@@ -5,7 +5,7 @@
 # Copyright (C)2018-2024 2Play! (S.R.)+
 # PlayBox ToolKit For Batocera
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 09.2024"
+pb_version="PlayBox ToolKit For Batocera v1.0 Dated 09.2024"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -649,6 +649,7 @@ function vsplashduration() {
 	if grep '^splash.screen.length=auto' /userdata/system/batocera.conf; then
 	sed -i 's|splash.screen.length=auto"|splash.screen.length=$durdig|' /userdata/system/batocera.conf;
 	clear
+	batocera-save-overlay
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -3850,7 +3851,7 @@ function poff_pb() {
 	echo
 	echo "[OK System Will Shutdown now...]"
 	clear
-	sudo shutdown -P now
+	shutdown -P now
 }
 
 function restart_pb() {
@@ -3859,7 +3860,7 @@ function restart_pb() {
 	echo
 	echo "[OK System Will Restart now...]"
 	clear
-	sudo reboot
+	reboot
 }
 
 
