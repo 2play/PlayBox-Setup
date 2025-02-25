@@ -1414,7 +1414,7 @@ function music_2p() {
             1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
-            4 "I want to listen to image builder's Custom Tracks ! " \
+            4 "I want to mix all 'n' enjoy pure retro!!! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1508,10 +1508,14 @@ function Mix() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
