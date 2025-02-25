@@ -2,10 +2,10 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2024 2Play! (S.R.)+
+# Copyright (C)2018-2025 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 02.2025"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -1537,7 +1537,7 @@ function skyscraper() {
 function mesa_vk() {
 # Install Pi4 Igalia Mesa Vulkan (v3dv-conformance-1.0) Driver https://blogs.igalia.com/apinheiro/
 # The PlayBox Project
-# Copyright (C)2018-2024 2Play! (S.R.)
+# Copyright (C)2018-2025 2Play! (S.R.)
 # 10.05.2023
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
@@ -1969,7 +1969,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2024 2Play! (S.R.)
+# Copyright (C)2018-2025 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
@@ -3753,43 +3753,13 @@ function fwup_pi4() {
 function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 # The PlayBox Project
-# Copyright (C)2018-2024 2Play! (S.R.)
-# 26.03.2022
+# Copyright (C)2018-2025 2Play! (S.R.)
+# 02.2025
 	clear
-echo "
-        $(tput setaf 1)__________.__                 $(tput setaf 7)__________
-        $(tput setaf 1)\______   \  | _____   ___.__.$(tput setaf 7)\______   \ ________  ___
-        $(tput setaf 1) |     ___/  | \__  \ <   |  | $(tput setaf 7)|    |  _//  _  \  \/  /
-        $(tput setaf 1) |    |   |  |__/ __ \ \___  | $(tput setaf 7)|    |   (  <_>  >    <
-        $(tput setaf 1) |____|   |____(____  )/ ____| $(tput setaf 7)|______  /\_____/__/\_ \ 
-        $(tput setaf 1)                    \/ \/      $(tput setaf 7)       \/             \/
-                                                      By $(tput setaf 1)2$(tput setaf 7)Play!
-
-$(tput setaf 2)`uname -srmo` - `lsb_release -ds`
-$(tput setaf 2)Your $(tput setaf 1)Play$(tput setaf 7)Box $(tput setaf 2)is `uptime -p` since `uptime -s` 😃
-User `exec -- last | head -1`
-$(tput bold)$(tput setaf 5)
-Date & Time     : `date +"%A, %e %B %Y, %r"`
-$(tput bold)$(tput setaf 7)
-...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
-                            $(tput bold)Size 	Used	Avail 	Used%
-SD Boot         Partition: `df -h | grep '/dev/mmcblk[0-9]*p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
-SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
-
-$(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
-CPU `grep Hardware /proc/cpuinfo`,  -  `lscpu | grep "Model name"`
-GPU Version     : `exec -- /opt/vc/bin/vcgencmd version | awk 'FNR == 1'`
-
-$(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU Max Speed   : `lscpu | grep max`$(tput sgr0)
-$(tput setaf 6)
-Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Local IP        : `hostname -I`
-$(tput setaf 7)$(tput sgr0)"
+# Ensure environment is correctly set up
+source ~/.bash_profile
 echo
 read -n 1 -s -r -p "Press any key to continue"
-#$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
 }
 
 
