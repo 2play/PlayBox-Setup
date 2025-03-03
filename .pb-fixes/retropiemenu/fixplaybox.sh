@@ -465,7 +465,7 @@ function themes_rs() {
 	sudo chown pi:pi -R /etc/emulationstation/themes
 	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
-	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
+	rsync -urv --delete --exclude '.git' . /etc/emulationstation/themes/
 	rm /etc/emulationstation/themes/*.*
 	cd ..
 	rm -rf 2Play-v2-Themes/
@@ -2907,24 +2907,22 @@ clear
 			- "*** Turn switch 'SAFE SHUTDOWN' on PCB to ON position. ***" \
 			- "	" \
 			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown [ON] " \
-			2 " - RetroFlag GPi-Case Safe Shutdown [ON] " \
-			3 " - RetroFlag All Cases Safe Shutdown [OFF] " \
+			2 " - RetroFlag All Cases Safe Shutdown [OFF] " \
 			- "	" \
 			- "*** ARGON ONE SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Extra Settings Check https://bit.ly/3nfaID6 ***" \
 			- "	" \
-			4 " - Argon ONE Safe Shutdown & Fan [ON] " \
-			5 " - Argon ONE Safe Shutdown & Fan [OFF] " \
-			6 " - Argon ONE Adjust Fan Settings " \
+			3 " - Argon ONE Safe Shutdown & Fan [ON] " \
+			4 " - Argon ONE Safe Shutdown & Fan [OFF] " \
+			5 " - Argon ONE Adjust Fan Settings " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
             1) rflag_on  ;;
-            2) rflaggpi_on  ;;
-            3) rflag_off  ;;
-			4) argon1_on  ;;
-            5) argon1_off  ;;
-			6) argon1_fan  ;;
+            2) rflag_off  ;;
+			3) argon1_on  ;;
+            4) argon1_off  ;;
+			5) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
@@ -2934,16 +2932,6 @@ clear
 function rflag_on() {
 	clear
 	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/install.sh" | sudo bash
-}
-
-function rflaggpi_on() {
-	clear
-	wget -q -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/gpi/install.sh" | bash
-	clear
-	echo ""
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
 }
 
 function rflag_off() {
