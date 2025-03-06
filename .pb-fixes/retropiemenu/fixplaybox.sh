@@ -605,7 +605,7 @@ function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
-	screenshot > ~/ScreenShots/printscreen$now.jpg
+	sudo kmsgrab ~/ScreenShots/printscreen$now.png
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2932,6 +2932,16 @@ clear
 function rflag_on() {
 	clear
 	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/install.sh" | sudo bash
+}
+
+function rflaggpi_on() {
+	clear
+	wget -q -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/gpi/install.sh" | bash
+	clear
+	echo ""
+	echo "[OK DONE!...]"
+	cd $HOME
+	sleep 2
 }
 
 function rflag_off() {
