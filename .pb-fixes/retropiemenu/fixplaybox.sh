@@ -174,7 +174,6 @@ dialog --backtitle "Region based ES Systems" \
             1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
             3 " - ALL:   All systems will be enabled " \
-            - "" \
             2>&1 > /dev/tty)
 
         case "$choice" in
