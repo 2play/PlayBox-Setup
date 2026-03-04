@@ -1,6 +1,6 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 26.12.20
 celsius1=$(cat /sys/class/thermal/thermal_zone0/temp | sed 's/.\{3\}$/.&/')
 celsius2=$(cat /sys/class/thermal/thermal_zone1/temp | sed 's/.\{3\}$/.&/')

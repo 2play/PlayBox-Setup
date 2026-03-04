@@ -2,7 +2,7 @@
 # All required fixes in case you break something 
 # Fix retropiemenu, es_systems.cfg etc.
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # PlayBox ToolKit
 
 pb_version="PlayBox ToolKit Version 2.0 Dated 27.12.2020"
@@ -1247,7 +1247,7 @@ function skyscraper() {
 
 function amiberry_git() {
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 27.12.20
 	clear
 	local choice
@@ -1311,7 +1311,7 @@ function amiberry_3399() {
 function igalia_vk() {
 # Install Pi Igalia Mesa Vulkan Driver
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "IGALIA VULKAN OPTIONS MENU" \
@@ -1345,7 +1345,7 @@ function igalia_vk() {
 function igalia_all() {
 # Install Pi Igalia Mesa Vulkan Driver
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 23.07.20
 cd $HOME
 if [ ! -d code ]; then
@@ -1564,7 +1564,7 @@ function pikiss_git() {
 function rpc80_saves() {
 # Based on RPC80 Single Saves Folder Script
 # The PlayBox Project
-# Copyright (C)2018-2020 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 23.07.20
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
