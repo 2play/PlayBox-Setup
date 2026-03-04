@@ -1,7 +1,7 @@
 #!/bin/bash
 # Pi0 BGM Off/On
 # The PlayBox Project
-# Copyright (C)2018-2023 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 24.04.2023
 
 dialog --backtitle "Pi0 BGM Off/On Switch" \
