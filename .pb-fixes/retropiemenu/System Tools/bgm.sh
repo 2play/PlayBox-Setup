@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Python BGM script by Rydra inspired from original concept script of Livewire
 # The PlayBox Project
-# Copyright (C)2018-2025 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 09.2023
 
 infobox= ""
