@@ -1,6 +1,6 @@
 #!/bin/bash
 # The PlayBox Project
-# Copyright (C)2018-2024 2Play! (S.R.)
+# Copyright (C)2018-2026 2Play! (S.R.)
 # 03.2024
 
 infobox=""
