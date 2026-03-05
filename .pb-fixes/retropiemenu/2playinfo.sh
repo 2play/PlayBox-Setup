@@ -37,8 +37,8 @@ CPU `grep Hardware /proc/cpuinfo` - `lscpu | grep "Model name"`
 CPU Max Speed   : `lscpu | grep max`
 GPU Version     : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/cpu.sh`
 $(tput setaf 6)
-Memory            : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Local & Public IP : `hostname -I`and `curl -4 icanhazip.com 2>/dev/null | awk '{print $NF; exit}'`
+Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
+Local IP & WAN  : `ip route get 8.8.8.8 | awk '{print $7}'` / `curl -s https://api.ipify.org`
 $(tput setaf 7)
 ...WEATHER INFO...
 $(tput setaf 5)
