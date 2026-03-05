@@ -5,7 +5,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit x86
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.2024"
+pb_version="PlayBox ToolKit Version 2.0 Dated 03.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -85,7 +85,7 @@ function fixes_pbt() {
 			5 " - Reset All RetroPie Controllers " \
 			6 " - Fix RetroPie-Setup Git Update " \
 			7 " - Update 2Play! PlayBox v2 Themes " \
-			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI [OFF] " \
+			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -97,7 +97,7 @@ function fixes_pbt() {
 			5) fix_control  ;;
 			6) git_rs  ;;
 			7) themes_rs  ;;
-			#8) def_audio_out  ;;
+			8) def_audio_out  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -111,6 +111,7 @@ function fix_rpmenu() {
 	if [ -d $HOME/RetroPie/retropiemenu.OFF ]; then echo; echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; echo; read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
 	else
+	sudo rm -rf RetroPie/retropiemenu/*
 	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
 	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
@@ -126,6 +127,7 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
+	sudo rm -rf ~/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
@@ -464,7 +466,7 @@ function themes_rs() {
 	sudo chown pi:pi -R /etc/emulationstation/themes
 	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
 	cd 2Play-v2-Themes/
-	rsync -urv --exclude '.git' . /etc/emulationstation/themes/
+	rsync -urv --delete --exclude '.git' . /etc/emulationstation/themes/
 	rm /etc/emulationstation/themes/*.*
 	cd ..
 	rm -rf 2Play-v2-Themes/
@@ -573,7 +575,7 @@ function apps_pbt() {
 		   10 " - SD/USB Storage Benchmark " \
 		   11 " - Emulators Custom Compile From Source " \
 		   12 " - Emulator Tweaks Options [OFF] " \
-		   13 " - Safe Shutdown Case Script Options " \
+		   13 " - Safe Shutdown Case Script Options [OFF] " \
 		   14 " - Swap Desktop Enviroment (mate-session, other-session) " \
 		   2>&1 > /dev/tty)
 
@@ -590,7 +592,7 @@ function apps_pbt() {
 		   10) strg_bench  ;;
 		   11) emus_compile  ;;
 		   #12) emus_tks  ;;
-		   13) safe_shut  ;;
+		   #13) safe_shut  ;;
 		   14) desk_env  ;;
 		   -) none ;;
             *)  break ;;
@@ -886,9 +888,9 @@ function enable_global_sh() {
 	fi
 	if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
 	fi
-	if [ ! -f global.glslp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-tinker/opt/retropie/configs/all/retroarch/config/global.glslp
+	if [ ! -f global.glslp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/global.glslp
 	fi
-	if [ ! -f global.slangp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-tinker/opt/retropie/configs/all/retroarch/config/global.slangp
+	if [ ! -f global.slangp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/global.slangp
 	fi
 	mv global.glslp.OFF global.glslp
 	mv global.slangp.OFF global.slangp
@@ -934,12 +936,12 @@ function sys_overlay_on() {
 	clear
 	echo
 	while true; do
-		echo ""
+		echo
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) sys_overlay_on;;
 		[Nn]*) return;;
-		* ) echo ""; echo "Please answer yes or no.";;
+		* ) echo; echo "Please answer yes or no.";;
 		esac
 	done
 	cd $HOME
@@ -990,12 +992,12 @@ function sys_overlay_off() {
 	clear
 	echo
 	while true; do
-		echo ""
+		echo
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) sys_overlay_off;;
 		[Nn]*) return;;
-		* ) echo ""; echo "Please answer yes or no.";;
+		* ) echo; echo "Please answer yes or no.";;
 		esac
 	done
 	cd $HOME
@@ -1421,7 +1423,7 @@ function music_2p() {
             1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
-            4 "I want to listen to image builder's Custom Tracks ! " \
+            4 "I want to mix all 'n' enjoy pure retro!!! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1515,10 +1517,14 @@ function Mix() {
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
 	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/localroms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
 	else
 	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/custom/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/roms/music
+	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
 	fi
 	echo
 	echo "[OK System Will Restart now...]"
@@ -1545,7 +1551,7 @@ function mesa_vk() {
 # For x86
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-# 08.2023
+# 03.2026
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
 	
@@ -1557,7 +1563,7 @@ function mesa_vk() {
             - "*** MESA & VULKAN SELECTIONS ***" \
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
-           2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Source " \
+           2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Version " \
 		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
 		   2>&1 > /dev/tty)
 
@@ -1575,20 +1581,20 @@ function mesa_vk() {
 function mesa_up() {
 clear
 cd $HOME
-echo ""
+echo
 echo "STEP 1. Bring OS Up to date... "
-echo ""
+echo
 sudo apt update -y && sudo apt upgrade -y
-echo ""
+echo
 echo "STEP 2. Installing Repository & Integrate to OS... "
-echo ""
+echo
 sudo add-apt-repository ppa:kisak/kisak-mesa && sudo apt update -y && sudo apt upgrade -y
-echo ""
+echo
 echo "[OK DONE!...]"
 sleep 1
-echo ""
+echo
 read -n 1 -s -r -p "Press any key to reboot"
-echo ""
+echo
 echo "[OK System Will Restart now...]"
 clear
 sudo reboot
@@ -1596,9 +1602,9 @@ sudo reboot
 
 function vulkan_ra() {
 clear
-echo ""
+echo
 echo "Compile RetroArch with Vulkan Support... "
-echo ""
+echo
 cd $HOME
 if [ ! -d code ]; then
 mkdir code && cd code/
@@ -1631,7 +1637,7 @@ git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
 #tar -xvf v1.14.0.tar.gz
 cd RetroArch*/
 #
-# Check sources.list if extra space after # and fix as needed 
+# Check sources.list if extra space after # and fix as needed
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
 sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
@@ -1654,12 +1660,12 @@ sudo mv retroarch retroarchORIG
 sudo ln -sf retroarchNEW retroarch
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
 #sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|^core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|^core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|#core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armv7-neon-hf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "http://buildbot.libretro.com/nightly/linux/armhf/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|^core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|^core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+#sed -i 's|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+#sed -i 's|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
+sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
 else
 echo
 echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
@@ -1708,9 +1714,9 @@ mkdir code && cd code/
 else
 cd code/
 fi
-echo ""
+echo
 echo "Vulkan Demos... "
-echo ""
+echo
 cd $HOME/code/
 if [ ! -d sascha-willems ]; then
 sudo apt install libassimp-dev
@@ -1725,14 +1731,14 @@ make -j4
 mv -v build/bin/* bin/
 chmod 755 bin/benchmark-all.py
 else
-echo ""
+echo
 echo "Directory exists so most probably you compiled before!!!"
 fi
 cd $HOME/code/
 rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
-echo ""
+echo
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
-echo ""
+echo
 read -n 1 -s -r -p "Press any key to continue"
 clear
 echo
@@ -2096,8 +2102,8 @@ function emus_compile() {
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
 			- "	" \
-			1 "Amiberry Pi Compile and Update From GitHub" \
-			2 "PPSSPP Pi Compile and Update From GitHub" \
+			1 "Amiberry Pi Compile and Update From GitHub " \
+			2 "PPSSPP Pi Compile and Update From GitHub " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2117,36 +2123,42 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
             - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  RK3288 " \
+			1 "Amiberry :  x86 " \
 			- "" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) amiberry_RK3288  ;;
+            1) amiberry_x86  ;;
             -) none ;;
             *)  break ;;
         esac
     done
 }
 
-function amiberry_RK3288() {
+function amiberry_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
 	cd $HOME && cd code
 	rm -rf amiberry*
-	git clone --depth 1 https://github.com/midwan/amiberry.git
-	#git clone --depth 1 --branch=dev https://github.com/midwan/amiberry.git amiberry_dev
-	#cd amiberry_dev
+	##Dependencies
+	#sudo apt install build-essential git cmake libsdl2-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev libportmidi-dev libenet-dev libpcap-dev libzstd-dev -y
+	#git clone --depth 1 https://github.com/midwan/amiberry.git
+	
+	# Download the latest .deb from Releases or Development Builds https://github.com/BlitterStudio/amiberry/releases/latest
+	#sudo apt update
+	#sudo apt install ./amiberry_*.deb
 	cd amiberry
 	make clean
 	git pull
-	make -j4 PLATFORM=RK3288
+	cmake -B build && cmake --build build
+	#CMake's default installation prefix is /usr/local/. To change this, specify a different prefix when invoking CMake. For example, to install under /opt, use:
+	#cmake -B build -G Ninja -DCMAKE_INSTALL_PREFIX=~/code && cmake --build build
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryRK3288
+	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryx86
 	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryRK3288
-	sudo ln -sfn amiberryRK3288 amiberry
+	sudo chmod 755 amiberryx86
+	sudo ln -sfn amiberryx86 amiberry
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -2526,7 +2538,7 @@ function lrpuae_on() {
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2537,7 +2549,7 @@ function amiberry_on() {
 	cd /opt/retropie/configs/
 	find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "lr-puae"|default = "amiberry"|' {} 2>/dev/null \;
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2554,7 +2566,7 @@ function lrpuae_custom_on() {
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2565,7 +2577,7 @@ function lrpuae_custom_sh_off() {
 	cd /opt/retropie/configs/all/retroarch/config/PUAE
 	mv PUAE.glslp PUAE.glslp.OFF
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2576,7 +2588,7 @@ function lrpuae_custom_sh_on() {
 	cd /opt/retropie/configs/all/retroarch/config/PUAE
 	mv PUAE.glslp.OFF PUAE.glslp
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2629,7 +2641,7 @@ function rflaggpi_on() {
 	clear
 	wget -q -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/gpi/install.sh" | bash
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
@@ -2639,7 +2651,7 @@ function rflag_off() {
 	clear
 	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/uninstall_all.sh" | sudo bash
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	sleep 1
 	echo
@@ -2654,7 +2666,7 @@ function argon1_on() {
 	clear
 	curl https://download.argon40.com/argon1.sh | bash
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	echo
 	echo "[OK System Will Restart now...]"
@@ -2666,7 +2678,7 @@ function argon1_off() {
 	clear
 	exec /usr/bin/argonone-uninstall
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	echo
 	echo "[OK System Will Restart now...]"
@@ -2678,7 +2690,7 @@ function argon1_fan() {
 	clear
 	exec /usr/bin/argonone-config
 	clear
-	echo ""
+	echo
 	echo "[OK DONE!...]"
 	sleep 2
 }
@@ -2809,12 +2821,12 @@ function cl_gm_xml_sys() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	while true; do
-		echo ""
+		echo
 		read -p 'Whould you like to change another system [y] or [n]? ' yn
 		case $yn in
 		[Yy]*) cl_gm_xml_sys;;
 		[Nn]*) return;;
-		* ) echo ""; echo "Please answer yes or no.";;
+		* ) echo; echo "Please answer yes or no.";;
 		esac
 	done
 	cd $HOME
@@ -3158,8 +3170,8 @@ function sys_pbt() {
             - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
 			- "	" \
 		   1 " - Filesystem Check is Automated " \
-           2 " - Expand Armbian OS Partition " \
-		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade " \
+		   2 " - Expand Armbian OS Partition " \
+		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade [OFF] " \
            4 " - Show Partitions & Space Info " \
 		   5 " - Show Folders Size [home/pi] " \
            6 " - Show System Free Memory Info " \
@@ -3174,7 +3186,7 @@ function sys_pbt() {
         case "$choice" in
            #1) fschk_bt  ;;
            2) expand_os  ;;
-		   3) hide_uboot  ;;
+		   #3) hide_uboot  ;;
            4) partitions  ;;
 		   5) fold_sz  ;;
            6) freemem  ;;
@@ -3272,7 +3284,7 @@ function os_info() {
 function os_update() {
 	clear
 # SYSTEM Update Options Script by 2Play!
-# 26.03.22
+# 03.2026
 
 infobox=""
 infobox="${infobox}\n"
@@ -3332,6 +3344,7 @@ function update_os() {
 	sudo reboot
 }
 
+
 function fw_pi() {
 	clear
 	sudo armbian-config
@@ -3342,40 +3355,10 @@ function sysinfo() {
 	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-# 26.03.2022
+# 03.2026
 	clear
-echo "
-        $(tput setaf 1)__________.__                 $(tput setaf 7)__________
-        $(tput setaf 1)\______   \  | _____   ___.__.$(tput setaf 7)\______   \ ________  ___
-        $(tput setaf 1) |     ___/  | \__  \ <   |  | $(tput setaf 7)|    |  _//  _  \  \/  /
-        $(tput setaf 1) |    |   |  |__/ __ \ \___  | $(tput setaf 7)|    |   (  <_>  >    <
-        $(tput setaf 1) |____|   |____(____  )/ ____| $(tput setaf 7)|______  /\_____/__/\_ \ 
-        $(tput setaf 1)                    \/ \/      $(tput setaf 7)       \/             \/
-                                                      By $(tput setaf 1)2$(tput setaf 7)Play!
-
-$(tput setaf 2)`uname -srmo` - `lsb_release -ds`
-$(tput setaf 2)Your $(tput setaf 1)Play$(tput setaf 7)Box $(tput setaf 2)is `uptime -p` since `uptime -s` 😃
-User `exec -- last | head -1`
-$(tput bold)$(tput setaf 5)
-Date & Time     : `date +"%A, %e %B %Y, %r"`
-$(tput bold)$(tput setaf 7)
-...SYSTEM INFO...$(tput sgr0)$(tput setaf 3)
-                            $(tput bold)Size 	Used	Avail 	Used%
-SD Boot         Partition: `df -h | grep '/dev/mmcblk[0-9]*p1' | awk '{print " "$2,"	"$3," 	"$4," 	 "$5}'`
-SD/USB Root     Partition: `df -h | grep '/dev/root' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`
-Ext-USB/USBBoot Partition: `df -h | grep '/dev/sda1' 	 | awk '{print " "$2,"	"$3,"	"$4," 	 "$5}'`$(tput sgr0)
-
-$(tput bold)$(tput setaf 7)`grep Model /proc/cpuinfo`$(tput sgr0)
-CPU & Board     : `tr -d '\0' </proc/device-tree/model`
-GPU Version     : Mali™-T764 ARM MP4 GPU
-
-$(tput bold)$(tput setaf 1)SoC Temperature : `exec -- /home/pi/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh`
-CPU Cur. Speed  : `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq)/1000)); printf "$cpumxs MHz"`
-GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ffa30000.gpu/cur_freq)/1000000)); printf "$gpumxs  MHz"`$(tput sgr0)
-$(tput setaf 6)
-Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Local IP & WAN  : `ip route get 8.8.8.8 | awk '{print $7}'` / `curl -s https://api.ipify.org`
-$(tput setaf 7)$(tput sgr0)"
+# Ensure environment is correctly set up
+source ~/.bash_profile
 echo
 read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
