@@ -3374,7 +3374,7 @@ CPU Cur. Speed  : `cpumxs=$(($(cat /sys/devices/system/cpu/cpufreq/policy0/cpuin
 GPU Cur. Speed  : `gpumxs=$(($(cat /sys/class/devfreq/ffa30000.gpu/cur_freq)/1000000)); printf "$gpumxs  MHz"`$(tput sgr0)
 $(tput setaf 6)
 Memory          : `cat /proc/meminfo | grep MemFree | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Free) / `cat /proc/meminfo | grep MemTotal | awk '{printf( "%.2f\n", $2 / 1024 )}'`MB (Total)
-Local IP        : `hostname -I` 
+Local IP & WAN  : `ip route get 8.8.8.8 | awk '{print $7}'` / `curl -s https://api.ipify.org`
 $(tput setaf 7)$(tput sgr0)"
 echo
 read -n 1 -s -r -p "Press any key to continue"
