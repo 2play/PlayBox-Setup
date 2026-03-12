@@ -508,45 +508,25 @@ function def_audio_out() {
 
 function hdmi_sound_out() {
 	clear
-	if grep "^hdmi_ignore_edid_audio=1" /boot/config.txt; then
-	sudo sed -i 's|^hdmi_ignore_edid_audio=1|#hdmi_ignore_edid_audio=1|g' /boot/config.txt;
-	fi
-	if grep '#audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg; then
-	sed -i 's|^audio_device = "hw:CARD=ALSA,DEV=0"|#audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
-	sed -i 's|#audio_device = "default"|audio_device = "default"|' /opt/retropie/configs/all/retroarch.cfg;
-	fi
-	sudo sed -i 's|^#set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|' /etc/pulse/default.pa;
-	sudo sed -i 's|^set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|#set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|' /etc/pulse/default.pa;
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh hdmi
 	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
+	#echo "We need to restart system now..."
+	#echo
+	#read -n 1 -s -r -p "Press any key to continue..."
+	#sleep 1
+	#sudo reboot
 	echo
 }
 
 function jack_sound_out() {
 	clear
-	if ! grep -E "^#hdmi_force_edid_audio|hdmi_ignore_edid_audio=1" /boot/config.txt ; then
-	sudo sed -i '99i#hdmi_force_edid_audio' /boot/config.txt
-	sudo sed -i '100i#hdmi_ignore_edid_audio=1' /boot/config.txt
-	fi
-	if grep "#hdmi_ignore_edid_audio=1" /boot/config.txt ; then
-	sudo sed -i 's|^#hdmi_ignore_edid_audio=1|hdmi_ignore_edid_audio=1|g' /boot/config.txt
-	fi
-	if grep '#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg; then
-	sed -i 's|^#audio_device = "hw:CARD=ALSA,DEV=0"|audio_device = "hw:CARD=ALSA,DEV=0"|' /opt/retropie/configs/all/retroarch.cfg;
-	sed -i 's|^audio_device = "default"|#audio_device = "default"|' /opt/retropie/configs/all/retroarch.cfg;
-	fi
-	sudo sed -i 's|^#set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|set-default-sink alsa_output.platform-bcm2835_audio.analog-stereo|' /etc/pulse/default.pa;
-	sudo sed -i 's|^set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|#set-default-sink alsa_output.platform-bcm2835_audio.digital-stereo|' /etc/pulse/default.pa;
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh usb
 	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
+	#echo "We need to restart system now..."
+	#echo
+	#read -n 1 -s -r -p "Press any key to continue..."
+	#sleep 1
+	#sudo reboot
 	echo
 }
 
@@ -603,6 +583,7 @@ function apps_pbt() {
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
+	card=$(ls /dev/dri/card* | head -n1)
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
 	#screenshot > ~/ScreenShots/printscreen$now.jpg
 	#X=$( pidof Xorg )
@@ -614,7 +595,7 @@ function prntscr() {
 	#fi
 	#sudo kmsgrab ~/ScreenShots/printscreen$now.png;	convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; 	rm -f ~/ScreenShots/*.png
 	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png; convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; rm -f ~/ScreenShots/*.png
-	sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.jpg
+	sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png
 	clear
 	echo
 	echo "[OK DONE!...]"
