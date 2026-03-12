@@ -509,24 +509,14 @@ function def_audio_out() {
 function hdmi_sound_out() {
 	clear
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh hdmi
-	clear
-	#echo "We need to restart system now..."
-	#echo
-	#read -n 1 -s -r -p "Press any key to continue..."
-	#sleep 1
-	#sudo reboot
+	sleep 1
 	echo
 }
 
 function jack_sound_out() {
 	clear
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh usb
-	clear
-	#echo "We need to restart system now..."
-	#echo
-	#read -n 1 -s -r -p "Press any key to continue..."
-	#sleep 1
-	#sudo reboot
+	sleep 1
 	echo
 }
 
