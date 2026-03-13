@@ -1,68 +1,31 @@
 #!/bin/bash
-# Switch between USB analog and active HDMI
+# Audio Select hdmi | usb with set vol
 
-OUTCONF="$HOME/.asoundrc"
-TESTFILE="/usr/share/sounds/alsa/Front_Center.wav"
+STATE_FILE=/tmp/audio_mode
 
-choose_usb() {
-    echo "Switching to USB analog (card 0, device 0)..."
-    cat > "$OUTCONF" <<EOF
-pcm.!default {
-    type plug
-    slave {
-        pcm "hw:0,0"
-    }
-}
-ctl.!default {
-    type hw
-    card 0
-}
-EOF
-    alsactl kill quit
-    sudo alsactl store
-    echo "Default set to USB analog."
-}
+# Per-device target volumes
+TARGET_VOL_HDMI="81%"
+TARGET_VOL_USB="51%"
 
-choose_hdmi() {
-    ACTIVE_HDMI=""
-    for DEV in 3 7 8; do
-        if aplay -D plughw:1,$DEV "$TESTFILE" >/dev/null 2>&1; then
-            ACTIVE_HDMI=$DEV
-            break
-        fi
-    done
-
-    if [ -n "$ACTIVE_HDMI" ]; then
-        echo "Found active HDMI on device $ACTIVE_HDMI"
-        cat > "$OUTCONF" <<EOF
-pcm.!default {
-    type plug
-    slave {
-        pcm "hw:1,$ACTIVE_HDMI"
-    }
-}
-ctl.!default {
-    type hw
-    card 1
-}
-EOF
-        alsactl kill quit
-        sudo alsactl store
-        echo "Default set to HDMI (card 1, device $ACTIVE_HDMI)."
-    else
-        echo "No active HDMI detected, falling back to USB."
-        choose_usb
-    fi
-}
+# Get sink names dynamically
+ANALOG_SINK=$(pactl list short sinks | grep analog | awk '{print $2}' | head -n1)
+HDMI_SINK=$(pactl list short sinks | grep hdmi | awk '{print $2}' | head -n1)
 
 case "$1" in
-    usb)
-        choose_usb ;;
-    hdmi)
-        choose_hdmi ;;
-    *)
-        echo "Usage: $0 [usb|hdmi]"
-        echo "usb  → force USB analog"
-        echo "hdmi → auto-detect active HDMI, fallback to USB"
-        ;;
+  usb)
+    echo "Switching to ANALOG..."
+    echo "ANALOG" > "$STATE_FILE"
+    pactl set-default-sink "$ANALOG_SINK"
+    pactl set-sink-volume "$ANALOG_SINK" "$TARGET_VOL_USB"
+    ;;
+  hdmi)
+    echo "Switching to HDMI..."
+    echo "HDMI" > "$STATE_FILE"
+    pactl set-default-sink "$HDMI_SINK"
+    pactl set-sink-volume "$HDMI_SINK" "$TARGET_VOL_HDMI"
+    ;;
+  *)
+    echo "Usage: $0 hdmi | usb"
+    exit 1
+    ;;
 esac
