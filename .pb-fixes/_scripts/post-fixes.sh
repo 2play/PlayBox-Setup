@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.2024"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 03.2026"
 echo $pb_version
 sleep 3
 cd $HOME/code/
