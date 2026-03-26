@@ -1,10 +1,10 @@
 ***Welcome to PlayBox!***
 modetest -s 89:#0
-vulkaninfo | grep deviceName
 glxinfo -B
+vulkaninfo | grep deviceName && vulkaninfo | grep LLVM
 python3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d
-sudo armbian-config
 Skyscraper
+sudo armbian-config
 startx
 btop
 sudo ~/RetroPie-Setup/retropie_setup.sh
