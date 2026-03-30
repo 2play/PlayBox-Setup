@@ -19,5 +19,7 @@ if pgrep -x "emulationstatio" > /dev/null; then
     sleep 1	
 fi
 
+chvt 2
 exec /usr/bin/mpv --vo=drm --fs \
     /home/pi/PlayBox-Setup/turnoff.mp4 >/dev/null 2>&1
+chvt 1
