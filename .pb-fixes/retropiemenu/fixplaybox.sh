@@ -5,7 +5,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit x86
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 03.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 04.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -93,8 +93,7 @@ function fixes_pbt() {
             2) fix_region  ;;
 			#3) fix_bgm_py  ;;
             4) fix_slideshow  ;;
-            #5) fix_roms  ;;
-			5) fix_control  ;;
+            5) fix_control  ;;
 			6) git_rs  ;;
 			7) themes_rs  ;;
 			8) def_audio_out  ;;
@@ -127,7 +126,7 @@ function fix_rpmenu() {
 	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
 	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
-	sudo rm -rf ~/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
+	sudo rm -rf $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
@@ -238,17 +237,17 @@ function us_esnpb() {
 	clear
 	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
 if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/playbox ~/RetroPie/localroms/playbox.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga ~/RetroPie/localroms/amiga-aga.OFF
-	mv -f ~/RetroPie/localroms/kodi.OFF ~/RetroPie/localroms/kodi
-	mv -f ~/RetroPie/localroms/amiga1200.OFF ~/RetroPie/localroms/amiga1200
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
+	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
+	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
+	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
 	else
-	mv -f ~/RetroPie/roms/playbox ~/RetroPie/roms/playbox.OFF
-	mv -f ~/RetroPie/roms/amiga-aga ~/RetroPie/roms/amiga-aga.OFF
-	mv -f ~/RetroPie/roms/kodi.OFF ~/RetroPie/roms/kodi
-	mv -f ~/RetroPie/roms/amiga1200.OFF ~/RetroPie/roms/amiga1200
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
+	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
+	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
+	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
 	clear
 	echo "We need to restart system now..."
@@ -264,17 +263,17 @@ function eu_esnpb() {
 	clear
 	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
 if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/playbox ~/RetroPie/localroms/playbox.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga ~/RetroPie/localroms/amiga-aga.OFF
-	mv -f ~/RetroPie/localroms/kodi.OFF ~/RetroPie/localroms/kodi
-	mv -f ~/RetroPie/localroms/amiga1200.OFF ~/RetroPie/localroms/amiga1200
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
+	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
+	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
+	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
 	else
-	mv -f ~/RetroPie/roms/playbox ~/RetroPie/roms/playbox.OFF
-	mv -f ~/RetroPie/roms/amiga-aga ~/RetroPie/roms/amiga-aga.OFF
-	mv -f ~/RetroPie/roms/kodi.OFF ~/RetroPie/roms/kodi
-	mv -f ~/RetroPie/roms/amiga1200.OFF ~/RetroPie/roms/amiga1200
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
+	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
+	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
+	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
 	clear
 	echo "We need to restart system now..."
@@ -290,44 +289,44 @@ function all_esnpb() {
 	clear
 	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
 if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/playbox ~/RetroPie/localroms/playbox.OFF
-	mv -f ~/RetroPie/localroms/amiga-aga ~/RetroPie/localroms/amiga-aga.OFF
-	mv -f ~/RetroPie/localroms/kodi.OFF ~/RetroPie/localroms/kodi
-	mv -f ~/RetroPie/localroms/amiga1200.OFF ~/RetroPie/localroms/amiga1200
-	mv -f ~/RetroPie/localroms/genesis.OFF ~/RetroPie/localroms/genesis
-	mv -f ~/RetroPie/localroms/genesish.OFF ~/RetroPie/localroms/genesish
-#	mv -f ~/RetroPie/localroms/genh.OFF ~/RetroPie/localroms/genh
-	mv -f ~/RetroPie/localroms/tg16.OFF ~/RetroPie/localroms/tg16
-	mv -f ~/RetroPie/localroms/tg16cd.OFF ~/RetroPie/localroms/tg16cd
-	mv -f ~/RetroPie/localroms/odyssey2.OFF ~/RetroPie/localroms/odyssey2
-	mv -f ~/RetroPie/localroms/megacd.OFF ~/RetroPie/localroms/megacd
-	mv -f ~/RetroPie/localroms/megadrive.OFF ~/RetroPie/localroms/megadrive
-	mv -f ~/RetroPie/localroms/megadriveh.OFF ~/RetroPie/localroms/megadriveh
-#	mv -f ~/RetroPie/localroms/megh.OFF ~/RetroPie/localroms/megh
-	mv -f ~/RetroPie/localroms/pcengine.OFF ~/RetroPie/localroms/pcengine
-	mv -f ~/RetroPie/localroms/pcenginecd.OFF ~/RetroPie/localroms/pcenginecd
-	mv -f ~/RetroPie/localroms/videopac.OFF ~/RetroPie/localroms/videopac
-	mv -f ~/RetroPie/localroms/wonderswancolor ~/RetroPie/localroms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
+	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
+	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
+	mv -f $HOME/RetroPie/localroms/genesis.OFF $HOME/RetroPie/localroms/genesis
+	mv -f $HOME/RetroPie/localroms/genesish.OFF $HOME/RetroPie/localroms/genesish
+#	mv -f $HOME/RetroPie/localroms/genh.OFF $HOME/RetroPie/localroms/genh
+	mv -f $HOME/RetroPie/localroms/tg16.OFF $HOME/RetroPie/localroms/tg16
+	mv -f $HOME/RetroPie/localroms/tg16cd.OFF $HOME/RetroPie/localroms/tg16cd
+	mv -f $HOME/RetroPie/localroms/odyssey2.OFF $HOME/RetroPie/localroms/odyssey2
+	mv -f $HOME/RetroPie/localroms/megacd.OFF $HOME/RetroPie/localroms/megacd
+	mv -f $HOME/RetroPie/localroms/megadrive.OFF $HOME/RetroPie/localroms/megadrive
+	mv -f $HOME/RetroPie/localroms/megadriveh.OFF $HOME/RetroPie/localroms/megadriveh
+#	mv -f $HOME/RetroPie/localroms/megh.OFF $HOME/RetroPie/localroms/megh
+	mv -f $HOME/RetroPie/localroms/pcengine.OFF $HOME/RetroPie/localroms/pcengine
+	mv -f $HOME/RetroPie/localroms/pcenginecd.OFF $HOME/RetroPie/localroms/pcenginecd
+	mv -f $HOME/RetroPie/localroms/videopac.OFF $HOME/RetroPie/localroms/videopac
+	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
 	else
-	mv -f ~/RetroPie/roms/playbox ~/RetroPie/roms/playbox.OFF
-	mv -f ~/RetroPie/roms/amiga-aga ~/RetroPie/roms/amiga-aga.OFF
-	mv -f ~/RetroPie/roms/kodi.OFF ~/RetroPie/roms/kodi
-	mv -f ~/RetroPie/roms/amiga1200.OFF ~/RetroPie/roms/amiga1200
-	mv -f ~/RetroPie/roms/genesis.OFF ~/RetroPie/roms/genesis
-	mv -f ~/RetroPie/roms/genesish.OFF ~/RetroPie/roms/genesish
-#	mv -f ~/RetroPie/roms/genh.OFF ~/RetroPie/roms/genh
-	mv -f ~/RetroPie/roms/segacd.OFF ~/RetroPie/roms/segacd
-	mv -f ~/RetroPie/roms/tg16.OFF ~/RetroPie/roms/tg16
-	mv -f ~/RetroPie/roms/tg16cd.OFF ~/RetroPie/roms/tg16cd
-	mv -f ~/RetroPie/roms/odyssey2.OFF ~/RetroPie/roms/odyssey2
-	mv -f ~/RetroPie/roms/megacd.OFF ~/RetroPie/roms/megacd
-	mv -f ~/RetroPie/roms/megadrive.OFF ~/RetroPie/roms/megadrive
-	mv -f ~/RetroPie/roms/megadriveh.OFF ~/RetroPie/roms/megadriveh
-#	mv -f ~/RetroPie/roms/megh.OFF ~/RetroPie/roms/megh
-	mv -f ~/RetroPie/roms/pcengine.OFF ~/RetroPie/roms/pcengine
-	mv -f ~/RetroPie/roms/pcenginecd.OFF ~/RetroPie/roms/pcenginecd
-	mv -f ~/RetroPie/roms/videopac.OFF ~/RetroPie/roms/videopac
-	mv -f ~/RetroPie/roms/wonderswancolor ~/RetroPie/roms/wonderswancolor.OFF
+	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
+	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
+	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
+	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
+	mv -f $HOME/RetroPie/roms/genesis.OFF $HOME/RetroPie/roms/genesis
+	mv -f $HOME/RetroPie/roms/genesish.OFF $HOME/RetroPie/roms/genesish
+#	mv -f $HOME/RetroPie/roms/genh.OFF $HOME/RetroPie/roms/genh
+	mv -f $HOME/RetroPie/roms/segacd.OFF $HOME/RetroPie/roms/segacd
+	mv -f $HOME/RetroPie/roms/tg16.OFF $HOME/RetroPie/roms/tg16
+	mv -f $HOME/RetroPie/roms/tg16cd.OFF $HOME/RetroPie/roms/tg16cd
+	mv -f $HOME/RetroPie/roms/odyssey2.OFF $HOME/RetroPie/roms/odyssey2
+	mv -f $HOME/RetroPie/roms/megacd.OFF $HOME/RetroPie/roms/megacd
+	mv -f $HOME/RetroPie/roms/megadrive.OFF $HOME/RetroPie/roms/megadrive
+	mv -f $HOME/RetroPie/roms/megadriveh.OFF $HOME/RetroPie/roms/megadriveh
+#	mv -f $HOME/RetroPie/roms/megh.OFF $HOME/RetroPie/roms/megh
+	mv -f $HOME/RetroPie/roms/pcengine.OFF $HOME/RetroPie/roms/pcengine
+	mv -f $HOME/RetroPie/roms/pcenginecd.OFF $HOME/RetroPie/roms/pcenginecd
+	mv -f $HOME/RetroPie/roms/videopac.OFF $HOME/RetroPie/roms/videopac
+	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
 	clear
 	echo "We need to restart system now..."
@@ -346,12 +345,12 @@ function fix_bgm_py() {
 	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
 	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+~/RetroPie/roms+~/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
+	sed -i 's+$HOME/RetroPie/roms+$HOME/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
 	else
 	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
 	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
 	cd $HOME
-	sed -i 's+~/RetroPie/localroms+~/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
+	sed -i 's+$HOME/RetroPie/localroms+$HOME/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
 	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
 	clear
@@ -552,7 +551,7 @@ function apps_pbt() {
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
 		   11 " - Emulators Custom Compile From Source " \
-		   12 " - Emulator Tweaks Options [OFF] " \
+		   12 " - Emulator Tweaks Options " \
 		   13 " - Safe Shutdown Case Script Options [OFF] " \
 		   14 " - Swap Desktop Enviroment (mate-session, other-session) " \
 		   2>&1 > /dev/tty)
@@ -569,7 +568,7 @@ function apps_pbt() {
 		    9) rpc80_saves  ;;
 		   10) strg_bench  ;;
 		   11) emus_compile  ;;
-		   #12) emus_tks  ;;
+		   12) emus_tks  ;;
 		   #13) safe_shut  ;;
 		   14) desk_env  ;;
 		   -) none ;;
@@ -583,17 +582,17 @@ function prntscr() {
 	clear
 	card=$(ls /dev/dri/card* | head -n1)
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
-	#screenshot > ~/ScreenShots/printscreen$now.jpg
+	#screenshot > $HOME/ScreenShots/printscreen$now.jpg
 	#X=$( pidof Xorg )
 	#if [ ${#X} -gt 0 ]
 	#then
-	#		DISPLAY=:0 scrot ~/ScreenShots/printscreen$now.jpg
+	#		DISPLAY=:0 scrot $HOME/ScreenShots/printscreen$now.jpg
 	#else
-	#		fbgrab ~/ScreenShots/printscreen$now.jpg
+	#		fbgrab $HOME/ScreenShots/printscreen$now.jpg
 	#fi
-	#sudo kmsgrab ~/ScreenShots/printscreen$now.png;	convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; 	rm -f ~/ScreenShots/*.png
-	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png; convert ~/ScreenShots/printscreen*.png ~/ScreenShots/printscreen$now.jpg; rm -f ~/ScreenShots/*.png
-	sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 ~/ScreenShots/printscreen$now.png
+	#sudo kmsgrab $HOME/ScreenShots/printscreen$now.png;	convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; 	rm -f $HOME/ScreenShots/*.png
+	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png; convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; rm -f $HOME/ScreenShots/*.png
+	sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1266,7 +1265,7 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
 function hide_rpm() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	mv -f ~/RetroPie/retropiemenu ~/RetroPie/retropiemenu.OFF
+	mv -f $HOME/RetroPie/retropiemenu $HOME/RetroPie/retropiemenu.OFF
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -1279,7 +1278,7 @@ function hide_rpm() {
 function show_rpm() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	mv -f ~/RetroPie/retropiemenu.OFF ~/RetroPie/retropiemenu
+	mv -f $HOME/RetroPie/retropiemenu.OFF $HOME/RetroPie/retropiemenu
 	clear
 	echo "We need to restart system now..."
 	echo
@@ -1316,7 +1315,7 @@ function hide_sys() {
 	read -p 'So which system would you like to hide: ' sname
 	echo
 if [ -d $HOME/addonusb ]; then 
-	mv -f ~/RetroPie/localroms/$sname ~/RetroPie/localroms/$sname.OFF && mv -f ~/RetroPie/addonusb/roms/$sname ~/RetroPie/addonusb/roms/$sname.OFF
+	mv -f $HOME/RetroPie/localroms/$sname $HOME/RetroPie/localroms/$sname.OFF && mv -f $HOME/RetroPie/addonusb/roms/$sname $HOME/RetroPie/addonusb/roms/$sname.OFF
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -1324,7 +1323,7 @@ if [ -d $HOME/addonusb ]; then
 	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
 	sleep 1
 	else
-	mv -f ~/RetroPie/roms/$sname ~/RetroPie/roms/$sname.OFF
+	mv -f $HOME/RetroPie/roms/$sname $HOME/RetroPie/roms/$sname.OFF
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -1361,7 +1360,7 @@ clear
 	read -p 'So which system would you like to show: ' sname
 	echo
 if [ -d $HOME/addonusb ]; then
-	mv -f ~/RetroPie/localroms/$sname.OFF ~/RetroPie/localroms/$sname && mv -f ~/RetroPie/addonusb/roms/$sname.OFF ~/RetroPie/addonusb/roms/$sname
+	mv -f $HOME/RetroPie/localroms/$sname.OFF $HOME/RetroPie/localroms/$sname && mv -f $HOME/RetroPie/addonusb/roms/$sname.OFF $HOME/RetroPie/addonusb/roms/$sname
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -1369,7 +1368,7 @@ if [ -d $HOME/addonusb ]; then
 	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
 	sleep 1
 	else
-	mv -f ~/RetroPie/roms/$sname.OFF ~/RetroPie/roms/$sname
+	mv -f $HOME/RetroPie/roms/$sname.OFF $HOME/RetroPie/roms/$sname
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
@@ -1382,7 +1381,7 @@ fi
 function show_all() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
-	cd ~/RetroPie/roms/
+	cd $HOME/RetroPie/roms/
 	rename -v 's/\.OFF$//i' *
 	clear
 	echo
@@ -1591,18 +1590,20 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev -y
 ##Custom FFMPEG
-vffmpeg=$(ffmpeg -version | grep "git-2024-03-26-f872b19" | cut -f3 -d' ')
+vffmpeg=$(ffmpeg -version | grep "git-2026-04-01-e64a1d2" | cut -f3 -d' ')
 if [ "$vffmpeg" != "git-2024-03-26-f872b19" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
-	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal;
+	#./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal --enable-vulkan;
+	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared;
 	make -j4;
 	sudo make install;
-	cd ~/code/;
+	cd $HOME/code/;
 	sudo ldconfig;
 	rm -rf ffmpeg*;
+	hash -r
 else
 	echo
 	echo "Ffmpeg Custom requirement OK!"
@@ -1622,29 +1623,26 @@ sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
-#By BT (No Neon)
-#./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-pulse --disable-oss --disable-al --disable-jack --disable-qt --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
-##2P
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard" ./configure  --disable-caca --disable-jack --disable-opengl1 --disable-oss --disable-sdl --disable-sdl2 --disable-videocore --enable-vulkan --enable-wayland --enable-x11 --enable-alsa --enable-egl --enable-floathard --enable-kms --enable-neon --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2 --disable-pulse --enable-udev
-##With Pulse & jack
-#CFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" CXXFLAGS="-O3 -march=armv8-a+crc+simd -mtune=cortex-a17" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --enable-pulse --disable-oss --disable-al --enable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --disable-opengles3_2
 ##2P BT With GLES3
 CFLAGS="-march=native" CXXFLAGS="-march=native" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-opengles3_2
 make -j4
 if [ -f "retroarch" ]; then
-mv retroarch retroarchNEW
-sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
-cd /opt/retropie/emulators/retroarch/bin
-sudo mv retroarch retroarchORIG
-sudo ln -sf retroarchNEW retroarch
-#sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|input_driver = "x"|input_driver = "udev"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|^core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|^core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|#core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|^core_updater_buildbot_cores_url = ".*"|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
+	mv retroarch retroarchNEW
+	sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
+	cd /opt/retropie/emulators/retroarch/bin
+	sudo mv retroarch retroarchORIG
+	sudo ln -sfn retroarchNEW retroarch
+	
+	for CFG in /opt/retropie/configs/all/retroarch.cfg \
+               /opt/retropie/configs/all/retroarch/retroarch.cfg; do
+        NEWLINE='core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"'
+        # Replace active line if present
+        sed -i "s|^core_updater_buildbot_cores_url = \".*\"|$NEWLINE|" "$CFG"
+        # Replace commented line if present
+        sed -i "s|^# *core_updater_buildbot_url = \".*\"|$NEWLINE|" "$CFG"
+        # Append if neither exists
+        grep -q '^core_updater_buildbot_cores_url' "$CFG" || echo "$NEWLINE" | sudo tee -a "$CFG"
+    done
 else
 echo
 echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
@@ -1664,16 +1662,15 @@ sleep 2
 function ra_default() {
 clear
 cd /opt/retropie/emulators/retroarch/bin
-rasymlinkN=$(ls -la retroarch | grep "retroarchNEW" | cut -f11 -d' ')
-rasymlinkO=$(ls -la retroarch | grep "retroarchORIG" | cut -f11 -d' ')
-rasymlinkN2=$(ls -la retroarch | grep "retroarchNEW" | cut -f12 -d' ')
-rasymlinkO2=$(ls -la retroarch | grep "retroarchORIG" | cut -f12 -d' ')
-if [ "$rasymlinkN" = "retroarchNEW" ] || [ "$rasymlinkN2" = "retroarchNEW" ]; then
-	sudo ln -sf retroarchORIG retroarch; echo "[OK Swap Complete...]"
+target=$(readlink retroarch)
+if [ "$target" = "retroarchNEW" ]; then
+    sudo ln -sfn retroarchORIG retroarch
+    echo "[OK Swap Complete...]"
+elif [ "$target" = "retroarchORIG" ] && [ -f retroarchNEW ]; then
+    sudo ln -sfn retroarchNEW retroarch
+    echo "[OK Swap Complete...]"
 else
-	if [ "$rasymlinkO" = "retroarchORIG" ] || [ "$rasymlinkO2" = "retroarchORIG" ] && [ -f retroarchNEW ]; then sudo ln -sf retroarchNEW retroarch
-	else echo; echo "A Vulkan RetroArch binary does not exist... Nothing to do!"; echo
-	fi
+    echo "A Vulkan RetroArch binary does not exist... Nothing to do!"
 fi
 clear
 echo
@@ -1682,7 +1679,7 @@ echo
 #echo "[OK System Will Restart now...]"
 echo "[OK Swap Complete...]"
 sleep 1
-cd ~
+cd $HOME
 }
 
 function igalia_dm() {
@@ -1727,6 +1724,7 @@ sleep 1
 
 
 function pikiss_git() {
+# curl -sSL https://git.io/JfAPE | bash	
 	clear
 	cd $HOME/piKiss/
 	echo "Let's pull latest PiKISS updates..."
@@ -1736,7 +1734,7 @@ function pikiss_git() {
 	git reset --hard HEAD
 	git merge '@{u}'
 	sleep 2
-	~/piKiss/piKiss.sh
+	$HOME/piKiss/piKiss.sh
 }
 
 
@@ -1775,21 +1773,21 @@ clear
 # Author: RPC80                                                                #
 # Date: 2018.05.11                                                             #
 # Changes by 2Play! 														   # 
-# Date: 2020.07.23															   #
+# Date: 01.04.2026
 ################################################################################
-# Purpose: Creates a save directory at ~/RetroPie/saves                        #
+# Purpose: Creates a save directory at $HOME/RetroPie/saves                        #
 # and configures all retroarch emulators with their own config files           #
-# to store savefiles at ~/RetroPie/saves/{system_name}                         #
-# and savestate files at ~/Retropie/saves/{system_name}/states                 #
+# to store savefiles at $HOME/RetroPie/saves/{system_name}                         #
+# and savestate files at $HOME/Retropie/saves/{system_name}/states                 #
 ################################################################################
 
 CONFIGS_DIR=/opt/retropie/configs
 CONFIG_FILENAME=retroarch.cfg
-SAVES_DIR=~/RetroPie/saves
-ROMS_DIR=~/RetroPie/roms
+SAVES_DIR=$HOME/RetroPie/saves
+ROMS_DIR=$HOME/RetroPie/roms
 
-SAVE_FILE_CONFIG="savefile_directory = \"~/RetroPie/saves"
-SAVE_STATE_CONFIG="savestate_directory = \"~/RetroPie/saves"
+SAVE_FILE_CONFIG="savefile_directory = \"$HOME/RetroPie/saves"
+SAVE_STATE_CONFIG="savestate_directory = \"$HOME/RetroPie/saves"
 
 echo "
   ____  ____   ____ ___   ___
@@ -1807,7 +1805,9 @@ echo "
       system_name=${d##*/}
 
       # Skip `all` & `amiga` & symbolic link config folders
-      if [[ ${system_name} == 'all' || ${system_name} == 'amiga' || ${system_name} == 'genh' || ${system_name} == 'megh' || ${system_name} == 'moto' || ${system_name} == 'neogeocd' || ${system_name} == 'pce-cd' || ${system_name} == 'snesmsu1' || ${system_name} == 'tg-cd' ]]; then
+#      if [[ ${system_name} == 'all' || ${system_name} == 'amiga' || ${system_name} == 'genh' || ${system_name} == 'megh' || ${system_name} == 'moto' || ${system_name} == 'neogeocd' || ${system_name} == 'pce-cd' || ${system_name} == 'snesmsu1' || ${system_name} == 'tg-cd' ]]; then
+      # Skip `all` & `amiga` & symbolic link config folders
+      if [[ ${system_name} == 'all' ]]; then
 	    echo "Skipping ${system_name} folder configs"
         continue
       fi
@@ -1857,8 +1857,8 @@ echo "
       else
         echo "Writing save configs...!"
 		sed -i '/#include "/i \
-savefile_directory = \"~/RetroPie/saves/'${system_name}'\" \
-savestate_directory = \"~/RetroPie/saves/'${system_name}'/states\" \
+savefile_directory = \"$HOME/RetroPie/saves/'${system_name}'\" \
+savestate_directory = \"$HOME/RetroPie/saves/'${system_name}'/states\" \
 <->' "${config_file}"
 	  fi
 	  
@@ -1885,8 +1885,8 @@ function rpc80_svoff() {
 	#continue
   fi
 
-  # Loop through the configs directory
-  for d in ${CONFIGS_DIR}//*; do
+	# Loop through the configs directory
+	for d in ${CONFIGS_DIR}//*; do
 
     # Get the system/emulator name
     system_name=${d##*/}
@@ -1922,7 +1922,7 @@ function rpc80_svoff() {
 	  
   done
 	# Delete system saves saves directory
-	rm -rf ~/RetroPie/saves/
+	rm -rf $HOME/RetroPie/saves/
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1940,134 +1940,54 @@ function strg_bench() {
 function omxvol() {
 	clear
 # OMXPlayer Volume Control By 2Play! 
-# 23.07.20
+# 01.04.2026
 
-    local choice
-    while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Please Set OMXPlayer Volume:" 25 75 20 \
-            - "*** OMXPlayer VOLUME CONTROL SELECTIONS ***" \
-            - "" \
-			1 " - Set to 90% " \
-			2 " - Set to 85% " \
-			3 " - Set to 80% " \
-			4 " - Set to 75% " \
-            5 " - Set to 70% " \
-            6 " - Set to 60% " \
-            7 " - Set to 50% " \
-            8 " - Set to 25% " \
-            9 " - Set to 100% (Default - Reset) " \
-            10 " - Set to 0% (Mute) " \
-            2>&1 > /dev/tty)
-
-        case "$choice" in
-            1) omx90  ;;
-			2) omx85  ;;
-			3) omx80  ;;
-			4) omx75  ;;
-            5) omx70  ;;
-            6) omx60  ;;
-            7) omx50  ;;
-            8) omx25  ;;
-            9) omx100  ;;
-           10) omx0  ;;
-            -) none ;;
-            *)  break ;;
-        esac
-    done
+    # Generic function to apply OMXPlayer volume
+apply_omx_volume() {
+    local offset="$1"
+    dialog --infobox "...Applying..." 3 20 ; sleep 1
+    if [ "$offset" = "reset" ]; then
+        sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
+    else
+        sudo sed -i "s|\$OMXPLAYER_BIN --vol -[0-9]*|\$OMXPLAYER_BIN|g; s|\$OMXPLAYER_BIN|\$OMXPLAYER_BIN --vol -$offset|g" /usr/bin/omxplayer
+    fi
+    clear
+    echo
+    echo "[OK DONE!...]"
+    sleep 1
 }
 
-function omx90() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -600/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
+# Menu loop
+while true; do
+    choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
+        --ok-label OK --cancel-label Back \
+        --menu "Please Set OMXPlayer Volume:" 25 75 20 \
+        1 " - Set to 90% " \
+        2 " - Set to 85% " \
+        3 " - Set to 80% " \
+        4 " - Set to 75% " \
+        5 " - Set to 70% " \
+        6 " - Set to 60% " \
+        7 " - Set to 50% " \
+        8 " - Set to 25% " \
+        9 " - Set to 100% (Default - Reset) " \
+        10 " - Set to 0% (Mute) " \
+        2>&1 > /dev/tty)
 
-function omx85() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -900/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx80() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1200/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx75() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1500/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx70() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -1750/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx60() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -2400/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx50() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -3000/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx25() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -4500/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx100() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function omx0() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g; s/$OMXPLAYER_BIN/$OMXPLAYER_BIN --vol -6000/g' /usr/bin/omxplayer
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-#	$HOME/PlayBox-Setup/.pb-fixes/_scripts/omxvol.sh
+    case "$choice" in
+        1) apply_omx_volume 600   ;; # 90%
+        2) apply_omx_volume 900   ;; # 85%
+        3) apply_omx_volume 1200  ;; # 80%
+        4) apply_omx_volume 1500  ;; # 75%
+        5) apply_omx_volume 1750  ;; # 70%
+        6) apply_omx_volume 2400  ;; # 60%
+        7) apply_omx_volume 3000  ;; # 50%
+        8) apply_omx_volume 4500  ;; # 25%
+        9) apply_omx_volume reset ;; # 100% default
+        10) apply_omx_volume 6000 ;; # mute
+        *) break ;;
+    esac
+done
 
 
 function emus_compile() {
@@ -2081,8 +2001,8 @@ function emus_compile() {
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
 			- "	" \
-			1 "Amiberry Pi Compile and Update From GitHub " \
-			2 "PPSSPP Pi Compile and Update From GitHub " \
+			1 "Amiberry Update or Compile GitHub Latest Release " \
+			2 "PPSSPP Compile GitHub Latest Release " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2098,16 +2018,20 @@ function amiberry_git() {
 	clear
 	local choice
 	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIBERRY SOURCE UPDATE MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " AMIBERRY UPDATE MENU " \
             --ok-label OK --cancel-label Exit \
-            --menu "Which amiberry binary you want to compile & install?" 25 75 20 \
-            - "*** AMIBERRY SOURCE UPDATE SELECTIONS ***" \
-			1 "Amiberry :  x86 " \
+            --menu "Which amiberry binary you want to compile or install?" 25 75 20 \
+            - "*** AMIBERRY UPDATE SELECTIONS ***" \
+			1 "Amiberry: Latest Official Stable " \
+			2 "Amiberry: Compile From Source " \
+			3 "Amiberry: Toggle Default Binary (NEW or ORIG) " \
 			- "" \
             2>&1 > /dev/tty)
 
         case "$choice" in
             1) amiberry_x86  ;;
+            2) compile_amiberry_x86  ;;
+            3) amiberry_default  ;;
             -) none ;;
             *)  break ;;
         esac
@@ -2117,27 +2041,68 @@ function amiberry_git() {
 function amiberry_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
-	rm -rf amiberry*
-	##Dependencies
-	#sudo apt install build-essential git cmake libsdl2-dev libsdl2-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev libportmidi-dev libenet-dev libpcap-dev libzstd-dev -y
-	#git clone --depth 1 https://github.com/midwan/amiberry.git
-	
+	cd $HOME/code/
 	# Download the latest .deb from Releases or Development Builds https://github.com/BlitterStudio/amiberry/releases/latest
-	#sudo apt update
-	#sudo apt install ./amiberry_*.deb
-	cd amiberry
-	make clean
-	git pull
-	cmake -B build && cmake --build build
-	#CMake's default installation prefix is /usr/local/. To change this, specify a different prefix when invoking CMake. For example, to install under /opt, use:
-	#cmake -B build -G Ninja -DCMAKE_INSTALL_PREFIX=~/code && cmake --build build
+set -e
+
+# Detect OS release
+OS=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+VER=$(lsb_release -rs)
+
+echo "Detected OS: $OS $VER"
+
+# Get latest release assets list from GitHub
+LATEST_URL="https://api.github.com/repos/BlitterStudio/amiberry/releases/latest"
+ASSETS=$(curl -s $LATEST_URL | grep "browser_download_url" | cut -d '"' -f 4)
+
+# Try to find matching asset for your OS version
+MATCH=$(echo "$ASSETS" | grep -i "$OS" | grep -i "$VER" || true)
+
+if [ -z "$MATCH" ]; then
+    echo "No exact match for $OS $VER, trying generic assets..."
+    MATCH=$(echo "$ASSETS" | grep -E '\.deb$|\.zip$' | head -n1)
+fi
+
+echo "Selected asset: $MATCH"
+
+# Download
+FILE=$(basename "$MATCH")
+curl -L "$MATCH" -o "$FILE"
+
+# Install depending on type
+if [[ "$FILE" == *.deb ]]; then
+    echo "Installing .deb package..."
+    sudo dpkg -i "$FILE" || sudo apt-get -f install -y
+
+elif [[ "$FILE" == *.zip ]]; then
+    echo "Unzipping archive..."
+    unzip -o "$FILE" -d amiberry-latest
+    cd amiberry-latest
+
+    # Find the deb inside the zip
+    INNER_DEB=$(find . -name "*.deb" | head -n1)
+    if [ -n "$INNER_DEB" ]; then
+        echo "Installing extracted deb: $INNER_DEB"
+        sudo dpkg -i "$INNER_DEB" || sudo apt-get -f install -y
+    else
+        echo "No .deb file found inside the zip!"
+        exit 1
+    fi
+else
+    echo "Unknown file type: $FILE"
+    exit 1
+fi
 	clear
-	sudo cp amiberry /opt/retropie/emulators/amiberry/amiberryx86
-	rm -rf amiberry*
 	cd /opt/retropie/emulators/amiberry/
-	sudo chmod 755 amiberryx86
-	sudo ln -sfn amiberryx86 amiberry
+	# Only back up if "amiberry" is a regular file (binary), not a symlink
+	if [ -f amiberry ] && [ ! -L amiberry ]; then
+		echo "Backing up original binary..."
+		sudo mv amiberry amiberryORIG
+	fi
+	sudo ln -sfn /usr/bin/amiberry amiberry
+	
+	cd $HOME/code/
+	rm -rf amiberry-latest amiberry*.deb amiberry*.zip
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
@@ -2145,20 +2110,171 @@ function amiberry_x86() {
 }
 
 
-function ppsspp_git() {
+function compile_amiberry_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
-	cd $HOME && cd code
-	git clone --recurse-submodules https://github.com/hrydgard/ppsspp.git
+	cd $HOME/code/
+
+	##Dependencies Do Before Release
+	sudo apt install build-essential git cmake libsdl3-dev libsdl3-image-dev libflac-dev libmpg123-dev libpng-dev libmpeg2-4-dev libserialport-dev libportmidi-dev libenet-dev libpcap-dev libzstd-dev libcurl4-openssl-dev nlohmann-json3-dev libdbus-1-dev nlohmann-json3-dev -y
+
+	#Requires SDL3, will coexist with SDL2
+	set -e
+	BASE="$HOME/code"
+	mkdir -p "$BASE"
+	cd "$BASE"
+
+	# Function to fetch, build, and install SDL-style projects
+	build_sdl_component() {
+    local repo=$1
+    local prefix=$2
+
+    # Get latest from GitHub API
+    TAG=$(curl -s https://api.github.com/repos/libsdl-org/$repo/releases/latest | grep tag_name | cut -d '"' -f4)
+    VERSION=${TAG#release-}
+    URL="https://github.com/libsdl-org/$repo/releases/download/$TAG/${prefix}-${VERSION}.tar.gz"
+
+    echo "Fetching $repo $VERSION..."
+    wget -q "$URL"
+    tar -xvf ${prefix}-${VERSION}.tar.gz
+
+    cd ${prefix}-${VERSION}
+    cmake -B build -DCMAKE_PREFIX_PATH=/usr/local
+    cmake --build build -j$(nproc)
+    sudo cmake --install build
+
+    cd "$BASE"
+	}
+
+	# Build SDL3 and SDL3_image inside $HOME/code
+	build_sdl_component SDL SDL3
+	build_sdl_component SDL_image SDL3_image
+	clear
+	sleep 1
+	
+	#Get Amiberry Latest Source
+	#git clone --recursive https://github.com/BlitterStudio/amiberry.git
+	cd amiberry
+	#make clean
+	rm -rf build
+	git pull
+	cmake -B build && cmake --build build
+	#CMake's default installation prefix is /usr/local/. To change this, specify a different prefix when invoking CMake. For example, to install under /opt, use:
+	#cmake -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$HOME/code && cmake --build build
+	echo "[COMPILE COMPLETE!...]"
+	sudo cp ./build/amiberry /opt/retropie/emulators/amiberry/amiberryNEW
+	#rm -rf amiberry* SDL3*
+	rm -rf SDL3*
+	cd /opt/retropie/emulators/amiberry/
+	# Only back up if "amiberry" is a regular file (binary), not a symlink
+	if [ -f amiberry ] && [ ! -L amiberry ]; then
+		echo "Backing up original binary..."
+		sudo mv amiberry amiberryORIG
+	fi
+	sudo chmod 755 amiberryNEW
+	sudo ln -sfn amiberryNEW amiberry
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 1
+}
+
+
+function amiberry_default() {
+clear
+cd /opt/retropie/emulators/amiberry/
+# Only back up if "amiberry" is a regular file (binary), not a symlink
+if [ -f amiberry ] && [ ! -L amiberry ]; then
+    echo "Backing up original binary..."
+    sudo mv amiberry amiberryORIG
+fi
+target=$(readlink amiberry)
+if [ "$target" = "amiberryNEW" ]; then
+    sudo ln -sfn amiberryORIG amiberry
+    echo "[OK Swap Complete...]"
+elif [ "$target" = "amiberryORIG" ] && [ -f amiberryNEW ]; then
+    sudo ln -sfn amiberryNEW amiberry
+    echo "[OK Swap Complete...]"
+else
+    echo "A New Amiberry binary does not exist... Nothing to do!"
+fi
+clear
+cd $HOME
+}
+
+
+function ppsspp_git() {
+	clear
+	local choice
+	while true; do
+        choice=$(dialog --backtitle "$BACKTITLE" --title " PPSSPP SOURCE UPDATE MENU " \
+            --ok-label OK --cancel-label Exit \
+            --menu "Which PPSSPP binary you want: Latest Compile or RPie binary?" 25 75 20 \
+            - "*** PPSSPP UPDATE SELECTIONS ***" \
+			1 "PPSSPP: Compile From Source " \
+			2 "PPSSPP: Toggle Default Binary (NEW or ORIG) " \
+			- "" \
+            2>&1 > /dev/tty)
+
+        case "$choice" in
+            1) compile_ppsspp_x86  ;;
+            2) ppsspp_default  ;;
+            -) none ;;
+            *)  break ;;
+        esac
+    done
+}
+
+
+
+function compile_ppsspp_x86() {
+	dialog --infobox "...Starting..." 3 20 ; sleep 1
+	clear
+	cd $HOME/code/
+	#git clone --recurse-submodules https://github.com/hrydgard/ppsspp.git
 	cd ppsspp
+	#make clean
+	rm -rf build
+	git pull --rebase https://github.com/hrydgard/ppsspp.git
 	./b.sh --release	
 	echo "[COMPILE COMPLETE!...]"
-	sudo cp build/PPSSPPSDL /opt/retropie/emulators/ppsspp/PPSSPPSDL
-	rm -rf ppsspp
+	sudo cp ./build/PPSSPPSDL /opt/retropie/emulators/ppsspp/PPSSPPSDLNEW
+	cd /opt/retropie/emulators/ppsspp/
+	# Only back up if "PPSSPPSDL" is a regular file (binary), not a symlink
+	if [ -f PPSSPPSDL ] && [ ! -L PPSSPPSDL ]; then
+		echo "Backing up original binary..."
+		sudo mv PPSSPPSDL PPSSPPSDLORIG
+	fi
+	sudo ln -sfn PPSSPPSDLNEW PPSSPPSDL
+	#rm -rf ppsspp
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+}
+
+
+function ppsspp_default() {
+clear
+cd /opt/retropie/emulators/ppsspp/
+# Only back up if "PPSSPPSDL" is a regular file (binary), not a symlink
+	if [ -f PPSSPPSDL ] && [ ! -L PPSSPPSDL ]; then
+		echo "Backing up original binary..."
+		sudo mv PPSSPPSDL PPSSPPSDLORIG
+	fi
+target=$(readlink PPSSPPSDL)
+if [ "$target" = "PPSSPPSDLNEW" ]; then
+    sudo ln -sfn PPSSPPSDLORIG PPSSPPSDL
+    echo "[OK Swap Complete...]"
+elif [ "$target" = "PPSSPPSDLORIG" ] && [ -f PPSSPPSDLNEW ]; then
+    sudo ln -sfn PPSSPPSDLNEW PPSSPPSDL
+    echo "[OK Swap Complete...]"
+else
+    echo "A New PPSSPPSDL binary does not exist... Nothing to do!"
+fi
+clear
+cd $HOME
 }
 
 
@@ -2178,7 +2294,7 @@ clear
 			2 " - GameBoy Core: Original or Enhanced GameBoy Display Options " \
 			3 " - PPSSPP: Standalone Emulator EXIT To ES or Menu " \
 			4 " - N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
-			5 " - Lr-PUAE Amiga Model Selection Options  " \
+			5 " - Lr-PUAE Amiga Model Selection Options [OFF] " \
 			6 " - Amiga Setup Selection Options  " \
 			2>&1 > /dev/tty)
 
@@ -2187,7 +2303,7 @@ clear
             2) gboy_enh  ;;
 			3) ppsspp_exit  ;;
             4) n64_res  ;;
-			5) amiga_models  ;;
+			#5) amiga_models  ;;
 			6) amiga_choices  ;;
 			-) none ;;
             *)  break ;;
@@ -3086,13 +3202,13 @@ function cl_es_gamelist() {
 
 function cl_cli_hist() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	#cat /dev/null > ~/.bash_history
+	#cat /dev/null > $HOME/.bash_history
 	history -cw && clear
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/.bash_history $HOME/
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/input_history $HOME/.config/mps-youtube/
 	cp $HOME/PlayBox-Setup/.pb-fixes/cli/play_history.m3u $HOME/.config/mps-youtube/
 	cd $HOME
-	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 ~/code/export.py ~/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo ~/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
+	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 $HOME/code/export.py $HOME/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo $HOME/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '15,1000d' .bash_history
 	clear
 	echo
@@ -3282,28 +3398,27 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "Let's update & upgrade your system!" 25 75 20 \
             - "*** OS UPDATING SELECTIONS ***" \
-            1 " - OS Package List Update & Distro System Upgrade " \
-            2 " - OS Package List Update & Full Upgrade " \
+            1 " - OS Upgrade: Upgrades packages to the newest versions " \
             - "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
-            3 " - Firmware - Check/Upgrade With Armbian-Config" \
+            2 " - Firmware - Check/Upgrade With Armbian-Config" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) update_distro  ;;
-            2) update_os  ;;
-            3) fw_pi  ;;
+            1) upgrade_os  ;;
+            2) fw_up  ;;
             -) none ;;
             *) break ;;
         esac
     done
 }
 
-#dist-upgrade in addition to performing the function of upgrade, also intelligently handles changing dependencies with new versions of packages; apt has a "smart" conflict resolution system,and it will attempt to upgrade the most important packages at the expense of less important ones if necessary. The dist-upgrade command may therefore remove some packages. The /etc/apt/sources.list file contains a list of locations from which to retrieve desired package files. See also apt_preferences(5) for a mechanism for overriding the general settings for individual packages.
-function update_distro() {
+#- Upgrades packages to the newest versions **without removing anything**.
+#- Safe, but may leave some packages “held back” if dependencies change.
+function upgrade_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt dist-upgrade -y && sudo apt autoremove --purge && sudo apt clean
+	sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3312,10 +3427,10 @@ function update_distro() {
 }
 
 #full-upgrade performs the function of upgrade but will remove currently installed packages if this is needed to upgrade the system as a whole.
-function update_os() {
+function upgrade_fullos() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
-	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt clean
+	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
 	read -n 1 -s -r -p "Press any key to reboot"
 	echo
@@ -3324,7 +3439,7 @@ function update_os() {
 }
 
 
-function fw_pi() {
+function fw_up() {
 	clear
 	sudo armbian-config
 }
@@ -3337,7 +3452,7 @@ function sysinfo() {
 # 03.2026
 	clear
 # Ensure environment is correctly set up
-source ~/.bash_profile
+source $HOME/.bash_profile
 echo
 read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
@@ -3765,7 +3880,7 @@ function update_pbs() {
 	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools/joystick_selection.sh
 	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
-	~/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
 	cd $HOME
 	fix_rpmenu
 	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
