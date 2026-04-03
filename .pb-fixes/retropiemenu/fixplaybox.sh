@@ -147,6 +147,7 @@ function fix_rpmenu() {
 	fi
 }
 
+
 function fix_region() {
 	clear
 # Set PlayBox Systems Based On Region, by 2Play!
@@ -174,6 +175,8 @@ dialog --backtitle "Region based ES Systems" \
         choice=$(dialog --backtitle "$BACKTITLE" --title " REGION OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select the REGION setup you want to apply..." 25 75 20 \
+            - "*** SHOW REGION SYSTEMS SETUP ***" \
+            0 " - Show Which Region Is Active " \
             - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
             1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
@@ -181,9 +184,10 @@ dialog --backtitle "Region based ES Systems" \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) us_es  ;;
-            2) eu_es  ;;
-            3) all_es  ;;
+            0) show_region_status ;;
+            1) set_region_es US   ;;
+			2) set_region_es EU   ;;
+			3) set_region_es ALL  ;;
             #4) us_esnpb  ;;
             #5) eu_esnpb  ;;
             #6) all_esnpb  ;;
@@ -193,46 +197,38 @@ dialog --backtitle "Region based ES Systems" \
     done
 }
 
-function us_es() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-	sudo cp /etc/emulationstation/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+
+function show_region_status() {
+    local target=$(readlink -f /etc/emulationstation/es_systems.cfg)
+
+    case "$target" in
+        */es_systemsUS.cfg)   echo "Current Region: US/JP" ;;
+        */es_systemsEU.cfg)   echo "Current Region: EU/JP" ;;
+        */es_systems.cfgFULL) echo "Current Region: ALL"   ;;
+        *)                    echo "Current Region: Unknown/Custom" ;;
+    esac
 }
 
-function eu_es() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-	sudo cp /etc/emulationstation/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
-}
+function set_region_es() {
+    local region="$1"   # "US", "EU", or "ALL"
+    local cfgfile=""
 
-function all_es() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	#sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
-	sudo cp /etc/emulationstation/es_systems.cfgFULL /etc/emulationstation/es_systems.cfg
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+    case "$region" in
+        US)  cfgfile="/etc/emulationstation/es_systemsUS.cfg"   ;;
+        EU)  cfgfile="/etc/emulationstation/es_systemsEU.cfg"   ;;
+        ALL) cfgfile="/etc/emulationstation/es_systems.cfgFULL" ;;
+    esac
+
+    dialog --infobox "...Updating to $region region..." 3 40 ; sleep 2
+    clear
+
+    if [ -f "$cfgfile" ]; then
+        sudo ln -sfn "$cfgfile" /etc/emulationstation/es_systems.cfg
+        echo "Region set to $region."
+        restart_es
+    else
+        echo "Config file for $region not found!"
+    fi
 }
 
 function us_esnpb() {
@@ -475,13 +471,7 @@ function themes_rs() {
 	cd $HOME
 	echo
 	echo "[OK DONE!...]"
-	echo
-	read -n 1 -s -r -p "Press any key to reboot."
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
+	restart_es
 }
 
 
@@ -606,6 +596,7 @@ function prntscr() {
 
 
 function swap_theme_view() {
+# New Theme Style Swap 2Play!, 04.2026
 	clear
 	local choice
 	while true; do
@@ -623,66 +614,37 @@ function swap_theme_view() {
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) single_art  ;;
-            2) dual_art_hz  ;;
-			3) dual_art_vrt  ;;
-			4) sys_verical  ;;
-			5) sys_horizontal  ;;
+            1) swap_theme_variant "ingame-global-bg2P.jpg" "theme2P.xml"       ;; # Single Art
+			2) swap_theme_variant "ingame-global-bg-ih.jpg" "themeDualv1.xml"  ;; # Dual Art Horizontal
+			3) swap_theme_variant "ingame-global-bg2P.jpg" "themeDualv2.xml"   ;; # Dual Art Vertical
+			4) sys_vertical   ;; # Scroll V
+			5) sys_horizontal ;; # Scroll H
 			-) none ;;
 			*)  break ;;
         esac
     done
 }
 
-function single_art() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'theme2P.xml' -execdir cp {} theme.xml ';'
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
-}
 
-function dual_art_hz() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg-ih.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv1.xml' -execdir cp {} theme.xml ';'
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
-}
+function swap_theme_variant() {
+    local bgfile="$1"   # e.g. ingame-global-bg2P.jpg, ingame-global-bg-ih.jpg
+    local themefile="$2" # e.g. theme2P.xml, themeDualv1.xml, themeDualv2.xml
 
-function dual_art_vrt() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	cd /etc/emulationstation/themes
-	find ./2Play*/_2playart -name "ingame-global-bg.jpg"  -delete
-	find ./2Play*/_2playart -type f -name 'ingame-global-bg2P.jpg' -execdir cp {} ingame-global-bg.jpg ';'
-	find ./2Play*/ -maxdepth 1 -name "theme.xml"  -delete
-	find ./2Play*/ -maxdepth 1 -type f -name 'themeDualv2.xml' -execdir cp {} theme.xml ';'
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
+    dialog --infobox "...Starting..." 3 20 ; sleep 1
+    clear
+    cd /etc/emulationstation/themes
+
+    # Replace background
+    find ./2Play*/_2playart -name "ingame-global-bg.jpg" -delete
+    find ./2Play*/_2playart -type f -name "$bgfile" -execdir cp {} ingame-global-bg.jpg ';'
+
+    # Replace theme.xml
+    find ./2Play*/ -maxdepth 1 -name "theme.xml" -delete
+    find ./2Play*/ -maxdepth 1 -type f -name "$themefile" -execdir cp {} theme.xml ';'
+
+    echo
+    echo "[OK DONE!...]"
+    restart_es
 }
 
 function sys_verical() {
@@ -716,7 +678,7 @@ function sys_horizontal() {
 
 function ra_options_tool() {
 # RetroArch Options Tool By 2Play!
-# 08.01.2021
+# 04.2026
 	
 	clear
 	local choice
@@ -724,6 +686,8 @@ function ra_options_tool() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH AUDIO & VISUAL OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
+            - "*** STATUS DASHBOARD ***" \
+            0 " - See The Status Of All Below Settings " \
             - "*** AUDIO SETTINGS SELECTIONS ***" \
             1 " - RetroArch Increase Volume By 25% " \
             2 " - RetroArch Increase Volume By 50% " \
@@ -736,104 +700,115 @@ function ra_options_tool() {
             7 " - Enable  Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay [OFF] " \
-            9 " - Disable A System Preset Overlay [OFF] " \
+		    8 " - Enable A System Preset Overlay  " \
+            9 " - Disable A System Preset Overlay  " \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade) [OFF] " \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade) [OFF] " \
-		   14 " - Enable Atomiswave Cabinet Overlay [OFF] " \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay [OFF] " \
-		   16 " - Enable Naomi Cabinet Overlay [OFF] " \
-		   17 " - Disable Naomi Cabinet Overlay [OFF] " \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade)  " \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade)  " \
+		   14 " - Enable Atomiswave Cabinet Overlay  " \
+		   15 " - Disable Atomiswave & Enable Per-Rom Overlay  " \
+		   16 " - Enable Naomi Cabinet Overlay  " \
+		   17 " - Disable Naomi Cabinet Overlay  " \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System [OFF] " \
-           19 " - Disable Video Smooth - Single System [OFF] " \
-		   20 " - Enable Video Smooth - All Systems [OFF] " \
-           21 " - Disable Video Smooth - All Systems [OFF] " \
-		   2>&1 > /dev/tty)
+		   18 " - Enable Video Smooth - Single System  " \
+           19 " - Disable Video Smooth - Single System  " \
+		   20 " - Enable Video Smooth - All Systems  " \
+           21 " - Disable Video Smooth - All Systems  " \
+           2>&1 > /dev/tty)
 
         case "$choice" in
-            1) ra_vol_25  ;;
-            2) ra_vol_50  ;;
-            3) ra_vol_80  ;;
-            4) ra_vol_100  ;;
-			5) ra_vol_0  ;;
-            #6) disable_shaders  ;;
+            0) show_status_dashboard  ;;
+            1) ra_set_volume 3   ;;  # 25%
+			2) ra_set_volume 6   ;;  # 50%
+			3) ra_set_volume 10  ;;  # 80%
+			4) ra_set_volume 12  ;;  # 100%
+			5) ra_set_volume 0   ;;  # Default
+			#6) disable_shaders  ;;
             #7) enable_shaders  ;;
-		    6) disable_global_sh  ;;
-            7) enable_global_sh  ;;
-		    #8) sys_overlay_on  ;;
-            #9) sys_overlay_off  ;;
-		   10) all_overlay_on  ;;
-		   11) all_overlay_off  ;;
-		   #12) arc_cab_on  ;;
-           #13) arc_cab_off  ;;
-           #14) atomwv_cab_on  ;;
-           #15) atomwv_cab_off  ;;
-		   #16) naomi_dx_on  ;;
-           #17) naomi_dx_off  ;;
-		   #18) v_smooth_sys_on  ;;
-		   #19) v_smooth_sys_off  ;;
-		   #20) all_v_smooth_on  ;;
-		   #21) all_v_smooth_off  ;;
+		    6) toggle_global_shader disable ;;
+			7) toggle_global_shader enable  ;;
+		    8)  toggle_sys_overlay on   ;;
+			9)  toggle_sys_overlay off  ;;
+			10) toggle_all_overlays on  ;;
+			11) toggle_all_overlays off ;;
+			12) toggle_cab_overlay arcade "FinalBurn Neo" on 936 729 487 72 "" ;;
+			13) toggle_cab_overlay arcade "FinalBurn Neo" off ;;
+			14) toggle_cab_overlay atomiswave "Flycast" on 1205 865 360 115 "" ;;
+			15) toggle_cab_overlay atomiswave "Flycast" off ;;
+			16) toggle_cab_overlay naomi "Flycast" on 1055 787 436 123 "/opt/retropie/emulators/retroarch/overlays/SystemBezels/_generic_naomi_dx.cfg" ;;
+			17) toggle_cab_overlay naomi "Flycast" off ;;
+			18) toggle_video_smooth system on   ;;
+			19) toggle_video_smooth system off  ;;
+			20) toggle_video_smooth all on      ;;
+			21) toggle_video_smooth all off     ;;
 			-) none  ;;
             *)  break ;;
         esac
     done
 }
 
-function ra_vol_25() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "3.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "3.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+
+function show_status_dashboard() {
+    echo "================= SYSTEM STATUS DASHBOARD ================="
+    echo
+
+    # Volume
+    local vol=$(grep -m1 'audio_volume' /opt/retropie/configs/all/retroarch.cfg | cut -d'"' -f2)
+    echo "Audio Volume: ${vol}"
+
+    # Shader status
+    if [ -f /opt/retropie/configs/all/retroarch/config/global.glslp.OFF ] || \
+       [ -f /opt/retropie/configs/all/retroarch/config/global.slangp.OFF ]; then
+        echo "Global Shader: DISABLED"
+    else
+        echo "Global Shader: ENABLED"
+    fi
+
+    # Overlay status (global)
+    if [ -d /opt/retropie/configs/all/retroarch/overlay.OFF ]; then
+        echo "Global Overlays: DISABLED"
+    else
+        echo "Global Overlays: ENABLED"
+    fi
+
+    # Cabinet overlays
+    if [ -d "/opt/retropie/configs/all/retroarch/config/FinalBurn Neo.OFF" ]; then
+        echo "Arcade Cabinet Overlay: ENABLED"
+    else
+        echo "Arcade Cabinet Overlay: DISABLED"
+    fi
+    if [ -d "/opt/retropie/configs/all/retroarch/config/Flycast.OFF" ]; then
+        echo "Atomiswave/Naomi Cabinet Overlay: ENABLED"
+    else
+        echo "Atomiswave/Naomi Cabinet Overlay: DISABLED"
+    fi
+
+    # Video smooth (global check)
+    if grep -q '^video_smooth' /opt/retropie/configs/all/retroarch.cfg; then
+        echo "Video Smooth (Global): ENABLED"
+    else
+        echo "Video Smooth (Global): DISABLED"
+    fi
+
+    echo "==========================================================="
 }
 
-function ra_vol_50() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "6.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
 
-function ra_vol_80() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "10.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ra_vol_100() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "12.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "12.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function ra_vol_0() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 1
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch.cfg
-	sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+function ra_set_volume() {
+    local level="$1"   # e.g. 0, 3, 6, 10, 12
+    dialog --infobox "...Applying..." 3 20 ; sleep 1
+    for cfg in /opt/retropie/configs/all/retroarch.cfg \
+               /opt/retropie/configs/all/retroarch/retroarch.cfg; do
+        sudo sed -i "s|audio_volume = \"[0-9]*\.[0-9]*\"|audio_volume = \"${level}.000000\"|" "$cfg"
+    done
+    clear
+    echo
+    echo "[OK DONE!...]"
+    sleep 1
 }
 
 
@@ -855,373 +830,183 @@ function enable_shaders() {
 	sleep 1
 }
 
-function disable_global_sh() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	mv /opt/retropie/configs/all/retroarch/config/global.glslp /opt/retropie/configs/all/retroarch/config/global.glslp.OFF
-	mv /opt/retropie/configs/all/retroarch/config/global.slangp /opt/retropie/configs/all/retroarch/config/global.slangp.OFF
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+
+function toggle_global_shader() {
+    local action="$1"   # "enable" or "disable"
+    local cfgdir="/opt/retropie/configs/all/retroarch/config"
+
+    dialog --infobox "...${action^}ing..." 3 20 ; sleep 2
+    clear
+    cd "$cfgdir"
+
+    case "$action" in
+        disable)
+            for f in global.glslp global.slangp; do
+                [ -f "$f" ] && mv "$f" "$f.OFF"
+            done
+            ;;
+        enable)
+            # Restore if OFF files exist
+            for f in global.glslp global.slangp; do
+                [ -f "$f.OFF" ] && mv "$f.OFF" "$f"
+                # If missing entirely, fetch fresh copy
+                [ ! -f "$f" ] && wget "https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/$f"
+            done
+            ;;
+    esac
+
+    echo "[OK DONE!...]"
+    sleep 1
 }
 
 
-function enable_global_sh() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	cd /opt/retropie/configs/all/retroarch/config/
-	if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
-	fi
-	if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
-	fi
-	if [ ! -f global.glslp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/global.glslp
-	fi
-	if [ ! -f global.slangp ]; then wget https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/global.slangp
-	fi
-	mv global.glslp.OFF global.glslp
-	mv global.slangp.OFF global.slangp
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 1
+function toggle_sys_overlay() {
+    local action="$1"   # "on" or "off"
+    local sname
+
+    clear
+    echo "RetroArch overlays can only be applied to cores with retroarch.cfg."
+    echo "Type the system name exactly as shown in /opt/retropie/configs/"
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
+    cd /opt/retropie/configs/
+
+    find \( -name all -prune -o -name amiberry -prune -o -name ports -prune \) \
+         -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
+
+    echo
+    read -p "Which system would you like to ${action} overlays?: " sname
+    echo
+
+    if [ -f "$sname/retroarch.cfg" ]; then
+        case "$action" in
+            on)
+                sed -i 's|.*#input_overlay_enable|input_overlay_enable|g;
+                        s|.*#input_overlay|input_overlay|g;
+                        s|.*#aspect_ratio_index|aspect_ratio_index|g;
+                        s|.*#custom_viewport_width|custom_viewport_width|g;
+                        s|.*#custom_viewport_height|custom_viewport_height|g;
+                        s|.*#custom_viewport_x|custom_viewport_x|g;
+                        s|.*#custom_viewport_y|custom_viewport_y|g' "$sname/retroarch.cfg"
+                ;;
+            off)
+                sed -i 's|^input_overlay_enable|#input_overlay_enable|g;
+                        s|^input_overlay|#input_overlay|g;
+                        s|^aspect_ratio_index|#aspect_ratio_index|g;
+                        s|^custom_viewport_width|#custom_viewport_width|g;
+                        s|^custom_viewport_height|#custom_viewport_height|g;
+                        s|^custom_viewport_x|#custom_viewport_x|g;
+                        s|^custom_viewport_y|#custom_viewport_y|g' "$sname/retroarch.cfg"
+                ;;
+        esac
+        echo "[OK DONE!...]"
+    else
+        echo "This system does not contain a retroarch.cfg file."
+    fi
+    sleep 1
 }
 
 
-function sys_overlay_on() {
-	clear
-	echo 
-	echo " I will display a list of all systems that you can apply an overlay... "
-	echo " Keep in mind ONLY RetroArch cores can use overlays. "
-	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/ 
-	echo
-	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiberry -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
-	echo
-	read -p 'So which system would you like to enable the overlay options?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	clear
-	echo
-	while true; do
-		echo
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) sys_overlay_on;;
-		[Nn]*) return;;
-		* ) echo; echo "Please answer yes or no.";;
-		esac
-	done
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	else
-	clear
-	echo
-	echo "This system does not contain a retroarch.cfg file... Script will go stop!"
-	echo
-	sleep 2
-	fi
-}
+function toggle_all_overlays() {
+    local action="$1"   # "on" or "off"
+    local base="/opt/retropie/configs/all/retroarch"
 
-function sys_overlay_off() {
-	clear
-	echo 
-	echo " I will display a list of all systems that you can apply an overlay... "
-	echo " Keep in mind ONLY RetroArch cores can use overlays. "
-	echo " An overlay preset required in the corresponding retroarch.cfg line #6 ... "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/ 
-	echo
-	#ls -d */ | column | more
-	find \( -name all -prune -o -name amiberry -prune -o -name ports -prune \) -o -name "retroarch.cfg" -printf "%h\n" | sort -h | column | more
-	echo
-	read -p 'So which system would you like to disable the overlay options?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	clear
-	echo
-	while true; do
-		echo
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) sys_overlay_off;;
-		[Nn]*) return;;
-		* ) echo; echo "Please answer yes or no.";;
-		esac
-	done
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	else
-	clear
-	echo
-	echo "This system does not contain a retroarch.cfg file... Script will go stop!"
-	echo
-	sleep 2
-	fi
-}
-
-function all_overlay_on() {
-	clear
-	echo
-	#cd /opt/retropie/configs/ 
-	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	if [ -d /opt/retropie/configs/all/retroarch/overlay ]; then
-	mv /opt/retropie/configs/all/retroarch/overlay.OFF/*  /opt/retropie/configs/all/retroarch/overlay/
-	mv /opt/retropie/configs/all/retroarch/overlay.OFF/.[!.]*  /opt/retropie/configs/all/retroarch/overlay/
-	rm -rf /opt/retropie/configs/all/retroarch/overlay.OFF/
-	else
-	mv /opt/retropie/configs/all/retroarch/overlay.OFF  /opt/retropie/configs/all/retroarch/overlay
-	fi
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function all_overlay_off() {
-	clear
-	echo
-	#cd /opt/retropie/configs/ 
-	#find . -type d \( -name all -o -name amiberry \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^input_overlay_enable|#input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	mv /opt/retropie/configs/all/retroarch/overlay/ /opt/retropie/configs/all/retroarch/overlay.OFF
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+    case "$action" in
+        on)
+            if [ -d "$base/overlay.OFF" ]; then
+                mv "$base/overlay.OFF"/* "$base/overlay/"
+                mv "$base/overlay.OFF"/.[!.]* "$base/overlay/" 2>/dev/null || true
+                rm -rf "$base/overlay.OFF"
+            fi
+            ;;
+        off)
+            mv "$base/overlay" "$base/overlay.OFF"
+            ;;
+    esac
+    echo "[OK DONE!...]"
+    sleep 1
 }
 
 
-function arc_cab_on() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	mv /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/ /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo.OFF/
-	find arcade -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "936"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "729"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "487"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "72"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "936"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "729"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "487"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "72"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
+function toggle_cab_overlay() {
+    local system="$1"    # arcade, atomiswave, naomi
+    local core="$2"      # "FinalBurn Neo" or "Flycast"
+    local action="$3"    # "on" or "off"
+    local width="$4"
+    local height="$5"
+    local x="$6"
+    local y="$7"
+    local overlay="$8"   # optional overlay path
 
-function arc_cab_off() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	mv /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo.OFF/ /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
-	find arcade -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
+    cd /opt/retropie/configs/
 
-function atomwv_cab_on() {
-	clear
-	echo
-	cd /opt/retropie/configs/
-	mv /opt/retropie/configs/all/retroarch/config/Flycast/ /opt/retropie/configs/all/retroarch/config/Flycast.OFF/
-	find atomiswave -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1205"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "865"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "360"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "115"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1205"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "865"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "360"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "115"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
+    case "$action" in
+        on)
+            mv "/opt/retropie/configs/all/retroarch/config/${core}/" \
+               "/opt/retropie/configs/all/retroarch/config/${core}.OFF/" 2>/dev/null || true
+            find "$system" -name "retroarch.cfg" -exec sed -i \
+                "s|.*#input_overlay_enable|input_overlay_enable|g;
+                 s|.*#input_overlay.*|input_overlay = \"${overlay}\"|g;
+                 s|.*#aspect_ratio_index|aspect_ratio_index|g;
+                 s|.*#custom_viewport_width.*|custom_viewport_width = \"${width}\"|g;
+                 s|.*#custom_viewport_height.*|custom_viewport_height = \"${height}\"|g;
+                 s|.*#custom_viewport_x.*|custom_viewport_x = \"${x}\"|g;
+                 s|.*#custom_viewport_y.*|custom_viewport_y = \"${y}\"|g" {} \;
+            ;;
+        off)
+            mv "/opt/retropie/configs/all/retroarch/config/${core}.OFF/" \
+               "/opt/retropie/configs/all/retroarch/config/${core}/" 2>/dev/null || true
+            find "$system" -name "retroarch.cfg" -exec sed -i \
+                "s|.*input_overlay_enable.*|#input_overlay_enable|g;
+                 s|.*input_overlay.*|#input_overlay|g;
+                 s|^aspect_ratio_index|#aspect_ratio_index|g;
+                 s|^custom_viewport_width|#custom_viewport_width|g;
+                 s|^custom_viewport_height|#custom_viewport_height|g;
+                 s|^custom_viewport_x|#custom_viewport_x|g;
+                 s|^custom_viewport_y|#custom_viewport_y|g" {} \;
+            ;;
+    esac
 
-function atomwv_cab_off() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	mv /opt/retropie/configs/all/retroarch/config/Flycast.OFF/ /opt/retropie/configs/all/retroarch/config/Flycast/
-	find atomiswave -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function naomi_dx_on() {
-	clear
-	echo
-	cd /opt/retropie/configs/
-	mv /opt/retropie/configs/all/retroarch/config/Flycast/ /opt/retropie/configs/all/retroarch/config/Flycast.OFF/
-	find naomi -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay = "/opt/retropie/emulators/retroarch/overlays/SystemBezels/.*"|input_overlay = "/opt/retropie/emulators/retroarch/overlays/SystemBezels/_generic_naomi_dx.cfg"|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1055"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "787"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "436"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "123"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1055"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "787"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "436"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "123"|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
-
-function naomi_dx_off() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	mv /opt/retropie/configs/all/retroarch/config/Flycast.OFF/ /opt/retropie/configs/all/retroarch/config/Flycast/
-	find naomi -name "retroarch.cfg" -exec sed -i 's|.*input_overlay_enable =|input_overlay_enable =|g; s|.*input_overlay =|#input_overlay =|g; s|^aspect_ratio_index|#aspect_ratio_index|g; s|^custom_viewport_width|#custom_viewport_width|g; s|^custom_viewport_height|#custom_viewport_height|g; s|^custom_viewport_x|#custom_viewport_x|g; s|^custom_viewport_y|#custom_viewport_y|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+    clear
+    echo "[OK DONE!...]"
+    sleep 1
 }
 
 
-function v_smooth_sys_on() {
-	clear
-	echo 
-	echo " I will display a list of all systems in configs folder... "
-	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
-	echo " By default is disabled!"
-	echo " * TIP *: Disable shader(s) or just for this system."
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/ 
-	echo
-	ls -d */ | column | more
-	echo
-	read -p 'So which system would you like to enable the video smooth option?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|.*#video_smooth|video_smooth|g;' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	else
-	clear
-	echo
-	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
-	echo
-	sleep 2
-	fi
-}
+function toggle_video_smooth() {
+    local scope="$1"   # "system" or "all"
+    local action="$2"  # "on" or "off"
+    local sname=""
 
-function v_smooth_sys_off() {
-	clear
-	echo 
-	echo " I will display a list of all systems in configs folder... "
-	echo " Keep in mind ONLY RetroArch cores can use video smooth option. "
-	echo " * TIP *: Enable your shader(s) or for this system back if you prefer. "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE CONFIGS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd /opt/retropie/configs/ 
-	echo
-	ls -d */ | column | more
-	echo
-	read -p 'So which system would you like to disable the video smooth option?: ' sname
-	echo
-	if [ -f $sname/retroarch.cfg ]; then 
-	find $sname -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g;' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	else
-	clear
-	echo
-	echo "This systems does not contain a retroarch.cfg file... Script will go stop!"
-	echo
-	sleep 2
-	fi
-}
+    cd /opt/retropie/configs/
 
-function all_v_smooth_on() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|.*#video_smooth|video_smooth|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-}
+    if [ "$scope" = "system" ]; then
+        echo "RetroArch video smooth can only be applied to cores with retroarch.cfg."
+        echo "Type the system name exactly as shown in configs folder."
+        echo
+        read -p "Which system would you like to ${action} video smooth?: " sname
+        if [ -f "$sname/retroarch.cfg" ]; then
+            case "$action" in
+                on)  sed -i 's|.*#video_smooth|video_smooth|g' "$sname/retroarch.cfg" ;;
+                off) sed -i 's|^video_smooth|#video_smooth|g' "$sname/retroarch.cfg" ;;
+            esac
+            echo "[OK DONE!...]"
+        else
+            echo "This system does not contain a retroarch.cfg file."
+        fi
+    else
+        # Apply to all systems except excluded ones
+        case "$action" in
+            on)  find . -type d \( -name all -o -name amiga \) -prune -false -o \
+                     -name "retroarch.cfg" -exec sed -i 's|.*#video_smooth|video_smooth|g' {} \; ;;
+            off) find . -type d \( -name all -o -name amiga \) -prune -false -o \
+                     -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g' {} \; ;;
+        esac
+        echo "[OK DONE!...]"
+    fi
 
-function all_v_smooth_off() {
-	clear
-	echo
-	cd /opt/retropie/configs/ 
-	find . -type d \( -name all -o -name amiga \) -prune -false -o -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g' {} 2>/dev/null \;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+    cd $HOME
+    sleep 1
 }
 
 
@@ -1260,142 +1045,56 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-            1) hide_rpm  ;;
-            2) show_rpm  ;;
-            3) hide_sys  ;;
-            4) show_sys  ;;
-            5) show_all  ;;
+            1) toggle_system retropiemenu hide ;;
+			2) toggle_system retropiemenu show ;;
+			3) read -p "System to hide: " sname; toggle_system "$sname" hide ;;
+			4) read -p "System to show: " sname; toggle_system "$sname" show ;;
+			5) show_all_systems ;;
             -) none ;;
             *) break ;;
         esac
     done
 }
 
-function hide_rpm() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	mv -f $HOME/RetroPie/retropiemenu $HOME/RetroPie/retropiemenu.OFF
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+
+function toggle_system() {
+    local target="$1"   # "retropiemenu" or system name
+    local action="$2"   # "hide" or "show"
+
+    case "$action" in
+        hide)
+            if [ -d "$HOME/RetroPie/$target" ]; then
+                mv -f "$HOME/RetroPie/$target" "$HOME/RetroPie/$target.OFF"
+            elif [ -d "$HOME/RetroPie/roms/$target" ]; then
+                mv -f "$HOME/RetroPie/roms/$target" "$HOME/RetroPie/roms/$target.OFF"
+            elif [ -d "$HOME/RetroPie/localroms/$target" ]; then
+                mv -f "$HOME/RetroPie/localroms/$target" "$HOME/RetroPie/localroms/$target.OFF"
+                mv -f "$HOME/RetroPie/addonusb/roms/$target" "$HOME/RetroPie/addonusb/roms/$target.OFF"
+            fi
+            ;;
+        show)
+            if [ -d "$HOME/RetroPie/$target.OFF" ]; then
+                mv -f "$HOME/RetroPie/$target.OFF" "$HOME/RetroPie/$target"
+            elif [ -d "$HOME/RetroPie/roms/$target.OFF" ]; then
+                mv -f "$HOME/RetroPie/roms/$target.OFF" "$HOME/RetroPie/roms/$target"
+            elif [ -d "$HOME/RetroPie/localroms/$target.OFF" ]; then
+                mv -f "$HOME/RetroPie/localroms/$target.OFF" "$HOME/RetroPie/localroms/$target"
+                mv -f "$HOME/RetroPie/addonusb/roms/$target.OFF" "$HOME/RetroPie/addonusb/roms/$target"
+            fi
+            ;;
+    esac
+
+    clear
+    echo "[OK DONE!...]"
+    restart_es
 }
 
-function show_rpm() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	mv -f $HOME/RetroPie/retropiemenu.OFF $HOME/RetroPie/retropiemenu
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
-}
-
-function hide_sys() {
-	dialog --infobox "...Hold on..." 3 18 ; sleep 2
-	clear
-	echo 
-	echo " I will display a list of all Rom folders..."
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
-	echo 
-	echo Example: arcade
-	echo NOT Arcade or ARCADE etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	cd $HOME/RetroPie/roms
-	ls | column | more -d
-	echo
-	read -p 'So which system would you like to hide: ' sname
-	echo
-if [ -d $HOME/addonusb ]; then 
-	mv -f $HOME/RetroPie/localroms/$sname $HOME/RetroPie/localroms/$sname.OFF && mv -f $HOME/RetroPie/addonusb/roms/$sname $HOME/RetroPie/addonusb/roms/$sname.OFF
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-	else
-	mv -f $HOME/RetroPie/roms/$sname $HOME/RetroPie/roms/$sname.OFF
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-fi
-}
-
-function show_sys() {
-	dialog --infobox "...Hold on..." 3 18 ; sleep 2
-clear
-	echo 
-	echo " I will display a list of all Rom folders..."
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS IS IN THE ROMS LIST***
-	echo 
-	echo Example: arcade
-	echo NOT Arcade or ARCADE etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	cd $HOME/RetroPie/roms
-	ls | column | more -d
-	echo
-	read -p 'So which system would you like to show: ' sname
-	echo
-if [ -d $HOME/addonusb ]; then
-	mv -f $HOME/RetroPie/localroms/$sname.OFF $HOME/RetroPie/localroms/$sname && mv -f $HOME/RetroPie/addonusb/roms/$sname.OFF $HOME/RetroPie/addonusb/roms/$sname
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-	else
-	mv -f $HOME/RetroPie/roms/$sname.OFF $HOME/RetroPie/roms/$sname
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to continue... Once you are done, go to main menu and reboot!"
-	sleep 1
-fi
-}
-
-function show_all() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	cd $HOME/RetroPie/roms/
-	rename -v 's/\.OFF$//i' *
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+# Restore all hidden systems
+function show_all_systems() {
+    cd "$HOME/RetroPie/roms/"
+    rename -v 's/\.OFF$//i' *
+    echo "[OK DONE!...]"
+    sleep 2
 }
 
 
@@ -1414,110 +1113,54 @@ function music_2p() {
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) Synthpop  ;;
-            2) Synthwave  ;;
-            3) RoyalFree  ;;
-            4) Mix  ;;
+            1) set_music_theme synthpop   ;;
+			2) set_music_theme synthwave  ;;
+			3) set_music_theme royalfree  ;;
+			4) set_music_theme mix        ;;
             -) none ;;
             *)  break ;;
         esac
     done
 }
 
-function Synthpop() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
 
-function Synthwave() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
+function set_music_theme() {
+    local theme="$1"   # "synthpop", "synthwave", "royalfree", or "mix"
 
-function RoyalFree() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
-}
+    dialog --infobox "...Fixing..." 3 17 ; sleep 1
+    clear
 
-function Mix() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/music/* && rm -rf $HOME/addonusb/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/localroms/music
-	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/localroms/music
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/localroms/music
-	else
-	rm -rf $HOME/RetroPie/roms/music/*
-	rsync -avh $HOME/Music/synthpop/* $HOME/RetroPie/roms/music
-	rsync -avh $HOME/Music/synthwave/* $HOME/RetroPie/roms/music
-	rsync -avh $HOME/Music/royalfree/* $HOME/RetroPie/roms/music
-	fi
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
+    if [ -d "$HOME/addonusb" ]; then
+        echo "You have enabled the External USB Script..."
+        echo "Using correct paths..."
+        read -n 1 -s -r -p "Press any key to continue..."
+        echo
+        rm -rf "$HOME/RetroPie/localroms/music/"* "$HOME/addonusb/roms/music/"*
+        case "$theme" in
+            synthpop)  rsync -avh "$HOME/Music/synthpop/"*  "$HOME/RetroPie/localroms/music" ;;
+            synthwave) rsync -avh "$HOME/Music/synthwave/"* "$HOME/RetroPie/localroms/music" ;;
+            royalfree) rsync -avh "$HOME/Music/royalfree/"* "$HOME/RetroPie/localroms/music" ;;
+            mix)
+                rsync -avh "$HOME/Music/synthpop/"*   "$HOME/RetroPie/localroms/music"
+                rsync -avh "$HOME/Music/synthwave/"*  "$HOME/RetroPie/localroms/music"
+                rsync -avh "$HOME/Music/royalfree/"*  "$HOME/RetroPie/localroms/music"
+                ;;
+        esac
+    else
+        rm -rf "$HOME/RetroPie/roms/music/"*
+        case "$theme" in
+            synthpop)  rsync -avh "$HOME/Music/synthpop/"*  "$HOME/RetroPie/roms/music" ;;
+            synthwave) rsync -avh "$HOME/Music/synthwave/"* "$HOME/RetroPie/roms/music" ;;
+            royalfree) rsync -avh "$HOME/Music/royalfree/"* "$HOME/RetroPie/roms/music" ;;
+            mix)
+                rsync -avh "$HOME/Music/synthpop/"*   "$HOME/RetroPie/roms/music"
+                rsync -avh "$HOME/Music/synthwave/"*  "$HOME/RetroPie/roms/music"
+                rsync -avh "$HOME/Music/royalfree/"*  "$HOME/RetroPie/roms/music"
+                ;;
+        esac
+    fi
+
+    restart_es
 }
 
 
@@ -1550,7 +1193,7 @@ function mesa_vk() {
 			- "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
            2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Version " \
-		   3 " - [ON/OFF] Latest RetroArch Vulkan/GLES " \
+		   3 " - Default RetroArch To Use Vulkan/GLES or RPie Stock " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1618,7 +1261,7 @@ else
 	echo
 fi
 echo
-##Latest RA
+##Latest RA from source
 git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
 ##Retroarch 1.14
 #wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
@@ -1668,26 +1311,29 @@ sleep 2
 }
 
 function ra_default() {
-clear
-cd /opt/retropie/emulators/retroarch/bin
-target=$(readlink retroarch)
-if [ "$target" = "retroarchNEW" ]; then
-    sudo ln -sfn retroarchORIG retroarch
+    clear
+    cd /opt/retropie/emulators/retroarch/bin
+    target=$(readlink retroarch)
+
+    if [ "$target" = "retroarchNEW" ]; then
+        sudo ln -sfn retroarchORIG retroarch
+    elif [ "$target" = "retroarchORIG" ] && [ -f retroarchNEW ]; then
+        sudo ln -sfn retroarchNEW retroarch
+    else
+        echo "A Vulkan RetroArch binary does not exist... Nothing to do!"
+        cd $HOME
+        return
+    fi
+
+    clear
+    echo
     echo "[OK Swap Complete...]"
-elif [ "$target" = "retroarchORIG" ] && [ -f retroarchNEW ]; then
-    sudo ln -sfn retroarchNEW retroarch
-    echo "[OK Swap Complete...]"
-else
-    echo "A Vulkan RetroArch binary does not exist... Nothing to do!"
-fi
-clear
-echo
-#read -n 1 -s -r -p "Press any key to reboot"
-#echo
-#echo "[OK System Will Restart now...]"
-echo "[OK Swap Complete...]"
-sleep 1
-cd $HOME
+    echo
+    echo "RetroArch version now set to:"
+    ./retroarch --version | sed -n '2p'   # show only the version line
+    echo
+    sleep 2
+    cd $HOME
 }
 
 function igalia_dm() {
@@ -1759,9 +1405,9 @@ function rpc80_saves() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " RPC80 SINGLE SAVES DIR OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
-            - "*** RPC80 SINGLE SAVES DIR OPTIONS MENU ***" \
+            - "*** RPC80's SINGLE SAVES DIR OPTIONS MENU ***" \
            1 " - Enable Single Saves Directory " \
-           2 " - Revert Single Saves Directory " \
+           2 " - Disable Single Saves Directory " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1780,7 +1426,7 @@ clear
 ################################################################################
 # Author: RPC80                                                                #
 # Date: 2018.05.11                                                             #
-# Changes by 2Play! 														   # 
+# Updates by 2Play! 														   # 
 # Date: 04.2026
 ################################################################################
 # Purpose: Creates a save directory at $HOME/RetroPie/saves                        #
@@ -1808,20 +1454,20 @@ echo "
 
   # Loop through the configs directory
   for d in ${CONFIGS_DIR}//*; do
+  # Get the system/emulator name
+  system_name=${d##*/}
 
-      # Get the system/emulator name
-      system_name=${d##*/}
-
-      # Skip `all` & `amiga` & symbolic link config folders
-#      if [[ ${system_name} == 'all' || ${system_name} == 'amiga' || ${system_name} == 'genh' || ${system_name} == 'megh' || ${system_name} == 'moto' || ${system_name} == 'neogeocd' || ${system_name} == 'pce-cd' || ${system_name} == 'snesmsu1' || ${system_name} == 'tg-cd' ]]; then
-      # Skip `all` & `amiga` & symbolic link config folders
-      if [[ ${system_name} == 'all' ]]; then
-	    echo "Skipping ${system_name} folder configs"
+	# Skip a list of folders
+	#skip_list=("all" "amiga" "genh" "megh" "moto" "neogeocd"  "pce-cd" "snesmsu1" "tg-cd")
+	#if [[ " ${skip_list[@]} " =~ " ${system_name} " ]]; then
+	# Skip `all` & symbolic link config folders
+    if [ -L "$d" ] || [[ ${system_name} == 'all' ]]; then
+        echo "Skipping ${system_name} folder configs"
         continue
-      fi
+    fi
 
-      echo "Checking System Configs for '${system_name}' ..."
-      config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
+    echo "Checking System Configs for '${system_name}' ..."
+	config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
 
       if [[ -f ${config_file} ]]; then
         echo "Found config file: ${config_file}"
@@ -1835,7 +1481,7 @@ echo "
         echo "Creating master saves file directory ${SAVES_DIR} ..."
         mkdir $SAVES_DIR
         if [ $? -ne 0 ] ; then
-          echo "[ERROR] Failed to create save file directory: ${SAVE_DIR}"
+          echo "[ERROR] Failed to create save file directory: ${SAVES_DIR}"
           exit 1
         else
           echo "[OK] Created save file directory ${SAVES_DIR}"
@@ -1886,52 +1532,72 @@ savestate_directory = \"$HOME/RetroPie/saves/'${system_name}'/states\" \
 
 function rpc80_svoff() {
 	dialog --infobox "...Reverting..." 3 20	; sleep 1
+	CONFIGS_DIR=/opt/retropie/configs
+	CONFIG_FILENAME=retroarch.cfg
+	SAVES_DIR=$HOME/RetroPie/saves
+	ROMS_DIR=$HOME/RetroPie/roms
+
+	SAVE_FILE_CONFIG="savefile_directory = \"$HOME/RetroPie/saves"
+	SAVE_STATE_CONFIG="savestate_directory = \"$HOME/RetroPie/saves"
+
 	clear
-# Check for the existence of the saves directory
-  if [ ! -d "$SAVES_DIR" ]; then
-    echo "No save file directory. Exiting."
-    break
-	#continue
-  fi
+	# Check for the existence of the saves directory
+	if [ ! -d "$SAVES_DIR" ]; then
+		echo "No save file directory. Exiting."
+		#break
+		return
+		#continue
+	fi
 
 	# Loop through the configs directory
 	for d in ${CONFIGS_DIR}//*; do
-
     # Get the system/emulator name
     system_name=${d##*/}
+	
+	# Skip a list of folders
+	#skip_list=("all" "amiga" "genh" "megh" "moto" "neogeocd"  "pce-cd" "snesmsu1" "tg-cd")
+	#if [[ " ${skip_list[@]} " =~ " ${system_name} " ]]; then
+	# Skip `all` & symbolic link config folders
+	if [ -L "$d" ] || [[ ${system_name} == 'all' ]]; then
+		echo "Skipping ${system_name} folder configs"
+		continue
+	fi	
 	
     # Check for existing config file
     config_file=${CONFIGS_DIR}/${system_name}/${CONFIG_FILENAME}
 
-      if [[ -f ${config_file} ]]; then
-        echo "Found config file: ${config_file}"
-      else
-        echo "No config file found for ${system_name}"
-        continue
-      fi
+	if [[ -f ${config_file} ]]; then
+		echo "Found config file: ${config_file}"
+		else
+		echo "No config file found for ${system_name}"
+		continue
+	fi
 
-	  # Check if savefile & savestate config exists
-      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
-      echo "Removing config entries..."
-      #sed -i "s|savefile_directory.*||" "${config_file}"
-	  #sed -i "s|savestate_directory.*||" "${config_file}"
-	  sed -i '/savefile_directory.*/d' "${config_file}"
-	  sed -i '/savestate_directory.*/d' "${config_file}"
-	  sed -i '/<->.*/d' "${config_file}"
+	# Check if savefile & savestate config exists
+	if grep -qE 'savefile_directory|savestate_directory' "$config_file"; then
+		echo "Removing config entries..."
+		#sed -i "s|savefile_directory.*||" "${config_file}"
+		#sed -i "s|savestate_directory.*||" "${config_file}"
+		sed -i '/savefile_directory.*/d' "$config_file"
+		sed -i '/savestate_directory.*/d' "$config_file"
+		sed -i '/<->.*/d' "${config_file}"
 	  fi
 	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
 	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
 	  
     # Move existing saves to the systems roms directory
-      if [[ ! -d daphne ]]; then
-	  find "${SAVES_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/"
-	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/states/"
-	  find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "/opt/retropie/configs/all/retroarch/states/"
-	  fi
+    if [[ ! -d daphne ]]; then
+		#find "${SAVES_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/"
+		find "$SAVES_DIR/$system_name" -type f \( -name "*.srm" -o -name "*.auto" -o -name "*.fs" -o -name "*.hi" \) -exec mv -t "$ROMS_DIR/$system_name/" {} +
+		#find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/states/"
+		find "$SAVES_DIR/$system_name/states" -type f \( -name "state" -o -name "state.auto" -o -name "state[0-9]" \) -exec mv -t "$ROMS_DIR/$system_name/states/" {} +
+		#find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "/opt/retropie/configs/all/retroarch/states/"
+		find "$SAVES_DIR/$system_name/states" -type f \( -name "state" -o -name "state.auto" -o -name "state[0-9]" \) -exec mv -t "/opt/retropie/configs/all/retroarch/states/" {} +
+	fi
 	  
   done
 	# Delete system saves saves directory
-	rm -rf $HOME/RetroPie/saves/
+	[ -d "$SAVES_DIR" ] && rm -rf "$SAVES_DIR"
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -1948,22 +1614,9 @@ function strg_bench() {
 
 function omxvol() {
 	clear
-# OMXPlayer Volume Control 07.20 By 2Play! 
-# Updated 04.2026
+# OMXPlayer Volume Control 04.2026 By 2Play! 
 
-    local offset="$1"
-    dialog --infobox "...Applying..." 3 20 ; sleep 1
-    if [ "$offset" = "reset" ]; then
-        sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
-    else
-        sudo sed -i "s|\$OMXPLAYER_BIN --vol -[0-9]*|\$OMXPLAYER_BIN|g; s|\$OMXPLAYER_BIN|\$OMXPLAYER_BIN --vol -$offset|g" /usr/bin/omxplayer
-    fi
-    clear
-    echo
-    echo "[OK DONE!...]"
-    sleep 1
-
-
+	local choice
 	while true; do
     choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
         --ok-label OK --cancel-label Back \
@@ -1995,6 +1648,21 @@ function omxvol() {
     esac
 done
 }
+
+
+function apply_omx_volume() {
+	local offset="$1"
+    dialog --infobox "...Applying..." 3 20 ; sleep 1
+    if [ "$offset" = "reset" ]; then
+        sudo sed -i 's/$OMXPLAYER_BIN --vol -[0-9]*/$OMXPLAYER_BIN/g' /usr/bin/omxplayer
+    else
+        sudo sed -i "s|\$OMXPLAYER_BIN --vol -[0-9]*|\$OMXPLAYER_BIN|g; s|\$OMXPLAYER_BIN|\$OMXPLAYER_BIN --vol -$offset|g" /usr/bin/omxplayer
+    fi
+    clear
+    echo
+    echo "[OK DONE!...]"
+    sleep 1
+}																						
 
 
 function emus_compile() {
@@ -2231,6 +1899,7 @@ function ppsspp_git() {
     done
 }
 
+
 function compile_ppsspp_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
@@ -2339,29 +2008,31 @@ function vboy_3d() {
 }
 
 function vb_3d_off() {
-	clear
-	cd /opt/retropie/configs/virtualboy
-	sed -i "s|^vb_anaglyph_preset|#vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|^vb_3dmode|#vb_3dmode|" retroarch-core-options.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+    clear
+    cd /opt/retropie/configs/virtualboy
+    sed -i 's/^vb_anaglyph_preset/#vb_anaglyph_preset/' retroarch-core-options.cfg
+    sed -i 's/^vb_3dmode/#vb_3dmode/' retroarch-core-options.cfg
+    cd $HOME
+    clear
+    echo
+    echo "[OK DONE!...]"
+    sleep 2
 }
 
 function vb_3d_on() {
-	clear
-	cd /opt/retropie/configs/virtualboy
-	sed -i "s|^vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|^vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
-	sed -i "s|#vb_anaglyph_preset|vb_anaglyph_preset|" retroarch-core-options.cfg;
-	sed -i "s|#vb_3dmode|vb_3dmode|" retroarch-core-options.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+    clear
+    cd /opt/retropie/configs/virtualboy
+    # Uncomment if present
+    sed -i 's/^#vb_anaglyph_preset/vb_anaglyph_preset/' retroarch-core-options.cfg
+    sed -i 's/^#vb_3dmode/vb_3dmode/' retroarch-core-options.cfg
+    # Ensure entries exist if missing
+    grep -q '^vb_anaglyph_preset' retroarch-core-options.cfg || echo 'vb_anaglyph_preset = "0"' >> retroarch-core-options.cfg
+    grep -q '^vb_3dmode' retroarch-core-options.cfg || echo 'vb_3dmode = "anaglyph"' >> retroarch-core-options.cfg
+    cd $HOME
+    clear
+    echo
+    echo "[OK DONE!...]"
+    sleep 2
 }
 
 
@@ -2376,11 +2047,13 @@ function gboy_enh() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** GAMEBOY CORE SELECTIONS ***" \
 			- "	" \
+           0 " - Show Current Cetting... " \
            1 " - Enable GameBoy Original (B/W) Display Graphics " \
            2 " - Enable GameBoy Enhanced (CLR) Display Graphics " \
            2>&1 > /dev/tty)
 
         case "$choice" in
+           0) gb_status  ;;
            1) gb_bw_on  ;;
            2) gb_clr_on  ;;
 		   -) none ;;
@@ -2392,12 +2065,14 @@ function gboy_enh() {
 function gb_bw_on() {
 	clear
 	cd /opt/retropie/configs/gb
-	sed -i 's|sameboy_model = "Super Game Boy"|sameboy_model = "Auto"|' retroarch-core-options.cfg;
-	sed -i "s|gb_sameboy.cfg|gb.cfg|" retroarch.cfg;
-	sed -i 's|custom_viewport_width = "1243"|custom_viewport_width = "665"|' retroarch.cfg;
-	sed -i 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' retroarch.cfg;
-	sed -i 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' retroarch.cfg;
-	sed -i 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg;
+	grep -q 'sameboy_model = "Super Game Boy"' retroarch-core-options.cfg && \
+    sed -i 's|sameboy_model = "Super Game Boy"|sameboy_model = "Auto"|' retroarch-core-options.cfg;
+	sed -i \
+	-e "s|gb_sameboy.cfg|gb.cfg|" \
+	-e 's|custom_viewport_width = "1243"|custom_viewport_width = "665"|' \
+    -e 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' \
+    -e 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' \
+    -e 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg
 	cd $HOME
 	clear
 	echo
@@ -2409,16 +2084,27 @@ function gb_clr_on() {
 	clear
 	cd /opt/retropie/configs/gb
 	sed -i 's|sameboy_model = "Auto"|sameboy_model = "Super Game Boy"|' retroarch-core-options.cfg;
-	sed -i "s|gb.cfg|gb_sameboy.cfg|" retroarch.cfg;
-	sed -i 's|custom_viewport_width = "665"|custom_viewport_width = "1243"|' retroarch.cfg;
-	sed -i 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' retroarch.cfg;
-	sed -i 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' retroarch.cfg;
-	sed -i 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg;
+	sed -i \
+	-e "s|gb.cfg|gb_sameboy.cfg|" \
+	-e 's|custom_viewport_width = "665"|custom_viewport_width = "1243"|' \
+	-e 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' \
+	-e 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' \
+	-e 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
+}
+
+function gb_status() {
+    cd /opt/retropie/configs/gb
+    if grep -q 'sameboy_model = "Super Game Boy"' retroarch-core-options.cfg; then
+        echo "Game Boy Color mode is active."
+    else
+        echo "Game Boy Black & White mode is active."
+    fi
+    cd $HOME
 }
 
 
@@ -2433,11 +2119,13 @@ function ppsspp_exit() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
 			- "	" \
-           1 " - Enable PPSSPP EXIT to ES Instead The Emulator Menu " \
-           2 " - Disable PPSSPP EXIT to ES And Show The Emulator Menu " \
+           0 " - Show PPSSPP Emu Exit Status: Exit to ES or to Emulator Menu " \
+           1 " - PPSSPP Emu Exits to ES " \
+           2 " - PPSSPP Emu Exits to the Emulator Menu " \
            2>&1 > /dev/tty)
 
         case "$choice" in
+           0) ppsspp_ex_status  ;;
            1) ppsspp_ex_on  ;;
            2) ppsspp_ex_off  ;;
 		   -) none ;;
@@ -2449,7 +2137,8 @@ function ppsspp_exit() {
 function ppsspp_ex_on() {
 	clear
 	cd /opt/retropie/configs/psp
-	sed -i 's|--fullscreen %ROM%|--fullscreen --escape-exit %ROM%|' emulators.cfg;
+	grep -q '--escape-exit' emulators.cfg || \
+	sed -i 's|--fullscreen %ROM%|--fullscreen --escape-exit %ROM%|' emulators.cfg
 	cd $HOME
 	clear
 	echo
@@ -2460,12 +2149,23 @@ function ppsspp_ex_on() {
 function ppsspp_ex_off() {
 	clear
 	cd /opt/retropie/configs/psp
-	sed -i 's|--fullscreen --escape-exit %ROM%|--fullscreen %ROM%|' emulators.cfg;
+	grep -q '--escape-exit' emulators.cfg && \
+	sed -i 's|--fullscreen --escape-exit %ROM%|--fullscreen %ROM%|' emulators.cfg
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
+}
+
+function ppsspp_ex_status() {
+    cd /opt/retropie/configs/psp
+    if grep -q '--escape-exit' emulators.cfg; then
+        echo "PPSSPP will exit to ES."
+    else
+        echo "PPSSPP will exit to its Menu."
+    fi
+    cd $HOME
 }
 
 
@@ -2480,11 +2180,13 @@ function n64_res() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
 			- "	" \
+           0 " - Show N64 Current Res Setting " \
            1 " - Set Native Low-Res (320x240) To N64 Lr-Core " \
            2 " - Set Native Hi-Res (640x480) To N64 Lr-Core " \
            2>&1 > /dev/tty)
 
         case "$choice" in
+           0) n64_status  ;;
            1) n64_lr_on  ;;
            2) n64_hr_on  ;;
 		   -) none ;;
@@ -2496,8 +2198,8 @@ function n64_res() {
 function n64_lr_on() {
 	clear
 	cd /opt/retropie/configs/n64
-	sed -i 's|mupen64plus-43screensize = "640x480"|mupen64plus-43screensize = "320x240"|' retroarch-core-options.cfg;
-	sed -i 's|mupen64plus-next-43screensize = "640x480"|mupen64plus-next-43screensize = "320x240"|' retroarch-core-options.cfg;
+	sed -i 's|^mupen64plus-43screensize.*|mupen64plus-43screensize = "320x240"|' retroarch-core-options.cfg
+	sed -i 's|^mupen64plus-next-43screensize.*|mupen64plus-next-43screensize = "320x240"|' retroarch-core-options.cfg
 	cd $HOME
 	clear
 	echo
@@ -2508,13 +2210,23 @@ function n64_lr_on() {
 function n64_hr_on() {
 	clear
 	cd /opt/retropie/configs/n64
-	sed -i 's|mupen64plus-43screensize = "320x240"|mupen64plus-43screensize = "640x480"|' retroarch-core-options.cfg;
-	sed -i 's|mupen64plus-next-43screensize = "320x240"|mupen64plus-next-43screensize = "640x480"|' retroarch-core-options.cfg;
+	sed -i 's|^mupen64plus-43screensize.*|mupen64plus-43screensize = "640x480"|' retroarch-core-options.cfg
+	sed -i 's|^mupen64plus-next-43screensize.*|mupen64plus-next-43screensize = "640x480"|' retroarch-core-options.cfg
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
+}
+
+function n64_status() {
+    cd /opt/retropie/configs/n64
+    if grep -q 'mupen64plus-43screensize = "640x480"' retroarch-core-options.cfg; then
+        echo "N64 High Resolution mode is active."
+    else
+        echo "N64 Low Resolution mode is active."
+    fi
+    cd $HOME
 }
 
 
@@ -2527,22 +2239,30 @@ function amiga_models() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA MODELS OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Model You Want to Use For..." 25 75 20 \
-            - "*** AMIGA AGA SYSTEM MODEL OPTIONS MENU SELECTIONS ***" \
+            - "	" \
+           0 " - Show Which AMIGA System Model is set... " \
+		   - "	" \
+           - "*** AMIGA AGA SYSTEM MODEL OPTIONS ***" \
 			- "	" \
            1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
            2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
-		   - "	" \
-		   - "*** AMIGA MAIN SYSTEM OPTIONS MENU SELECTIONS ***" \
+           3 " - Set Amiga 500+ (1MB Chip RAM) " \
+           4 " - Set Amiga CD32 " \
+           5 " - Set Amiga CDTV " \
+           - "	" \
+		   - "*** AMIGA SINGLE SYSTEM MODEL OPTIONS ***" \
 			- "	" \
-           3 " - Set Amiga Main System To AUTO (If You Place All Roms in Amiga Roms Folder " \
-           4 " - Set Amiga 500+ (1MB Chip RAM) " \
+           6 " - Set Amiga System To AUTO (If You Use Amiga Roms Folder Only" \
            2>&1 > /dev/tty)
 
         case "$choice" in
+           0) amiga_status  ;;
            1) A1200_on  ;;
            2) A4040_on  ;;
-		   3) A_Auto_on  ;;
-           4) A_500+_on  ;;
+		   3) A_500+_on  ;;
+		   4) CD32_on  ;;
+           5) CDTV_on  ;;
+           5) A_Auto_on  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -2552,7 +2272,7 @@ function amiga_models() {
 function A1200_on() {
 	clear
 	cd /opt/retropie/configs/amiga1200
-	sed -i 's|puae_model = "A4040"|puae_model = "A1200"|' retroarch-core-options.cfg;
+	sed -i 's|^puae_model.*|puae_model = "A1200"|' retroarch-core-options.cfg
 	cd $HOME
 	clear
 	echo
@@ -2562,19 +2282,8 @@ function A1200_on() {
 
 function A4040_on() {
 	clear
-	cd /opt/retropie/configs/amiga1200
-	sed -i 's|puae_model = "A1200"|puae_model = "A4040"|' retroarch-core-options.cfg;
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-}
-
-function A_Auto_on() {
-	clear
-	cd /opt/retropie/configs/amiga
-	sed -i 's|puae_model = "A500+"|puae_model = "Auto"|' retroarch-core-options.cfg;
+	cd /opt/retropie/configs/amiga4000
+	sed -i 's|^puae_model.*|puae_model = "A4040"|' retroarch-core-options.cfg
 	cd $HOME
 	clear
 	echo
@@ -2585,12 +2294,65 @@ function A_Auto_on() {
 function A_500+_on() {
 	clear
 	cd /opt/retropie/configs/amiga
-	sed -i 's|puae_model = "Auto"|puae_model = "A500+"|' retroarch-core-options.cfg;
+	sed -i 's|^puae_model.*|puae_model = "A500+"|' retroarch-core-options.cfg
 	cd $HOME
 	clear
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
+}
+
+function CD32_on() {
+	clear
+	cd /opt/retropie/configs/amigacd32
+	sed -i 's|^puae_model.*|puae_model = "CD32"|' retroarch-core-options.cfg
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function CDTV_on() {
+	clear
+	cd /opt/retropie/configs/cdtv
+	sed -i 's|^puae_model.*|puae_model = "CDTV"|' retroarch-core-options.cfg
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function A_Auto_on() {
+	clear
+	cd /opt/retropie/configs/amiga
+	sed -i 's|^puae_model.*|puae_model = "Auto"|' retroarch-core-options.cfg
+	cd $HOME
+	clear
+	echo
+	echo "[OK DONE!...]"
+	sleep 2
+}
+
+function amiga_status() {
+    function amiga_status() {
+    echo "=== Amiga System Status ==="
+    for sys in amiga amiga1200 amiga4000 amigacd32 cdtv; do
+        cfg="/opt/retropie/configs/$sys/retroarch-core-options.cfg"
+        if [[ -f $cfg ]]; then
+            model=$(grep '^puae_model' "$cfg" | cut -d'=' -f2 | tr -d ' "')
+            if [[ -n $model ]]; then
+                echo "$sys: puae_model = $model"
+            else
+                echo "$sys: puae_model not set"
+            fi
+        else
+            echo "$sys: config file missing"
+        fi
+    done
+    echo "============================"
+    cd $HOME
 }
 
 function amiga_choices() {
@@ -2602,7 +2364,9 @@ function amiga_choices() {
 	    choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
-            - "*** AMIGA 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
+            - "*** AMIGA - 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
+			- "	" \
+           0 " - Show Τhe Status Οf Βelow Οptions " \
 			- "	" \
            1 " - Set Lr-PUAE as main emulator " \
            2 " - Set Amiberry as main emulator " \
@@ -2617,6 +2381,7 @@ function amiga_choices() {
 		   2>&1 > /dev/tty)
 
         case "$choice" in
+           0) amiga_choices_status  ;;
            1) lrpuae_on  ;;
            2) amiberry_on  ;;
 		   3) lrpuae_custom_on  ;;
@@ -2636,7 +2401,7 @@ function lrpuae_on() {
 	mv /opt/retropie/configs/all/retroarch/config/PUAE/ /opt/retropie/configs/all/retroarch/config/PUAE.OFF/
 	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
-	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
+	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	clear
@@ -2664,7 +2429,7 @@ function lrpuae_custom_on() {
 	mv /opt/retropie/configs/all/retroarch/config/PUAE.OFF/ /opt/retropie/configs/all/retroarch/config/PUAE/
 	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
-	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
+	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
 	clear
@@ -2694,6 +2459,28 @@ function lrpuae_custom_sh_on() {
 	echo "[OK DONE!...]"
 	cd $HOME
 	sleep 2
+}
+
+function amiga_choices_status() {
+    echo "=== AMIGA Choices Status ==="
+    # Emulator default
+    emu=$(grep '^default' /opt/retropie/configs/amiga/emulators.cfg | cut -d'"' -f2)
+    echo "Emulator default: $emu"
+
+    # Overlay state
+    if [[ -d /opt/retropie/configs/all/retroarch/config/PUAE ]]; then
+        echo "Overlay: ENABLED"
+    else
+        echo "Overlay: DISABLED"
+    fi
+
+    # Shader state
+    if [[ -f /opt/retropie/configs/all/retroarch/config/PUAE/PUAE.glslp ]]; then
+        echo "Shader: ENABLED"
+    else
+        echo "Shader: DISABLED"
+    fi
+    echo "==========================="
 }
 
 
@@ -3431,6 +3218,7 @@ dialog --backtitle "PlayBox Toolkit" \
 function upgrade_os() {
 #- Upgrades packages to the newest versions **without removing anything**.
 #- Safe, but may leave some packages “held back” if dependencies change.
+
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
 	sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
@@ -3901,6 +3689,15 @@ function update_pbs() {
 	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
 	#sleep 3 &&
 	#exec 2p-FixPlayBox
+}
+
+
+function restart_es() {
+    clear
+	echo "[Restarting EmulationStation...]"
+    sleep 2
+    pkill -f emulationstation
+    nohup emulationstation --no-splash &>/dev/null &
 }
 
 
