@@ -31,6 +31,7 @@ dialog --backtitle "PLAYBOX PROJECT" \
 --title "PLAYBOX PROJECT - TOOLKIT" \
 --msgbox "${infobox}" 35 110
 
+
 function main_menu() {
     local choice
     while true; do
@@ -67,6 +68,8 @@ function main_menu() {
 	clear
 }
 
+
+
 function fixes_pbt() {
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "FIXES OPTIONS MENU" \
@@ -102,6 +105,7 @@ function fixes_pbt() {
         esac
     done
 }
+
 
 function fix_rpmenu() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
@@ -142,7 +146,6 @@ function fix_rpmenu() {
 	fix_region
 	fi
 }
-
 
 function fix_region() {
 	clear
@@ -481,6 +484,7 @@ function themes_rs() {
 	sudo reboot
 }
 
+
 function def_audio_out() {
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "DEFAULT AUDIO OUT OPTIONS MENU" \
@@ -576,6 +580,7 @@ function apps_pbt() {
         esac
     done
 }
+
 
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
@@ -831,6 +836,7 @@ function ra_vol_0() {
 	sleep 1
 }
 
+
 function disable_shaders() {
 	dialog --infobox "...Removing..." 3 20 ; sleep 2
 	mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
@@ -858,6 +864,7 @@ function disable_global_sh() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
 
 function enable_global_sh() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
@@ -1024,6 +1031,7 @@ function all_overlay_off() {
 	sleep 1
 }
 
+
 function arc_cab_on() {
 	clear
 	echo
@@ -1101,6 +1109,7 @@ function naomi_dx_off() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
 
 function v_smooth_sys_on() {
 	clear
@@ -1524,7 +1533,6 @@ function skyscraper() {
 }
 
 
-
 function mesa_vk() {
 # For x86
 # The PlayBox Project
@@ -1773,7 +1781,7 @@ clear
 # Author: RPC80                                                                #
 # Date: 2018.05.11                                                             #
 # Changes by 2Play! 														   # 
-# Date: 01.04.2026
+# Date: 04.2026
 ################################################################################
 # Purpose: Creates a save directory at $HOME/RetroPie/saves                        #
 # and configures all retroarch emulators with their own config files           #
@@ -1875,6 +1883,7 @@ savestate_directory = \"$HOME/RetroPie/saves/'${system_name}'/states\" \
 	sleep 1
 }
 
+
 function rpc80_svoff() {
 	dialog --infobox "...Reverting..." 3 20	; sleep 1
 	clear
@@ -1939,11 +1948,9 @@ function strg_bench() {
 
 function omxvol() {
 	clear
-# OMXPlayer Volume Control By 2Play! 
-# 01.04.2026
+# OMXPlayer Volume Control 07.20 By 2Play! 
+# Updated 04.2026
 
-    # Generic function to apply OMXPlayer volume
-apply_omx_volume() {
     local offset="$1"
     dialog --infobox "...Applying..." 3 20 ; sleep 1
     if [ "$offset" = "reset" ]; then
@@ -1955,10 +1962,9 @@ apply_omx_volume() {
     echo
     echo "[OK DONE!...]"
     sleep 1
-}
 
-# Menu loop
-while true; do
+
+	while true; do
     choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
         --ok-label OK --cancel-label Back \
         --menu "Please Set OMXPlayer Volume:" 25 75 20 \
@@ -1988,6 +1994,7 @@ while true; do
         *) break ;;
     esac
 done
+}
 
 
 function emus_compile() {
@@ -2109,7 +2116,6 @@ fi
 	sleep 1
 }
 
-
 function compile_amiberry_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
@@ -2180,7 +2186,6 @@ function compile_amiberry_x86() {
 	sleep 1
 }
 
-
 function amiberry_default() {
 clear
 cd /opt/retropie/emulators/amiberry/
@@ -2226,8 +2231,6 @@ function ppsspp_git() {
     done
 }
 
-
-
 function compile_ppsspp_x86() {
 	dialog --infobox "...Starting..." 3 20 ; sleep 1
 	clear
@@ -2253,7 +2256,6 @@ function compile_ppsspp_x86() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
-
 
 function ppsspp_default() {
 clear
@@ -2311,6 +2313,7 @@ clear
     done
 }
 
+
 function vboy_3d() {
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "VIRTUALBOY CORE OPTIONS MENU" \
@@ -2360,6 +2363,7 @@ function vb_3d_on() {
 	echo "[OK DONE!...]"
 	sleep 2
 }
+
 
 function gboy_enh() {
 	dialog --backtitle "PlayBox Toolkit" \
@@ -2417,6 +2421,7 @@ function gb_clr_on() {
 	sleep 2
 }
 
+
 function ppsspp_exit() {
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "PPSSPP STANDALONE EMULATOR OPTIONS MENU" \
@@ -2462,6 +2467,7 @@ function ppsspp_ex_off() {
 	echo "[OK DONE!...]"
 	sleep 2
 }
+
 
 function n64_res() {
 	dialog --backtitle "PlayBox Toolkit" \
@@ -2621,6 +2627,7 @@ function amiga_choices() {
         esac
     done
 }
+
 
 function lrpuae_on() {
 	clear
@@ -2840,6 +2847,7 @@ function clean_pbt() {
     done
 }
 
+
 function cl_gm_xml() {
 	clear
 	local choice
@@ -2935,6 +2943,7 @@ function cl_gm_xml_sys() {
 	fi
 }
 
+
 function cl_saves() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
@@ -2946,6 +2955,7 @@ function cl_saves() {
 	echo "[OK DONE!...]"
 	sleep 1
 }
+
 
 function cl_xml() {
 	clear
@@ -2998,6 +3008,7 @@ dialog --backtitle "PlayBox Toolkit" \
         esac
     done
 }
+
 
 function clear_ALP_PC() {
 	dialog --infobox "...Clearing..." 3 20 ; sleep 2
@@ -3297,6 +3308,7 @@ function sys_pbt() {
     done
 }
 
+
 function fschk_bt() {
 	#dialog --infobox "...Please Wait..." 3 22 ; sleep 1
 	clear
@@ -3324,6 +3336,7 @@ function expand_os() {
 	sudo reboot
 }
 
+
 function hide_uboot() {
 	dialog --infobox "...Fixing..." 3 20 ; sleep 1
 	clear
@@ -3335,6 +3348,7 @@ function hide_uboot() {
 	sleep 3
 	sudo reboot
 }
+
 
 function partitions() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
@@ -3413,9 +3427,10 @@ dialog --backtitle "PlayBox Toolkit" \
     done
 }
 
+
+function upgrade_os() {
 #- Upgrades packages to the newest versions **without removing anything**.
 #- Safe, but may leave some packages “held back” if dependencies change.
-function upgrade_os() {
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
 	sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
@@ -3426,8 +3441,8 @@ function upgrade_os() {
 	sudo reboot
 }
 
-#full-upgrade performs the function of upgrade but will remove currently installed packages if this is needed to upgrade the system as a whole.
 function upgrade_fullos() {
+#full-upgrade performs the function of upgrade but will remove currently installed packages if this is needed to upgrade the system as a whole.
 	dialog --infobox "...Please wait until updates completed!..." 3 47 ; sleep 2
 	clear
 	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
