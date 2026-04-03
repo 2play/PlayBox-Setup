@@ -2,7 +2,7 @@
 # Xin Mo or Juyao 2 Player controllers Script
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-# 26.06.20
+# 02.04.26
 
 infobox=""
 infobox="${infobox}\n"
@@ -45,20 +45,53 @@ function main_menu() {
     done
 }
 
+## Pi Boards
+#function enable_X() {
+#    dialog --infobox "...Applying..." 3 20 ; sleep 2
+#    if grep -q "usbhid.quirks=0x16c0:0x05e1:0x040" /boot/cmdline.txt; then
+#        echo "XinMo quirk already present."
+#    else
+#        sudo sed -i 's/$/ usbhid.quirks=0x16c0:0x05e1:0x040/' /boot/cmdline.txt
+#    fi
+#}
 
+#function enable_J() {
+#    dialog --infobox "...Applying..." 3 20 ; sleep 2
+#    if grep -q "usbhid.quirks=0x0314:0x0328:0x040" /boot/cmdline.txt; then
+#        echo "Jamma quirk already present."
+#    else
+#        sudo sed -i 's/$/ usbhid.quirks=0x0314:0x0328:0x040/' /boot/cmdline.txt
+#    fi
+#}
+
+#function remove_XJ() {
+#    dialog --infobox "...Removing..." 3 20 ; sleep 2
+#    sudo sed -i 's/ usbhid.quirks=0x16c0:0x05e1:0x040//g; s/ usbhid.quirks=0x0314:0x0328:0x040//g;' /boot/cmdline.txt
+#}
+
+##Armbian
 function enable_X() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	sudo sed -i 's/$/ usbhid.quirks=0x16c0:0x05e1:0x040/' /boot/cmdline.txt
+    dialog --infobox "...Applying..." 3 20 ; sleep 2
+    # If extraargs exists and is not commented, append quirk
+    if grep -q "^extraargs=" /boot/armbianEnv.txt; then
+        sudo sed -i 's/^extraargs=.*/& usbhid.quirks=0x16c0:0x05e1:0x040/' /boot/armbianEnv.txt
+    else
+        # Add new line if extraargs doesn't exist or is commented
+        echo "extraargs=usbhid.quirks=0x16c0:0x05e1:0x040" | sudo tee -a /boot/armbianEnv.txt
+    fi
 }
 
 function enable_J() {
-	dialog --infobox "...Applying..." 3 20 ; sleep 2
-	sudo sed -i 's/$/ usbhid.quirks=0x0314:0x0328:0x040/' /boot/cmdline.txt
+    dialog --infobox "...Applying..." 3 20 ; sleep 2
+    if grep -q "^extraargs=" /boot/armbianEnv.txt; then
+        sudo sed -i 's/^extraargs=.*/& usbhid.quirks=0x0314:0x0328:0x040/' /boot/armbianEnv.txt
+    else
+        echo "extraargs=usbhid.quirks=0x0314:0x0328:0x040" | sudo tee -a /boot/armbianEnv.txt
+    fi
 }
 
 function remove_XJ() {
-	dialog --infobox "...Removing..." 3 20 ; sleep 2
-	sudo sed -i 's/ usbhid.quirks=0x16c0:0x05e1:0x040//g; s/ usbhid.quirks=0x0314:0x0328:0x040//g;' /boot/cmdline.txt
+    dialog --infobox "...Removing..." 3 20 ; sleep 2
+    sudo sed -i 's/ usbhid.quirks=0x16c0:0x05e1:0x040//g; s/ usbhid.quirks=0x0314:0x0328:0x040//g;' /boot/armbianEnv.txt
 }
-
 main_menu
