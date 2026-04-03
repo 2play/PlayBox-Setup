@@ -535,19 +535,19 @@ function apps_pbt() {
             - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
 			- "	" \
 			1 " - Take HD ScreenShot " \
-			2 " - Gamelist Views - 2Play! Themes " \
-		    3 " - RetroArch Visual & Audio ON/OFF Options+ " \
-			4 " - Hide or Show a System " \
-			5 " - 2Play! Music Selections " \
-			6 " - Skyscraper By Lars Muldjord " \
-		    7 " - MESA & Vulkan Drivers Related Options " \
+			2 " - Gamelist View Setup For 2Play!'s Themes " \
+		    3 " - RetroArch Visual & Audio Options " \
+			4 " - Hide or Show an ES System " \
+			5 " - 2Play!'s Music Selections " \
+			6 " - Skyscraper Scraper By Lars Muldjord " \
+		    7 " - MESA Driver Update & Vulkan RetroArch " \
 		    8 " - PiKISS By Jose Cerrejon [OFF] " \
 		    9 " - Single Saves Directory By RPC80 " \
 		   10 " - SD/USB Storage Benchmark " \
-		   11 " - Emulators Custom Compile From Source " \
-		   12 " - Emulator Tweaks Options " \
-		   13 " - Safe Shutdown Case Script Options [OFF] " \
-		   14 " - Swap Desktop Enviroment (mate-session, other-session) " \
+		   11 " - Emulators: Custom Compile From Source " \
+		   12 " - Emulators: Tweaks & Options " \
+		   13 " - Safe Shutdown Case Scripts [OFF] " \
+		   14 " - Swap Desktop Enviroments (If more Installed) [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -688,7 +688,8 @@ function ra_options_tool() {
             --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
             - "*** STATUS DASHBOARD ***" \
             0 " - See The Status Of All Below Settings " \
-            - "*** AUDIO SETTINGS SELECTIONS ***" \
+            - "" \
+			- "*** AUDIO SETTINGS SELECTIONS ***" \
             1 " - RetroArch Increase Volume By 25% " \
             2 " - RetroArch Increase Volume By 50% " \
             3 " - RetroArch Increase Volume By 80% " \
@@ -1089,7 +1090,7 @@ function toggle_system() {
     restart_es
 }
 
-# Restore all hidden systems
+
 function show_all_systems() {
     cd "$HOME/RetroPie/roms/"
     rename -v 's/\.OFF$//i' *
@@ -1172,7 +1173,7 @@ function skyscraper() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
-	Skyscraper
+	check_and_run Skyscraper
 }
 
 
@@ -1965,7 +1966,7 @@ clear
 			2 " - GameBoy Core: Original or Enhanced GameBoy Display Options " \
 			3 " - PPSSPP: Standalone Emulator EXIT To ES or Menu " \
 			4 " - N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
-			5 " - Lr-PUAE Amiga Model Selection Options [OFF] " \
+			5 " - Lr-PUAE Amiga Model Selection Options " \
 			6 " - Amiga Setup Selection Options  " \
 			2>&1 > /dev/tty)
 
@@ -1974,7 +1975,7 @@ clear
             2) gboy_enh  ;;
 			3) ppsspp_exit  ;;
             4) n64_res  ;;
-			#5) amiga_models  ;;
+			5) amiga_models  ;;
 			6) amiga_choices  ;;
 			-) none ;;
             *)  break ;;
@@ -2134,6 +2135,16 @@ function ppsspp_exit() {
     done
 }
 
+function ppsspp_ex_status() {
+    cd /opt/retropie/configs/psp
+    if grep -q '--escape-exit' emulators.cfg; then
+        echo "PPSSPP will exit to ES."
+    else
+        echo "PPSSPP will exit to its Menu."
+    fi
+    cd $HOME
+}
+
 function ppsspp_ex_on() {
 	clear
 	cd /opt/retropie/configs/psp
@@ -2156,16 +2167,6 @@ function ppsspp_ex_off() {
 	echo
 	echo "[OK DONE!...]"
 	sleep 2
-}
-
-function ppsspp_ex_status() {
-    cd /opt/retropie/configs/psp
-    if grep -q '--escape-exit' emulators.cfg; then
-        echo "PPSSPP will exit to ES."
-    else
-        echo "PPSSPP will exit to its Menu."
-    fi
-    cd $HOME
 }
 
 
@@ -2240,20 +2241,20 @@ function amiga_models() {
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Model You Want to Use For..." 25 75 20 \
             - "	" \
-           0 " - Show Which AMIGA System Model is set... " \
-		   - "	" \
-           - "*** AMIGA AGA SYSTEM MODEL OPTIONS ***" \
+			0 " - Show Which AMIGA System Model is set... " \
 			- "	" \
-           1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
-           2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
-           3 " - Set Amiga 500+ (1MB Chip RAM) " \
-           4 " - Set Amiga CD32 " \
-           5 " - Set Amiga CDTV " \
-           - "	" \
-		   - "*** AMIGA SINGLE SYSTEM MODEL OPTIONS ***" \
+			- "*** AMIGA AGA SYSTEM MODEL OPTIONS ***" \
 			- "	" \
-           6 " - Set Amiga System To AUTO (If You Use Amiga Roms Folder Only" \
-           2>&1 > /dev/tty)
+			1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
+			2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
+			3 " - Set Amiga 500+ (1MB Chip RAM) " \
+			4 " - Set Amiga CD32 " \
+			5 " - Set Amiga CDTV " \
+			- "	" \
+			- "*** AMIGA SINGLE SYSTEM MODEL OPTIONS ***" \
+			- "	" \
+			6 " - Set Amiga System To AUTO (If You Use Amiga Roms Folder Only" \
+			2>&1 > /dev/tty)
 
         case "$choice" in
            0) amiga_status  ;;
@@ -2267,6 +2268,25 @@ function amiga_models() {
             *)  break ;;
         esac
     done
+}
+
+function amiga_status() {
+    echo "=== Amiga System Status ==="
+    for sys in amiga amiga1200 amiga4000 amigacd32 cdtv; do
+        cfg="/opt/retropie/configs/$sys/retroarch-core-options.cfg"
+        if [[ -f $cfg ]]; then
+            model=$(grep '^puae_model' "$cfg" | cut -d'=' -f2 | tr -d ' "')
+            if [[ -n $model ]]; then
+                echo "$sys: puae_model = $model"
+            else
+                echo "$sys: puae_model not set"
+            fi
+        else
+            echo "$sys: config file missing"
+        fi
+    done
+    echo "============================"
+    cd $HOME
 }
 
 function A1200_on() {
@@ -2335,25 +2355,6 @@ function A_Auto_on() {
 	sleep 2
 }
 
-function amiga_status() {
-    function amiga_status() {
-    echo "=== Amiga System Status ==="
-    for sys in amiga amiga1200 amiga4000 amigacd32 cdtv; do
-        cfg="/opt/retropie/configs/$sys/retroarch-core-options.cfg"
-        if [[ -f $cfg ]]; then
-            model=$(grep '^puae_model' "$cfg" | cut -d'=' -f2 | tr -d ' "')
-            if [[ -n $model ]]; then
-                echo "$sys: puae_model = $model"
-            else
-                echo "$sys: puae_model not set"
-            fi
-        else
-            echo "$sys: config file missing"
-        fi
-    done
-    echo "============================"
-    cd $HOME
-}
 
 function amiga_choices() {
 	dialog --backtitle "PlayBox Toolkit" \
@@ -2374,7 +2375,7 @@ function amiga_choices() {
 		   - "*** AMIGA CUSTOM OVERLAYS LR-PUAE SETUP ***" \
 		   - "	" \
            3 " - Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
-		   - "    Tx to Quizaseraq (LoadedImage-Set), Ransom & Pipmick (Creators) " \
+		   - "   Tx to Quizaseraq (LoadedImage-Set), Ransom & Pipmick (Creators) " \
 		   - "	" \
 		   4 " - Quick Disable Shader from Custom Setup Option #3 " \
 		   5 " - Quick Enable  Shader from Custom Setup Option #3 " \
@@ -2394,6 +2395,41 @@ function amiga_choices() {
 }
 
 
+function amiga_choices_status() {
+    echo "=== AMIGA Choices Status ==="
+    # Emulator default
+    emu=$(grep '^default' /opt/retropie/configs/amiga/emulators.cfg | cut -d'"' -f2)
+    echo "Emulator default: $emu"
+
+    # Overlay state
+    if [[ -d /opt/retropie/configs/all/retroarch/config/PUAE ]]; then
+        echo "Overlay: ENABLED"
+    else
+        echo "Overlay: DISABLED"
+    fi
+
+    # Shader state
+    if [[ -f /opt/retropie/configs/all/retroarch/config/PUAE/PUAE.glslp ]]; then
+        echo "Shader: ENABLED"
+    else
+        echo "Shader: DISABLED"
+    fi
+    echo "==========================="
+}
+
+function lrpuae_overlay_fix() {
+    for sys in amigacd32 cdtv; do
+        find "$sys" -name "retroarch.cfg" -exec sed -i \
+            -e 's|.*#input_overlay_enable|input_overlay_enable|g' \
+            -e 's|.*#input_overlay|input_overlay|g' \
+            -e 's|.*#aspect_ratio_index|aspect_ratio_index|g' \
+            -e 's|.*#custom_viewport_width|custom_viewport_width|g' \
+            -e 's|.*#custom_viewport_height|custom_viewport_height|g' \
+            -e 's|.*#custom_viewport_x|custom_viewport_x|g' \
+            -e 's|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+    done
+}
+
 function lrpuae_on() {
 	clear
 	cd /opt/retropie/configs/
@@ -2402,8 +2438,7 @@ function lrpuae_on() {
 	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
-	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+	lrpuae_overlay_fix
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2430,8 +2465,7 @@ function lrpuae_custom_on() {
 	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
-	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
+	lrpuae_overlay_fix
 	clear
 	echo
 	echo "[OK DONE!...]"
@@ -2461,33 +2495,11 @@ function lrpuae_custom_sh_on() {
 	sleep 2
 }
 
-function amiga_choices_status() {
-    echo "=== AMIGA Choices Status ==="
-    # Emulator default
-    emu=$(grep '^default' /opt/retropie/configs/amiga/emulators.cfg | cut -d'"' -f2)
-    echo "Emulator default: $emu"
-
-    # Overlay state
-    if [[ -d /opt/retropie/configs/all/retroarch/config/PUAE ]]; then
-        echo "Overlay: ENABLED"
-    else
-        echo "Overlay: DISABLED"
-    fi
-
-    # Shader state
-    if [[ -f /opt/retropie/configs/all/retroarch/config/PUAE/PUAE.glslp ]]; then
-        echo "Shader: ENABLED"
-    else
-        echo "Shader: DISABLED"
-    fi
-    echo "==========================="
-}
-
 
 function safe_shut() {
 clear
 # Safe Shutdown RetroFlag and Argon Scripts On/Off
-# 24.04.21
+# 04.2026
     local choice
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " SAFE SHUTDOWN SCRIPTS MENU " \
@@ -2496,6 +2508,7 @@ clear
             - "*** RETROFLAG SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Turn switch 'SAFE SHUTDOWN' on PCB to ON position. ***" \
 			- "	" \
+			0 " - RetroFlag Safe Shutdown Status " \
 			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown [ON] " \
 			2 " - RetroFlag GPi-Case Safe Shutdown [ON] " \
 			3 " - RetroFlag All Cases Safe Shutdown [OFF] " \
@@ -2503,85 +2516,101 @@ clear
 			- "*** ARGON ONE SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Extra Settings Check https://bit.ly/3nfaID6 ***" \
 			- "	" \
-			4 " - Argon ONE Safe Shutdown & Fan [ON] " \
-			5 " - Argon ONE Safe Shutdown & Fan [OFF] " \
-			6 " - Argon ONE Adjust Fan Settings " \
+			4 " - Argon ONE Safe Shutdown Status " \
+			5 " - Argon ONE Safe Shutdown & Fan [ON] " \
+			6 " - Argon ONE Safe Shutdown & Fan [OFF] " \
+			7 " - Argon ONE Adjust Fan Settings " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
+            0) retroflag_status  ;;
             1) rflag_on  ;;
             2) rflaggpi_on  ;;
             3) rflag_off  ;;
-			4) argon1_on  ;;
-            5) argon1_off  ;;
-			6) argon1_fan  ;;
+			4) argon1_status  ;;
+			5) argon1_on  ;;
+            6) argon1_off  ;;
+			7) argon1_fan  ;;
 			-) none ;;
             *)  break ;;
         esac
     done
 }
 
+function retroflag_status() {
+    echo "=== RetroFlag Status ==="
+
+    # Check folder and scripts
+    if [[ -d /opt/RetroFlag ]]; then
+        echo "RetroFlag folder present in /opt"
+        [[ -f /opt/RetroFlag/SafeShutdown.py ]] && echo "SafeShutdown.py found" || echo "SafeShutdown.py missing"
+        [[ -f /opt/RetroFlag/multi_switch.sh ]] && echo "multi_switch.sh found" || echo "multi_switch.sh missing"
+    else
+        echo "RetroFlag not installed"
+        return
+    fi
+
+    # Check rc.local entry
+    if grep -q "sudo python3 /opt/RetroFlag/SafeShutdown.py &" /etc/rc.local; then
+        echo "rc.local configured to run SafeShutdown.py"
+    else
+        echo "rc.local not configured"
+    fi
+
+    # Check overlay line in config.txt
+    if grep -q "dtoverlay=gpio-poweroff,gpiopin=4,active_low=1,input=1" /boot/config.txt; then
+        echo "Overlay line present in config.txt"
+        echo "→ This matches Pi Case style install"
+    else
+        echo "Overlay line not present"
+        echo "→ This matches GPI style install"
+    fi
+
+    echo "========================="
+}
+
+function argon1_status() {
+    if [[ -x /usr/bin/argonone-config ]]; then
+        echo "Argon1: ENABLED"
+    else
+        echo "Argon1: DISABLED"
+    fi
+}
+
 function rflag_on() {
 	clear
 	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/install.sh" | sudo bash
+	done_message
 }
 
 function rflaggpi_on() {
 	clear
-	wget -q -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/gpi/install.sh" | bash
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/install_gpi.sh" | sudo bash
+	done_message
 }
 
 function rflag_off() {
 	clear
 	wget -O - "https://raw.githubusercontent.com/crcerror/retroflag-picase/master/uninstall_all.sh" | sudo bash
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	reboot_message
 }
 
 function argon1_on() {
 	clear
 	curl https://download.argon40.com/argon1.sh | bash
-	clear
-	echo
-	echo "[OK DONE!...]"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	reboot_message
 }
 
 function argon1_off() {
 	clear
-	exec /usr/bin/argonone-uninstall
-	clear
-	echo
-	echo "[OK DONE!...]"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	check_and_run /usr/bin/argonone-uninstall
+	reboot_message
 }
 
 function argon1_fan() {
 	clear
-	exec /usr/bin/argonone-config
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	check_and_run /usr/bin/argonone-config
+	done_message
 }
 
 
@@ -3719,6 +3748,34 @@ function restart_pb() {
 	sudo reboot
 }
 
+function done_message() {
+    clear
+    echo
+    echo "[OK DONE!...]"
+    cd $HOME
+    sleep 1
+}
+
+function reboot_message() {
+    clear
+	echo
+	echo "[OK DONE!...]"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function check_and_run() {
+    local bin="$1"
+    shift
+    if [[ -x "$bin" ]]; then
+        "$bin" "$@"
+    else
+        echo "[ERROR] $bin not found or not executable."
+        sleep 2
+    fi
+}
 
 function template() {
 	clear
