@@ -4,7 +4,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
 
-pb_version="PlayBox ToolKit Version 2.0 Dated 04.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 05.04.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
