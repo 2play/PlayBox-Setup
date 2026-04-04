@@ -1,9 +1,8 @@
 #!/bin/bash
-# All required fixes in case you break something 
-# Fix retropiemenu, es_systems.cfg etc.
+# Fixes, improvements, tweaks etc. 
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)+
-# PlayBox ToolKit x86
+# PlayBox ToolKit
 
 pb_version="PlayBox ToolKit Version 2.0 Dated 04.2026"
 
@@ -38,18 +37,18 @@ function main_menu() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " PLAYBOX PROJECT - TOOLKIT " \
             --ok-label OK --cancel-label Exit \
             --menu "$pb_version" 25 75 20 \
-            - "*** PLAYBOX TOOLKIT SELECTIONS ***" \
+            - "*** PLAYBOX TOOLKIT - SELECTIONS ***" \
             - "" \
-			1 " - FIXES OPTIONS MENU " \
-            2 " - APPS & TWEAKS OPTIONS MENU " \
-            3 " - CLEANUP TOOLS OPTIONS MENU " \
-            4 " - SYSTEM TOOLS OPTIONS MENU " \
+			1 " - FIXES & SETTINGS - OPTIONS MENU " \
+            2 " - TOOLS & TWEAKS   - OPTIONS MENU " \
+            3 " - CLEANUP TOOLS    - OPTIONS MENU " \
+            4 " - SYSTEM TOOLS     - OPTIONS MENU " \
             5 " - THANK YOU! - CREDITS " \
 			- "" \
-			6 " - UPDATE YOUR PLAYBOX SETUP " \
+			6 " - UPDATE MY PLAYBOX TOOLKIT/SETUP! " \
 			- "" \
-            7 " - POWER OFF " \
-            8 " - RESTART " \
+            7 " - POWEROFF MY SYSTEM " \
+            8 " - RESTART  MY SYSTEM" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -82,13 +81,13 @@ function fixes_pbt() {
             - "*** PLAYBOX FIXES SELECTIONS ***" \
 			- "	" \
 			1 " - Fix The PlayBox RetropieMenu " \
-            2 " - REGION PlayBox Systems Setup (US/EU-JP/ALL) " \
+            2 " - Select PlayBox Systems REGION Group (US/EU-JP/ALL) " \
 			3 " - Repair PlayBox Background Music Mute File [OFF] " \
-            4 " - Repair 2Play! Slideshow Screensaver " \
-			5 " - Reset All RetroPie Controllers " \
-			6 " - Fix RetroPie-Setup Git Update " \
-			7 " - Update 2Play! PlayBox v2 Themes " \
-			8 " - Set Default Audio-Out To 3.5mm Jack or HDMI " \
+            4 " - Repair 2Play!'s ES Slideshow Screensaver " \
+			5 " - Reset All Controllers Configuration " \
+			6 " - Fix RetroPie-Setup Git Update Error " \
+			7 " - Update All 2Play!'s PlayBox THEMES " \
+			8 " - Set Default Audio-Out: 3.5mm Jack or HDMI " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -142,7 +141,7 @@ function fix_rpmenu() {
 	clear
 	echo "We need to apply REGION script now..."
 	echo
-	read -n 1 -s -r -p "Press any key to continue..."
+	#read -n 1 -s -r -p "Press any key to continue..."
 	fix_region
 	fi
 }
@@ -150,20 +149,19 @@ function fix_rpmenu() {
 
 function fix_region() {
 	clear
-# Set PlayBox Systems Based On Region, by 2Play!
-# Simple Region Script 19.01.24
+# Set PlayBox Systems Based On Region Groups, by 2Play!
+# Simple Region Script 04.26
 
 infobox=""
 infobox="${infobox}\n"
 infobox="${infobox}\n"
-infobox="${infobox}Systems & Theme Options Based on Region, by 2Play!\n\n"
+infobox="${infobox}Systems & Theme Options Based on Region Groups, by 2Play!\n\n"
 infobox="${infobox}\n"
-infobox="${infobox}This script will set some systems basis your region of preference.\n"
-infobox="${infobox}- The US\JP Region will use Genesis, Sega 32X/CD, TG16/CD, Odyssey2 systems.\n"
-infobox="${infobox}- The EU\JP Region will use Mega Drive, Mega 32X/CD, PC Engine/CD, VideoPac systems.\n"
+infobox="${infobox}This script will set systems basis your region of preference.\n"
+infobox="${infobox}- The US\JP Region will show Genesis, Sega 32X/CD, TG16/CD, Odyssey2.\n"
+infobox="${infobox}- The EU\JP Region will show Mega Drive, Mega 32X/CD, PC Engine/CD, VideoPac.\n"
 infobox="${infobox}- The ALL Region will show all systems.\n"
 infobox="${infobox}\n"
-infobox="${infobox}- PlayBox Vanilla Setup Only"
 infobox="${infobox}\n"
 
 dialog --backtitle "Region based ES Systems" \
@@ -180,7 +178,7 @@ dialog --backtitle "Region based ES Systems" \
             - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
             1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
-            3 " - ALL:   All systems will be enabled " \
+            3 " - ALL:   All systems will be shown " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -248,13 +246,7 @@ if [ -d $HOME/addonusb ]; then
 	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
 	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+	restart_es
 }
 
 function eu_esnpb() {
@@ -274,13 +266,7 @@ if [ -d $HOME/addonusb ]; then
 	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
 	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+	restart_es
 }
 
 function all_esnpb() {
@@ -327,13 +313,7 @@ if [ -d $HOME/addonusb ]; then
 	mv -f $HOME/RetroPie/roms/videopac.OFF $HOME/RetroPie/roms/videopac
 	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
 fi
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 1
-	sudo reboot
-	echo
+	restart_es
 }
 #	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
@@ -352,10 +332,7 @@ function fix_bgm_py() {
 	sed -i 's+$HOME/RetroPie/localroms+$HOME/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
 	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
 	fi
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 
@@ -363,10 +340,7 @@ function fix_slideshow() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/slideshow/image /opt/retropie/configs/all/emulationstation/slideshow/
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 3
+	done_message
 }
 
 
@@ -374,57 +348,44 @@ function fix_roms() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	clear
 	if [ -d $HOME/addonusb ]; then
-	echo
-    echo "You have enabled the External USB Script..."
-	echo "Using correct paths..."
-    echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	rm -rf $HOME/RetroPie/localroms/jukebox && rm -rf $HOME/RetroPie/localroms/jukebox.OFF && rm -rf $HOME/RetroPie/localroms/kodi && rm -rf $HOME/RetroPie/localroms/playbox && rm -rf $HOME/RetroPie/localroms/raspbian && rm -rf $HOME/RetroPie/localroms/piegalaxy && rm -rf $HOME/RetroPie/localroms/steam
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/localroms/ 
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/localroms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/localroms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/localroms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/localroms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/localroms/
-	echo
-	clear
-	echo "We need to apply REGION script now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 3
-	sudo reboot
-	echo
+		echo
+		echo "You have enabled the External USB Script..."
+		echo "Using correct paths..."
+		echo
+		read -n 1 -s -r -p "Press any key to continue..."
+		echo
+		rm -rf $HOME/RetroPie/localroms/jukebox && rm -rf $HOME/RetroPie/localroms/jukebox.OFF && rm -rf $HOME/RetroPie/localroms/kodi && rm -rf $HOME/RetroPie/localroms/playbox && rm -rf $HOME/RetroPie/localroms/raspbian && rm -rf $HOME/RetroPie/localroms/piegalaxy && rm -rf $HOME/RetroPie/localroms/steam
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/localroms/ 
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/localroms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/localroms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/localroms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/localroms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/localroms/
+		echo
+		clear
+		echo "We need to apply REGION script now..."
+		echo
+		#read -n 1 -s -r -p "Press any key to continue..."
+		fix_region
+		echo
 	else
-	echo
-    echo "You have a RetroPie default setup (No External USB). Applying..."
-    sleep 3
-    echo
-	rm -rf $HOME/RetroPie/roms/jukebox && rm -rf $HOME/RetroPie/roms/jukebox.OFF && rm -rf $HOME/RetroPie/roms/kodi && rm -rf $HOME/RetroPie/roms/playbox && rm -rf $HOME/RetroPie/roms/raspbian && rm -rf $HOME/RetroPie/roms/piegalaxy && rm -rf $HOME/RetroPie/roms/steam
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/roms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/roms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/roms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/roms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/roms/
-	rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/roms/exit
-	echo
-	clear
-	echo "We need to apply REGION script now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
-	clear
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 3
-	sudo reboot
-	echo
+		echo
+		echo "You have a RetroPie default setup (No External USB). Applying..."
+		sleep 3
+		echo
+		rm -rf $HOME/RetroPie/roms/jukebox && rm -rf $HOME/RetroPie/roms/jukebox.OFF && rm -rf $HOME/RetroPie/roms/kodi && rm -rf $HOME/RetroPie/roms/playbox && rm -rf $HOME/RetroPie/roms/raspbian && rm -rf $HOME/RetroPie/roms/piegalaxy && rm -rf $HOME/RetroPie/roms/steam
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/roms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/roms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/roms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/roms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/roms/
+		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/roms/exit
+		echo
+		clear
+		echo "We need to apply REGION script now..."
+		echo
+		#read -n 1 -s -r -p "Press any key to continue..."
+		fix_region
 	fi
 }
 
@@ -434,26 +395,15 @@ function fix_control() {
 	rm /opt/retropie/configs/all/retroarch-joypads/*
 	rm $HOME/.emulationstation/es_input.cfg
 	cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_input.cfg $HOME/.emulationstation/
-	clear
-	echo
-	echo "[OK DONE!...]"
-	echo
-	read -n 1 -s -r -p "Press any key to reboot."
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 3
-	clear
-	sudo reboot
+	done_message
+	restart_es
 }
 
 
 function git_rs() {
 	dialog --infobox "...Fixing..." 3 17 ; sleep 1
 	cd RetroPie-Setup && git reset --hard && git clean -f -d
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 3
+	done_message
 }
 
 
@@ -476,7 +426,7 @@ function themes_rs() {
 
 
 function def_audio_out() {
-	dialog --backtitle "PlayBox Toolkit" \
+# The PlayBox Project 04.2026
 	--title "DEFAULT AUDIO OUT OPTIONS MENU" \
 	
     local choice
@@ -486,8 +436,8 @@ function def_audio_out() {
             --menu "Let's set your default Audio Out device..." 25 75 20 \
             - "*** DEFAULT AUDIO OUT SELECTIONS ***" \
 			- "	" \
-           1 " - Set Default Audio Out as HDMI " \
-           2 " - Set Default Audio Out as 3.5mm Jack " \
+           1 " - Set Default Audio Out: HDMI " \
+           2 " - Set Default Audio Out: 3.5mm Jack " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -502,52 +452,45 @@ function def_audio_out() {
 function hdmi_sound_out() {
 	clear
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh hdmi
-	sleep 2
-	echo
-	echo "[OK System Will Restart now...]"
 	sleep 1
-	sudo reboot
-	echo
+	restart_pb
 }
 
 function jack_sound_out() {
 	clear
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/sound_card_toggle.sh usb
-	sleep 2
-	echo
-	echo "[OK System Will Restart now...]"
 	sleep 1
-	sudo reboot
-	echo
+	restart_pb
 }
 
 
 
 function apps_pbt() {
+# The PlayBox Project 04.2026
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "APPS & TWEAKS OPTIONS MENU" \
 	
     local choice
     while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " APPS & TWEAKS OPTIONS MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " TOOLS & TWEAKS - OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Run the application you need..." 25 75 20 \
-            - "*** PLAYBOX APPS & TWEAKS SELECTIONS ***" \
+            - "*** PLAYBOX TOOLS & TWEAKS SELECTIONS ***" \
 			- "	" \
-			1 " - Take HD ScreenShot " \
-			2 " - Gamelist View Setup For 2Play!'s Themes " \
-		    3 " - RetroArch Visual & Audio Options " \
+			1 " - Take An HD ScreenShot " \
+			2 " - Change ES Gamelist View - 2Play!'s Themes Only " \
+		    3 " - RetroArch Audio & Visual Options " \
 			4 " - Hide or Show an ES System " \
-			5 " - 2Play!'s Music Selections " \
-			6 " - Skyscraper Scraper By Lars Muldjord " \
-		    7 " - MESA Driver Update & Vulkan RetroArch " \
+			5 " - 2Play!'s PlayBox ES Music Selections " \
+			6 " - Skyscraper - Scraper Tool By Lars Muldjord " \
+		    7 " - MESA Driver & Vulkan RetroArch Tool" \
 		    8 " - PiKISS By Jose Cerrejon [OFF] " \
-		    9 " - Single Saves Directory By RPC80 " \
-		   10 " - SD/USB Storage Benchmark " \
-		   11 " - Emulators: Custom Compile From Source " \
+		    9 " - Single Saves Directory Tool By RPC80 " \
+		   10 " - SD/USB Storage Benchmark Tool " \
+		   11 " - Emulators: Custom Compiles From Source Tool " \
 		   12 " - Emulators: Tweaks & Options " \
-		   13 " - Safe Shutdown Case Scripts [OFF] " \
-		   14 " - Swap Desktop Enviroments (If more Installed) [OFF] " \
+		   13 " - Safe Shutdown Case Scripts Tool [OFF] " \
+		   14 " - Swap Desktop Enviroments Tool (If More Than MATE Installed) [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
@@ -588,10 +531,7 @@ function prntscr() {
 	#sudo kmsgrab $HOME/ScreenShots/printscreen$now.png;	convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; 	rm -f $HOME/ScreenShots/*.png
 	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png; convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; rm -f $HOME/ScreenShots/*.png
 	sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 
@@ -605,18 +545,18 @@ function swap_theme_view() {
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
             - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
 			- "" \
-			1 "Single Window Art:  Image and then Video " \
-			2 "Dual Window Art  :  Image Under Gamelist + Big Video " \
-			3 "Dual Window Art  :  Full Gamelist, Image Next to Video " \
+			1 "Single Window Art:  Image then Video " \
+			2 "Dual   Window Art:  Image Under The Gamelist + Big Video " \
+			3 "Dual   Window Art:  Long Gamelist, Image Next to Video " \
 			- "" \
 			4 "ES Systems Browsing: Vertical " \
 			5 "ES Systems Browsing: Horizontal " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) swap_theme_variant "ingame-global-bg2P.jpg" "theme2P.xml"       ;; # Single Art
-			2) swap_theme_variant "ingame-global-bg-ih.jpg" "themeDualv1.xml"  ;; # Dual Art Horizontal
-			3) swap_theme_variant "ingame-global-bg2P.jpg" "themeDualv2.xml"   ;; # Dual Art Vertical
+            1) swap_theme_variant "ingame-global-bg2P.jpg" "theme2P.xml"       ;; # Single Window
+			2) swap_theme_variant "ingame-global-bg-ih.jpg" "themeDualv1.xml"  ;; # Dual Art Separate
+			3) swap_theme_variant "ingame-global-bg2P.jpg" "themeDualv2.xml"   ;; # Dual Art Next
 			4) sys_vertical   ;; # Scroll V
 			5) sys_horizontal ;; # Scroll H
 			-) none ;;
@@ -653,12 +593,8 @@ function sys_verical() {
 	cd /etc/emulationstation/themes
 	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>horizontal</type>|<type>vertical</type>|g' {} 2>/dev/null \;
 	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
+	done_message
+	restart_es
 }
 
 function sys_horizontal() {
@@ -667,12 +603,8 @@ function sys_horizontal() {
 	cd /etc/emulationstation/themes
 	find ./2Play*/ -maxdepth 1 -type f -name "theme*.xml" -exec sed -i 's|<type>vertical</type>|<type>horizontal</type>|g' {} 2>/dev/null \;
 	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	echo "[OK System Will Restart now...]"
-	sleep 2
-	sudo reboot
+	done_message
+	restart_es
 }
 
 
@@ -685,40 +617,40 @@ function ra_options_tool() {
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " RETROARCH AUDIO & VISUAL OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
-            --menu "Select a RetroArch Options you would like to apply on PlayBox configuration." 25 75 20 \
+            --menu "Select a RetroArch Option you would like to apply on PlayBox." 25 75 20 \
             - "*** STATUS DASHBOARD ***" \
-            0 " - See The Status Of All Below Settings " \
+            0 " - See Current Status Of All Below Settings " \
             - "" \
 			- "*** AUDIO SETTINGS SELECTIONS ***" \
-            1 " - RetroArch Increase Volume By 25% " \
-            2 " - RetroArch Increase Volume By 50% " \
-            3 " - RetroArch Increase Volume By 80% " \
-            4 " - RetroArch Increase Volume By 100% " \
-			5 " - Set Default RetroArch Level " \
+            1 " - RetroArch Volume Increase By 25% " \
+            2 " - RetroArch Volume Increase By 50% " \
+            3 " - RetroArch Volume Increase By 80% " \
+            4 " - RetroArch Volume Increase By 100% " \
+			5 " - Set The Default RetroArch Level " \
 			- "" \
 			- "*** SHADERS SELECTIONS ***" \
-            6 " - Disable Global Retro Shader " \
-            7 " - Enable  Global Retro Shader " \
+            6 " - Disable The Global Retro Shader " \
+            7 " - Enable The Global Retro Shader " \
 			- "" \
 			- "*** OVERLAY SELECTIONS ***" \
-		    8 " - Enable A System Preset Overlay  " \
-            9 " - Disable A System Preset Overlay  " \
+		    8 " - Enable A System Preset Overlay " \
+            9 " - Disable A System Preset Overlay " \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
 			- "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
-		   12 " - Enable Arcade Cabinet Overlay (Arcade)  " \
-		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay (Arcade)  " \
+		   12 " - Enable Arcade Cabinet Overlay (Arcade) " \
+		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay " \
 		   14 " - Enable Atomiswave Cabinet Overlay  " \
-		   15 " - Disable Atomiswave & Enable Per-Rom Overlay  " \
+		   15 " - Disable Atomiswave Cabinet & Enable Per-Rom Overlay " \
 		   16 " - Enable Naomi Cabinet Overlay  " \
-		   17 " - Disable Naomi Cabinet Overlay  " \
+		   17 " - Disable Naomi Cabinet & Enable Per-Rom Overlay " \
 			- "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
-		   18 " - Enable Video Smooth - Single System  " \
-           19 " - Disable Video Smooth - Single System  " \
-		   20 " - Enable Video Smooth - All Systems  " \
-           21 " - Disable Video Smooth - All Systems  " \
+		   18 " - Enable Video Smooth Option  - Specific System " \
+           19 " - Disable Video Smooth Option - Specific System " \
+		   20 " - Enable Video Smooth Option  - All Systems " \
+           21 " - Disable Video Smooth Option - All Systems " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -806,29 +738,20 @@ function ra_set_volume() {
                /opt/retropie/configs/all/retroarch/retroarch.cfg; do
         sudo sed -i "s|audio_volume = \"[0-9]*\.[0-9]*\"|audio_volume = \"${level}.000000\"|" "$cfg"
     done
-    clear
-    echo
-    echo "[OK DONE!...]"
-    sleep 1
+    done_message
 }
 
 
 function disable_shaders() {
 	dialog --infobox "...Removing..." 3 20 ; sleep 2
 	mv /opt/retropie/configs/all/retroarch/shaders/ /opt/retropie/configs/all/retroarch/shaders.OFF/
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 function enable_shaders() {
 	dialog --infobox "...Applying..." 3 20 ; sleep 2
 	mv /opt/retropie/configs/all/retroarch/shaders.OFF/ /opt/retropie/configs/all/retroarch/shaders/
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 
@@ -968,9 +891,7 @@ function toggle_cab_overlay() {
             ;;
     esac
 
-    clear
-    echo "[OK DONE!...]"
-    sleep 1
+    done_message
 }
 
 
@@ -1003,30 +924,27 @@ function toggle_video_smooth() {
             off) find . -type d \( -name all -o -name amiga \) -prune -false -o \
                      -name "retroarch.cfg" -exec sed -i 's|^video_smooth|#video_smooth|g' {} \; ;;
         esac
-        echo "[OK DONE!...]"
     fi
-
-    cd $HOME
-    sleep 1
+	done_message
 }
 
 
 function hd_sh_sys() {
 	clear
 # Hide a System or RetroPie Menu Script by 2Play!
-# 07.12.20
+# 04.2026
 
 infobox=""
 infobox="${infobox}\n"
-infobox="${infobox}*** Hide RetroPie/Options Menu or any System Script. ***\n\n"
-infobox="${infobox}You can hide any system in the roms directory.\nSome are visible due to the .sh file in there.\nYou can use this script or simply add manually .OFF to the .sh For example .sh.OFF\n\n"
-infobox="${infobox}You will see a list of the systems and instructions. The script relies on your correct input!\n\n"
-infobox="${infobox}*** For SYMBOLIC LINK SYSTEMs *** such as:\nGenesis, genesih, odyssey2, sega32x, segacd, tg16, tg16cd & PlayBox or Kodi.\nUSE the REGION SCRIPT for these.\n"
+infobox="${infobox}*** Hide the RetroPie/Options Menu or any System. ***\n\n"
+infobox="${infobox}You can hide any system in the roms directory.\nSome are visible due to the .sh file in there.\nYou can use this tool or simply add manually .OFF to the .sh For example .sh.OFF\n\n"
+infobox="${infobox}You will see a list of the systems and instructions. The tool relies on your correct input!\n\n"
+infobox="${infobox}*** For REGION related system groups *** such as:\nGenesis, genesih, odyssey2, sega32x, segacd, tg16, tg16cd & PlayBox or Kodi.\nUSE the REGION tool for these.\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
 
-dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
---title " HIDE/SHOW A SYSTEM SCRIPT " \
+dialog --backtitle " - Hide A System from EmulationStation Systems" \
+--title " HIDE/SHOW A SYSTEM TOOL " \
 --msgbox "${infobox}" 35 110
 
     local choice
@@ -1035,8 +953,8 @@ dialog --backtitle " - Hide A System from EmulationStation Systems Menu" \
             --ok-label OK --cancel-label Back \
             --menu "OK Let's decide what would you like to hide/show..." 25 75 20 \
             - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
-            1 " - Hide RetroPie/Options Menu " \
-            2 " - Show RetroPie/Options Menu " \
+            1 " - Hide The RetroPie/Options Menu " \
+            2 " - Show The RetroPie/Options Menu " \
             - "" \
             - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
 		    3 " - Hide A System... " \
@@ -1095,22 +1013,24 @@ function show_all_systems() {
     cd "$HOME/RetroPie/roms/"
     rename -v 's/\.OFF$//i' *
     echo "[OK DONE!...]"
-    sleep 2
+    restart_es
 }
 
 
 function music_2p() {
+# The PlayBox Project 04.2026
+
 	local choice
 	while true; do
-        choice=$(dialog --backtitle "$BACKTITLE" --title " MUSIC SELECTION MENU " \
+        choice=$(dialog --backtitle "$BACKTITLE" --title " ES BGM MUSIC SELECTION MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select the type of music you would like to apply." 25 75 20 \
-            - "*** PLAYBOX 2Play! MUSIC SELECTIONS ***" \
+            - "*** 2Play!'s PLAYBOX ES MUSIC SELECTIONS ***" \
 			- "" \
             1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
-            4 "I want to mix all 'n' enjoy pure retro!!! " \
+            4 "I want to mix all 'n' enjoy pure retro music!!! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1160,7 +1080,6 @@ function set_music_theme() {
                 ;;
         esac
     fi
-
     restart_es
 }
 
@@ -1178,10 +1097,8 @@ function skyscraper() {
 
 
 function mesa_vk() {
-# For x86
-# The PlayBox Project
-# Copyright (C)2018-2026 2Play! (S.R.)
-# 03.2026
+# The PlayBox Project 03.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "MESA & VULKAN OPTIONS MENU" \
 	
@@ -1220,14 +1137,8 @@ echo "STEP 2. Installing Repository & Integrate to OS... "
 echo
 sudo add-apt-repository ppa:kisak/kisak-mesa && sudo apt update -y && sudo apt upgrade -y
 echo
-echo "[OK DONE!...]"
-sleep 1
-echo
-read -n 1 -s -r -p "Press any key to reboot"
-echo
-echo "[OK System Will Restart now...]"
-clear
-sudo reboot
+done_message
+reboot_message
 }
 
 function vulkan_ra() {
@@ -1305,10 +1216,7 @@ fi
 cd $HOME/code/
 rm -rf RetroArch*/ && rm v1*.tar.gz && sudo rm -rf mesa && rm -rf sascha-willems && rm -rf drm* && rm -rf libdrm* && rm -rf SDL2*
 cd $HOME
-clear
-echo
-echo "[OK DONE!...]"
-sleep 2
+done_message
 }
 
 function ra_default() {
@@ -1371,10 +1279,7 @@ echo
 echo -e 'You can invoke a Vulkan demo to test from the OS desktop.\n- Go to [/home/pi/code/sascha-willems/bin/] and test in there...\nYou can check your driver versions by typing in a Terminal on your OS desktop [glinfo -B]...'
 echo
 read -n 1 -s -r -p "Press any key to continue"
-clear
-echo
-echo "[OK DONE!...]"
-sleep 1
+done_message
 }
 
 
@@ -1394,21 +1299,20 @@ function pikiss_git() {
 
 
 function rpc80_saves() {
-# Based on RPC80 Single Saves Folder Script
-# The PlayBox Project
-# Copyright (C)2018-2026 2Play! (S.R.)
-# 23.07.20
+# Based on RPC80 Saves Single Directory Script
+# The PlayBox Project 04.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "RPC80 SINGLE SAVES DIR OPTIONS MENU" \
+	--title "RPC80 SAVES SINGLE DIR OPTIONS MENU" \
 	
     local choice
     while true; do
         choice=$(dialog --backtitle "$BACKTITLE" --title " RPC80 SINGLE SAVES DIR OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
-            - "*** RPC80's SINGLE SAVES DIR OPTIONS MENU ***" \
-           1 " - Enable Single Saves Directory " \
-           2 " - Disable Single Saves Directory " \
+            - "*** RPC80's SAVES SINGLE DIR OPTIONS MENU ***" \
+           1 " - Enable The Saves Single Directory " \
+           2 " - Disable The Saves Single Directory " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1430,7 +1334,7 @@ clear
 # Updates by 2Play! 														   # 
 # Date: 04.2026
 ################################################################################
-# Purpose: Creates a save directory at $HOME/RetroPie/saves                        #
+# Purpose: Creates a SAVES directory at $HOME/RetroPie/saves                        #
 # and configures all retroarch emulators with their own config files           #
 # to store savefiles at $HOME/RetroPie/saves/{system_name}                         #
 # and savestate files at $HOME/Retropie/saves/{system_name}/states                 #
@@ -1524,10 +1428,7 @@ savestate_directory = \"$HOME/RetroPie/saves/'${system_name}'/states\" \
 	  fi	
 	  
   done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 
@@ -1599,10 +1500,7 @@ function rpc80_svoff() {
   done
 	# Delete system saves saves directory
 	[ -d "$SAVES_DIR" ] && rm -rf "$SAVES_DIR"
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1	
+	done_message	
 }
 
 
@@ -1621,7 +1519,7 @@ function omxvol() {
 	while true; do
     choice=$(dialog --backtitle "$BACKTITLE" --title " OMXPlayer VOLUME MENU " \
         --ok-label OK --cancel-label Back \
-        --menu "Please Set OMXPlayer Volume:" 25 75 20 \
+        --menu "Please Set Preferred OMXPlayer Volume:" 25 75 20 \
         1 " - Set to 90% " \
         2 " - Set to 85% " \
         3 " - Set to 80% " \
@@ -1659,16 +1557,13 @@ function apply_omx_volume() {
     else
         sudo sed -i "s|\$OMXPLAYER_BIN --vol -[0-9]*|\$OMXPLAYER_BIN|g; s|\$OMXPLAYER_BIN|\$OMXPLAYER_BIN --vol -$offset|g" /usr/bin/omxplayer
     fi
-    clear
-    echo
-    echo "[OK DONE!...]"
-    sleep 1
+    done_message
 }																						
 
 
 function emus_compile() {
 # Emulators Custom Compile By 2Play! 
-# 12.2023
+# 04.2026
 	clear
 	local choice
 	while true; do
@@ -1677,7 +1572,7 @@ function emus_compile() {
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
 			- "	" \
-			1 "Amiberry Update or Compile GitHub Latest Release " \
+			1 "Amiberry Update or Compile GitHub Options " \
 			2 "PPSSPP Compile GitHub Latest Release " \
 			2>&1 > /dev/tty)
 
@@ -1698,8 +1593,8 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile or install?" 25 75 20 \
             - "*** AMIBERRY UPDATE SELECTIONS ***" \
-			1 "Amiberry: Latest Official Stable " \
-			2 "Amiberry: Compile From Source " \
+			1 "Amiberry: Latest Official Stable Release " \
+			2 "Amiberry: Compile From GitHub Source " \
 			3 "Amiberry: Toggle Default Binary (NEW or ORIG) " \
 			- "" \
             2>&1 > /dev/tty)
@@ -1779,10 +1674,7 @@ fi
 	
 	cd $HOME/code/
 	rm -rf amiberry-latest amiberry*.deb amiberry*.zip
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 function compile_amiberry_x86() {
@@ -1848,11 +1740,7 @@ function compile_amiberry_x86() {
 	fi
 	sudo chmod 755 amiberryNEW
 	sudo ln -sfn amiberryNEW amiberry
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 function amiberry_default() {
@@ -1886,7 +1774,7 @@ function ppsspp_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which PPSSPP binary you want: Latest Compile or RPie binary?" 25 75 20 \
             - "*** PPSSPP UPDATE SELECTIONS ***" \
-			1 "PPSSPP: Compile From Source " \
+			1 "PPSSPP: Compile From GitHub Source " \
 			2 "PPSSPP: Toggle Default Binary (NEW or ORIG) " \
 			- "" \
             2>&1 > /dev/tty)
@@ -1921,10 +1809,7 @@ function compile_ppsspp_x86() {
 	fi
 	sudo ln -sfn PPSSPPSDLNEW PPSSPPSDL
 	#rm -rf ppsspp
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 function ppsspp_default() {
@@ -1953,7 +1838,7 @@ cd $HOME
 function emus_tks() {
 clear
 # Emulators Extra Tweaks/Automations By 2Play! 
-# 06.12.20
+# 04.2026
 	
     local choice
     while true; do
@@ -1964,10 +1849,10 @@ clear
 			- "	" \
 			1 " - Virtual Boy Core: 3D Anaglyph Display Options " \
 			2 " - GameBoy Core: Original or Enhanced GameBoy Display Options " \
-			3 " - PPSSPP: Standalone Emulator EXIT To ES or Menu " \
-			4 " - N64 Lr-Core: Set Native Resolution to LowRes or HiRes " \
-			5 " - Lr-PUAE Amiga Model Selection Options " \
-			6 " - Amiga Setup Selection Options  " \
+			3 " - PPSSPP: Exits To ES or PPSSPP Menu " \
+			4 " - N64 Lr-Core: Set Native Resolution to LowRes or HiRes OPTIONS" \
+			5 " - Lr-PUAE Core: Amiga Model Selection Options " \
+			6 " - Amiga Emulator: Selection Options  " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1995,8 +1880,8 @@ function vboy_3d() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** VIRTUALBOY CORE SELECTIONS ***" \
 			- "	" \
-           1 " - Disable PlayBox 3D Anaglyph Display Options " \
-           2 " - Enable PlayBox 3D Anaglyph Display Options " \
+           1 " - Disable PlayBox 3D Anaglyph Display Option " \
+           2 " - Enable PlayBox 3D Anaglyph Display Option " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2013,11 +1898,7 @@ function vb_3d_off() {
     cd /opt/retropie/configs/virtualboy
     sed -i 's/^vb_anaglyph_preset/#vb_anaglyph_preset/' retroarch-core-options.cfg
     sed -i 's/^vb_3dmode/#vb_3dmode/' retroarch-core-options.cfg
-    cd $HOME
-    clear
-    echo
-    echo "[OK DONE!...]"
-    sleep 2
+    done_message
 }
 
 function vb_3d_on() {
@@ -2029,11 +1910,7 @@ function vb_3d_on() {
     # Ensure entries exist if missing
     grep -q '^vb_anaglyph_preset' retroarch-core-options.cfg || echo 'vb_anaglyph_preset = "0"' >> retroarch-core-options.cfg
     grep -q '^vb_3dmode' retroarch-core-options.cfg || echo 'vb_3dmode = "anaglyph"' >> retroarch-core-options.cfg
-    cd $HOME
-    clear
-    echo
-    echo "[OK DONE!...]"
-    sleep 2
+    done_message
 }
 
 
@@ -2049,8 +1926,8 @@ function gboy_enh() {
             - "*** GAMEBOY CORE SELECTIONS ***" \
 			- "	" \
            0 " - Show Current Cetting... " \
-           1 " - Enable GameBoy Original (B/W) Display Graphics " \
-           2 " - Enable GameBoy Enhanced (CLR) Display Graphics " \
+           1 " - Enable GameBoy Original (B/W) Display " \
+           2 " - Enable GameBoy Enhanced (COLOR) Display " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2074,11 +1951,7 @@ function gb_bw_on() {
     -e 's|custom_viewport_height = "1080"|custom_viewport_height = "610"|' \
     -e 's|custom_viewport_x = "339"|custom_viewport_x = "629"|' \
     -e 's|custom_viewport_y = "0"|custom_viewport_y = "235"|' retroarch.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function gb_clr_on() {
@@ -2091,11 +1964,7 @@ function gb_clr_on() {
 	-e 's|custom_viewport_height = "610"|custom_viewport_height = "1080"|' \
 	-e 's|custom_viewport_x = "629"|custom_viewport_x = "339"|' \
 	-e 's|custom_viewport_y = "235"|custom_viewport_y = "0"|' retroarch.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function gb_status() {
@@ -2121,8 +1990,8 @@ function ppsspp_exit() {
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
 			- "	" \
            0 " - Show PPSSPP Emu Exit Status: Exit to ES or to Emulator Menu " \
-           1 " - PPSSPP Emu Exits to ES " \
-           2 " - PPSSPP Emu Exits to the Emulator Menu " \
+           1 " - PPSSPP Emulator Exits to ES " \
+           2 " - PPSSPP Emulator Exits to PPSSPP Menu " \
            2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2150,11 +2019,7 @@ function ppsspp_ex_on() {
 	cd /opt/retropie/configs/psp
 	grep -q '--escape-exit' emulators.cfg || \
 	sed -i 's|--fullscreen %ROM%|--fullscreen --escape-exit %ROM%|' emulators.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function ppsspp_ex_off() {
@@ -2162,15 +2027,13 @@ function ppsspp_ex_off() {
 	cd /opt/retropie/configs/psp
 	grep -q '--escape-exit' emulators.cfg && \
 	sed -i 's|--fullscreen --escape-exit %ROM%|--fullscreen %ROM%|' emulators.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 
 function n64_res() {
+# The PlayBox Project 04.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU" \
 	
@@ -2181,7 +2044,7 @@ function n64_res() {
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
 			- "	" \
-           0 " - Show N64 Current Res Setting " \
+           0 " - Show N64 Current Resolution Setting " \
            1 " - Set Native Low-Res (320x240) To N64 Lr-Core " \
            2 " - Set Native Hi-Res (640x480) To N64 Lr-Core " \
            2>&1 > /dev/tty)
@@ -2201,11 +2064,7 @@ function n64_lr_on() {
 	cd /opt/retropie/configs/n64
 	sed -i 's|^mupen64plus-43screensize.*|mupen64plus-43screensize = "320x240"|' retroarch-core-options.cfg
 	sed -i 's|^mupen64plus-next-43screensize.*|mupen64plus-next-43screensize = "320x240"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function n64_hr_on() {
@@ -2213,11 +2072,7 @@ function n64_hr_on() {
 	cd /opt/retropie/configs/n64
 	sed -i 's|^mupen64plus-43screensize.*|mupen64plus-43screensize = "640x480"|' retroarch-core-options.cfg
 	sed -i 's|^mupen64plus-next-43screensize.*|mupen64plus-next-43screensize = "640x480"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function n64_status() {
@@ -2232,6 +2087,8 @@ function n64_status() {
 
 
 function amiga_models() {
+# The PlayBox Project 04.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "AMIGA MODELS OPTIONS MENU" \
 	
@@ -2243,7 +2100,7 @@ function amiga_models() {
             - "	" \
 			0 " - Show Which AMIGA System Model is set... " \
 			- "	" \
-			- "*** AMIGA AGA SYSTEM MODEL OPTIONS ***" \
+			- "*** AMIGA SPLIT SYSTEM FOLDER MODEL OPTIONS ***" \
 			- "	" \
 			1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
 			2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
@@ -2251,9 +2108,9 @@ function amiga_models() {
 			4 " - Set Amiga CD32 " \
 			5 " - Set Amiga CDTV " \
 			- "	" \
-			- "*** AMIGA SINGLE SYSTEM MODEL OPTIONS ***" \
+			- "*** AMIGA SINGLE SYSTEM FOLDER OPTION ***" \
 			- "	" \
-			6 " - Set Amiga System To AUTO (If You Use Amiga Roms Folder Only" \
+			6 " - Set Amiga System To AUTO (If You Use Amiga ONLY Roms Folder " \
 			2>&1 > /dev/tty)
 
         case "$choice" in
@@ -2293,70 +2150,48 @@ function A1200_on() {
 	clear
 	cd /opt/retropie/configs/amiga1200
 	sed -i 's|^puae_model.*|puae_model = "A1200"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function A4040_on() {
 	clear
 	cd /opt/retropie/configs/amiga4000
 	sed -i 's|^puae_model.*|puae_model = "A4040"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function A_500+_on() {
 	clear
 	cd /opt/retropie/configs/amiga
 	sed -i 's|^puae_model.*|puae_model = "A500+"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function CD32_on() {
 	clear
 	cd /opt/retropie/configs/amigacd32
 	sed -i 's|^puae_model.*|puae_model = "CD32"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function CDTV_on() {
 	clear
 	cd /opt/retropie/configs/cdtv
 	sed -i 's|^puae_model.*|puae_model = "CDTV"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 function A_Auto_on() {
 	clear
 	cd /opt/retropie/configs/amiga
 	sed -i 's|^puae_model.*|puae_model = "Auto"|' retroarch-core-options.cfg
-	cd $HOME
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
+	done_message
 }
 
 
 function amiga_choices() {
+# The PlayBox Project 04.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "AMIGA SETUP OPTIONS MENU" \
 	
@@ -2365,7 +2200,7 @@ function amiga_choices() {
 	    choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
-            - "*** AMIGA - 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
+            - "*** AMIGA - PLAYBOX SETUP OPTIONS MENU SELECTIONS ***" \
 			- "	" \
            0 " - Show Τhe Status Οf Βelow Οptions " \
 			- "	" \
@@ -2439,22 +2274,14 @@ function lrpuae_on() {
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
 	lrpuae_overlay_fix
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	done_message
 }
 
 function amiberry_on() {
 	clear
 	cd /opt/retropie/configs/
 	find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "lr-puae"|default = "amiberry"|' {} 2>/dev/null \;
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	done_message
 }
 
 function lrpuae_custom_on() {
@@ -2466,33 +2293,20 @@ function lrpuae_custom_on() {
 	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	find amiga4000 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
 	lrpuae_overlay_fix
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	done_message
 }
 
 function lrpuae_custom_sh_off() {
 	clear
 	cd /opt/retropie/configs/all/retroarch/config/PUAE
-	mv PUAE.glslp PUAE.glslp.OFF
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	done_message
 }
 
 function lrpuae_custom_sh_on() {
 	clear
 	cd /opt/retropie/configs/all/retroarch/config/PUAE
 	mv PUAE.glslp.OFF PUAE.glslp
-	clear
-	echo
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
+	done_message
 }
 
 
@@ -2630,6 +2444,8 @@ function desk_env() {
 
 
 function clean_pbt() {
+# The PlayBox Project 04.2026
+
 	dialog --backtitle "PlayBox Toolkit" \
 	--title "CLEANUP TOOLS OPTIONS MENU" \
 	
@@ -2640,11 +2456,11 @@ function clean_pbt() {
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
 			- "	" \
-           1 " - Clean Gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
+           1 " - Clean A gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
 		   2 " - Clean LastPlayed & PlayCount or Favorites Options " \
-		   3 " - Clean all save, hi, dat etc files in roms folder " \
-           4 " - Remove ES Auto-gen Gamelists " \
-		   5 " - Clean & Set 2Play! Top CLi Commands History " \
+		   3 " - Clean all save, hi, dat etc files inside roms folder " \
+           4 " - Remove ES Auto-generated Gamelists " \
+		   5 " - Clean CLi Commands History & Reset To PlayBox Top Ones  " \
 		   6 " - Clean Wi-Fi Settings " \
            7 " - Clean Filesystem & Cache " \
             2>&1 > /dev/tty)
@@ -2673,119 +2489,142 @@ function cl_gm_xml() {
             --menu "Select one of the gamelist.xml cleanup options." 25 75 20 \
             - "*** GAMELIST.XML CLEANUP SELECTIONS ***" \
 			- "	" \
-            1 " - Clean ALL systems' gamelist.xml [Orig + gamelist.xml.CLEAN] " \
-            2 " - Clean a specific system gamelist.xml [Orig + gamelist.xml.CLEAN] " \
+            0 " - Show Which Systems Already Have A .CLEAN Backup File  " \
+            1 " - Clean & Create for ALL systems [Original + gamelist.xml.CLEAN] " \
+            2 " - Clean & Create for a specific system [Orig + gamelist.xml.CLEAN] " \
             2>&1 > /dev/tty)
 
         case "$choice" in
-            1) cl_gm_xml_all  ;;
-            2) cl_gm_xml_sys  ;;
-            -) none  ;;
+            0) gamelist_status ;;
+			1) cl_gm_xml_all ;;
+			2) cl_gm_xml_sys ;;
+			-) none  ;;
 			*)  break ;;
         esac
     done
 }
 
+
+function gamelist_status() {
+    echo "=== Gamelist Status ==="
+    cd $HOME/RetroPie/roms/
+
+    # Find all gamelist.xml files
+    for sys in $(find . -name "gamelist.xml" -printf "%h\n" | sort -h); do
+        cleanfile="$sys/gamelist.CLEAN.xml"
+        if [[ -f "$cleanfile" ]]; then
+            echo "$(basename $sys): CLEAN version present"
+        else
+            echo "$(basename $sys): only original gamelist.xml"
+        fi
+    done
+
+    echo "========================"
+    pausepress
+}
+
 function cl_gm_xml_all() {
-	clear
-	sleep 1
-	/home/pi/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh -a
-	echo
-	echo "Original Script By Meleu & Updated version for PlayBox v2 by 2Play!"
-	echo
-	echo "You can find your .CLEAN xml version in the roms/%systemname% folder"
-	sleep 2
-	echo
-	echo "[CLEANED!...]"
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 2
+    clear
+    /home/pi/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh -a
+    echo
+    echo "Original Script by Meleu, updated for PlayBox v2 by 2Play!"
+    echo "Cleaned XMLs saved in roms/%systemname% folders."
+    echo "[CLEANED!...]"
+    pausepress
 }
 
 function cl_gm_xml_sys() {
-	clear
-	echo 
-	echo " I will display a list of all systems that you can clean a gamelist.xml... "
-	echo
-	echo " If you can't see full list. Use below keys to scroll or exit list!"
-	echo
-	echo "----------------------------------------------------------------------"
-	echo " <space>		Display next k lines of text [current screen size]"
-	echo " <return>		Display next k lines of text [1]*"
-	echo " d			Scroll k lines [current scroll size, initially 11]*"
-	echo " q			Exit from more"
-	echo "----------------------------------------------------------------------"
-	echo
-	echo ***PLEASE TYPE THE SYSTEM NAME AS SHOWS IN THE ROMS FOLDER***
-	echo 
-	echo Example: nes
-	echo NOT Nes or NES etc...
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	cd $HOME/RetroPie/roms/
-	echo
-	#ls -d */ | column | more
-	find -name "gamelist.xml" -printf "%h\n" | sort -h | column | more
-	echo
-	read -p 'So which system would you like to clean the gamelist.xml?: ' sname
-	echo
-	if [ -f $sname/gamelist.xml ]; then 
-	$HOME/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh /home/pi/RetroPie/roms/$sname/gamelist.xml
-	echo
-	echo "Original Script By Meleu & Updated version for PlayBox v2 by 2Play!"
-	echo
-	echo "You can find your .CLEAN xml version in the roms/%systemname% folder"
-	echo
-	echo "[CLEANED!...]"
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	while true; do
-		echo
-		read -p 'Whould you like to change another system [y] or [n]? ' yn
-		case $yn in
-		[Yy]*) cl_gm_xml_sys;;
-		[Nn]*) return;;
-		* ) echo; echo "Please answer yes or no.";;
-		esac
-	done
-	cd $HOME
-	clear
-	else
-	echo
-	echo "[No Gamelist.xml there or you typed wrong system name...Back to Menu!]"
-	clear
-	echo
-	sleep 2
-	fi
+    clear
+    echo "Available systems with gamelist.xml:"
+    find $HOME/RetroPie/roms -name "gamelist.xml" -printf "%h\n" | sort -h | column | more
+    echo
+    read -p 'Which system would you like to clean?: ' sname
+    echo
+
+    if [[ -f $HOME/RetroPie/roms/$sname/gamelist.xml ]]; then
+        $HOME/PlayBox-Setup/.pb-fixes/_scripts/gamelist-cleaner.sh "$HOME/RetroPie/roms/$sname/gamelist.xml"
+        echo
+        echo "Original Script by Meleu, updated for PlayBox v2 by 2Play!"
+        echo "Cleaned XML saved in roms/$sname folder."
+        echo "[CLEANED!...]"
+        pausepress
+
+        while true; do
+            read -p 'Clean another system? [y/n]: ' yn
+            case $yn in
+                [Yy]*) cl_gm_xml_sys; return ;;
+                [Nn]*) break ;;
+                *) echo "Please answer y or n." ;;
+            esac
+        done
+    else
+        echo "[No gamelist.xml found or wrong system name. Back to menu...]"
+        sleep 2
+    fi
+    clear
 }
 
 
 function cl_saves() {
-	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
-	clear
-	find $HOME/RetroPie/roms/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$" -type f -delete
-	find $HOME/RetroPie/roms/daphne/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm|dat)$" -type f -delete
-	find $HOME/RetroPie/saves/ -regextype posix-egrep -regex ".*\.(srm|auto|state.auto|fs|hi|ldci|dat|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$" -type f -delete
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+    dialog --infobox "...Cleaning..." 3 20 ; sleep 1
+    clear
+    cl_saves_status
+	
+	# Common extensions
+	exts=".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
+
+	# Daphne adds dat
+	daphne_exts=".*\.(dat)$"
+
+	# Clean common everywhere under roms + saves
+	find "$HOME/RetroPie/roms"  -regextype posix-egrep -regex "$exts" -type f -delete
+	find "$HOME/RetroPie/saves" -regextype posix-egrep -regex "$exts" -type f -delete
+
+	# Clean Daphne extras
+	find "$HOME/RetroPie/roms/daphne"  -regextype posix-egrep -regex "$daphne_exts" -type f -delete
+	find "$HOME/RetroPie/saves/daphne" -regextype posix-egrep -regex "$daphne_exts" -type f -delete
+    clear
+    echo "[OK DONE!...]"
+    sleep 1
+}
+
+function cl_saves_status() {
+    clear
+    echo "====== Save Cleaner Status ======"
+
+    exts=".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
+    daphne_exts=".*\.(dat)$"
+
+    total=0
+    for d in "$HOME/RetroPie/roms" "$HOME/RetroPie/saves" "$HOME/RetroPie/roms/daphne" "$HOME/RetroPie/saves/daphne"; do
+        if [[ "$d" == *daphne* ]]; then
+            count=$(find "$d" -regextype posix-egrep -regex "$daphne_exts" -type f | wc -l)
+        else
+            count=$(find "$d" -regextype posix-egrep -regex "$exts" -type f | wc -l)
+        fi
+        echo "$(basename $d): $count files to be cleaned"
+        total=$((total + count))
+    done
+
+    echo "--------------------------------"
+    echo "Total files across all dirs: $total"
+    echo "================================"
+    pausepress
 }
 
 
 function cl_xml() {
 	clear
-	#echo "We need to exit ES..."
-	#echo "Once you are done manually reboot system..."
-	#echo
-	#read -n 1 -s -r -p "Press any key to continue..." 
-	#ps -ef | awk '/emulation/ {print $2}' | xargs kill
-	#sudo killall emulationstation
-	#clear
-# Clear AutoLastPlayed & PlayCount or Favorites Script
-# Original code by tanstaafl
-# Updated code and Multi script by 2Play!
-# 03.07.20
+	## ES check status
+	#if pgrep -x emulationstation > /dev/null; then
+    #echo "EmulationStation is running, killing now..."
+    #pkill emulationstation
+	#else
+	#	echo "EmulationStation is not running."
+	#fi
+	
+# Clear AutoLastPlayed & PlayCount or Favorites New Cleaner Script
+# 04.2026
 
 infobox=""
 infobox="${infobox}\n"
@@ -2826,204 +2665,81 @@ dialog --backtitle "PlayBox Toolkit" \
 }
 
 
+# Helper: Clean gamelist.xml entries by pattern
+function clean_gamelists() {
+    local pattern="$1"
+    shift
+    local dirs=("$@")
+
+    for d in "${dirs[@]}"; do
+        for f in "$d"/**/gamelist.xml; do
+            [ -f "$f" ] || continue
+            echo "file: $f"
+            grep -v -e "$pattern" "$f" > "$f.tmp" && mv -f "$f.tmp" "$f"
+        done
+        echo "[OK DONE!...]"
+        sleep 1
+    done
+}
+
 function clear_ALP_PC() {
-	dialog --infobox "...Clearing..." 3 20 ; sleep 2
-clear
-if [ -d $HOME/addonusb ]; then
-echo 
-echo "An external USB is enabled/connected..."
-echo
-sleep 2
-echo
-	for f in $HOME/addonusb/roms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/addonusb/roms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/RetroPie/localroms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo "[OK DONE!...]"
-	sleep 2
-	#for f in $HOME/RetroPie/localroms/ports/**/gamelist.xml
-	#do
-	#echo "file: $f"
-	#grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	#mv -f "$f.tmp" $f
-	#done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2	
-else
-echo 
-echo "The External USB is disabled..."
-echo
-sleep 2
-echo
-	for f in $HOME/RetroPie/roms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo "[OK DONE!...]"
-	sleep 2
-	#for f in $HOME/RetroPie/roms/ports/**/gamelist.xml
-	#do
-	#echo "file: $f"
-	#grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	#mv -f "$f.tmp" $f
-	#done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in /opt/retropie/configs/all/emulationstation/gamelists/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e lastplayed -e playcount -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-fi
-clear
-echo
-read -n 1 -s -r -p "Press any key to reboot"
-echo
-echo "[OK System Will Restart now...]"
-clear
-sudo reboot
+    dialog --infobox "...Clearing..." 3 20 ; sleep 2
+    clear
+    if [ -d "$HOME/addonusb" ]; then
+        echo "External USB enabled..."
+        sleep 2
+        clean_gamelists "lastplayed\|playcount" \
+            "$HOME/addonusb/roms" \
+            "$HOME/addonusb/roms/ports" \
+            "$HOME/RetroPie/localroms"
+    else
+        echo "External USB disabled..."
+        sleep 2
+        clean_gamelists "lastplayed\|playcount" \
+            "$HOME/RetroPie/roms" \
+            "/opt/retropie/configs/all/emulationstation/gamelists"
+    fi
+    restart_es
 }
 
 function clear_FAV() {
-	dialog --infobox "...Clearing..." 3 20 ; sleep 2
-clear
-if [ -d $HOME/addonusb ]; then
-echo 
-echo "An external USB is enabled/connected..."
-echo
-sleep 2
-echo
-	for f in $HOME/addonusb/roms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/addonusb/roms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/RetroPie/localroms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/RetroPie/localroms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2	
-else
-echo 
-echo "The External USB is disabled..."
-echo
-sleep 2
-echo
-	for f in $HOME/RetroPie/roms/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in $HOME/RetroPie/roms/ports/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-	for f in /opt/retropie/configs/all/emulationstation/gamelists/**/gamelist.xml
-	do
-	echo "file: $f"
-	grep -e "favorite>" -v $f > "$f.tmp"
-	mv -f "$f.tmp" $f
-	done
-	echo
-	echo "[OK DONE!...]"
-	sleep 2
-fi
-clear
-echo
-read -n 1 -s -r -p "Press any key to reboot"
-echo
-echo "[OK System Will Restart now...]"
-clear
-sudo reboot
+    dialog --infobox "...Clearing..." 3 20 ; sleep 2
+    clear
+    if [ -d "$HOME/addonusb" ]; then
+        echo "External USB enabled..."
+        sleep 2
+        clean_gamelists "favorite>" \
+            "$HOME/addonusb/roms" \
+            "$HOME/addonusb/roms/ports" \
+            "$HOME/RetroPie/localroms" \
+            "$HOME/RetroPie/localroms/ports"
+    else
+        echo "External USB disabled..."
+        sleep 2
+        clean_gamelists "favorite>" \
+            "$HOME/RetroPie/roms" \
+            "$HOME/RetroPie/roms/ports" \
+            "/opt/retropie/configs/all/emulationstation/gamelists"
+    fi
+    restart_es
 }
 
+
 function cl_es_gamelist() {
-	dialog --infobox "...Please Wait..." 3 22 ; sleep 1
-	clear
-	#echo "We need to exit ES..."
-	#echo "Once you are done manually reboot system..."
-	#echo
-	#read -n 1 -s -r -p "Press any key to continue..." 
-	#ps -ef | awk '/emulation/ {print $2}' | xargs kill
-	#clear
-	echo
-	echo " This script will remove all the auto generated EmulationStation gamelists."
-	echo
-	echo " They are located in this path /opt/retropie/configs/all/emulationstation/gamelists/"
-	echo
-	echo " EXCEPT the retropie/options one that handles the retropiemenu."
-	echo
-	sleep 3
-	find /opt/retropie/configs/all/emulationstation/gamelists/ -type f -name '*.xml' ! -path "/opt/retropie/configs/all/emulationstation/gamelists/retropie/*" -exec rm {} \;
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+    dialog --infobox "...Please Wait..." 3 22 ; sleep 1
+    clear
+    echo
+    echo " This script will remove all the auto-generated EmulationStation gamelists."
+    echo " They are located in /opt/retropie/configs/all/emulationstation/gamelists/"
+    echo " EXCEPT the retropie/options one that handles the retropiemenu."
+    echo
+    sleep 3
+    find /opt/retropie/configs/all/emulationstation/gamelists/ \
+        -type f -name '*.xml' \
+        ! -path "/opt/retropie/configs/all/emulationstation/gamelists/retropie/*" \
+        -exec rm {} \;
+    done_message
+    restart_es
 }
 
 
@@ -3037,10 +2753,7 @@ function cl_cli_hist() {
 	cd $HOME
 	#sed -i '1i***Welcome to PlayBox, 2Play!***\nsdl2-config --version\nmodetest -s 89:#0\nvulkaninfo | grep deviceName\nglxinfo -B\npython3 $HOME/code/export.py $HOME/RetroPie/roms/full_list.xlsx -d\nsudo raspi-config\nSkyscraper\nstartx\nglances\nbpytop\nsudo $HOME/RetroPie-Setup/retropie_setup.sh\nemulationstation\n2p-FixPlayBox' .bash_history
 	sed -i '15,1000d' .bash_history
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 
@@ -3048,22 +2761,15 @@ function cl_wifi() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
 	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf;
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
-	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-	else
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
-	sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-	echo "No WPA_Supplicant conflict found! Wi-Fi reset completed."
+		#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+		sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+		else
+		#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
+		sudo rm /etc/NetworkManager/system-connections/*.nmconnection
+		echo "No WPA_Supplicant conflict found! Wi-Fi reset completed."
 	fi
-	clear
-	echo
-	echo "[OK DONE!...]"
-	echo
-	echo "[Don't forget to Restart your system...]"
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	sleep 1
+	done_message
+	reboot_message
 }
 
 
@@ -3071,17 +2777,14 @@ function cl_sysncache() {
 	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
 	clear
 	sudo apt autoremove --purge -y && sudo apt clean
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
+	done_message
 }
 
 
 
 function sys_pbt() {
 	dialog --backtitle "PlayBox Toolkit" \
-	--title "SYSTEMS OPTIONS MENU" \
+	--title "SYSTEM OPTIONS MENU" \
 	
     local choice
     
@@ -3089,35 +2792,34 @@ function sys_pbt() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " SYSTEM OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Get to know your System..." 25 75 20 \
-            - "*** PLAYBOX SYSTEM TOOLS SELECTIONS ***" \
+            - "*** PLAYBOX SYSTEM TOOLS ***" \
 			- "	" \
 		   1 " - Filesystem Check is Automated " \
-		   2 " - Expand Armbian OS Partition " \
-		   3 " - Fix/Hide Firmware Boot Screen After OS Upgrade [OFF] " \
-           4 " - Show Partitions & Space Info " \
-		   5 " - Show Folders Size [home/pi] " \
-           6 " - Show System Free Memory Info " \
-           7 " - Show OS Version & Info " \
-           8 " - System & FW Update Options " \
-           9 " - System Full Info " \
-		  10 " - Monitor In Real Time Board Temperature " \
-		  11 " - Show CPU Cores Status " \
-		  12 " - Ratio Video Tool Options [OFF] " \
+		   2 " - Expand The Armbian OS Partition " \
+		   3 " - Show Partitions & Space Info " \
+		   4 " - Show Folders Size [home/pi] " \
+           5 " - Show System Free Memory Info " \
+           6 " - Show OS Version & Info " \
+           7 " - System & FW Update Options " \
+           8 " - System Full Info " \
+		   9 " - Monitor In Real Time Board Temperature " \
+		  10 " - Show CPU Cores Status " \
+		  11 " - Ratio Video Tool Options [OFF] " \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
            #1) fschk_bt  ;;
            2) expand_os  ;;
 		   #3) hide_uboot  ;;
-           4) partitions  ;;
-		   5) fold_sz  ;;
-           6) freemem  ;;
-           7) os_info  ;;
-           8) os_update  ;;
-           9) sysinfo  ;;
-		  10) temp_rt  ;;
-		  11) cores_status  ;;
-		  #12) ratio_vt  ;;
+           3) partitions  ;;
+		   4) fold_sz  ;;
+           5) freemem  ;;
+           6) os_info  ;;
+           7) os_update  ;;
+           8) sysinfo  ;;
+		   9) temp_rt  ;;
+		  10) cores_status  ;;
+		  #11) ratio_vt  ;;
 		   -) none ;;
             *)  break ;;
         esac
@@ -3145,11 +2847,7 @@ function expand_os() {
 	clear
 	sudo systemctl enable armbian-resize-filesystem >/dev/null 2>&1
 	echo
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 3
-	sudo reboot
+	reboot_message
 }
 
 
@@ -3158,11 +2856,7 @@ function hide_uboot() {
 	clear
 	sudo dpkg -i code/linux-u-boot-tinkerboard-current_23.08.0-trunk_armhf__2022.04-Se4b6-Pf734-H0e2e-Vc2b8-B9963-R448a.deb
 	echo
-	echo "We need to restart system now..."
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	sleep 3
-	sudo reboot
+	reboot_message
 }
 
 
@@ -3171,7 +2865,7 @@ function partitions() {
 	clear
 	df -h
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
+	pausepress
 }
 
 
@@ -3183,7 +2877,7 @@ function fold_sz() {
 	#Only Top Folder Names
 	#du -h --max-depth=1 | sort -hr | column | more -d
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
+	pausepress
 }
 
 
@@ -3192,7 +2886,7 @@ function freemem() {
 	clear
 	free mem
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
+	pausepress
 }
 
 
@@ -3202,7 +2896,7 @@ function os_info() {
 	uname -snrmo
 	lsb_release -ds
 	echo
-	read -n 1 -s -r -p "Press any key to continue..."
+	pausepress
 }
 
 
@@ -3213,8 +2907,8 @@ function os_update() {
 
 infobox=""
 infobox="${infobox}\n"
-infobox="${infobox}MULTIPLE OPTIONS:\n\nOption 1 is preferred for complete OS update/upgrade.\nOption 2 is classic update & upgrade.\n\n"
-infobox="${infobox}\n                  IT WILL REBOOT AFTER UPDATING."
+infobox="${infobox}\n- Upgrades packages to the newest versions **without removing anything**.\n- Safe, but may leave some packages “held back” if dependencies change.\n\n"
+infobox="${infobox}\n                  SYSTEM WILL REBOOT AFTER UPDATING."
 infobox="${infobox}\n"
 
 
@@ -3228,7 +2922,7 @@ dialog --backtitle "PlayBox Toolkit" \
             --ok-label OK --cancel-label Back \
             --menu "Let's update & upgrade your system!" 25 75 20 \
             - "*** OS UPDATING SELECTIONS ***" \
-            1 " - OS Upgrade: Upgrades packages to the newest versions " \
+            1 " - OS Upgrade: Upgrades Packages To The Newest Versions " \
             - "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
             2 " - Firmware - Check/Upgrade With Armbian-Config" \
@@ -3252,10 +2946,8 @@ function upgrade_os() {
 	clear
 	sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK] Rebooting... "
-	sudo reboot
+	pausepress
+	reboot_message
 }
 
 function upgrade_fullos() {
@@ -3264,10 +2956,8 @@ function upgrade_fullos() {
 	clear
 	sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove --purge && sudo apt autoclean && sudo apt clean
 	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK] Rebooting... "
-	sudo reboot
+	pausepress
+	reboot_message
 }
 
 
@@ -3285,18 +2975,23 @@ function sysinfo() {
 	clear
 # Ensure environment is correctly set up
 source $HOME/.bash_profile
-echo
-read -n 1 -s -r -p "Press any key to continue"
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
 }
 
 
 function temp_rt() {
-	dialog --infobox "...[Press <CTRL+C> to Exit]..." 3 36 ; sleep 5
-	clear
-	watch -t $HOME/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh 
+    dialog --infobox "...Press any key to exit..." 3 36 ; sleep 3
+    clear
+    # Run temperature script in a loop until a key is pressed
+    while true; do
+        clear
+        $HOME/PlayBox-Setup/.pb-fixes/_scripts/temperature.sh
+        sleep 2
+        read -t 0.1 -n 1 key && break
+    done
+    clear
+    echo "[Exited Temperature Monitor]"
 }
-
 
 function cores_status() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
@@ -3305,13 +3000,13 @@ function cores_status() {
 	sleep 2
 	echo -E "Out of which online: `cat /sys/devices/system/cpu/online` ... "
 	echo
-	read -n 1 -s -r -p "Press any key to continue"
+	pausepress
 }
 
 
 function ratio_vt() {
-#VIDEO+ RATIO & RESOLUTION By 2Play!
-# 08.10.2020
+#VIDEO+ RATIO & RESOLUTION For Pi Boards, By 2Play!
+# 08.10.2020 - 04.2026
 
 infobox=""
 infobox="${infobox}\n"
@@ -3434,9 +3129,7 @@ declare -a HDMI_SETTINGS_DMT=(
 function list_dvc() {
 	clear
 	tvservice -l
-	echo
-	read -n 1 -s -r -p "Press any key to go back..."
-	echo
+	pausepress
 }
 
 # Show HDMI Status
@@ -3452,9 +3145,7 @@ function hdmi_stat() {
 	echo "HDMI 1:"
 	echo
 	tvservice -v 7 -s
-	echo
-	read -n 1 -s -r -p "Press any key to go back..."
-	echo
+	pausepress
 }
 
 # Show Supported Audio Information
@@ -3470,9 +3161,7 @@ function audio_inf() {
 	echo "HDMI 1:"
 	echo
 	tvservice -v 7 -a
-	echo
-	read -n 1 -s -r -p "Press any key to go back..."
-	echo
+	pausepress
 }
 
 # Supported CEA Modes
@@ -3488,9 +3177,7 @@ function sup_cea() {
 	echo "HDMI 1:"
 	echo
 	tvservice -v 7 --modes=CEA
-	echo
-	read -n 1 -s -r -p "Press any key to go back..."
-	echo
+	pausepress
 }
 
 # Supported DMT Modes
@@ -3506,9 +3193,7 @@ function sup_dmt() {
 	echo "HDMI 1:"
 	echo
 	tvservice -v 7 --modes=DMT
-	echo
-	read -n 1 -s -r -p "Press any key to go back..."
-	echo
+	pausepress
 }
 
 # Enables a custom standard CEA ratio & resolution.
@@ -3530,16 +3215,8 @@ function enable_vr() {
 	  for val in ${HDMI_SETTINGS_DMT[@]}; do
 		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
 	  done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 # Enables a custom standard DMT ratio & resolution.
@@ -3561,16 +3238,8 @@ function enable_vrd() {
 	  for val in ${HDMI_SETTINGS_CEA[@]}; do
 		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
 	  done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 # Defines the TV standard used for composite video output over the yellow RCA jack to NTSC or PAL.
@@ -3587,16 +3256,8 @@ function enable_sdtvm() {
 	  done
 	sudo sed -i "s|^sdtv_mode=.*|sdtv_mode=$1|" "${CONFIG_PATH}";
 	sudo sed -i "s|#sdtv_mode=.*|sdtv_mode=$1|" "${CONFIG_PATH}";
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 # Defines the TV standard used for composite video output over the yellow RCA jack to forced ratio either (Default) 4:3 or 16:9.
@@ -3613,16 +3274,8 @@ function enable_sdtvr() {
 	  done
 	sudo sed -i "s|^sdtv_aspect=.*|sdtv_aspect=$1|" "${CONFIG_PATH}";
 	sudo sed -i "s|#sdtv_aspect=.*|sdtv_aspect=$1|" "${CONFIG_PATH}";
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 # Enables a custom non standard DMT ratio & resolution option X Example cvt9 in config.txt
@@ -3644,16 +3297,8 @@ function enable_vrdcX() {
 	  for val in ${HDMI_SETTINGS_CEA[@]}; do
 		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
 	  done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 # Disables ALL custom CEA & DMT or STDTV resolutions & ratio
@@ -3670,16 +3315,8 @@ function disable_vrALL() {
 	  for val in ${HDMI_SETTINGS_DMT[@]}; do
 		sudo sed -i "s|^${val}|#${val}|" "${CONFIG_PATH}";
 	  done
-	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
-	echo
-	read -n 1 -s -r -p "Press any key to reboot"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
+	done_message
+	reboot_message
 }
 
 
@@ -3692,32 +3329,38 @@ function thankyou_pb() {
 
 function update_pbs() {
 	#dialog --infobox "...Updating..." 3 20 ; sleep 1
+# Update Toolkit 04.26
 	clear
+	#cd "$HOME/PlayBox-Setup" || return
 	cd $HOME/PlayBox-Setup
 	chmod 755 .pb-fixes/retropiemenu/fixplaybox.sh
-	echo
+	
 	echo "Let's pull latest PlayBox-Setup updates..."
-	echo
 	sleep 1
 	git fetch
 	git reset --hard HEAD
-	#git reset --hard && git clean -f -d
 	git merge '@{u}'
 	sleep 2
-	echo
-	find -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
-	find -name "*.py" -print0 | xargs -0 chmod 755
-	find . -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
-	rm $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools/joystick_selection.sh
-	ln -s /opt/retropie/supplementary/joystick-selection/joystick_selection.sh .pb-fixes/retropiemenu/Controller\ Tools/joystick_selection.sh
+	
+	find . -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
+    find . -type f -name "*.py" -print0 | xargs -0 chmod 755
+    find . -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
+
+
+	rm "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
+	ln -sfn /opt/retropie/supplementary/joystick-selection/joystick_selection.sh \
+	"$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller Tools/joystick_selection.sh"
+    
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
-	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
-	cd $HOME
-	fix_rpmenu
-	#printf "Sleeping 3 seconds before reloading PlayBox ToolKit\n" &&
-	#sleep 3 &&
-	#exec 2p-FixPlayBox
+	
+	"$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh"
+    #cd "$HOME" || return
+    cd $HOME
+    fix_rpmenu
+
+	printf "Waiting 3 seconds before reloading PlayBox ToolKit\n"
+    sleep 3
+    check_and_run 2p-FixPlayBox
 }
 
 
@@ -3729,31 +3372,18 @@ function restart_es() {
     nohup emulationstation --no-splash &>/dev/null &
 }
 
-
-function poff_pb() {
-	dialog --infobox "...Shutting Down..." 3 23 ; sleep 1
-	clear
-	echo
-	echo "[OK System Will Shutdown now...]"
-	clear
-	sudo shutdown -P now
-}
-
-function restart_pb() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
-}
-
 function done_message() {
     clear
     echo
     echo "[OK DONE!...]"
     cd $HOME
     sleep 1
+}
+
+function pausepress() {
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
+    echo
 }
 
 function reboot_message() {
@@ -3782,6 +3412,24 @@ function template() {
 	echo
 	echo "[OK DONE!...]"
 	sleep 1
+}
+
+function poff_pb() {
+	dialog --infobox "...Powering Off..." 3 23 ; sleep 1
+	clear
+	echo
+	echo "[OK System Will Power Off now...]"
+	clear
+	sudo poweroff
+}
+
+function restart_pb() {
+	dialog --infobox "...Restarting..." 3 20 ; sleep 1
+	clear
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
 }
 
 main_menu
