@@ -107,43 +107,53 @@ function fixes_pbt() {
 
 
 function fix_rpmenu() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	sleep 2
-	if [ -d $HOME/RetroPie/retropiemenu.OFF ]; then echo; echo "You have disabled your OPTIONS/RetroPieMenu. Nothing to do!..."; echo; read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
-	else
-	sudo rm -rf RetroPie/retropiemenu/*
-	mv -f $HOME/RetroPie/retropiemenu/raspiconfig.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
-	mv -f $HOME/RetroPie/retropiemenu/rpsetup.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu
-	mv -f $HOME/RetroPie/retropiemenu/configedit.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/retroarch.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/retronetplay.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/bluetooth.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/showip.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/wifi.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Network\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/audiosettings.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/filemanager.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/runcommand.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/System\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/esthemes.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/splashscreen.rp $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/hurstythemes.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
-	mv -f $HOME/RetroPie/retropiemenu/bezelproject.sh $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Visuals\ \'n\'\ Theme\ Tools
-	sudo rm -rf $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation
-	rsync -avh --delete $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/ $HOME/RetroPie/retropiemenu && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
-	rm -f $HOME/RetroPie/retropiemenu/raspiconfig.rp
-	rm -f $HOME/RetroPie/retropiemenu/Visuals\ \'n\'\ Theme\ Tools/splashscreen.rp
-	rm -f $HOME/RetroPie/retropiemenu/System\ Tools/audiosettings.rp
-	rm -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp
-	#sudo rm -rf /etc/emulationstation/themes/carbon/
-	echo
-	clear
-	echo "We need to apply REGION script now..."
-	echo
-	#read -n 1 -s -r -p "Press any key to continue..."
-	fix_region
-	fi
+    dialog --infobox "...Fixing..." 3 17 ; sleep 1
+    clear
+
+    if [[ -d "$HOME/RetroPie/retropiemenu.OFF" ]]; then
+        echo "RetroPieMenu disabled. Nothing to do!"
+        read -n 1 -s -r -p "Press any key to continue..."
+        fix_region
+        return
+    fi
+
+    echo "Cleaning RetroPie menu..."
+    sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
+
+    move_items   # helper function with array loop
+    sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
+
+    echo "Syncing fixed menu..."
+    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu"
+
+    echo "Applying REGION script..."
+    fix_region
+}
+
+function move_items() {
+declare -A moves=(
+  ["raspiconfig.rp"]=""
+  ["rpsetup.rp"]=""
+  ["configedit.rp"]="Emulation Tools"
+  ["retroarch.rp"]="Emulation Tools"
+  ["retronetplay.rp"]="Emulation Tools"
+  ["bluetooth.rp"]="Network Tools"
+  ["showip.rp"]="Network Tools"
+  ["wifi.rp"]="Network Tools"
+  ["audiosettings.rp"]="System Tools"
+  ["filemanager.rp"]="System Tools"
+  ["runcommand.rp"]="System Tools"
+  ["esthemes.rp"]="Visuals 'n' Theme Tools"
+  ["splashscreen.rp"]="Visuals 'n' Theme Tools"
+  ["hurstythemes.sh"]="Visuals 'n' Theme Tools"
+  ["bezelproject.sh"]="Visuals 'n' Theme Tools"
+)
+
+for f in "${!moves[@]}"; do
+    src="$HOME/RetroPie/retropiemenu/$f"
+    dest="$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/${moves[$f]}"
+    [[ -e "$src" ]] && mv -f "$src" "$dest"
+done
 }
 
 
@@ -197,7 +207,8 @@ dialog --backtitle "Region based ES Systems" \
 
 
 function show_region_status() {
-    local target=$(readlink -f /etc/emulationstation/es_systems.cfg)
+    clear
+	local target=$(readlink -f /etc/emulationstation/es_systems.cfg)
 
     case "$target" in
         */es_systemsUS.cfg)   echo "Current Region: US/JP" ;;
@@ -205,6 +216,7 @@ function show_region_status() {
         */es_systems.cfgFULL) echo "Current Region: ALL"   ;;
         *)                    echo "Current Region: Unknown/Custom" ;;
     esac
+	pausepress
 }
 
 function set_region_es() {
@@ -506,7 +518,7 @@ function apps_pbt() {
 		   10) strg_bench  ;;
 		   11) emus_compile  ;;
 		   12) emus_tks  ;;
-		   #13) safe_shut  ;;
+		   13) safe_shut  ;;
 		   14) desk_env  ;;
 		   -) none ;;
             *)  break ;;
@@ -686,7 +698,8 @@ function ra_options_tool() {
 
 
 function show_status_dashboard() {
-    echo "================= SYSTEM STATUS DASHBOARD ================="
+    clear
+	echo "================= SYSTEM STATUS DASHBOARD ================="
     echo
 
     # Volume
@@ -728,6 +741,7 @@ function show_status_dashboard() {
     fi
 
     echo "==========================================================="
+	pausepress
 }
 
 
@@ -1970,11 +1984,12 @@ function gb_clr_on() {
 function gb_status() {
     cd /opt/retropie/configs/gb
     if grep -q 'sameboy_model = "Super Game Boy"' retroarch-core-options.cfg; then
-        echo "Game Boy Color mode is active."
+        clear && echo "Game Boy Color mode is active."
     else
-        echo "Game Boy Black & White mode is active."
+        clear && echo "Game Boy Black & White mode is active."
     fi
     cd $HOME
+	pausepress
 }
 
 
@@ -1990,7 +2005,8 @@ function ppsspp_exit() {
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
 			- "	" \
            0 " - Show PPSSPP Emu Exit Status: Exit to ES or to Emulator Menu " \
-           1 " - PPSSPP Emulator Exits to ES " \
+           - "	" \
+		   1 " - PPSSPP Emulator Exits to ES " \
            2 " - PPSSPP Emulator Exits to PPSSPP Menu " \
            2>&1 > /dev/tty)
 
@@ -2007,11 +2023,12 @@ function ppsspp_exit() {
 function ppsspp_ex_status() {
     cd /opt/retropie/configs/psp
     if grep -q '--escape-exit' emulators.cfg; then
-        echo "PPSSPP will exit to ES."
+        clear && echo "PPSSPP will exit to ES."
     else
-        echo "PPSSPP will exit to its Menu."
+        clear && echo "PPSSPP will exit to PPSSPP Menu."
     fi
     cd $HOME
+	pausepress
 }
 
 function ppsspp_ex_on() {
@@ -2045,6 +2062,7 @@ function n64_res() {
             - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
 			- "	" \
            0 " - Show N64 Current Resolution Setting " \
+		   - "	" \
            1 " - Set Native Low-Res (320x240) To N64 Lr-Core " \
            2 " - Set Native Hi-Res (640x480) To N64 Lr-Core " \
            2>&1 > /dev/tty)
@@ -2078,11 +2096,12 @@ function n64_hr_on() {
 function n64_status() {
     cd /opt/retropie/configs/n64
     if grep -q 'mupen64plus-43screensize = "640x480"' retroarch-core-options.cfg; then
-        echo "N64 High Resolution mode is active."
+        clear && echo "N64 High Resolution mode is active."
     else
-        echo "N64 Low Resolution mode is active."
+        clear && echo "N64 Low Resolution mode is active."
     fi
     cd $HOME
+	pausepress
 }
 
 
@@ -2128,7 +2147,8 @@ function amiga_models() {
 }
 
 function amiga_status() {
-    echo "=== Amiga System Status ==="
+    clear
+	echo "===== Amiga System Status ====="
     for sys in amiga amiga1200 amiga4000 amigacd32 cdtv; do
         cfg="/opt/retropie/configs/$sys/retroarch-core-options.cfg"
         if [[ -f $cfg ]]; then
@@ -2142,8 +2162,9 @@ function amiga_status() {
             echo "$sys: config file missing"
         fi
     done
-    echo "============================"
-    cd $HOME
+    echo "==============================="
+    pausepress
+	cd $HOME	
 }
 
 function A1200_on() {
@@ -2231,10 +2252,12 @@ function amiga_choices() {
 
 
 function amiga_choices_status() {
-    echo "=== AMIGA Choices Status ==="
     # Emulator default
     emu=$(grep '^default' /opt/retropie/configs/amiga/emulators.cfg | cut -d'"' -f2)
-    echo "Emulator default: $emu"
+	clear
+	echo "=== AMIGA Choices Status ==="
+    
+    echo "Default Emulator: $emu"
 
     # Overlay state
     if [[ -d /opt/retropie/configs/all/retroarch/config/PUAE ]]; then
@@ -2250,6 +2273,7 @@ function amiga_choices_status() {
         echo "Shader: DISABLED"
     fi
     echo "==========================="
+	pausepress
 }
 
 function lrpuae_overlay_fix() {
@@ -2352,7 +2376,8 @@ clear
 }
 
 function retroflag_status() {
-    echo "=== RetroFlag Status ==="
+    clear
+	echo "=== RetroFlag Status ==="
 
     # Check folder and scripts
     if [[ -d /opt/RetroFlag ]]; then
@@ -2361,6 +2386,7 @@ function retroflag_status() {
         [[ -f /opt/RetroFlag/multi_switch.sh ]] && echo "multi_switch.sh found" || echo "multi_switch.sh missing"
     else
         echo "RetroFlag not installed"
+		pausepress
         return
     fi
 
@@ -2381,14 +2407,17 @@ function retroflag_status() {
     fi
 
     echo "========================="
+	pausepress
 }
 
 function argon1_status() {
-    if [[ -x /usr/bin/argonone-config ]]; then
+    clear
+	if [[ -x /usr/bin/argonone-config ]]; then
         echo "Argon1: ENABLED"
     else
         echo "Argon1: DISABLED"
     fi
+	pausepress
 }
 
 function rflag_on() {
@@ -2458,7 +2487,7 @@ function clean_pbt() {
 			- "	" \
            1 " - Clean A gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
 		   2 " - Clean LastPlayed & PlayCount or Favorites Options " \
-		   3 " - Clean all save, hi, dat etc files inside roms folder " \
+		   3 " - Clean Save Files Inside Roms & Saves Folder (Not fs|nv)" \
            4 " - Remove ES Auto-generated Gamelists " \
 		   5 " - Clean CLi Commands History & Reset To PlayBox Top Ones  " \
 		   6 " - Clean Wi-Fi Settings " \
@@ -2490,7 +2519,8 @@ function cl_gm_xml() {
             - "*** GAMELIST.XML CLEANUP SELECTIONS ***" \
 			- "	" \
             0 " - Show Which Systems Already Have A .CLEAN Backup File  " \
-            1 " - Clean & Create for ALL systems [Original + gamelist.xml.CLEAN] " \
+            - "	" \
+			1 " - Clean & Create for ALL systems [Original + gamelist.xml.CLEAN] " \
             2 " - Clean & Create for a specific system [Orig + gamelist.xml.CLEAN] " \
             2>&1 > /dev/tty)
 
@@ -2506,7 +2536,8 @@ function cl_gm_xml() {
 
 
 function gamelist_status() {
-    echo "=== Gamelist Status ==="
+    clear
+	echo "=== Gamelist Status ==="
     cd $HOME/RetroPie/roms/
 
     # Find all gamelist.xml files
@@ -2571,7 +2602,7 @@ function cl_saves() {
     cl_saves_status
 	
 	# Common extensions
-	exts=".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
+	exts=".*\.(srm|auto|state.auto|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
 
 	# Daphne adds dat
 	daphne_exts=".*\.(dat)$"
@@ -2592,7 +2623,7 @@ function cl_saves_status() {
     clear
     echo "====== Save Cleaner Status ======"
 
-    exts=".*\.(srm|auto|state.auto|fs|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
+    exts=".*\.(srm|auto|state.auto|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm)$"
     daphne_exts=".*\.(dat)$"
 
     total=0
@@ -2994,14 +3025,44 @@ function temp_rt() {
 }
 
 function cores_status() {
-	dialog --infobox "...Checking..." 3 20 ; sleep 1
-	clear
-	echo -E "Your system has `getconf _NPROCESSORS_ONLN` core(s)"
-	sleep 2
-	echo -E "Out of which online: `cat /sys/devices/system/cpu/online` ... "
-	echo
-	pausepress
+    dialog --infobox "...Checking..." 3 20 ; sleep 1
+    clear
+
+    local cores=$(getconf _NPROCESSORS_ONLN)
+    echo "Your system has $cores core(s)"
+    echo "Online cores: $(cat /sys/devices/system/cpu/online)"
+    echo
+
+    local total=0 count=0
+    for cpu in /sys/devices/system/cpu/cpu[0-9]*; do
+        core=$(basename "$cpu")
+        freq_file="$cpu/cpufreq/scaling_cur_freq"
+        gov_file="$cpu/cpufreq/scaling_governor"
+
+        if [[ -f "$freq_file" ]]; then
+            freq=$(awk '{printf "%.1f", $1/1000}' "$freq_file") # kHz → MHz
+            total=$(echo "$total + $freq" | bc)
+            ((count++))
+        else
+            freq="N/A"
+        fi
+
+        governor=$( [[ -f "$gov_file" ]] && cat "$gov_file" || echo "N/A" )
+
+        echo "$core → ${freq} MHz | governor: $governor"
+    done
+
+    if (( count > 0 )); then
+        avg=$(echo "scale=1; $total / $count" | bc)
+        echo
+        echo "Average frequency across $count core(s): $avg MHz"
+    fi
+
+    echo
+    pausepress
 }
+
+
 
 
 function ratio_vt() {
