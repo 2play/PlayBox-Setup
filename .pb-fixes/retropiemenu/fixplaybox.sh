@@ -2925,7 +2925,7 @@ function fschk_bt() {
 	#echo "Please be patient..."
 	#echo "Screen will go black, activity led will be on while filsystem check. Once completed your system will reboot as normal."
 	echo -e "Filesystem check policy:\n"
-    echo -e "• Automatic fsck runs every 50th boot (via tune2fs).\n"
+    echo -e "• Automatic filesystem check runs every 1 month (via tune2fs).\n"
     echo -e "• If warnings or errors appear, run a manual check or use gparted on another host.\n"
     echo -e "• Old /forcefsck method is deprecated.\n"
     echo -e "\nFor details, see Discord guide:\nHow to Scan-Fix your Linux filesystem (Pi or similar)\nUpdate 28.05.2021\n"
@@ -3534,6 +3534,89 @@ function update_pbs() {
 }
 
 
+# === Overlay Fixes with Arguments ===
+#overlay_fix "FinalBurn Neo" "MAME" "Arcade" "Genesis Plus GX" "megadrive"
+
+function overlay_fix() {
+    echo "Applying overlay fixes..."
+
+    # Loop over all arguments passed to the function
+    for sys in "$@"; do
+        cfg_dir="/opt/retropie/configs/all/retroarch/config/$sys"
+        if [[ -d "$cfg_dir" ]]; then
+            echo "Patching overlays in $cfg_dir ..."
+            find "$cfg_dir" -type f -name "*.cfg" -print0 | \
+                xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'
+        else
+            echo "Skipping $sys (no config dir found)"
+        fi
+    done
+
+    # Symlink overlay file for compatibility
+    ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg \
+            /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
+}
+
+# === Overlay Fixes with Target List ===
+
+#function overlay_fix() {
+#    echo "Applying overlay fixes..."
+
+    # List of system config folders to patch
+#    systems=( "FinalBurn Neo" )
+
+#   for sys in "${systems[@]}"; do
+#        cfg_dir="/opt/retropie/configs/all/retroarch/config/$sys"
+#       if [[ -d "$cfg_dir" ]]; then
+#            echo "Patching overlays in $cfg_dir ..."
+#            find "$cfg_dir" -type f -name "*.cfg" -print0 | \
+#                xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'
+#        else
+#            echo "Skipping $sys (no config dir found)"
+#        fi
+#    done
+
+    # Symlink overlay file for compatibility
+#    ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg \
+#            /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
+#}
+
+
+# === Core Config Management ===
+
+function disable_core_cfg() {
+    core="$1"
+    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core"
+
+    if [[ -d "$cfg_dir" ]]; then
+        mv "$cfg_dir" "${cfg_dir}.OFF"
+        echo "Disabled $core config"
+    else
+        echo "Skipping $core (not found)"
+    fi
+}
+
+function enable_core_cfg() {
+    core="$1"
+    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core.OFF"
+
+    if [[ -d "$cfg_dir" ]]; then
+        mv "$cfg_dir" "/opt/retropie/configs/all/retroarch/config/$core"
+        echo "Re-enabled $core config"
+    else
+        echo "Skipping $core (no .OFF backup found)"
+    fi
+}
+
+# === Usage Example ===
+
+#overlay_fix
+
+#disable_core_cfg "Genesis Plus GX"
+#disable_core_cfg "fMSX"
+#disable_core_cfg "Stella 2014"
+
+
 function restart_es() {
     clear
 	echo "[Restarting EmulationStation...]"
@@ -3579,9 +3662,6 @@ function check_and_run() {
 
 function template() {
 	clear
-	echo
-	echo "[OK DONE!...]"
-	sleep 1
 }
 
 function poff_pb() {
