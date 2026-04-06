@@ -1,8 +1,9 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 03.2026"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.2026"
+clear
 echo $pb_version
-sleep 3
+sleep 1
 cd $HOME/code/
 
 # Get Post Fixes Clean Burn Or Normal Post Fix Update
@@ -15,44 +16,35 @@ function post_fix_update() {
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
             - "*** POST FIXES SETUP OPTIONS ***" \
             - "" \
-			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
-			- "    (Use After Clean Burn Or Restore All To Clean Status)" \
-			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
-            - "    (Use To Apply New Updates)" \
+			CLEAN " - CLEAN IMAGE: UPDATE & FIXES " \
+			- "    (Apply After A Clean Burn OR To Restore All To Latest Clean State)" \
+			- "" \
+			NORMAL " - NORMAL UPDATE: POST RELEASE UPDATES & FIXES " \
+            - "    (Applies Post Release Updates) " \
 			2>&1 > /dev/tty)
 
-        case "$choice" in
-            CLEAN) post_up_clean  ;;
-            NORMAL) post_up_normal  ;;
-            -) none ;;
-            *) break ;;
-        esac
+	case "$choice" in
+		CLEAN)   post_up "clean-vanilla-x86"   ;;
+		NORMAL)  post_up "main-vanilla-x86"    ;;
+		-)       none ;;
+		*)       break ;;
+	esac
 	done
-echo ""
-echo "[OK DONE!...]"
-cd $HOME
-sleep 2
+	clear
 }
 
-function post_up_clean() {
-clear
-git clone --depth 1 --branch=clean-vanilla-x86 https://github.com/2play/PBv2-PostFixes.git
-cd PBv2-PostFixes/
-#mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
-next_steps
-global_shader
-#amiga_setup
+
+function post_up() {
+    branch=$1
+    clear
+    echo "Cloning branch: $branch"
+    git clone --depth 1 --branch="$branch" https://github.com/2play/PBv2-PostFixes.git
+    cd PBv2-PostFixes/ || { echo "Clone failed"; return 1; }
+    #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
+    next_steps
+    global_shader
 }
 
-function post_up_normal() {
-clear
-git clone --depth 1 --branch=main-vanilla-x86 https://github.com/2play/PBv2-PostFixes.git
-cd PBv2-PostFixes/
-#mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
-next_steps
-global_shader
-#amiga_setup
-}
 
 function next_steps() {
 clear
@@ -67,43 +59,22 @@ sudo rsync -urv opt/retropie/emulators/ /opt/retropie/emulators/
 if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
+
+#Permissions
 sudo chown pi:pi -R /etc/emulationstation/themes/
 sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo chmod 755 /usr/local/bin/*grab
-sudo cp /home/pi/.local/bin/* /usr/bin/
-sleep 1
+
 cd /.
 sudo rm -rf samba/ && sudo rm smb*
-sleep 1
+
 rm -rf ~/code/PBv2-PostFixes/
 rm -rf ~/PBv2-PostFixes/
-sleep 2
-# Set USB filesystem check every 50 boots [reset -1]
-if [[ `sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:      50"` ]]; then
-echo "Already set to check every 50 boots!"
-else
-sudo tune2fs -c 50 /dev/sda2
-fi
-# Set SD filesystem check every 50 boots [reset -1]
-if [[ `sudo tune2fs -l /dev/mmcblk2p1* | grep "Maximum mount count:      50"` ]]; then
-echo "Already set to check every 50 boots!"
-else
-sudo tune2fs -c 50 /dev/mmcblk2p1
-fi
-# Config.txt OC additions & Pi400 Fix
-#if ! grep "gpu_freq=750" /boot/config.txt ; then
-#sudo sed -i '66i#gpu_freq=750' /boot/config.txt
-#fi
-#if ! grep "over_voltage=8" /boot/config.txt ; then
-#sudo sed -i '67i#over_voltage=8' /boot/config.txt
-#fi
-#if ! grep "force_turbo=1" /boot/config.txt ; then
-#sudo sed -i '69i#force_turbo=1' /boot/config.txt
-#fi
-#if grep "hdmi_ignore_edid=0xa5000080" /boot/config.txt ; then
-#sudo sed -i 's|^hdmi_ignore_edid=0xa5000080|#hdmi_ignore_edid=0xa5000080|g' /boot/config.txt;
-#fi
+
+# Set USB filesystem check every 1m
+set_fsck_root
+
 #Kernel error fix After OS Full update (5.10.17)
 #if [[ `uname -r | grep 5.10.17-` ]]; then
 #	if grep "gpu_mem_" /boot/config.txt ; then
@@ -116,186 +87,205 @@ fi
 #	echo "Your Kernel isn't at 5.10.17 so All OK!"
 #	echo
 #fi	
-# cmdline.txt
-#if ! grep "snd_bcm2835.enable_headphones=1" /boot/cmdline.txt ; then
-#sudo sed -i 's|snd_bcm2835.enable_compat_alsa=1|snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_compat_alsa=1|' /boot/cmdline.txt;
-#fi
+
 #Misc Updates
 #GSPlus roms symlink update
 #sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
 #sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
 #totalchaos update save img 1.5GB
 #rm /home/pi/RetroPie/roms/ports/doom/Skins/totalchaos.pk3
+
 # Skyscraper New Setup 2P!
-chmod 755 /home/pi/.skyscraper/*.sh
-if [[ `ls /usr/local/bin/2PSkyscape_* | grep 2PSkyscape_` ]]; then
-sudo rm -f /usr/local/bin/2PSkyscape_*;
-fi
-sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
-sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
-clear
-# Check xscreensaver install
-if ! [[ `dpkg -l | grep xscreensaver` ]]; then
-sudo apt install xscreensaver -y;
-else
-echo "Xscreensaver OK!"
-echo 
-fi 
-# Check IPTV install
-if ! [[ `dpkg -l | grep iptvnator` ]]; then
-cd code; sudo apt install xdg-utils; wget https://github.com/4gray/iptvnator/releases/download/v0.14.0/iptvnator_0.14.0_arm64.deb; sudo dpkg -i iptvnator_*.deb; rm iptvnator_*.deb; cd ~;
-else
-echo "IPTV OK!"
-echo 
-fi 
+#sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
+#sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
+
 # Install Latest Youtube-dl/yt-dlp
-if [ -f /usr/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; yt-dlp -U; sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl; sleep 1
+if [ -f /usr/local/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; sudo yt-dlp -U; sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl; sleep 1
 #to update pip3
 #python3 -m pip install --upgrade pip
 else 
-sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/bin/yt-dlp
-sudo chmod 755 /usr/bin/yt-dlp
-sudo cp -f /usr/bin/yt-dlp /usr/bin/youtube-dl
-echo
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+sudo chmod 755 /usr/local/bin/yt-dlp
+sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl
 fi
-# Net Manager Check/Install
-if ! [[ `dpkg -l | grep network-manager-gnome` ]]
-then
-	sudo apt install network-manager-gnome -y
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
-	then
-	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
-	#else
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
-	fi
-else
-	echo
-	echo "Network Manager already installed!"
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
-	then
-	sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
-	#else
-	#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf
-	fi
-fi
-echo
-echo "No WPA_Supplicant conflict found."
-sleep 2
-echo "Network Manager in place. You can connect to your Wi-FI if needed."
-echo
-# Pulse Control Gui 
-if ! [[ `dpkg -l | grep pavucontrol` ]]; then
-sudo apt install pavucontrol -y
-else
-echo "Pulse Control OK!"
-echo 
-fi
-# Enable exFAT Support
-if ! [[ `dpkg -l | grep exfat-*` ]]; then
-sudo apt install exfat-fuse -y
-sudo apt install exfat-utils -y
-else
-echo "exFAT OK!"
-echo 
-fi
-# Enable input_libretro_device_p2 = "513"
+
+#Make extra custom PlayBox roms directories (Update/Add as needed)
+cd "$HOME/RetroPie/roms" || exit 1
+for dir in ags amiga4000 amigacd32 apple2 apple2gs arcadia archimedes astrocade atari800 atarifalcon atarijaguar atarist ataritt atarixegs atomiswave bbcmicro c128 c16 cdimono1 cdtv coleco coleco_adam crvision dragon32 electron famicom gamemaker gc genesish gx4000 intellivision_ecs kodi lightgun mame mame-advmame mame-libretro mame-mame4all mega32x megacd megadrive megadriveh megadrive-japan mess msx2 msx2+ msxturbor neogeocd nesh odyssey2 openbor pc128 pcengine pcenginecd pcfx pico8 piegalaxy playbox plus4 power ps2 pspminis desktop  satellaview saturn-japan sc-3000 scv sega32x segacd sfc sg-1000 sgb sgfx snesh snesmsu1 solarus spinner steam stv sufami swancrystal tg16 tg16cd ti99 tic80 trackball trs-80 vic20 videopac wii wiiu; do
+    mkdir -p "$dir"
+    echo "Created directory: $dir"
+done
+
+# Enable input_libretro_device_p2 = "513" 6-button controller/pad for both p1/p2
+# 513 generally corresponds to a 6-button controller/pad in many Libretro cores, particularly:
+#Sega Genesis / Mega Drive: Used to force 6-button pad support (critical for games like Street Fighter II or Mortal Kombat).
+#Atari 800 / 5200: Used by the atari800 core to define the primary Atari Joystick device.
+#Amstrad CPC: Used by the cap32 core to set the device type to a standard joystick.
+#ZX Spectrum: Used by the lr-fuse core for certain joystick interfaces like the Kempston Joystick.
+#Sega CD: Similar to the Genesis, used for 6-button controller support.
+
 cd /opt/retropie/configs/
-find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p1|input_libretro_device1p1|g' {} 2>/dev/null \;
-find -name "retroarch.cfg" -exec sed -i 's|^#input_libretro_device_p2|input_libretro_device1p2|g' {} 2>/dev/null \;
+for sys in genesis megadrive atari5200 atari800 zxspectrum segacd megacd amstradcpc; do
+    cfg="$sys/retroarch.cfg"
+    if [[ -f "$cfg" ]]; then
+        echo "Updating $cfg ..."
+        # Uncomment if commented, then force value to 513
+        sed -i 's/^#input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
+        sed -i 's/^#input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
+        sed -i 's/^input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
+        sed -i 's/^input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
+    else
+        echo "Skipping $sys (no retroarch.cfg found)"
+    fi
+done
+
+
 # Overlay Fixes
-echo
-#cd /opt/retropie/configs/all/retroarch/config/FinalBurn\ Neo/
-find . -type f -name "*.cfg" -print0 | xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'  {} 2>/dev/null \;
-ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
-cd /opt/retropie/configs/all/retroarch/config
+overlay_fix "FinalBurn Neo"
 #rm -rf fuse
-#ln -sfn Stella\ 2014.EMPTY Stella\ 2014
-#mv /opt/retropie/configs/all/retroarch/config/Stella\ 2014 /opt/retropie/configs/all/retroarch/config/Stella\ 2014.OFF
-#mv /opt/retropie/configs/all/retroarch/config/fMSX /opt/retropie/configs/all/retroarch/config/fMSX.OFF
-#mv /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX /opt/retropie/configs/all/retroarch/config/Genesis\ Plus\ GX.OFF
-#if [ -d /opt/retropie/configs/all/retroarch/config/ProSystem.OFF ]; then
-#mv /opt/retropie/configs/all/retroarch/config/ProSystem/* /opt/retropie/configs/all/retroarch/config/ProSystem.OFF/
-#rm -rf /opt/retropie/configs/all/retroarch/config/ProSystem
-#else
-#mv /opt/retropie/configs/all/retroarch/config/ProSystem /opt/retropie/configs/all/retroarch/config/ProSystem.OFF
-#fi
-#if [ -d /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF ]; then
-#mv /opt/retropie/configs/all/retroarch/config/PicoDrive/* /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF/
-#rm -rf /opt/retropie/configs/all/retroarch/config/PicoDrive
-#else
-#mv /opt/retropie/configs/all/retroarch/config/PicoDrive /opt/retropie/configs/all/retroarch/config/PicoDrive.OFF
-#fi
-echo
-# Core Options Per System Config Folder
+disable_core_cfg "Genesis Plus GX"
+disable_core_cfg "fMSX"
+disable_core_cfg "ProSystem"
+disable_core_cfg "PicoDrive"
+disable_core_cfg "Stella 2014"
+
+# Core Options Per System Config Folder - uncomment if exists (use for othe uncommenting - this not needed due to global setting applying it)
 #cd /opt/retropie/configs
-#find . -type f -name "retroarch.cfg" -print0 | xargs -0 sed -i 's|#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|g'
-echo
+#while IFS= read -r -d '' cfg; do
+#    echo "Fixing $cfg ..."
+#    sed -i 's|^#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|' "$cfg"
+#done < <(find . -type f -name "retroarch.cfg" -print0)
+
 # ES Video ScreenSaver Options
 cd /opt/retropie/configs/all/emulationstation
-sed -i 's|<bool name="ScreenSaverOmxPlayer" value="true" />|<bool name="ScreenSaverOmxPlayer" value="false" />|g; s|<bool name="ScreenSaverVideoMute" value="false" />|<bool name="ScreenSaverVideoMute" value="true" />|g; s|<bool name="StretchVideoOnScreenSaver" value="false" />|<bool name="StretchVideoOnScreenSaver" value="true" />|g; s|<int name="ScreenSaverSwapVideoTimeout" value="15000" />|<int name="ScreenSaverSwapVideoTimeout" value="10000" />|g; s|<string name="SubtitleAlignment" value="left" />|<string name="SubtitleAlignment" value="center" />|g' es_settings.cfg;
-# Various Minor Types Etc
+
+declare -A fixes=(
+  ["<bool name=\"ScreenSaverOmxPlayer\" value=\"true\" />"]="<bool name=\"ScreenSaverOmxPlayer\" value=\"false\" />"
+  ["<bool name=\"ScreenSaverVideoMute\" value=\"false\" />"]="<bool name=\"ScreenSaverVideoMute\" value=\"true\" />"
+  ["<bool name=\"StretchVideoOnScreenSaver\" value=\"false\" />"]="<bool name=\"StretchVideoOnScreenSaver\" value=\"true\" />"
+  ["<int name=\"ScreenSaverSwapVideoTimeout\" value=\"15000\" />"]="<int name=\"ScreenSaverSwapVideoTimeout\" value=\"10000\" />"
+  ["<string name=\"SubtitleAlignment\" value=\"left\" />"]="<string name=\"SubtitleAlignment\" value=\"center\" />"
+)
+
+for key in "${!fixes[@]}"; do
+    sed -i "s|$key|${fixes[$key]}|g" es_settings.cfg
+done
+
+
+## Various Minor Typos Etc
+
 # Amiga Saves Typo
 #cd /opt/retropie/configs/amiga
 #sed -i 's|3do|amiga|g' retroarch.cfg
+
 # Disable Dim Xinit?
 	#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
 # WWF Typo Fix
-#rm -rf $HOME/RetroPie/saves-unified
-#Check PUAE config to avoid dups & Lr-PUAE Related -- Used When PUAE setup pulled from MAIN/NORMAL Update. Now Only in CLEAN
-#if [ -d /opt/retropie/configs/all/retroarch/config/PUAE.OFF ]; then rm -rf /opt/retropie/configs/all/retroarch/config/PUAE
-#fi
-#cd $HOME/RetroPie/saves
-#mkdir amiga amiga1200 amigacd32 cdtv
+
 # N64 Core Option ThreadedRenderer
 #cd /opt/retropie/configs/n64
 #sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
-# Amiga Aga ra cfg minor update
-#cd /opt/retropie/configs/amiga-aga
-#sed -i 's|input_remapping_directory = "/opt/retropie/configs/amiga1200/"|input_remapping_directory = "/opt/retropie/configs/amiga-aga/"|' retroarch.cfg;
+
 # Intellivision lr-freeintv fix due to latest video driver 
 #cd /opt/retropie/configs/intellivision
 #sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
-# RetroArch Main cfg Uniformity PlayBox v2: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, RA 10db Vol Gain, video_threaded, glcore OFF add to specific
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g; s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g; s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g; s|menu_driver = ".*"|menu_driver = "ozone"|g; s|menu_linear_filter = "true"|menu_linear_filter = "false"|g; s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g; s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g; s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "1"|g; s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g; s|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g; s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-if ! grep 'audio_volume = "0.000000"' /opt/retropie/configs/all/retroarch.cfg; then
-sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|audio_volume = "[0-9]*.[0-9]*"|audio_volume = "0.000000"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-else
-echo "Already a default volume level is set..."; sleep 1
-fi
-if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch.cfg ; then
-sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch.cfg;
-fi
-if ! grep 'audio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg ; then
-sed -i '15,20{/audio_device/d;}' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "plughw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=Headphones,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "sysdefault:CARD=Headphones"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15i#audio_device = "hw:CARD=ALSA,DEV=0"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i '15iaudio_device = "default"' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|audio_device = ""|#audio_device = ""|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-fi
+
+# RetroArch PlayBox v2 Defaults: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, video_threaded, glcore OFF add to specific
+# Common substitutions
+COMMON='
+s|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g;
+s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g;
+s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g;
+s|menu_driver = ".*"|menu_driver = "ozone"|g;
+s|menu_linear_filter = "true"|menu_linear_filter = "false"|g;
+s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g;
+s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g;
+s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "29"|g;
+s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g;
+s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g;
+
+# New defaults
+s|core_options_path = ".*"|core_options_path = ""|g;
+s|config_save_on_exit = "true"|config_save_on_exit = "false"|g;
+s|show_hidden_files = "false"|show_hidden_files = "true"|g;
+s|input_joypad_driver = ".*"|input_joypad_driver = "udev"|g;
+s|video_fullscreen = "false"|video_fullscreen = "true"|g;
+s|video_aspect_ratio_auto = "false"|video_aspect_ratio_auto = "true"|g;
+s|video_threaded = "false"|video_threaded = "true"|g;
+s|video_shader_enable = "false"|video_shader_enable = "true"|g;
+s|video_font_size = "[0-9]*"|video_font_size = "24"|g;
+s|input_overlay_enable = "false"|input_overlay_enable = "true"|g;
+s|input_autodetect_enable = "false"|input_autodetect_enable = "true"|g;
+s|input_player1_a = ".*"|input_player1_a = "z"|g;
+s|input_player1_b = ".*"|input_player1_b = "x"|g;
+s|input_player1_y = ".*"|input_player1_y = "s"|g;
+s|input_player1_x = ".*"|input_player1_x = "a"|g;
+s|input_player1_start = ".*"|input_player1_start = "f6"|g;
+s|input_player1_select = ".*"|input_player1_select = "f5"|g;
+s|input_player1_l = ".*"|input_player1_l = "insert"|g;
+s|input_player1_r = ".*"|input_player1_r = "pageup"|g;
+s|input_player1_left = ".*"|input_player1_left = "left"|g;
+s|input_player1_right = ".*"|input_player1_right = "right"|g;
+s|input_player1_up = ".*"|input_player1_up = "up"|g;
+s|input_player1_down = ".*"|input_player1_down = "down"|g;
+s|input_player1_l2 = ".*"|input_player1_l2 = "del"|g;
+s|input_player1_r2 = ".*"|input_player1_r2 = "pagedown"|g;
+s|menu_swap_ok_cancel_buttons = "true"|menu_swap_ok_cancel_buttons = "false"|g;
+s|input_exit_emulator = ".*"|input_exit_emulator = "f6"|g;
+s|system_directory = ".*"|system_directory = "/home/pi/RetroPie/BIOS"|g;
+s|rgui_browser_directory = ".*"|rgui_browser_directory = "/home/pi/RetroPie/roms"|g;
+s|libretro_directory = ".*"|libretro_directory = "/opt/retropie/libretrocores/"|g;
+s|savefile_directory = ".*"|savefile_directory = "/home/pi/RetroPie/saves"|g;
+s|savestate_directory = ".*"|savestate_directory = "/home/pi/RetroPie/states"|g;
+s|global_core_options = "false"|global_core_options = "true"|g;
+s|input_enable_hotkey = ".*"|input_enable_hotkey = "f5"|g;
+s|auto_remaps_enable = "false"|auto_remaps_enable = "true"|g;
+s|remap_save_on_exit = "true"|remap_save_on_exit = "false"|g;
+s|rgui_aspect_ratio_lock = "[0-9]*"|rgui_aspect_ratio_lock = "2"|g;
+s|rgui_switch_icons = "true"|rgui_switch_icons = "false"|g;
+s|menu_show_restart_retroarch = "true"|menu_show_restart_retroarch = "false"|g;
+s|menu_disable_search_button = "false"|menu_disable_search_button = "true"|g;
+s|quick_menu_show_close_content = "true"|quick_menu_show_close_content = "false"|g;
+s|quick_menu_show_add_to_favorites = "true"|quick_menu_show_add_to_favorites = "false"|g;
+s|quick_menu_show_replay = "true"|quick_menu_show_replay = "false"|g;
+s|quick_menu_show_start_recording = "true"|quick_menu_show_start_recording = "false"|g;
+s|quick_menu_show_start_streaming = "true"|quick_menu_show_start_streaming = "false"|g;
+s|menu_show_overlays = "true"|menu_show_overlays = "false"|g;
+s|menu_show_load_content_animation = "true"|menu_show_load_content_animation = "false"|g;
+s|core_info_cache_enable = "true"|core_info_cache_enable = "false"|g;
+s|xmb_show_add = "true"|xmb_show_add = "false"|g;
+s|xmb_show_history = "true"|xmb_show_history = "false"|g;
+s|xmb_show_images = "true"|xmb_show_images = "false"|g;
+s|xmb_show_music = "true"|xmb_show_music = "false"|g;
+s|xmb_shadows_enable = "true"|xmb_shadows_enable = "false"|g;
+s|quit_press_twice = "false"|quit_press_twice = "true"|g;
+s|sort_savestates_enable = "true"|sort_savestates_enable = "false"|g;
+s|sort_savefiles_enable = "true"|sort_savefiles_enable = "false"|g
+'
+
+# Apply to first file (particle effect 5)
+sed -i "${COMMON}; s|rgui_particle_effect = \"[0-9]*\"|rgui_particle_effect = \"5\"|g" \
+  /opt/retropie/configs/all/retroarch.cfg
+
+# Apply to second file (particle effect 1)
+sed -i "${COMMON}; s|rgui_particle_effect = \"[0-9]*\"|rgui_particle_effect = \"1\"|g" \
+  /opt/retropie/configs/all/retroarch/retroarch.cfg
+
+
 #if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
 #sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
 #else
 #echo "All OK!"
 #echo 
 #fi
+
 #Redream Path Fix
 if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
 echo "Already has corrected value..."; sleep 1
 else
 sed -i 's|/home/pi/RetroPie/roms;|/home/pi/RetroPie/roms/dreamcast;|' /opt/retropie/configs/dreamcast/redream/redream.cfg;
 fi
+
 # N64 Controller Fix Revert and apply to all 4PL - Specific Setup in RA or N64 Applies
 sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
 sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
@@ -411,6 +401,12 @@ ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
 ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
 ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
 ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
+
+sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
+#Check if myenv exists:
+if [ -d /home/pi/myenv ]; then
+sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
+fi
 }
 
 # Global Shader
@@ -426,150 +422,181 @@ function global_shader() {
 			2>&1 > /dev/tty)
 
         case "$choice" in
-            1) glb_shon  ;;
-            2) glb_shoff  ;;
-			-) none ;;
+            6) toggle_global_shader enable ;;
+			7) toggle_global_shader disable  ;;
+		   	-) none ;;
             *) break ;;
         esac
     clear
 }
 
-function glb_shon() {
-cd /opt/retropie/configs/all/retroarch/config/
-if [ -f global.glslp.OFF ]; then rm global.glslp.OFF
-fi
-if [ -f global.slangp.OFF ]; then rm global.slangp.OFF
-fi
-clear
-echo ""
-echo "[OK DONE!...]"
-cd $HOME
-sleep 2
-exit
-}
+function toggle_global_shader() {
+    local action="$1"   # "enable" or "disable"
+    local cfgdir="/opt/retropie/configs/all/retroarch/config"
 
-function glb_shoff() {
-cd /opt/retropie/configs/all/retroarch/config/
-if [ -f global.glslp ]; then mv global.glslp global.glslp.OFF
-fi
-if [ -f global.slangp ]; then mv global.slangp global.slangp.OFF
-fi
-clear
-echo ""
-echo "[OK DONE!...]"
-cd $HOME
-sleep 2
-exit
-}
-
-
-# Amiga Emulator Setup Option
-function amiga_setup() {
-    #local choice
-		choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA SETUP OPTIONS MENU " \
-            --ok-label OK --cancel-label Back \
-            --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
-            - "*** AMIGA 2PLAY! SETUP OPTIONS MENU SELECTIONS ***" \
-			- "	" \
-           1 " -  Set Lr-PUAE as main emulator " \
-           2 " -  Set Amiberry as main emulator " \
-		   - "	" \
-		   - "*** AMIGA CUSTOM LR-PUAE SETUP ***" \
-		   - "	" \
-           3 " -  Amiga Overlays Set For The Loaded Image (Art/View) " \
-		   - "    Tx to Quizaseraq (Loaded-Set), Ransom & Pipmick (Creators) " \
-		   - "	" \
-           4 " -  SKIP THIS STEP: If You Enabled Already Any Of The Above! " \
-		   2>&1 > /dev/tty)
-
-        case "$choice" in
-           1) lrpuae_on  ;;
-           2) amiberry_on  ;;
-		   3) lrpuae_custom_on  ;;
-		   #4) lrpuae_custom_sh_off  ;;
-		   4) skip_step  ;;
-           -) none ;;
-           *) break ;;
-        esac
+    dialog --infobox "...${action^}ing..." 3 20 ; sleep 2
     clear
-}
+    cd "$cfgdir"
 
-function lrpuae_on() {
-	clear
-	cd /opt/retropie/configs/
-	find -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	#find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	mv /opt/retropie/configs/all/retroarch/config/PUAE/ /opt/retropie/configs/all/retroarch/config/PUAE.OFF/
-	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
-	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
-	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1010"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "713"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "455"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "183"|g' {} 2>/dev/null \;
-	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	clear
-	echo ""
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
-	exit
-}
+    case "$action" in
+        disable)
+            for f in global.glslp global.slangp; do
+                [ -f "$f" ] && mv "$f" "$f.OFF"
+            done
+            ;;
+        enable)
+            # Restore if OFF files exist
+            for f in global.glslp global.slangp; do
+                [ -f "$f.OFF" ] && mv "$f.OFF" "$f"
+                # If missing entirely, fetch fresh copy
+                [ ! -f "$f" ] && wget "https://raw.githubusercontent.com/2play/PBv2-PostFixes/clean-vanilla-x86/opt/retropie/configs/all/retroarch/config/$f"
+            done
+            ;;
+    esac
 
-function amiberry_on() {
-	clear
-	cd /opt/retropie/configs/
-	find -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	#find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	clear
-	echo ""
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
-	exit
+    echo "[OK DONE!...]"
+    sleep 1
 }
-
-function lrpuae_custom_on() {
-	clear
-	cd /opt/retropie/configs/
-	find -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	#find \( -name cdtv -prune \) -o -name "emulators.cfg" -exec sed -i 's|default = "amiberry"|default = "lr-puae"|' {} 2>/dev/null \;
-	mv /opt/retropie/configs/all/retroarch/config/PUAE.OFF/ /opt/retropie/configs/all/retroarch/config/PUAE/
-	find amiga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
-	find amiga1200 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
-	find amiga-aga -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|^input_overlay|#input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*#custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*#custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*#custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g; s|.*custom_viewport_width = "[0-9]*"|custom_viewport_width = "1340"|g; s|.*custom_viewport_height = "[0-9]*"|custom_viewport_height = "1000"|g; s|.*custom_viewport_x = "[0-9]*"|custom_viewport_x = "289"|g; s|.*custom_viewport_y = "[0-9]*"|custom_viewport_y = "34"|g' {} 2>/dev/null \;
-	find amigacd32 -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	find cdtv -name "retroarch.cfg" -exec sed -i 's|.*#input_overlay_enable|input_overlay_enable|g; s|.*#input_overlay|input_overlay|g; s|.*#aspect_ratio_index|aspect_ratio_index|g; s|.*#custom_viewport_width|custom_viewport_width|g; s|.*#custom_viewport_height|custom_viewport_height|g; s|.*#custom_viewport_x|custom_viewport_x|g; s|.*#custom_viewport_y|custom_viewport_y|g' {} 2>/dev/null \;
-	clear
-	echo ""
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
-	exit
-}
-
-function lrpuae_custom_sh_off() {
-	clear
-	cd /opt/retropie/configs/all/retroarch/config/PUAE
-	mv PUAE.glslp PUAE.glslp.OFF
-	clear
-	echo ""
-	echo "[OK DONE!...]"
-	cd $HOME
-	sleep 2
-	exit
-}
-
-function skip_step() {
-	clear
-	echo ""
-	echo "[OK YOU GOT IT!...]"
-	cd $HOME
-	sleep 2
-	exit
-}
-
 
 post_fix_update
 
-echo ""
-echo "[OK DONE!...]"
-cd $HOME
-sleep 2
+done_message
+
+function set_fsck_root() {
+    root_dev=$(findmnt -n -o SOURCE /)
+    echo "Setting filesystem check every 1 month on $root_dev..."
+    sudo tune2fs -i 1m "$root_dev"
+    sudo tune2fs -l "$root_dev" | grep -E "Mount count|Maximum mount count"
+}
+
+
+# === Overlay Fixes with Arguments ===
+#overlay_fix "FinalBurn Neo" "MAME" "Arcade" "Genesis Plus GX" "megadrive"
+
+function overlay_fix() {
+    echo "Applying overlay fixes..."
+
+    # Loop over all arguments passed to the function
+    for sys in "$@"; do
+        cfg_dir="/opt/retropie/configs/all/retroarch/config/$sys"
+        if [[ -d "$cfg_dir" ]]; then
+            echo "Patching overlays in $cfg_dir ..."
+            find "$cfg_dir" -type f -name "*.cfg" -print0 | \
+                xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'
+        else
+            echo "Skipping $sys (no config dir found)"
+        fi
+    done
+
+    # Symlink overlay file for compatibility
+    ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg \
+            /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
+}
+
+# === Overlay Fixes with Target List ===
+
+#function overlay_fix() {
+#    echo "Applying overlay fixes..."
+
+    # List of system config folders to patch
+#    systems=( "FinalBurn Neo" )
+
+#   for sys in "${systems[@]}"; do
+#        cfg_dir="/opt/retropie/configs/all/retroarch/config/$sys"
+#       if [[ -d "$cfg_dir" ]]; then
+#            echo "Patching overlays in $cfg_dir ..."
+#            find "$cfg_dir" -type f -name "*.cfg" -print0 | \
+#                xargs -0 sed -i 's|MAME-Vertical.cfg|pb-vr.cfg|g'
+#        else
+#            echo "Skipping $sys (no config dir found)"
+#        fi
+#    done
+
+    # Symlink overlay file for compatibility
+#    ln -sfn /opt/retropie/configs/all/retroarch/overlay/PlayBox/pb-vr.cfg \
+#            /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
+#}
+
+# === Core Config Management ===
+
+function disable_core_cfg() {
+    core="$1"
+    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core"
+
+    if [[ -d "$cfg_dir" ]]; then
+        mv "$cfg_dir" "${cfg_dir}.OFF"
+        echo "Disabled $core config"
+    else
+        echo "Skipping $core (not found)"
+    fi
+}
+
+function enable_core_cfg() {
+    core="$1"
+    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core.OFF"
+
+    if [[ -d "$cfg_dir" ]]; then
+        mv "$cfg_dir" "/opt/retropie/configs/all/retroarch/config/$core"
+        echo "Re-enabled $core config"
+    else
+        echo "Skipping $core (no .OFF backup found)"
+    fi
+}
+
+
+function enable_core_cfg() {
+    core="$1"
+    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core.OFF"
+
+    if [[ -d "$cfg_dir" ]]; then
+        mv "$cfg_dir" "/opt/retropie/configs/all/retroarch/config/$core"
+        echo "Re-enabled $core config"
+    else
+        echo "Skipping $core (no .OFF backup found)"
+    fi
+}
+
+function restart_es() {
+    clear
+	echo "[Restarting EmulationStation...]"
+    sleep 2
+    pkill -f emulationstation
+    nohup emulationstation --no-splash &>/dev/null &
+}
+
+function done_message() {
+    clear
+    echo
+    echo "[OK DONE!...]"
+    cd $HOME
+    sleep 1
+}
+
+function pausepress() {
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
+    echo
+}
+
+function reboot_message() {
+    clear
+	echo
+	echo "[OK DONE!...]"
+	echo
+	echo "[OK System Will Restart now...]"
+	clear
+	sudo reboot
+}
+
+function check_and_run() {
+    local bin="$1"
+    shift
+    if [[ -x "$bin" ]]; then
+        "$bin" "$@"
+    else
+        echo "[ERROR] $bin not found or not executable."
+        sleep 2
+    fi
+}
+
+main_menu
