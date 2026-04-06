@@ -111,7 +111,7 @@ function fix_rpmenu() {
     clear
 
     if [[ -d "$HOME/RetroPie/retropiemenu.OFF" ]]; then
-        echo "RetroPieMenu disabled. Nothing to do!"
+        echo "RetroPieMenu is disabled. Nothing to do!"
         read -n 1 -s -r -p "Press any key to continue..."
         fix_region
         return
@@ -124,36 +124,48 @@ function fix_rpmenu() {
     sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 
     echo "Syncing fixed menu..."
-    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu"
+    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 
-    echo "Applying REGION script..."
+	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
+	
+	#sudo rm -rf /etc/emulationstation/themes/carbon/
+    echo "Now Select Your Preferred Systems Group REGION..."
     fix_region
 }
 
 function move_items() {
-declare -A moves=(
-  ["raspiconfig.rp"]=""
-  ["rpsetup.rp"]=""
-  ["configedit.rp"]="Emulation Tools"
-  ["retroarch.rp"]="Emulation Tools"
-  ["retronetplay.rp"]="Emulation Tools"
-  ["bluetooth.rp"]="Network Tools"
-  ["showip.rp"]="Network Tools"
-  ["wifi.rp"]="Network Tools"
-  ["audiosettings.rp"]="System Tools"
-  ["filemanager.rp"]="System Tools"
-  ["runcommand.rp"]="System Tools"
-  ["esthemes.rp"]="Visuals 'n' Theme Tools"
-  ["splashscreen.rp"]="Visuals 'n' Theme Tools"
-  ["hurstythemes.sh"]="Visuals 'n' Theme Tools"
-  ["bezelproject.sh"]="Visuals 'n' Theme Tools"
-)
+	declare -A moves=(
+      ["raspiconfig.rp"]="DISCARD"
+      ["rpsetup.rp"]=""
+      ["configedit.rp"]="Emulation Tools"
+      ["retroarch.rp"]="Emulation Tools"
+      ["retronetplay.rp"]="Emulation Tools"
+      ["bluetooth.rp"]="Network Tools"
+      ["showip.rp"]="Network Tools"
+      ["wifi.rp"]="DISCARD"
+      ["audiosettings.rp"]="DISCARD"
+      ["filemanager.rp"]="System Tools"
+      ["runcommand.rp"]="System Tools"
+      ["esthemes.rp"]="Visuals 'n' Theme Tools"
+      ["splashscreen.rp"]="DISCARD"
+      ["hurstythemes.sh"]="Visuals 'n' Theme Tools"
+      ["bezelproject.sh"]="Visuals 'n' Theme Tools"
+    )
 
 for f in "${!moves[@]}"; do
-    src="$HOME/RetroPie/retropiemenu/$f"
-    dest="$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/${moves[$f]}"
-    [[ -e "$src" ]] && mv -f "$src" "$dest"
-done
+        src="$HOME/RetroPie/retropiemenu/$f"
+        dest="${moves[$f]}"
+        if [[ -e "$src" ]]; then
+            if [[ "$dest" == "DISCARD" ]]; then
+                echo "Removing $f"
+                rm -f "$src"
+            else
+                target="$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest"
+                echo "Moving $f → $target"
+                mv -f "$src" "$target"
+            fi
+        fi
+    done
 }
 
 
@@ -229,7 +241,7 @@ function set_region_es() {
         ALL) cfgfile="/etc/emulationstation/es_systems.cfgFULL" ;;
     esac
 
-    dialog --infobox "...Updating to $region region..." 3 40 ; sleep 2
+    dialog --infobox "...Updating to $region REGION..." 3 40 ; sleep 2
     clear
 
     if [ -f "$cfgfile" ]; then
@@ -242,109 +254,120 @@ function set_region_es() {
 }
 
 function us_esnpb() {
-	dialog --infobox "...Updating..." 3 20 ; sleep 2
-	clear
-	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
-	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
-	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
-	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
-	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
-	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
-	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
-fi
-	restart_es
+    dialog --infobox "...Updating..." 3 20 ; sleep 2
+    clear
+
+    sudo cp "$HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsUS.cfg" /etc/emulationstation/es_systems.cfg
+
+    local base="$HOME/RetroPie/roms"
+    [[ -d "$HOME/addonusb" ]] && base="$HOME/RetroPie/localroms"
+
+    declare -A moves=(
+      ["playbox"]="playbox.OFF"
+      ["amiga4000"]="amiga4000.OFF"
+      ["kodi.OFF"]="kodi"
+      ["amiga1200.OFF"]="amiga1200"
+      ["wonderswancolor"]="wonderswancolor.OFF"
+    )
+
+    for src in "${!moves[@]}"; do
+        [[ -e "$base/$src" ]] && {
+            echo "Renaming $src → ${moves[$src]}"
+            mv -f "$base/$src" "$base/${moves[$src]}"
+        }
+    done
+
+    restart_es
 }
+
 
 function eu_esnpb() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
 	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systemsEU.cfg /etc/emulationstation/es_systems.cfg
-if [ -d $HOME/addonusb ]; then
-	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
-	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
-	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
-	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
-	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
-	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
-	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
-fi
-	restart_es
+
+    local base="$HOME/RetroPie/roms"
+    [[ -d "$HOME/addonusb" ]] && base="$HOME/RetroPie/localroms"
+
+    declare -A moves=(
+      ["playbox"]="playbox.OFF"
+      ["amiga4000"]="amiga4000.OFF"
+      ["kodi.OFF"]="kodi"
+      ["amiga1200.OFF"]="amiga1200"
+      ["wonderswancolor"]="wonderswancolor.OFF"
+    )
+
+    for src in "${!moves[@]}"; do
+        [[ -e "$base/$src" ]] && {
+            echo "Renaming $src → ${moves[$src]}"
+            mv -f "$base/$src" "$base/${moves[$src]}"
+        }
+    done
+
+    restart_es
+
 }
 
 function all_esnpb() {
 	dialog --infobox "...Updating..." 3 20 ; sleep 2
 	clear
 	sudo cp $HOME/PlayBox-Setup/.pb-fixes/es_cfg/es_systems.cfg /etc/emulationstation
-if [ -d $HOME/addonusb ]; then
-	mv -f $HOME/RetroPie/localroms/playbox $HOME/RetroPie/localroms/playbox.OFF
-	mv -f $HOME/RetroPie/localroms/amiga-aga $HOME/RetroPie/localroms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/localroms/kodi.OFF $HOME/RetroPie/localroms/kodi
-	mv -f $HOME/RetroPie/localroms/amiga1200.OFF $HOME/RetroPie/localroms/amiga1200
-	mv -f $HOME/RetroPie/localroms/genesis.OFF $HOME/RetroPie/localroms/genesis
-	mv -f $HOME/RetroPie/localroms/genesish.OFF $HOME/RetroPie/localroms/genesish
-#	mv -f $HOME/RetroPie/localroms/genh.OFF $HOME/RetroPie/localroms/genh
-	mv -f $HOME/RetroPie/localroms/tg16.OFF $HOME/RetroPie/localroms/tg16
-	mv -f $HOME/RetroPie/localroms/tg16cd.OFF $HOME/RetroPie/localroms/tg16cd
-	mv -f $HOME/RetroPie/localroms/odyssey2.OFF $HOME/RetroPie/localroms/odyssey2
-	mv -f $HOME/RetroPie/localroms/megacd.OFF $HOME/RetroPie/localroms/megacd
-	mv -f $HOME/RetroPie/localroms/megadrive.OFF $HOME/RetroPie/localroms/megadrive
-	mv -f $HOME/RetroPie/localroms/megadriveh.OFF $HOME/RetroPie/localroms/megadriveh
-#	mv -f $HOME/RetroPie/localroms/megh.OFF $HOME/RetroPie/localroms/megh
-	mv -f $HOME/RetroPie/localroms/pcengine.OFF $HOME/RetroPie/localroms/pcengine
-	mv -f $HOME/RetroPie/localroms/pcenginecd.OFF $HOME/RetroPie/localroms/pcenginecd
-	mv -f $HOME/RetroPie/localroms/videopac.OFF $HOME/RetroPie/localroms/videopac
-	mv -f $HOME/RetroPie/localroms/wonderswancolor $HOME/RetroPie/localroms/wonderswancolor.OFF
-	else
-	mv -f $HOME/RetroPie/roms/playbox $HOME/RetroPie/roms/playbox.OFF
-	mv -f $HOME/RetroPie/roms/amiga-aga $HOME/RetroPie/roms/amiga-aga.OFF
-	mv -f $HOME/RetroPie/roms/kodi.OFF $HOME/RetroPie/roms/kodi
-	mv -f $HOME/RetroPie/roms/amiga1200.OFF $HOME/RetroPie/roms/amiga1200
-	mv -f $HOME/RetroPie/roms/genesis.OFF $HOME/RetroPie/roms/genesis
-	mv -f $HOME/RetroPie/roms/genesish.OFF $HOME/RetroPie/roms/genesish
-#	mv -f $HOME/RetroPie/roms/genh.OFF $HOME/RetroPie/roms/genh
-	mv -f $HOME/RetroPie/roms/segacd.OFF $HOME/RetroPie/roms/segacd
-	mv -f $HOME/RetroPie/roms/tg16.OFF $HOME/RetroPie/roms/tg16
-	mv -f $HOME/RetroPie/roms/tg16cd.OFF $HOME/RetroPie/roms/tg16cd
-	mv -f $HOME/RetroPie/roms/odyssey2.OFF $HOME/RetroPie/roms/odyssey2
-	mv -f $HOME/RetroPie/roms/megacd.OFF $HOME/RetroPie/roms/megacd
-	mv -f $HOME/RetroPie/roms/megadrive.OFF $HOME/RetroPie/roms/megadrive
-	mv -f $HOME/RetroPie/roms/megadriveh.OFF $HOME/RetroPie/roms/megadriveh
-#	mv -f $HOME/RetroPie/roms/megh.OFF $HOME/RetroPie/roms/megh
-	mv -f $HOME/RetroPie/roms/pcengine.OFF $HOME/RetroPie/roms/pcengine
-	mv -f $HOME/RetroPie/roms/pcenginecd.OFF $HOME/RetroPie/roms/pcenginecd
-	mv -f $HOME/RetroPie/roms/videopac.OFF $HOME/RetroPie/roms/videopac
-	mv -f $HOME/RetroPie/roms/wonderswancolor $HOME/RetroPie/roms/wonderswancolor.OFF
-fi
+
+    local base="$HOME/RetroPie/roms"
+    [[ -d "$HOME/addonusb" ]] && base="$HOME/RetroPie/localroms"
+
+    declare -A moves=(
+      ["playbox"]="playbox.OFF"
+      ["amiga4000"]="amiga4000.OFF"
+      ["kodi.OFF"]="kodi"
+      ["amiga1200.OFF"]="amiga1200"
+      ["genesis.OFF"]="genesis"
+      ["genesish.OFF"]="genesish"
+      ["tg16.OFF"]="tg16"
+      ["tg16cd.OFF"]="tg16cd"
+      ["odyssey2.OFF"]="odyssey2"
+      ["megacd.OFF"]="megacd"
+      ["megadrive.OFF"]="megadrive"
+      ["megadriveh.OFF"]="megadriveh"
+      ["megh.OFF"]="megh"
+      ["pcengine.OFF"]="pcengine"
+      ["pcenginecd.OFF"]="pcenginecd"
+      ["videopac.OFF"]="videopac"
+      ["wonderswancolor"]="wonderswancolor.OFF"
+    )
+
+    for src in "${!moves[@]}"; do
+        [[ -e "$base/$src" ]] && {
+            echo "Renaming $src → ${moves[$src]}"
+            mv -f "$base/$src" "$base/${moves[$src]}"
+        }
+    done
+
 	restart_es
 }
-#	$HOME/PlayBox-Setup/.pb-fixes/_scripts/region.sh	
 
 
 function fix_bgm_py() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	if [ -d $HOME/addonusb ]; then
-	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
-	cd $HOME
-	sed -i 's+$HOME/RetroPie/roms+$HOME/RetroPie/localroms+g' $HOME/.config/esbgm/config.yaml
-	else
-	#cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
-	cp $HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml $HOME/.config/esbgm/
-	cd $HOME
-	sed -i 's+$HOME/RetroPie/localroms+$HOME/RetroPie/roms+g' $HOME/.config/esbgm/config.yaml
-	#sed -i 's+/home/pi/RetroPie/localroms+/home/pi/RetroPie/roms+g' .livewire.py
-	fi
-	done_message
+    dialog --infobox "...Fixing..." 3 17 ; sleep 1
+    clear
+
+    local cfg="$HOME/PlayBox-Setup/.pb-fixes/bgm/config.yaml"
+
+    # Older livewire bgm config
+    #cp $HOME/PlayBox-Setup/.pb-fixes/bgm/.livewire.py $HOME
+		
+	# Main esbgm config
+    [[ -d "$HOME/.config/esbgm" ]] && cp "$cfg" "$HOME/.config/esbgm/"
+
+    # Copy into new setups if those dirs exist
+    for target in "$HOME"/.local/lib/python3.*/site-packages/bgm \
+                  "$HOME"/myenv/lib/python3.*/site-packages/bgm; do
+        for dir in $target; do
+            [[ -d "$dir" ]] && cp "$cfg" "$dir/"
+        done
+    done
+
+    done_message
 }
 
 
@@ -357,49 +380,37 @@ function fix_slideshow() {
 
 
 function fix_roms() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	if [ -d $HOME/addonusb ]; then
-		echo
-		echo "You have enabled the External USB Script..."
-		echo "Using correct paths..."
-		echo
-		read -n 1 -s -r -p "Press any key to continue..."
-		echo
-		rm -rf $HOME/RetroPie/localroms/jukebox && rm -rf $HOME/RetroPie/localroms/jukebox.OFF && rm -rf $HOME/RetroPie/localroms/kodi && rm -rf $HOME/RetroPie/localroms/playbox && rm -rf $HOME/RetroPie/localroms/raspbian && rm -rf $HOME/RetroPie/localroms/piegalaxy && rm -rf $HOME/RetroPie/localroms/steam
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/localroms/ 
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/localroms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/localroms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/localroms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/localroms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/localroms/
-		echo
-		clear
-		echo "We need to apply REGION script now..."
-		echo
-		#read -n 1 -s -r -p "Press any key to continue..."
-		fix_region
-		echo
-	else
-		echo
-		echo "You have a RetroPie default setup (No External USB). Applying..."
-		sleep 3
-		echo
-		rm -rf $HOME/RetroPie/roms/jukebox && rm -rf $HOME/RetroPie/roms/jukebox.OFF && rm -rf $HOME/RetroPie/roms/kodi && rm -rf $HOME/RetroPie/roms/playbox && rm -rf $HOME/RetroPie/roms/raspbian && rm -rf $HOME/RetroPie/roms/piegalaxy && rm -rf $HOME/RetroPie/roms/steam
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/jukebox.OFF $HOME/RetroPie/roms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/kodi $HOME/RetroPie/roms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/playbox.OFF $HOME/RetroPie/roms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/raspbian $HOME/RetroPie/roms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/steam $HOME/RetroPie/roms/
-		rsync -avh $HOME/PlayBox-Setup/.pb-fixes/roms/piegalaxy $HOME/RetroPie/roms/exit
-		echo
-		clear
-		echo "We need to apply REGION script now..."
-		echo
-		#read -n 1 -s -r -p "Press any key to continue..."
-		fix_region
-	fi
+    dialog --infobox "...Fixing..." 3 17 ; sleep 1
+    clear
+
+    local base="$HOME/RetroPie/roms"
+    if [[ -d "$HOME/addonusb" ]]; then
+        echo "External USB Script enabled — using localroms..."
+        base="$HOME/RetroPie/localroms"
+        read -n 1 -s -r -p "Press any key to continue..."
+    else
+        echo "Default RetroPie setup — using roms..."
+        sleep 3
+    fi
+    echo
+
+    # Clean out old dirs
+    for dir in jukebox jukebox.OFF kodi playbox playbox.OFF raspbian piegalaxy steam; do
+        rm -rf "$base/$dir"
+    done
+
+    # Sync replacements
+    for src in jukebox.OFF kodi playbox.OFF raspbian steam piegalaxy; do
+        rsync -avh "$HOME/PlayBox-Setup/.pb-fixes/roms/$src" "$base/"
+    done
+
+    echo
+    clear
+    echo "We need to apply REGION script now..."
+    echo
+    fix_region
 }
+
 
 
 function fix_control() {
@@ -420,20 +431,33 @@ function git_rs() {
 
 
 function themes_rs() {
-	dialog --infobox "...Fixing..." 3 17 ; sleep 1
-	clear
-	cd $HOME/code
-	sudo chown pi:pi -R /etc/emulationstation/themes
-	git clone --depth 1 https://github.com/2play/2Play-v2-Themes.git
-	cd 2Play-v2-Themes/
-	rsync -urv --delete --exclude '.git' . /etc/emulationstation/themes/
-	rm /etc/emulationstation/themes/*.*
-	cd ..
-	rm -rf 2Play-v2-Themes/
-	cd $HOME
-	echo
-	echo "[OK DONE!...]"
-	restart_es
+    dialog --infobox "...Fixing..." 3 17 ; sleep 1
+    clear
+
+    local repo="https://github.com/2play/2Play-v2-Themes.git"
+    local tmpdir="$HOME/code/2Play-v2-Themes"
+    local target="/etc/emulationstation/themes"
+
+    # Ensure ownership
+    sudo chown -R pi:pi "$target"
+
+    # Clone fresh copy
+    git -C "$HOME/code" clone --depth 1 "$repo"
+
+    # Sync into themes dir, excluding .git
+    rsync -urv --delete --exclude '.git' "$tmpdir/" "$target/"
+
+    # Remove stray files (only non-directories at top level)
+    find "$target" -maxdepth 1 -type f -delete
+
+    # Cleanup
+    rm -rf "$tmpdir"
+
+    echo
+    local count=$(find "$target" -mindepth 1 -maxdepth 1 -type d | wc -l)
+	echo "[OK DONE! Synced $count theme directories]"
+	sleep 2
+    restart_es
 }
 
 
@@ -1175,7 +1199,7 @@ if [ "$vffmpeg" != "git-2024-03-26-f872b19" ]; then
 	cd ffmpeg/;
 	#./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal --enable-vulkan;
 	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared;
-	make -j4;
+	make -j$(nproc);
 	sudo make install;
 	cd $HOME/code/;
 	sudo ldconfig;
@@ -1189,9 +1213,7 @@ fi
 echo
 ##Latest RA from source
 git clone --depth 1 https://github.com/libretro/RetroArch.git RetroArch
-##Retroarch 1.14
-#wget https://github.com/libretro/RetroArch/archive/refs/tags/v1.14.0.tar.gz
-#tar -xvf v1.14.0.tar.gz
+
 cd RetroArch*/
 #
 # Check sources.list if extra space after # and fix as needed
@@ -1200,9 +1222,10 @@ sudo sed -i 's|#deb-src|deb-src|g' /etc/apt/sources.list
 sudo apt update
 sudo apt build-dep retroarch -y
 sudo sed -i 's|^deb-src|#deb-src|g' /etc/apt/sources.list
+
 ##2P BT With GLES3
 CFLAGS="-march=native" CXXFLAGS="-march=native" ./configure --disable-opengl1 --disable-videocore --enable-udev --enable-kms --enable-x11 --enable-egl --enable-vulkan --disable-sdl --enable-sdl2 --disable-oss --disable-al --disable-jack --disable-qt --enable-opengles --enable-opengles3 --enable-opengles3_1 --enable-opengles3_2
-make -j4
+make -j$(nproc)
 if [ -f "retroarch" ]; then
 	mv retroarch retroarchNEW
 	sudo cp retroarchNEW /opt/retropie/emulators/retroarch/bin/
@@ -1280,7 +1303,7 @@ mkdir build
 cd build
 #cmake -DCMAKE_BUILD_TYPE=Debug  ..
 cmake -DCMAKE_BUILD_TYPE=Release  ..
-make -j4
+make -j$(nproc)
 mv -v build/bin/* bin/
 chmod 755 bin/benchmark-all.py
 else
@@ -1348,10 +1371,10 @@ clear
 # Updates by 2Play! 														   # 
 # Date: 04.2026
 ################################################################################
-# Purpose: Creates a SAVES directory at $HOME/RetroPie/saves                        #
+# Purpose: Creates a SAVES directory at $HOME/RetroPie/saves                   #
 # and configures all retroarch emulators with their own config files           #
-# to store savefiles at $HOME/RetroPie/saves/{system_name}                         #
-# and savestate files at $HOME/Retropie/saves/{system_name}/states                 #
+# to store savefiles at $HOME/RetroPie/saves/{system_name}                     #
+# and savestate files at $HOME/Retropie/saves/{system_name}/states             #
 ################################################################################
 
 CONFIGS_DIR=/opt/retropie/configs
@@ -1423,7 +1446,7 @@ echo "
       fi
 
       # Check if savefile & savestate config exists
-      if grep -E 'savefile_directory|savestate_directory' "${config_file}"; then
+      if grep -qE 'savefile_directory|savestate_directory' "${config_file}"; then
         echo "Overwriting configs..."
         sed -i "s|savefile_directory.*|${SAVE_FILE_CONFIG}/${system_name}\"|" "${config_file}"
 		sed -i "s|savestate_directory.*|${SAVE_STATE_CONFIG}/${system_name}/states\"|" "${config_file}"
@@ -1436,12 +1459,15 @@ savestate_directory = \"$HOME/RetroPie/saves/'${system_name}'/states\" \
 	  fi
 	  
 	  # Move existing saves to the master saves rom directory
-	  if [[ ! -d daphne ]]; then
-	  find "${ROMS_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/"
-	  find "${ROMS_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[0-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${SAVES_DIR}/${system_name}/states/"
+	  if [[ "$system_name" != "daphne" ]]; then
+	  find "$ROMS_DIR/$system_name" -regextype posix-egrep \
+	  -regex ".*\.(srm|auto|state.auto|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm|dat)$" \
+	  -type f -exec mv -t "$SAVES_DIR/$system_name/" {} +
+	  find "$ROMS_DIR/$system_name/states" -regextype posix-egrep \
+	  -regex ".*\.(state[0-9]|state.auto|state)$" \
+	  -type f -exec mv -t "$SAVES_DIR/$system_name/states/" {} +
 	  fi	
-	  
-  done
+	done
 	done_message
 }
 
@@ -1489,31 +1515,49 @@ function rpc80_svoff() {
 		continue
 	fi
 
-	# Check if savefile & savestate config exists
+	# Remove duplicate savefile/savestate configs if present
 	if grep -qE 'savefile_directory|savestate_directory' "$config_file"; then
 		echo "Removing config entries..."
-		#sed -i "s|savefile_directory.*||" "${config_file}"
-		#sed -i "s|savestate_directory.*||" "${config_file}"
 		sed -i '/savefile_directory.*/d' "$config_file"
 		sed -i '/savestate_directory.*/d' "$config_file"
-		sed -i '/<->.*/d' "${config_file}"
-	  fi
-	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savefile_directory/d' {} 2>/dev/null \;
-	  #find . -type d \( -name all -o -name amiga \) -prune -false -o -name "/opt/retropie/configs/${system_name}/retroarch.cfg" -exec sed -i '/savestate_directory/d' {} 2>/dev/null \;
-	  
-    # Move existing saves to the systems roms directory
-    if [[ ! -d daphne ]]; then
-		#find "${SAVES_DIR}/${system_name}" -regextype posix-egrep -regex ".*\.(srm|auto|fs|hi)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/"
-		find "$SAVES_DIR/$system_name" -type f \( -name "*.srm" -o -name "*.auto" -o -name "*.fs" -o -name "*.hi" \) -exec mv -t "$ROMS_DIR/$system_name/" {} +
-		#find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "${ROMS_DIR}/${system_name}/states/"
-		find "$SAVES_DIR/$system_name/states" -type f \( -name "state" -o -name "state.auto" -o -name "state[0-9]" \) -exec mv -t "$ROMS_DIR/$system_name/states/" {} +
-		#find "${SAVES_DIR}/${system_name}/states" -regextype posix-egrep -regex ".*\.(state[1-9]|state.auto|state)$" -type f -print0 | xargs -0 mv -t "/opt/retropie/configs/all/retroarch/states/"
-		find "$SAVES_DIR/$system_name/states" -type f \( -name "state" -o -name "state.auto" -o -name "state[0-9]" \) -exec mv -t "/opt/retropie/configs/all/retroarch/states/" {} +
+		sed -i '/<->.*/d' "$config_file"
 	fi
-	  
+
+	# Move savestates back into system states dir or RetroArch default path (if enabled in retroarch.cfg)
+	global_cfg="/opt/retropie/configs/all/retroarch.cfg"
+	state_dir=""
+
+	# Check savestates_in_content_dir (quoted or unquoted true/false)
+	if grep -qE 'savestates_in_content_dir *= *"?true"?' "$global_cfg"; then
+		# true → use global retroarch path
+		state_dir=$(grep -E '^savestate_directory' "$global_cfg" | awk -F'"' '{print $2}')
+	else
+		# false → use system ROMs path
+		state_dir="$ROMS_DIR/$system_name/states"
+	fi
+
+	if [[ "$system_name" != "daphne" && -n "$state_dir" ]]; then
+    # Count files before moving
+    moved_files=$(find "$SAVES_DIR/$system_name" -type f | wc -l)
+
+    # Move savefiles back
+    find "$SAVES_DIR/$system_name" -regextype posix-egrep \
+      -regex ".*\.(srm|auto|state.auto|ldci|hi|dsv|lst.nvmem|lst.eeprom|nvmem|nvmem2|brm|dat)$" \
+      -type f -exec mv -t "$ROMS_DIR/$system_name/" {} +
+
+    # Move savestates into whichever directory RetroArch is configured to use
+    find "$SAVES_DIR/$system_name/states" -type f \
+      \( -name "state" -o -name "state.auto" -o -name "state[0-9]" \) \
+      -exec mv -t "$state_dir" {} +
+
+    # Report how many files were moved
+    echo "Moved $moved_files save files for $system_name"
+	fi
+
   done
 	# Delete system saves saves directory
 	[ -d "$SAVES_DIR" ] && rm -rf "$SAVES_DIR"
+	
 	done_message	
 }
 
@@ -2789,28 +2833,44 @@ function cl_cli_hist() {
 
 
 function cl_wifi() {
-	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
-	clear
-	if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then sudo rm /etc/wpa_supplicant/wpa_supplicant.conf;
-		#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
-		sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-		else
-		#sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.BAK /etc/wpa_supplicant/wpa_supplicant.conf;
-		sudo rm /etc/NetworkManager/system-connections/*.nmconnection
-		echo "No WPA_Supplicant conflict found! Wi-Fi reset completed."
-	fi
-	done_message
-	reboot_message
+    dialog --infobox "...Cleaning..." 3 20 ; sleep 1
+    clear
+
+    # Remove WPA supplicant if present
+    if [[ -f /etc/wpa_supplicant/wpa_supplicant.conf ]]; then
+        sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+    else
+        echo "No WPA_Supplicant conflict found!"
+    fi
+
+    # Always remove NetworkManager connections
+    sudo rm -f /etc/NetworkManager/system-connections/*.nmconnection
+
+    echo "Wi-Fi reset completed."
+    done_message
+    reboot_message
 }
 
 
 function cl_sysncache() {
-	dialog --infobox "...Cleaning..." 3 20 ; sleep 1
-	clear
-	sudo apt autoremove --purge -y && sudo apt clean
-	done_message
-}
+	dialog --infobox "...System Cleanup..." 3 25 ; sleep 1
+    clear
 
+    echo "Removing unused packages..."
+    sudo apt autoremove --purge -y
+
+    echo "Cleaning package cache..."
+    sudo apt autoclean
+
+    echo "Vacuuming system logs (keep last 15 days)..."
+    sudo journalctl --vacuum-time=15d
+
+    echo "Checking cache sizes..."
+    sudo du -sh /var/cache/* 2>/dev/null
+
+    echo "[OK DONE! System cleanup completed]"
+    done_message
+}
 
 
 function sys_pbt() {
@@ -2844,7 +2904,7 @@ function sys_pbt() {
 		   #3) hide_uboot  ;;
            3) partitions  ;;
 		   4) fold_sz  ;;
-           5) freemem  ;;
+           5) mem_status  ;;
            6) os_info  ;;
            7) os_update  ;;
            8) sysinfo  ;;
@@ -2863,13 +2923,33 @@ function fschk_bt() {
 	clear
 	echo
 	#echo "Please be patient..."
-	#echo "Screen will go black, Pi's green activity led will be on while filsystem check. Once completed your system will reboot as normal."
-	echo -e 'The old way is deprecated.\nI have applied to run a filsystem check automatically at every 50th boot.\n\nIf you have warning or other fs system problems its REQUIRED to do a manual check or using gparted to CHECK the rootfs partition on another host linux system or live distro...\n\nCheck in Discord:\n**How to Scan-Fix your linux file system (Pi or similar)**\nUPDATE 28.05.2021\n'
-	#sudo tune2fs -l /dev/sda2* | grep "Maximum mount count:"
-	#sudo tune2fs -l /dev/mmcblk0p2* | grep "Maximum mount count:"
-	read -n 1 -s -r -p "Press any key to continue"
+	#echo "Screen will go black, activity led will be on while filsystem check. Once completed your system will reboot as normal."
+	echo -e "Filesystem check policy:\n"
+    echo -e "• Automatic fsck runs every 50th boot (via tune2fs).\n"
+    echo -e "• If warnings or errors appear, run a manual check or use gparted on another host.\n"
+    echo -e "• Old /forcefsck method is deprecated.\n"
+    echo -e "\nFor details, see Discord guide:\nHow to Scan-Fix your Linux filesystem (Pi or similar)\nUpdate 28.05.2021\n"
+
+	fschk_status
 	#sleep 5
 	#sudo touch /forcefsck && sudo reboot
+}
+
+function fschk_status() {
+    clear
+    echo "Filesystem check status (ext4 partitions):"
+    echo
+
+    # Loop through all ext4 devices listed in /etc/fstab
+    awk '$3 == "ext4" {print $1}' /etc/fstab | while read -r dev; do
+        if [[ -b "$dev" ]]; then
+            echo "Device: $dev"
+            sudo tune2fs -l "$dev" | grep -E "Mount count:|Maximum mount count:"
+            echo
+        fi
+    done
+
+    read -n 1 -s -r -p "Press any key to continue"
 }
 
 
@@ -2895,7 +2975,6 @@ function partitions() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
 	df -h
-	echo
 	pausepress
 }
 
@@ -2903,30 +2982,62 @@ function partitions() {
 function fold_sz() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
+	
+	disk_usage_top /home/pi/RetroPie/roms
+
+	disk_usage_top /home/pi/RetroPie/BIOS
+	
+	disk_usage_top
+	pausepress
+}
+
+function disk_usage_top() {
+    target=${1:-/}   # default to root if no argument
+    echo "Top disk usage in $target:"
+    du -h --max-depth=1 "$target" | sort -hr | head -20 | more -d
+	
 	#With Subfolders
-	du -h | sort -hr | column | more -d
+	#du -h | sort -hr | column | more -d
+	
 	#Only Top Folder Names
 	#du -h --max-depth=1 | sort -hr | column | more -d
-	echo
-	pausepress
+	
+	#Shows the top 20 largest entries.
+	#du -h --max-depth=1 / | sort -hr | head -20
 }
 
 
 function freemem() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 1
 	clear
-	free mem
-	echo
+	free -h
+	#free mem
 	pausepress
+	
+	#live updating memory usage every second. Set press any key to stop (see temp)
+	#watch -n 1 free -h
+	#sleep 2
+	#read -t 0.1 -n 1 key && break
+
+}
+
+function mem_status() {
+    clear
+    echo "Memory usage:"
+    free -h
+    echo
+    echo "Top 5 memory-hungry processes:"
+    ps -eo pid,comm,%mem,%cpu --sort=-%mem | head -n 6
+    pausepress
 }
 
 
 function os_info() {
 	dialog --infobox "...Checking..." 3 20 ; sleep 2
 	clear
-	uname -snrmo
-	lsb_release -ds
-	echo
+	#uname -snrmo
+	#lsb_release -ds
+	check_and_run neofetch | lolcat
 	pausepress
 }
 
@@ -3057,8 +3168,6 @@ function cores_status() {
         echo
         echo "Average frequency across $count core(s): $avg MHz"
     fi
-
-    echo
     pausepress
 }
 
@@ -3067,7 +3176,7 @@ function cores_status() {
 
 function ratio_vt() {
 #VIDEO+ RATIO & RESOLUTION For Pi Boards, By 2Play!
-# 08.10.2020 - 04.2026
+# 08.10.2020 - 0x.2026
 
 infobox=""
 infobox="${infobox}\n"
