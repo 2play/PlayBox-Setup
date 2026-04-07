@@ -1,6 +1,6 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.2026"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.04.2026"
 BACKTITLE="PLAYBOX PROJECT"
 
 clear
@@ -19,10 +19,12 @@ function post_fix_update() {
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
             - "" \
 			CLEAN " - CLEAN IMAGE: UPDATE & FIXES " \
-			- "    (Apply After A Clean Burn OR To Restore All To Latest Clean State)" \
-			- "" \
+			- "    (Apply After A Clean Burn)" \
+			- "    (... OR To Restore All To Latest Clean State)" \
+			""      "" \
 			NORMAL " - NORMAL UPDATE: POST RELEASE UPDATES & FIXES " \
             - "    (Applies Post Release Updates) " \
+			""      "" \
 			2>&1 > /dev/tty)
 
 	case "$choice" in
@@ -473,16 +475,12 @@ fi
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
 sudo chown pi:pi /opt/retropie/emulators/openbor/*
-
 # Remove old targets
 sudo rm -f /opt/retropie/emulators/openbor/{Logs,Paks,Saves,ScreenShots}
-
 # Recreate symlinks
 ln -sfn /opt/retropie/configs/openbor/{Logs,Saves,ScreenShots} /opt/retropie/emulators/openbor/
 ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
-
 echo "OpenBOR cleanup complete."
-
 
 #Symbolic links to main /usr/local/bin, 
 #Check if myenv exists:
@@ -500,7 +498,7 @@ function global_shader() {
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Enable or Disable!" 25 75 20 \
             - "*** GLOBAL RETRO SHADER ***" \
-            - "" \
+            ""      "" \
 			1 " -  [ON]  Global Retro Shader By Chris Kekrides or 2P! " \
             2 " -  [OFF] Global Retro Shader By Chris Kekrides or 2P! " \
 			2>&1 > /dev/tty)
@@ -662,11 +660,22 @@ function enable_core_cfg() {
 
 function restart_es() {
     clear
-	echo "[Restarting EmulationStation...]"
+    echo "[Restarting EmulationStation...]"
     sleep 2
     pkill -f emulationstation
-    nohup emulationstation --no-splash &>/dev/null &
+
+    # Wait until ES is really gone
+    while pgrep -f emulationstation >/dev/null; do
+        sleep 1
+    done
+
+    # Relaunch with nohup, log output for debugging
+    nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
+    disown
+
+    echo "[EmulationStation restarted]"
 }
+
 
 function done_message() {
     clear
