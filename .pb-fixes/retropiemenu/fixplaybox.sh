@@ -3,7 +3,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
-
+BACKTITLE="PLAYBOX PROJECT"
 pb_version="PlayBox ToolKit Version 2.0 Dated 05.04.2026"
 
 infobox=""
@@ -31,7 +31,6 @@ dialog
 --title "PLAYBOX PROJECT - TOOLKIT" \
 --msgbox "${infobox}" 35 110
 
-BACKTITLE="PLAYBOX PROJECT"
 
 function main_menu() {
     local choice
@@ -40,15 +39,15 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "$pb_version" 25 75 20 \
             - "*** PLAYBOX TOOLKIT - SELECTIONS ***" \
-            - "" \
+            ""      "" \
 			1 " - FIXES & SETTINGS - OPTIONS MENU " \
             2 " - TOOLS & TWEAKS   - OPTIONS MENU " \
             3 " - CLEANUP TOOLS    - OPTIONS MENU " \
             4 " - SYSTEM TOOLS     - OPTIONS MENU " \
             5 " - THANK YOU! - CREDITS " \
-			- "" \
+			""      "" \
 			6 " - UPDATE MY PLAYBOX TOOLKIT/SETUP! " \
-			- "" \
+			""      "" \
             7 " - POWEROFF MY SYSTEM " \
             8 " - RESTART  MY SYSTEM" \
             2>&1 > /dev/tty)
@@ -81,7 +80,7 @@ function fixes_pbt() {
             --ok-label OK --cancel-label Back \
             --menu "Apply the fix(es) you need..." 25 75 20 \
             - "*** PLAYBOX FIXES SELECTIONS ***" \
-			- "	" \
+			""      "" \
 			1 " - Fix The PlayBox RetropieMenu " \
             2 " - Select PlayBox Systems REGION Group (US/EU-JP/ALL) " \
 			3 " - Repair PlayBox Background Music Mute File [OFF] " \
@@ -199,6 +198,7 @@ dialog --backtitle "Region based ES Systems" \
             --menu "Select the REGION setup you want to apply..." 25 75 20 \
             - "*** SHOW REGION SYSTEMS SETUP ***" \
             0 " - Show Which Region Is Active " \
+			""      "" \
             - "*** REGION SYSTEM OPTIONS with PLAYBOX ***" \
             1 " - US\JP: Genesis, SegaCD, TG16\CD, Odyssey2 " \
             2 " - EU\JP: Mega Drive, MegaCD, PC Engine\CD, Videopac " \
@@ -458,8 +458,9 @@ function themes_rs() {
     echo
     local count=$(find "$target" -mindepth 1 -maxdepth 1 -type d | wc -l)
 	echo "[OK DONE! Synced $count theme directories]"
-	sleep 2
-    restart_es
+	pausepress
+	
+	restart_es
 }
 
 
@@ -473,7 +474,7 @@ function def_audio_out() {
             --ok-label OK --cancel-label Back \
             --menu "Let's set your default Audio Out device..." 25 75 20 \
             - "*** DEFAULT AUDIO OUT SELECTIONS ***" \
-			- "	" \
+			""      "" \
            1 " - Set Default Audio Out: HDMI " \
            2 " - Set Default Audio Out: 3.5mm Jack " \
            2>&1 > /dev/tty)
@@ -514,19 +515,24 @@ function apps_pbt() {
             --ok-label OK --cancel-label Back \
             --menu "Run the application you need..." 25 75 20 \
             - "*** PLAYBOX TOOLS & TWEAKS SELECTIONS ***" \
-			- "	" \
+			""      "" \
 			1 " - Take An HD ScreenShot " \
+			""      "" \
 			2 " - Change ES Gamelist View - 2Play!'s Themes Only " \
 		    3 " - RetroArch Audio & Visual Options " \
 			4 " - Hide or Show an ES System " \
+			""      "" \
 			5 " - 2Play!'s PlayBox ES Music Selections " \
+			""      "" \
 			6 " - Skyscraper - Scraper Tool By Lars Muldjord " \
-		    7 " - MESA Driver & Vulkan RetroArch Tool" \
-		    8 " - PiKISS By Jose Cerrejon [OFF] " \
+			7 " - MESA Driver & Vulkan RetroArch Tool" \
+			8 " - PiKISS By Jose Cerrejon [OFF] " \
 		    9 " - Single Saves Directory Tool By RPC80 " \
 		   10 " - SD/USB Storage Benchmark Tool " \
+		   ""      "" \
 		   11 " - Emulators: Custom Compiles From Source Tool " \
 		   12 " - Emulators: Tweaks & Options " \
+		   ""      "" \
 		   13 " - Safe Shutdown Case Scripts Tool [OFF] " \
 		   14 " - Swap Desktop Enviroments Tool (If More Than MATE Installed) [OFF] " \
 		   2>&1 > /dev/tty)
@@ -582,11 +588,11 @@ function swap_theme_view() {
             --ok-label OK --cancel-label Back \
             --menu "Which gamelist view would you like to apply on my themes?" 25 75 20 \
             - "*** 2PLAY! THEME VIEW SELECTIONS ***" \
-			- "" \
+			""      "" \
 			1 "Single Window Art:  Image then Video " \
 			2 "Dual   Window Art:  Image Under The Gamelist + Big Video " \
 			3 "Dual   Window Art:  Long Gamelist, Image Next to Video " \
-			- "" \
+			""      "" \
 			4 "ES Systems Browsing: Vertical " \
 			5 "ES Systems Browsing: Horizontal " \
 			2>&1 > /dev/tty)
@@ -658,24 +664,24 @@ function ra_options_tool() {
             --menu "Select a RetroArch Option you would like to apply on PlayBox." 25 75 20 \
             - "*** STATUS DASHBOARD ***" \
             0 " - See Current Status Of All Below Settings " \
-            - "" \
+            ""      "" \
 			- "*** AUDIO SETTINGS SELECTIONS ***" \
             1 " - RetroArch Volume Increase By 25% " \
             2 " - RetroArch Volume Increase By 50% " \
             3 " - RetroArch Volume Increase By 80% " \
             4 " - RetroArch Volume Increase By 100% " \
 			5 " - Set The Default RetroArch Level " \
-			- "" \
+			""      "" \
 			- "*** SHADERS SELECTIONS ***" \
             6 " - Disable The Global Retro Shader " \
             7 " - Enable The Global Retro Shader " \
-			- "" \
+			""      "" \
 			- "*** OVERLAY SELECTIONS ***" \
 		    8 " - Enable A System Preset Overlay " \
             9 " - Disable A System Preset Overlay " \
 		   10 " - Enable All System Preset Overlays " \
            11 " - Disable All System Preset Overlays " \
-			- "" \
+			""      "" \
 			- "*** OVERLAY SPECIALS ON PLAYBOX v2 OR PER-ROM SELECTIONS ***" \
 		   12 " - Enable Arcade Cabinet Overlay (Arcade) " \
 		   13 " - Disable Arcade Cabinet & Enable Per-Rom Overlay " \
@@ -683,7 +689,7 @@ function ra_options_tool() {
 		   15 " - Disable Atomiswave Cabinet & Enable Per-Rom Overlay " \
 		   16 " - Enable Naomi Cabinet Overlay  " \
 		   17 " - Disable Naomi Cabinet & Enable Per-Rom Overlay " \
-			- "" \
+			""      "" \
 			- "*** VIDEO SMOOTH SELECTIONS ***" \
 		   18 " - Enable Video Smooth Option  - Specific System " \
            19 " - Disable Video Smooth Option - Specific System " \
@@ -995,19 +1001,19 @@ dialog --backtitle " - Hide A System from EmulationStation Systems" \
             - "*** HIDE RETROPIE SYSTEM SELECTIONS ***" \
             1 " - Hide The RetroPie/Options Menu " \
             2 " - Show The RetroPie/Options Menu " \
-            - "" \
+            ""      "" \
             - "*** HIDE A SPECIFIC SYSTEM SELECTIONS ***" \
 		    3 " - Hide A System... " \
             4 " - Show A System... " \
-            - "" \
+            ""      "" \
             5 " - Show/Restore ALL HIDDEN Systems" \
 		   2>&1 > /dev/tty)
 
         case "$choice" in
             1) toggle_system retropiemenu hide ;;
 			2) toggle_system retropiemenu show ;;
-			3) read -p "System to hide: " sname; toggle_system "$sname" hide ;;
-			4) read -p "System to show: " sname; toggle_system "$sname" show ;;
+			3) clear; read -p "System to hide: " sname; toggle_system "$sname" hide ;;
+			4) clear; read -p "System to show: " sname; toggle_system "$sname" show ;;
 			5) show_all_systems ;;
             -) none ;;
             *) break ;;
@@ -1066,11 +1072,12 @@ function music_2p() {
             --ok-label OK --cancel-label Back \
             --menu "Select the type of music you would like to apply." 25 75 20 \
             - "*** 2Play!'s PLAYBOX ES MUSIC SELECTIONS ***" \
-			- "" \
+			""      "" \
             1 "Arcades 80's Selection " \
             2 "Cool Synthwave Tracks " \
             3 "Smooth Royalty Free Tracks " \
-            4 "I want to mix all 'n' enjoy pure retro music!!! " \
+			""      "" \
+            4 "I Want To Mix All 'n' Enjoy Pure Retro Music!!! " \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1132,7 +1139,7 @@ function skyscraper() {
 	echo
 	read -n 1 -s -r -p "Press any key to continue..."
 	echo
-	check_and_run Skyscraper
+	Skyscraper
 }
 
 
@@ -1148,8 +1155,9 @@ function mesa_vk() {
             --ok-label OK --cancel-label Back \
             --menu "Let's do some magic..." 25 75 20 \
             - "*** MESA & VULKAN SELECTIONS ***" \
-			- "" \
+			""      "" \
            1 " - Update PlayBox MESA & Vulkan Drivers: Latest Stable Version " \
+		   ""      "" \
            2 " - Update PlayBox RetroArch Vulkan/GLES: Latest Stable Version " \
 		   3 " - Default RetroArch To Use Vulkan/GLES or RPie Stock " \
 		   2>&1 > /dev/tty)
@@ -1339,6 +1347,7 @@ function rpc80_saves() {
             --ok-label OK --cancel-label Back \
             --menu "Based on original RPC80 Saves Script. Let's do it..." 25 75 20 \
             - "*** RPC80's SAVES SINGLE DIR OPTIONS MENU ***" \
+			""      "" \
            1 " - Enable The Saves Single Directory " \
            2 " - Disable The Saves Single Directory " \
            2>&1 > /dev/tty)
@@ -1620,7 +1629,7 @@ function emus_compile() {
             --ok-label OK --cancel-label Back \
             --menu "Choose the custom emulator you want to compile and apply..." 25 75 20 \
             - "*** EMULATORS COMPILE MENU SELECTIONS ***" \
-			- "	" \
+			""      "" \
 			1 "Amiberry Update or Compile GitHub Options " \
 			2 "PPSSPP Compile GitHub Latest Release " \
 			2>&1 > /dev/tty)
@@ -1642,10 +1651,11 @@ function amiberry_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which amiberry binary you want to compile or install?" 25 75 20 \
             - "*** AMIBERRY UPDATE SELECTIONS ***" \
+			""      "" \
 			1 "Amiberry: Latest Official Stable Release " \
 			2 "Amiberry: Compile From GitHub Source " \
 			3 "Amiberry: Toggle Default Binary (NEW or ORIG) " \
-			- "" \
+			""      "" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1823,9 +1833,10 @@ function ppsspp_git() {
             --ok-label OK --cancel-label Exit \
             --menu "Which PPSSPP binary you want: Latest Compile or RPie binary?" 25 75 20 \
             - "*** PPSSPP UPDATE SELECTIONS ***" \
+			""      "" \
 			1 "PPSSPP: Compile From GitHub Source " \
 			2 "PPSSPP: Toggle Default Binary (NEW or ORIG) " \
-			- "" \
+			""      "" \
             2>&1 > /dev/tty)
 
         case "$choice" in
@@ -1895,7 +1906,7 @@ clear
             --ok-label OK --cancel-label Back \
             --menu "Apply the tweak(s) you need..." 25 75 20 \
             - "*** EMULATOR TWEAKS SELECTIONS ***" \
-			- "	" \
+			""      "" \
 			1 " - Virtual Boy Core: 3D Anaglyph Display Options " \
 			2 " - GameBoy Core: Original or Enhanced GameBoy Display Options " \
 			3 " - PPSSPP: Exits To ES or PPSSPP Menu " \
@@ -1928,7 +1939,7 @@ function vboy_3d() {
             --ok-label OK --cancel-label Back \
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** VIRTUALBOY CORE SELECTIONS ***" \
-			- "	" \
+			""      "" \
            1 " - Disable PlayBox 3D Anaglyph Display Option " \
            2 " - Enable PlayBox 3D Anaglyph Display Option " \
            2>&1 > /dev/tty)
@@ -1973,7 +1984,7 @@ function gboy_enh() {
             --ok-label OK --cancel-label Back \
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** GAMEBOY CORE SELECTIONS ***" \
-			- "	" \
+			""      "" \
            0 " - Show Current Cetting... " \
            1 " - Enable GameBoy Original (B/W) Display " \
            2 " - Enable GameBoy Enhanced (COLOR) Display " \
@@ -2038,9 +2049,9 @@ function ppsspp_exit() {
             --ok-label OK --cancel-label Back \
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** PPSSPP STANDALONE EMULATOR SELECTIONS ***" \
-			- "	" \
+			""      "" \
            0 " - Show PPSSPP Emu Exit Status: Exit to ES or to Emulator Menu " \
-           - "	" \
+           ""      "" \
 		   1 " - PPSSPP Emulator Exits to ES " \
            2 " - PPSSPP Emulator Exits to PPSSPP Menu " \
            2>&1 > /dev/tty)
@@ -2095,9 +2106,9 @@ function n64_res() {
             --ok-label OK --cancel-label Back \
             --menu "Let's apply your favorable choice..." 25 75 20 \
             - "*** N64 CORE LOW OR HIGH RESOLUTION OPTIONS MENU SELECTIONS ***" \
-			- "	" \
+			""      "" \
            0 " - Show N64 Current Resolution Setting " \
-		   - "	" \
+		   ""      "" \
            1 " - Set Native Low-Res (320x240) To N64 Lr-Core " \
            2 " - Set Native Hi-Res (640x480) To N64 Lr-Core " \
            2>&1 > /dev/tty)
@@ -2151,19 +2162,19 @@ function amiga_models() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " AMIGA MODELS OPTIONS MENU " \
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Model You Want to Use For..." 25 75 20 \
-            - "	" \
+            ""      "" \
 			0 " - Show Which AMIGA System Model is set... " \
-			- "	" \
+			""      "" \
 			- "*** AMIGA SPLIT SYSTEM FOLDER MODEL OPTIONS ***" \
-			- "	" \
+			""      "" \
 			1 " - Set Amiga 1200 (2MB Chip RAM + 8MB Fast RAM) " \
 			2 " - Set Amiga 4000/040 (2MB Chip RAM + 8MB Fast RAM) " \
 			3 " - Set Amiga 500+ (1MB Chip RAM) " \
 			4 " - Set Amiga CD32 " \
 			5 " - Set Amiga CDTV " \
-			- "	" \
+			""      "" \
 			- "*** AMIGA SINGLE SYSTEM FOLDER OPTION ***" \
-			- "	" \
+			""      "" \
 			6 " - Set Amiga System To AUTO (If You Use Amiga ONLY Roms Folder " \
 			2>&1 > /dev/tty)
 
@@ -2257,17 +2268,17 @@ function amiga_choices() {
             --ok-label OK --cancel-label Back \
             --menu "Select The Amiga Setup You Want to Apply..." 25 75 20 \
             - "*** AMIGA - PLAYBOX SETUP OPTIONS MENU SELECTIONS ***" \
-			- "	" \
+			""      "" \
            0 " - Show Τhe Status Οf Βelow Οptions " \
-			- "	" \
+			""      "" \
            1 " - Set Lr-PUAE as main emulator " \
            2 " - Set Amiberry as main emulator " \
-		   - "	" \
+		   ""      "" \
 		   - "*** AMIGA CUSTOM OVERLAYS LR-PUAE SETUP ***" \
-		   - "	" \
+		   ""      "" \
            3 " - Custom Overlay Set For The Loaded Image (Art/View/Shader) " \
 		   - "   Tx to Quizaseraq (LoadedImage-Set), Ransom & Pipmick (Creators) " \
-		   - "	" \
+		   ""      "" \
 		   4 " - Quick Disable Shader from Custom Setup Option #3 " \
 		   5 " - Quick Enable  Shader from Custom Setup Option #3 " \
 		   2>&1 > /dev/tty)
@@ -2380,15 +2391,15 @@ clear
             --menu "Apply the script you need..." 25 75 20 \
             - "*** RETROFLAG SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Turn switch 'SAFE SHUTDOWN' on PCB to ON position. ***" \
-			- "	" \
+			""      "" \
 			0 " - RetroFlag Safe Shutdown Status " \
 			1 " - RetroFlag NesPi+, MegaPi, SuperPi, NESPI4 Safe Shutdown [ON] " \
 			2 " - RetroFlag GPi-Case Safe Shutdown [ON] " \
 			3 " - RetroFlag All Cases Safe Shutdown [OFF] " \
-			- "	" \
+			""      "" \
 			- "*** ARGON ONE SHUTDOWN SCRIPT SELECTIONS ***" \
 			- "*** Extra Settings Check https://bit.ly/3nfaID6 ***" \
-			- "	" \
+			""      "" \
 			4 " - Argon ONE Safe Shutdown Status " \
 			5 " - Argon ONE Safe Shutdown & Fan [ON] " \
 			6 " - Argon ONE Safe Shutdown & Fan [OFF] " \
@@ -2519,11 +2530,12 @@ function clean_pbt() {
             --ok-label OK --cancel-label Back \
             --menu "Let's do some cleanup..." 25 75 20 \
             - "*** PLAYBOX CLEANUP TOOLS SELECTIONS ***" \
-			- "	" \
+			""      "" \
            1 " - Clean A gamelist.xml To Have Only Existing Roms, Meleu-2P! " \
 		   2 " - Clean LastPlayed & PlayCount or Favorites Options " \
 		   3 " - Clean Save Files Inside Roms & Saves Folder (Not fs|nv)" \
            4 " - Remove ES Auto-generated Gamelists " \
+		   ""      "" \
 		   5 " - Clean CLi Commands History & Reset To PlayBox Top Ones  " \
 		   6 " - Clean Wi-Fi Settings " \
            7 " - Clean Filesystem & Cache " \
@@ -2552,9 +2564,9 @@ function cl_gm_xml() {
             --ok-label OK --cancel-label Back \
             --menu "Select one of the gamelist.xml cleanup options." 25 75 20 \
             - "*** GAMELIST.XML CLEANUP SELECTIONS ***" \
-			- "	" \
+			""      "" \
             0 " - Show Which Systems Already Have A .CLEAN Backup File  " \
-            - "	" \
+            ""      "" \
 			1 " - Clean & Create for ALL systems [Original + gamelist.xml.CLEAN] " \
             2 " - Clean & Create for a specific system [Orig + gamelist.xml.CLEAN] " \
             2>&1 > /dev/tty)
@@ -2716,7 +2728,7 @@ dialog --backtitle "PlayBox Toolkit" \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** CLEANUP AUTO-LISTS SELECTIONS ***" \
             1 " - Clear AutoLastPlayed & PlayCount " \
-            - "" \
+            ""      "" \
             - "*** CLEANUP FAVORITES SELECTIONS ***" \
             2 " - Clear Favorites " \
             2>&1 > /dev/tty)
@@ -2875,15 +2887,17 @@ function sys_pbt() {
             --ok-label OK --cancel-label Back \
             --menu "Get to know your System..." 25 75 20 \
             - "*** PLAYBOX SYSTEM TOOLS ***" \
-			- "	" \
+			""      "" \
 		   1 " - Filesystem Check is Automated " \
 		   2 " - Expand The Armbian OS Partition " \
+		   ""      "" \
 		   3 " - Show Partitions & Space Info " \
 		   4 " - Show Folders Size [home/pi] " \
            5 " - Show System Free Memory Info " \
            6 " - Show OS Version & Info " \
            7 " - System & FW Update Options " \
-           8 " - System Full Info " \
+		   ""      "" \
+           8 " - PlayBox System Full Info " \
 		   9 " - Monitor In Real Time Board Temperature " \
 		  10 " - Show CPU Cores Status " \
 		  11 " - Ratio Video Tool Options [OFF] " \
@@ -3028,7 +3042,7 @@ function os_info() {
 	clear
 	#uname -snrmo
 	#lsb_release -ds
-	check_and_run neofetch | lolcat
+	fastfetch | lolcat
 	pausepress
 }
 
@@ -3056,7 +3070,7 @@ dialog --backtitle "PlayBox Toolkit" \
             --menu "Let's update & upgrade your system!" 25 75 20 \
             - "*** OS UPDATING SELECTIONS ***" \
             1 " - OS Upgrade: Upgrades Packages To The Newest Versions " \
-            - "" \
+            ""      "" \
             - "*** FIRMWARE UPDATING SELECTIONS ***" \
             2 " - Firmware - Check/Upgrade With Armbian-Config" \
             2>&1 > /dev/tty)
@@ -3109,6 +3123,7 @@ function sysinfo() {
 # Ensure environment is correctly set up
 source $HOME/.bash_profile
 #$HOME/PlayBox-Setup/.pb-fixes/_scripts/2play_sysinfo.sh
+pausepress
 }
 
 
@@ -3200,12 +3215,13 @@ declare -a HDMI_SETTINGS_DMT=(
             --ok-label OK --cancel-label Back \
             --menu "Choose your Custom System Ratio Resolution:" 25 75 20 \
             - "*** GENERAL SELECTIONS ***" \
+			""      "" \
            V1 " - LIST CONNECTED DISPLAY DEVICES " \
 		   V2 " - SHOW YOUR HDMI 0&1 STATUS (Resolution etc.) " \
 		   A1 " - SHOW YOUR SUPPORTED (HDMI 0&1) AUDIO INFORMATION " \
 		  CEA " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
 		  DMT " - SHOW YOUR SUPPORTED MODES (HDMI 0&1) FOR THIS GROUP " \
-			- "" \
+			""      "" \
 			- "*** HDMI PORT [4:3] SELECTIONS ***" \
         1:CEA01 " - VGA     640x480   60Hz   [4:3] " \
 		2:CEA02 " - 480p    720x480   60Hz   [4:3] " \
@@ -3214,7 +3230,7 @@ declare -a HDMI_SETTINGS_DMT=(
         5:DMT16 " - XGA    1024x768   60Hz   [4:3] " \
 		6:DMT32 " - SXGA   1280x960   60Hz   [4:3] " \
 		7:DMT51 " - UXGA  1600×1200   60Hz   [4:3] " \
-		    - "" \
+		    ""      "" \
             - "*** HDMI PORT [16:9] SELECTIONS ***" \
 		8:CEA03 " - 480p    720x480   60Hz  [16:9] " \
 		9:CEA18 " - 576p    720x576   50Hz  [16:9] " \
@@ -3225,7 +3241,7 @@ declare -a HDMI_SETTINGS_DMT=(
 	   14:CEA97 " - 2160p 3840x2160   60Hz  [16:9] " \
 	   15:DMT85 " - 720p   1280x720   60Hz  [16:9] " \
        16:DMT82 " - 1080p 1920x1080   60Hz  [16:9] " \
-	        - "" \
+	        ""      "" \
             - "*** HDMI PORT [x:x] SELECTIONS ***" \
        17:DMT35 " - SXGA   1280x1024  60Hz   [5:4] " \
        18:DMT58 " - WSXGA+ 1680x1050  60Hz [16:10] " \
@@ -3233,7 +3249,7 @@ declare -a HDMI_SETTINGS_DMT=(
 	   20:CEA76 " - 1080p  1920x1080  60Hz [64:27] " \
 	   21:CEA75 " - 1080p  1920x1080  50Hz [64:27] " \
 	   22:DMT87 " - CUSTOM .NOTxSET.  60Hz [xx:xx] " \
-	        - "" \
+	        ""      "" \
             - "*** SDTV - COMPOSITE VIDEO PORT SELECTIONS ***" \
             - "*** Default values are: NTSC & [4:3] No Change ***" \
        23:STD " - Composite Video Port Mode   JP NTSC " \
@@ -3241,7 +3257,7 @@ declare -a HDMI_SETTINGS_DMT=(
        25:STD " - Composite Video Port Mode   Brazil PAL " \
        26:STR " - Composite Video Port Ratio  [14:9] " \
        27:STR " - Composite Video Port Ratio  [16:9] " \
-            - "" \
+            ""      "" \
             - "*** DISABLE HDMI SELECTIONS ***" \
        28:ALL " - Disable Any CEA/DMT HDMI or STDTV Setting Applied " \
             2>&1 > /dev/tty)
@@ -3610,11 +3626,22 @@ function enable_core_cfg() {
 
 function restart_es() {
     clear
-	echo "[Restarting EmulationStation...]"
+    echo "[Restarting EmulationStation...]"
     sleep 2
     pkill -f emulationstation
-    nohup emulationstation --no-splash &>/dev/null &
+
+    # Wait until ES is really gone
+    while pgrep -f emulationstation >/dev/null; do
+        sleep 1
+    done
+
+    # Relaunch with nohup, log output for debugging
+    nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
+    disown
+
+    echo "[EmulationStation restarted]"
 }
+
 
 function done_message() {
     clear
