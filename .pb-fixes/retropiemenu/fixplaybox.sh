@@ -26,10 +26,12 @@ infobox="${infobox}\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
 
-dialog --backtitle "PLAYBOX PROJECT" \
+dialog 
+--backtitle "PLAYBOX PROJECT" \
 --title "PLAYBOX PROJECT - TOOLKIT" \
 --msgbox "${infobox}" 35 110
 
+BACKTITLE="PLAYBOX PROJECT"
 
 function main_menu() {
     local choice
@@ -1232,17 +1234,6 @@ if [ -f "retroarch" ]; then
 	cd /opt/retropie/emulators/retroarch/bin
 	sudo mv retroarch retroarchORIG
 	sudo ln -sfn retroarchNEW retroarch
-	
-	for CFG in /opt/retropie/configs/all/retroarch.cfg \
-               /opt/retropie/configs/all/retroarch/retroarch.cfg; do
-        NEWLINE='core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"'
-        # Replace active line if present
-        sed -i "s|^core_updater_buildbot_cores_url = \".*\"|$NEWLINE|" "$CFG"
-        # Replace commented line if present
-        sed -i "s|^# *core_updater_buildbot_url = \".*\"|$NEWLINE|" "$CFG"
-        # Append if neither exists
-        grep -q '^core_updater_buildbot_cores_url' "$CFG" || echo "$NEWLINE" | sudo tee -a "$CFG"
-    done
 else
 echo
 echo " Compile Failed! Please retry or post error in 🙋questions-and-answers discord channel... "
