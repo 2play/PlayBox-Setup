@@ -1,10 +1,13 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 pb_version="PlayBox v2 Post Updates & Fixes: Dated 04.2026"
+BACKTITLE="PLAYBOX PROJECT"
+
 clear
 echo $pb_version
 sleep 1
 cd $HOME/code/
+
 
 # Get Post Fixes Clean Burn Or Normal Post Fix Update
 function post_fix_update() {
@@ -14,7 +17,6 @@ function post_fix_update() {
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
-            - "*** POST FIXES SETUP OPTIONS ***" \
             - "" \
 			CLEAN " - CLEAN IMAGE: UPDATE & FIXES " \
 			- "    (Apply After A Clean Burn OR To Restore All To Latest Clean State)" \
@@ -111,7 +113,7 @@ fi
 
 #Make extra custom PlayBox roms directories (Update/Add as needed)
 cd "$HOME/RetroPie/roms" || exit 1
-for dir in ags amiga4000 amigacd32 apple2 apple2gs arcadia archimedes astrocade atari800 atarifalcon atarijaguar atarist ataritt atarixegs atomiswave bbcmicro c128 c16 cdimono1 cdtv coleco coleco_adam crvision dragon32 electron famicom gamemaker gc genesish gx4000 intellivision_ecs kodi lightgun mame mame-advmame mame-libretro mame-mame4all mega32x megacd megadrive megadriveh megadrive-japan mess msx2 msx2+ msxturbor neogeocd nesh odyssey2 openbor pc128 pcengine pcenginecd pcfx pico8 piegalaxy playbox plus4 power ps2 pspminis desktop  satellaview saturn-japan sc-3000 scv sega32x segacd sfc sg-1000 sgb sgfx snesh snesmsu1 solarus spinner steam stv sufami swancrystal tg16 tg16cd ti99 tic80 trackball trs-80 vic20 videopac wii wiiu; do
+for dir in ags amiga1200 amiga4000 amigacd32 amstradcpc464 amstradcpc6128+ amstradcpc664 apple2 apple2gs apple2gs arcadia archimedes astrocade atari800 atarijaguar atarist ataritt atarixegs atomiswave bbcmicro c128 c16  cdtv  cdimono1 cdtv coleco coleco_adam crvision dreamcast electron famicom gamemaker gc genesish gx4000 intellivision_ecs fba fds kodi lightgun mame mame-advmame mame-libretro mastersystem mega32x megacd megadrive megadriveh megadrive-japan megadriveplus mess msx2 msx2+ msxturbor music n64 naomi nds neogeo neogeocd nes nesh odyssey2 openbor pc128 pc88 pc98 pcengine pcenginecd pcfx pico8 piegalaxy playbox plus4 power ps2 psp pspminis desktop satellaview saturn-japan sega32x segacd sc-3000 scv sg-1000 sgb sgfx sfc sinclairql snes snesh snesmsu1 solarus spinner steam stv sufami swancrystal tg16 tg16cd tic80 trs-80 trackball vic20 videopac wii wiiu zx81 zxspectrum+2 zxspectrum+3 zxspectrum128; do
     mkdir -p "$dir"
     echo "Created directory: $dir"
 done
@@ -125,7 +127,7 @@ done
 #Sega CD: Similar to the Genesis, used for 6-button controller support.
 
 cd /opt/retropie/configs/
-for sys in genesis megadrive atari5200 atari800 zxspectrum segacd megacd amstradcpc; do
+for sys in atari5200 atari800 genesis genesish megadrive megadriveh megadrive-japan megadriveplus segacd megacd; do
     cfg="$sys/retroarch.cfg"
     if [[ -f "$cfg" ]]; then
         echo "Updating $cfg ..."
@@ -160,17 +162,28 @@ disable_core_cfg "Stella 2014"
 cd /opt/retropie/configs/all/emulationstation
 
 declare -A fixes=(
-  ["<bool name=\"ScreenSaverOmxPlayer\" value=\"true\" />"]="<bool name=\"ScreenSaverOmxPlayer\" value=\"false\" />"
-  ["<bool name=\"ScreenSaverVideoMute\" value=\"false\" />"]="<bool name=\"ScreenSaverVideoMute\" value=\"true\" />"
-  ["<bool name=\"StretchVideoOnScreenSaver\" value=\"false\" />"]="<bool name=\"StretchVideoOnScreenSaver\" value=\"true\" />"
-  ["<int name=\"ScreenSaverSwapVideoTimeout\" value=\"15000\" />"]="<int name=\"ScreenSaverSwapVideoTimeout\" value=\"10000\" />"
-  ["<string name=\"SubtitleAlignment\" value=\"left\" />"]="<string name=\"SubtitleAlignment\" value=\"center\" />"
+  ["ScreenSaverOmxPlayer"]="false"
+  ["ScreenSaverVideoMute"]="true"
+  ["StretchVideoOnScreenSaver"]="true"
+  ["ScreenSaverSwapVideoTimeout"]="10000"
+  ["SubtitleAlignment"]="center"
+  ["SortAllSystems"]="false"
+  ["ScreenSaverGameInfo"]="start &amp; end"
+  ["SlideshowScreenSaverMediaDir"]="/home/pi/.emulationstation/slideshow/image"
+  ["MaxVRAM"]="100"
+  ["ScreenSaverBehavior"]="slideshow"
+  ["ThemeSet"]="2Play!-EpicMavro"
 )
 
 for key in "${!fixes[@]}"; do
-    sed -i "s|$key|${fixes[$key]}|g" es_settings.cfg
+    value="${fixes[$key]}"
+    # Replace regardless of current value
+    sed -i "s|\(<.* name=\"$key\" value=\)\"[^\"]*\"|\1\"$value\"|g" es_settings.cfg
 done
 
+#for key in "${!fixes[@]}"; do
+#    grep "$key" es_settings.cfg
+#done
 
 ## Various Minor Typos Etc
 
@@ -190,220 +203,291 @@ done
 #cd /opt/retropie/configs/intellivision
 #sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 
-# RetroArch PlayBox v2 Defaults: Hide Mouse Cursor On Overlay, Core Ratio, Menu Driver, video_threaded, glcore OFF add to specific
-# Common substitutions
-COMMON='
-s|input_overlay_show_mouse_cursor = "true"|input_overlay_show_mouse_cursor = "false"|g;
-s|aspect_ratio_index = "[0-9]*"|aspect_ratio_index = "22"|g;
-s|materialui_menu_color_theme = "[0-9]*"|materialui_menu_color_theme = "19"|g;
-s|menu_driver = ".*"|menu_driver = "ozone"|g;
-s|menu_linear_filter = "true"|menu_linear_filter = "false"|g;
-s|menu_rgui_shadows = "false"|menu_rgui_shadows = "true"|g;
-s|ozone_menu_color_theme = "[0-9]*"|ozone_menu_color_theme = "3"|g;
-s|rgui_menu_color_theme = "[0-9]*"|rgui_menu_color_theme = "29"|g;
-s|xmb_menu_color_theme = "[0-9]*"|xmb_menu_color_theme = "7"|g;
-s|"~/.config/retroarch/screenshots"|"~/ScreenShots"|g;
+# RetroArch PlayBox v2 Defaults:
+cd /opt/retropie/configs/all
 
-# New defaults
-s|core_options_path = ".*"|core_options_path = ""|g;
-s|config_save_on_exit = "true"|config_save_on_exit = "false"|g;
-s|show_hidden_files = "false"|show_hidden_files = "true"|g;
-s|input_joypad_driver = ".*"|input_joypad_driver = "udev"|g;
-s|video_fullscreen = "false"|video_fullscreen = "true"|g;
-s|video_aspect_ratio_auto = "false"|video_aspect_ratio_auto = "true"|g;
-s|video_threaded = "false"|video_threaded = "true"|g;
-s|video_shader_enable = "false"|video_shader_enable = "true"|g;
-s|video_font_size = "[0-9]*"|video_font_size = "24"|g;
-s|input_overlay_enable = "false"|input_overlay_enable = "true"|g;
-s|input_autodetect_enable = "false"|input_autodetect_enable = "true"|g;
-s|input_player1_a = ".*"|input_player1_a = "z"|g;
-s|input_player1_b = ".*"|input_player1_b = "x"|g;
-s|input_player1_y = ".*"|input_player1_y = "s"|g;
-s|input_player1_x = ".*"|input_player1_x = "a"|g;
-s|input_player1_start = ".*"|input_player1_start = "f6"|g;
-s|input_player1_select = ".*"|input_player1_select = "f5"|g;
-s|input_player1_l = ".*"|input_player1_l = "insert"|g;
-s|input_player1_r = ".*"|input_player1_r = "pageup"|g;
-s|input_player1_left = ".*"|input_player1_left = "left"|g;
-s|input_player1_right = ".*"|input_player1_right = "right"|g;
-s|input_player1_up = ".*"|input_player1_up = "up"|g;
-s|input_player1_down = ".*"|input_player1_down = "down"|g;
-s|input_player1_l2 = ".*"|input_player1_l2 = "del"|g;
-s|input_player1_r2 = ".*"|input_player1_r2 = "pagedown"|g;
-s|menu_swap_ok_cancel_buttons = "true"|menu_swap_ok_cancel_buttons = "false"|g;
-s|input_exit_emulator = ".*"|input_exit_emulator = "f6"|g;
-s|system_directory = ".*"|system_directory = "/home/pi/RetroPie/BIOS"|g;
-s|rgui_browser_directory = ".*"|rgui_browser_directory = "/home/pi/RetroPie/roms"|g;
-s|libretro_directory = ".*"|libretro_directory = "/opt/retropie/libretrocores/"|g;
-s|savefile_directory = ".*"|savefile_directory = "/home/pi/RetroPie/saves"|g;
-s|savestate_directory = ".*"|savestate_directory = "/home/pi/RetroPie/states"|g;
-s|global_core_options = "false"|global_core_options = "true"|g;
-s|input_enable_hotkey = ".*"|input_enable_hotkey = "f5"|g;
-s|auto_remaps_enable = "false"|auto_remaps_enable = "true"|g;
-s|remap_save_on_exit = "true"|remap_save_on_exit = "false"|g;
-s|rgui_aspect_ratio_lock = "[0-9]*"|rgui_aspect_ratio_lock = "2"|g;
-s|rgui_switch_icons = "true"|rgui_switch_icons = "false"|g;
-s|menu_show_restart_retroarch = "true"|menu_show_restart_retroarch = "false"|g;
-s|menu_disable_search_button = "false"|menu_disable_search_button = "true"|g;
-s|quick_menu_show_close_content = "true"|quick_menu_show_close_content = "false"|g;
-s|quick_menu_show_add_to_favorites = "true"|quick_menu_show_add_to_favorites = "false"|g;
-s|quick_menu_show_replay = "true"|quick_menu_show_replay = "false"|g;
-s|quick_menu_show_start_recording = "true"|quick_menu_show_start_recording = "false"|g;
-s|quick_menu_show_start_streaming = "true"|quick_menu_show_start_streaming = "false"|g;
-s|menu_show_overlays = "true"|menu_show_overlays = "false"|g;
-s|menu_show_load_content_animation = "true"|menu_show_load_content_animation = "false"|g;
-s|core_info_cache_enable = "true"|core_info_cache_enable = "false"|g;
-s|xmb_show_add = "true"|xmb_show_add = "false"|g;
-s|xmb_show_history = "true"|xmb_show_history = "false"|g;
-s|xmb_show_images = "true"|xmb_show_images = "false"|g;
-s|xmb_show_music = "true"|xmb_show_music = "false"|g;
-s|xmb_shadows_enable = "true"|xmb_shadows_enable = "false"|g;
-s|quit_press_twice = "false"|quit_press_twice = "true"|g;
-s|sort_savestates_enable = "true"|sort_savestates_enable = "false"|g;
-s|sort_savefiles_enable = "true"|sort_savefiles_enable = "false"|g
-'
+declare -A ra_defaults=(
+  # RA Defaults
+  ["aspect_ratio_index"]="22"
+  ["materialui_menu_color_theme"]="19"
+  ["menu_driver"]="ozone"
+  ["menu_linear_filter"]="false"
+  ["menu_rgui_shadows"]="true"
+  ["menu_show_overlays"]="false"
+  ["menu_show_load_content_animation"]="false"
+  ["menu_show_restart_retroarch"]="false"
+  ["menu_disable_search_button"]="true"
+  ["quick_menu_show_close_content"]="false"
+  ["quick_menu_show_add_to_favorites"]="false"
+  ["quick_menu_show_replay"]="false"
+  ["quick_menu_show_start_recording"]="false"
+  ["quick_menu_show_start_streaming"]="false"
+  ["ozone_menu_color_theme"]="3"
+  ["rgui_menu_color_theme"]="29"
+  ["rgui_aspect_ratio_lock"]="2"
+  ["rgui_switch_icons"]="false"
+  ["xmb_menu_color_theme"]="7"
+  ["xmb_show_add"]="false"
+  ["xmb_show_history"]="false"
+  ["xmb_show_images"]="false"
+  ["xmb_show_music"]="false"
+  ["xmb_shadows_enable"]="false"
+  ["video_fullscreen"]="true"
+  ["video_aspect_ratio_auto"]="true"
+  ["video_shader_enable"]="true"
+  ["video_font_size"]="24"
+  ["screenshot_directory"]="~/ScreenShots"
+  ["core_options_path"]=""
+  ["video_threaded"]="false"
+  ["config_save_on_exit"]="false"
+  ["show_hidden_files"]="true"
+  ["input_joypad_driver"]="udev"
+  ["input_overlay_enable"]="true"
+  ["input_overlay_show_mouse_cursor"]="false"
+  ["input_autodetect_enable"]="true"
+  ["input_player1_a"]="z"
+  ["input_player1_b"]="x"
+  ["input_player1_y"]="s"
+  ["input_player1_x"]="a"
+  ["input_player1_start"]="f6"
+  ["input_player1_select"]="f5"
+  ["input_player1_l"]="insert"
+  ["input_player1_r"]="pageup"
+  ["input_player1_left"]="left"
+  ["input_player1_right"]="right"
+  ["input_player1_up"]="up"
+  ["input_player1_down"]="down"
+  ["input_player1_l2"]="del"
+  ["input_player1_r2"]="pagedown"
+  ["menu_swap_ok_cancel_buttons"]="false"
+  ["input_exit_emulator"]="f6"
+  ["system_directory"]="/home/pi/RetroPie/BIOS"
+  ["rgui_browser_directory"]="/home/pi/RetroPie/roms"
+  ["libretro_directory"]="/opt/retropie/libretrocores/"
+  ["savefile_directory"]="/home/pi/RetroPie/saves"
+  ["savestate_directory"]="/home/pi/RetroPie/states"
+  ["global_core_options"]="true"
+  ["input_enable_hotkey"]="f5"
+  ["auto_remaps_enable"]="true"
+  ["remap_save_on_exit"]="false"
+  ["core_info_cache_enable"]="false"
+  ["quit_press_twice"]="true"
+  ["sort_savestates_enable"]="false"
+  ["sort_savefiles_enable"]="false"
+  ["core_updater_buildbot_cores_url"]="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
+  ["core_updater_buildbot_url"]="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
+)
 
-# Apply to first file (particle effect 5)
-sed -i "${COMMON}; s|rgui_particle_effect = \"[0-9]*\"|rgui_particle_effect = \"5\"|g" \
-  /opt/retropie/configs/all/retroarch.cfg
+# Apply to retroarch.cfg (particle effect 5)
+for key in "${!retro_defaults[@]}"; do
+    value="${retro_defaults[$key]}"
+    if grep -q "^$key" retroarch.cfg; then
+        # Replace existing active line
+        sed -i "s|\($key = \)\"[^\"]*\"|\1\"$value\"|g" retroarch.cfg
+    elif grep -q "^# *$key" retroarch.cfg; then
+        # Insert new line right after the commented line
+        sed -i "/^# *$key/a$key = \"$value\"" retroarch.cfg
+    fi
+done
+sed -i 's|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g' retroarch.cfg
 
-# Apply to second file (particle effect 1)
-sed -i "${COMMON}; s|rgui_particle_effect = \"[0-9]*\"|rgui_particle_effect = \"1\"|g" \
-  /opt/retropie/configs/all/retroarch/retroarch.cfg
+# Apply to retroarch/retroarch.cfg (particle effect 1)
+for key in "${!retro_defaults[@]}"; do
+    value="${retro_defaults[$key]}"
+    if grep -q "^$key" retroarch/retroarch.cfg; then
+        sed -i "s|\($key = \)\"[^\"]*\"|\1\"$value\"|g" retroarch/retroarch.cfg
+    elif grep -q "^# *$key" retroarch/retroarch.cfg; then
+        sed -i "/^# *$key/a$key = \"$value\"" retroarch/retroarch.cfg
+    fi
+done
+sed -i 's|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' retroarch/retroarch.cfg
 
 
-#if ! [[ `dpkg -l | grep appmenu-gtk3-module` ]]; then
-#sudo apt install appmenu-gtk2-module appmenu-gtk3-module; 
+# Check and install GTK appmenu modules
+#if ! dpkg -s appmenu-gtk3-module >/dev/null 2>&1; then
+#    echo "Installing GTK appmenu modules..."
+#    sudo apt update
+#    sudo apt install -y appmenu-gtk2-module appmenu-gtk3-module
 #else
-#echo "All OK!"
-#echo 
+#    echo "All OK! GTK appmenu modules already installed."
 #fi
 
 #Redream Path Fix
-if grep '/home/pi/RetroPie/roms/dreamcast;' /opt/retropie/configs/dreamcast/redream/redream.cfg; then
-echo "Already has corrected value..."; sleep 1
-else
-sed -i 's|/home/pi/RetroPie/roms;|/home/pi/RetroPie/roms/dreamcast;|' /opt/retropie/configs/dreamcast/redream/redream.cfg;
-fi
+fix_redream_path
 
 # N64 Controller Fix Revert and apply to all 4PL - Specific Setup in RA or N64 Applies
-sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player1_analog_dpad_mode = "0"|input_player1_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|input_player2_analog_dpad_mode = "0"|input_player2_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player2_analog_dpad_mode = "0"|input_player2_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|input_player3_analog_dpad_mode = "0"|input_player3_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player3_analog_dpad_mode = "0"|input_player3_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-sed -i 's|input_player4_analog_dpad_mode = "0"|input_player4_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch.cfg;
-sed -i 's|input_player4_analog_dpad_mode = "0"|input_player4_analog_dpad_mode = "1"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-if grep 'input_player1_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg; then
-echo "Controller fix already applied..."; sleep 1
-else
-sed -i '19iinput_player1_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
-sed -i '20iinput_player2_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
-sed -i '21iinput_player3_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
-sed -i '22iinput_player4_analog_dpad_mode = "2"' /opt/retropie/configs/n64/retroarch.cfg;
-fi
-#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch.cfg;
-#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/all/retroarch/retroarch.cfg;
-#sed -i 's|video_threaded = "true"|video_threaded = "false"|' /opt/retropie/configs/amiga/amiberry/conf/retroarch.cfg;
+fix_n64_controllers
+
 #sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
+
 # Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib
 if [ -f libEGL.so ]; then
-sudo rm libEGL.so libEGL.so.1 libEGL.so.1.0.0 libgbm.so libgbm.so.1 libgbm.so.1.0.0 libGL.so libGL.so.1 libGL.so.1.2.0 libglapi.so libglapi.so.0 libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 libvulkan_broadcom.so libglapi.so.0.0.0
-sudo rm -rf /usr/local/lib/dri
-cd /usr/local/share
-sudo rm -rf vulkan drirc.d
-cd /usr/local/include
-sudo rm -rf EGL GL GLES GLES2 GLES3 KHR
-cd /usr/local/lib/pkgconfig
-sudo rm gl.pc dri.pc egl.pc gbm.pc glesv1_cm.pc glesv2.pc
+  echo "Cleaning old Mesa/Vulkan libraries..."
+  for f in libEGL.so libEGL.so.1 libEGL.so.1.0.0 \
+           libgbm.so libgbm.so.1 libgbm.so.1.0.0 \
+           libGL.so libGL.so.1 libGL.so.1.2.0 \
+           libglapi.so libglapi.so.0 libglapi.so.0.0.0 \
+           libGLESv1_CM.so libGLESv1_CM.so.1 libGLESv1_CM.so.1.1.0 \
+           libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 \
+           libvulkan_broadcom.so; do
+    [ -e "$f" ] && sudo rm "$f" && echo "Removed $f"
+  done
+  sudo rm -rf /usr/local/lib/dri
+  sudo rm -rf /usr/local/share/vulkan /usr/local/share/drirc.d
+  sudo rm -rf /usr/local/include/EGL /usr/local/include/GL /usr/local/include/GLES*
+  sudo rm -rf /usr/local/include/KHR
+  sudo rm -f /usr/local/lib/pkgconfig/{gl.pc,dri.pc,egl.pc,gbm.pc,glesv1_cm.pc,glesv2.pc}
 else
-echo "All OK!"
-echo
+  echo "All OK!"
 fi
 sleep 1
 clear
+
+
 # Mame2003_Plus Controller
 cd /opt/retropie/configs/arcade
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
+
 # Pico8 & DuckStation Standalone & Core
 sudo chown pi:pi -R /opt/retropie/emulators/pico8/
 sudo chmod 755 /opt/retropie/emulators/pico8/*
 rm *.sh
 cd ~
-# Pico8 & DuckStation Standalone & Core
-sudo chown pi:pi -R /opt/retropie/emulators/pico8/
-sudo chmod 755 /opt/retropie/emulators/pico8/*
+
 #If user has Pico8 Disabled
-#if [ -d ~/RetroPie/localroms/pico8.* ]; then
-#echo "You have it disabled. We continue..."
+# Pico-8 setup
+#if ls ~/RetroPie/localroms/pico8.* ~/RetroPie/roms/pico8.* >/dev/null 2>&1; then
+#    echo "You have Pico-8 disabled. We continue..."
 #else
-#	if [ -d ~/RetroPie/localroms ]; then
-#	mkdir ~/RetroPie/localroms/pico8 && mkdir ~/addonusb/pico8
-#	cd ~/RetroPie/localroms/pico8
-#		if [ ! -f ~/RetroPie/localroms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
-#		chmod 755 ~/RetroPie/localroms/pico8/+Start\ PICO8.sh
-#		fi
-#	else
-#		if [ -d ~/RetroPie/roms/pico8.* ]; then
-#			echo "You have it disabled. We continue..."
-#			else
-#			mkdir ~/RetroPie/roms/pico8 && cd ~/RetroPie/roms/pico8
-#			if [ ! -f ~/RetroPie/roms/pico8/+Start\ PICO8.sh ]; then wget https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh
-#			chmod 755 ~/RetroPie/roms/pico8/+Start\ PICO8.sh
-#			fi
-#		fi
-#	fi
+#    # Decide base directory
+#    if [ -d ~/RetroPie/localroms ]; then
+#        base=~/RetroPie/localroms/pico8
+#        mkdir -p "$base" ~/addonusb/pico8
+#    else
+#        base=~/RetroPie/roms/pico8
+#        mkdir -p "$base"
+#    fi
+
+#    cd "$base"
+#    if [ ! -f "+Start PICO8.sh" ]; then
+#        wget -O "+Start PICO8.sh" \
+#          "https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh"
+#        chmod 755 "+Start PICO8.sh"
+#    fi
 #fi
+
+
 cd ~
+# Fix ownership and permissions
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
-if ! grep -E 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
-echo 'duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
+
+cfg="/opt/retropie/configs/psx/emulators.cfg"
+
+# DuckStation standalone
+duck_line='duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"'
+if ! grep -Fxq "$duck_line" "$cfg"; then
+    echo "$duck_line" | sudo tee -a "$cfg" > /dev/null
 else
-echo "Already inserted!"; sleep 1
+    echo "DuckStation standalone already inserted!"; sleep 1
 fi
+
+# DuckStation libretro core
 sudo chmod 755 /opt/retropie/latestcores/duckstation_libretro.so
-if ! grep -E 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' /opt/retropie/configs/psx/emulators.cfg; then
-echo 'lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"' | tee -a /opt/retropie/configs/psx/emulators.cfg > /dev/null
+lr_line='lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"'
+if ! grep -Fxq "$lr_line" "$cfg"; then
+    echo "$lr_line" | sudo tee -a "$cfg" > /dev/null
 else
-echo "Already inserted..."; sleep 1
+    echo "DuckStation libretro already inserted!"; sleep 1
 fi
-#New Ports Dependencies
-	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
-	return 0
-    fi
-	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLEW.so /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7
-	if [[ ! -e /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13 ]]; then
-        echo -e "\nSetting libSDL_gfx..."
-        sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
-    fi
-#Sinden LightGun Requirements
-if ! [[ `dpkg -l | egrep 'mono-complete|v4l-utils|libsdl1.2-dev|ibsdl-image1.2-dev|libjpeg-dev'`  ]]; then
-sudo apt install -y mono-complete
-sudo apt install -y v4l-utils
-sudo apt install -y libsdl1.2-dev
-sudo apt install -y libsdl-image1.2-dev
-sudo apt install -y libjpeg-dev
+
+
+#New Ports Dependencies ARM
+#	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
+#	return 0
+#    fi
+#	sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLEW.so /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7
+#	if [[ ! -e /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13 ]]; then
+#        echo -e "\nSetting libSDL_gfx..."
+#        sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
+#    fi
+
+#New POrts Dependencies x86
+# Ensure GLEW and SDL_gfx legacy symlinks exist
+# To list/check: ls -l /usr/lib/*/libGLEW.so* /usr/lib/*/libSDL_gfx.so*
+
+set -e
+
+# --- GLEW ---
+if ldconfig -p | grep -q "libGLEW.so.1.7"; then
+    echo "libGLEW.so.1.7 already present."
 else
-echo "All OK!"
-echo 
+    echo "libGLEW.so.1.7 missing..."
+    if ! dpkg -l | grep -q libglew-dev; then
+        echo "Installing GLEW..."
+        sudo apt update && sudo apt install -y libglew-dev
+    fi
+    glew_path=$(ldconfig -p | grep libGLEW.so | head -n1 | awk '{print $NF}')
+    if [ -n "$glew_path" ]; then
+        echo "Creating symlink: libGLEW.so.1.7 → $glew_path"
+        sudo ln -sf "$glew_path" /usr/lib/x86_64-linux-gnu/libGLEW.so.1.7
+    fi
 fi
+
+# --- SDL_gfx ---
+if ldconfig -p | grep -q "libSDL_gfx.so.13"; then
+    echo "libSDL_gfx.so.13 already present."
+else
+    echo "libSDL_gfx.so.13 missing..."
+    if ! dpkg -l | grep -q libsdl-gfx1.2-dev; then
+        echo "Installing SDL_gfx..."
+        sudo apt update && sudo apt install -y libsdl-gfx1.2-dev
+    fi
+    sdl_path=$(ldconfig -p | grep libSDL_gfx.so | head -n1 | awk '{print $NF}')
+    if [ -n "$sdl_path" ]; then
+        echo "Creating symlink: libSDL_gfx.so.13 → $sdl_path"
+        sudo ln -sf "$sdl_path" /usr/lib/x86_64-linux-gnu/libSDL_gfx.so.13
+    fi
+fi
+
+echo "Dependency check complete."
+
+
+# Sinden LightGun Requirements
+pkgs="mono-complete v4l-utils libsdl1.2-dev libsdl-image1.2-dev libjpeg-dev"
+
+# Check if all packages are installed
+missing=$(dpkg -l $pkgs 2>/dev/null | awk '/^ii/ {print $2}' | grep -vxF "$pkgs" || true)
+
+if [ -n "$missing" ]; then
+    echo "Installing missing dependencies..."
+    sudo apt update
+    sudo apt install -y $pkgs
+else
+    echo "All OK!"
+    echo
+fi
+
+
 #Delete Old OpenBor & Fix Logs Link
 sudo rm -rf /opt/retropie/ports/openbor
 sudo chown pi:pi /opt/retropie/emulators/openbor/*
-sudo rm /opt/retropie/emulators/openbor/Logs
-sudo rm /opt/retropie/emulators/openbor/Paks
-sudo rm /opt/retropie/emulators/openbor/Saves
-sudo rm /opt/retropie/emulators/openbor/ScreenShots
-ln -sfn /opt/retropie/configs/openbor/Logs /opt/retropie/emulators/openbor/Logs
-ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
-ln -sfn /opt/retropie/configs/openbor/Saves /opt/retropie/emulators/openbor/Saves
-ln -sfn /opt/retropie/configs/openbor/ScreenShots /opt/retropie/emulators/openbor/ScreenShots
 
-sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
+# Remove old targets
+sudo rm -f /opt/retropie/emulators/openbor/{Logs,Paks,Saves,ScreenShots}
+
+# Recreate symlinks
+ln -sfn /opt/retropie/configs/openbor/{Logs,Saves,ScreenShots} /opt/retropie/emulators/openbor/
+ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
+
+echo "OpenBOR cleanup complete."
+
+
+#Symbolic links to main /usr/local/bin, 
 #Check if myenv exists:
+sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
+
 if [ -d /home/pi/myenv ]; then
 sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
 fi
@@ -458,15 +542,48 @@ function toggle_global_shader() {
     sleep 1
 }
 
-post_fix_update
 
-done_message
+##Support Functions
 
 function set_fsck_root() {
     root_dev=$(findmnt -n -o SOURCE /)
     echo "Setting filesystem check every 1 month on $root_dev..."
     sudo tune2fs -i 1m "$root_dev"
     sudo tune2fs -l "$root_dev" | grep -E "Mount count|Maximum mount count"
+}
+
+function fix_redream_path() {
+    cfg="/opt/retropie/configs/dreamcast/redream/redream.cfg"
+    correct="/home/pi/RetroPie/roms/dreamcast;"
+    default="/home/pi/RetroPie/roms;"
+
+    if grep -q "$correct" "$cfg"; then
+        echo "Already has corrected value..."
+    else
+        echo "Fixing Redream path..."
+        sed -i "s|$default|$correct|" "$cfg"
+    fi
+}
+
+function fix_n64_controllers() {
+    # Global configs
+    for cfg in /opt/retropie/configs/all/retroarch.cfg \
+               /opt/retropie/configs/all/retroarch/retroarch.cfg; do
+        for p in {1..4}; do
+            sed -i "s|input_player${p}_analog_dpad_mode = \"0\"|input_player${p}_analog_dpad_mode = \"1\"|" "$cfg"
+        done
+    done
+
+    # N64-specific config
+    n64cfg="/opt/retropie/configs/n64/retroarch.cfg"
+    if grep -q 'input_player1_analog_dpad_mode = "2"' "$n64cfg"; then
+        echo "Controller fix already applied..."
+    else
+        for p in {1..4}; do
+            line=$((18 + p)) # insert at lines 19–22
+            sed -i "${line}iinput_player${p}_analog_dpad_mode = \"2\"" "$n64cfg"
+        done
+    fi
 }
 
 
@@ -543,19 +660,6 @@ function enable_core_cfg() {
     fi
 }
 
-
-function enable_core_cfg() {
-    core="$1"
-    cfg_dir="/opt/retropie/configs/all/retroarch/config/$core.OFF"
-
-    if [[ -d "$cfg_dir" ]]; then
-        mv "$cfg_dir" "/opt/retropie/configs/all/retroarch/config/$core"
-        echo "Re-enabled $core config"
-    else
-        echo "Skipping $core (no .OFF backup found)"
-    fi
-}
-
 function restart_es() {
     clear
 	echo "[Restarting EmulationStation...]"
@@ -599,4 +703,5 @@ function check_and_run() {
     fi
 }
 
-main_menu
+done_message
+post_fix_update
