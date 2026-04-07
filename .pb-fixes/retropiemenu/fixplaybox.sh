@@ -132,6 +132,7 @@ function fix_rpmenu() {
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
     echo "Now Select Your Preferred Systems Group REGION..."
     fix_region
+	return
 }
 
 function move_items() {
@@ -3537,7 +3538,7 @@ function update_pbs() {
 
 	printf "Waiting 3 seconds before reloading PlayBox ToolKit\n"
     sleep 3
-    check_and_run 2p-FixPlayBox
+    2p-FixPlayBox
 }
 
 
