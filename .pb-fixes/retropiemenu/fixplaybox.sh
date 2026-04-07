@@ -115,6 +115,7 @@ function fix_rpmenu() {
         echo "RetroPieMenu is disabled. Nothing to do!"
         read -n 1 -s -r -p "Press any key to continue..."
         fix_region
+		fixes_pbt
         return
     fi
 
@@ -125,14 +126,16 @@ function fix_rpmenu() {
     sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 
     echo "Syncing fixed menu..."
-    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-
+    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
+      && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root \
+      && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
 	
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
     echo "Now Select Your Preferred Systems Group REGION..."
     fix_region
-	return
+	
+	fixes_pbt
 }
 
 function move_items() {
@@ -222,16 +225,44 @@ dialog --backtitle "Region based ES Systems" \
 
 
 function show_region_status() {
-    clear
-	local target=$(readlink -f /etc/emulationstation/es_systems.cfg)
+    local current="/etc/emulationstation/es_systems.cfg"
+    local us="/etc/emulationstation/es_systemsUS.cfg"
+    local eu="/etc/emulationstation/es_systemsEU.cfg"
+    local all="/etc/emulationstation/es_systems.cfgFULL"
+    local orig="/etc/emulationstation/es_systems.cfgORIG"
 
-    case "$target" in
-        */es_systemsUS.cfg)   echo "Current Region: US/JP" ;;
-        */es_systemsEU.cfg)   echo "Current Region: EU/JP" ;;
-        */es_systems.cfgFULL) echo "Current Region: ALL"   ;;
-        *)                    echo "Current Region: Unknown/Custom" ;;
-    esac
-	pausepress
+    if [ ! -f "$current" ]; then
+        echo "No es_systems.cfg found!"
+        return 1
+    fi
+
+    if [ -L "$current" ]; then
+        # It's a symlink, check target
+        local target=$(readlink -f "$current")
+        case "$target" in
+            "$us")   echo "Current Region: US/JP" ;;
+            "$eu")   echo "Current Region: EU/JP" ;;
+            "$all")  echo "Current Region: ALL"   ;;
+            "$orig") echo "Current Region: ORIG"  ;;
+            *)       echo "Current Region: Unknown/Custom (symlink to $target)" ;;
+        esac
+    else
+        # Not a symlink, compare contents
+        if cmp -s "$current" "$us"; then
+            echo "Current Region: US/JP (file copy)"
+        elif cmp -s "$current" "$eu"; then
+            echo "Current Region: EU/JP (file copy)"
+        elif cmp -s "$current" "$all"; then
+            echo "Current Region: ALL (file copy)"
+        elif cmp -s "$current" "$orig"; then
+            echo "Current Region: ORIG (file copy)"
+        else
+            echo "Current Region: INVALID (does not match US/EU/ALL/ORIG configs)"
+            return 1
+        fi
+    fi
+
+    pausepress
 }
 
 function set_region_es() {
@@ -308,7 +339,6 @@ function eu_esnpb() {
     done
 
     restart_es
-
 }
 
 function all_esnpb() {
@@ -412,6 +442,7 @@ function fix_roms() {
     echo "We need to apply REGION script now..."
     echo
     fix_region
+	fixes_pbt
 }
 
 
@@ -937,7 +968,6 @@ function toggle_cab_overlay() {
                  s|^custom_viewport_y|#custom_viewport_y|g" {} \;
             ;;
     esac
-
     done_message
 }
 
@@ -1133,15 +1163,32 @@ function set_music_theme() {
 
 
 function skyscraper() {
-	dialog --infobox "...Starting..." 3 20 ; sleep 1
-	clear
-	echo
-	echo "*** You need a keyboard connected! ***"
-	echo
-	read -n 1 -s -r -p "Press any key to continue..."
-	echo
-	Skyscraper
+    dialog --infobox "...Starting..." 3 20 ; sleep 1
+    clear
+    echo
+    echo "*** You need a keyboard connected! ***"
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
+    echo
+
+    # Menu with 3 options
+    local choice=$(dialog --clear --stdout \
+        --menu "Choose Skyscraper Mode:" 12 40 3 \
+        1 " Default Skyscraper " \
+        2 " SkyscrapeBoxArt By 2Play! " \
+        3 " SkyscrapeMixArt By 2Play! ")
+
+    clear
+    case "$choice" in
+        1) check_and_run Skyscraper ;;
+        2) check_and_run SkyscraperBoxArt ;;
+        3) check_and_run SkyscraperMixArt ;;
+        *) echo "Cancelled." ;;
+    esac
+
+    apps_pbt
 }
+
 
 
 function mesa_vk() {
@@ -3671,13 +3718,16 @@ function reboot_message() {
 function check_and_run() {
     local bin="$1"
     shift
-    if [[ -x "$bin" ]]; then
-        "$bin" "$@"
+    local resolved
+    resolved=$(command -v "$bin")
+    if [[ -n "$resolved" && -x "$resolved" ]]; then
+        "$resolved" "$@"
     else
-        echo "[ERROR] $bin not found or not executable."
+        echo "[ERROR] $bin not found in PATH or not executable."
         sleep 2
     fi
 }
+
 
 function template() {
 	clear

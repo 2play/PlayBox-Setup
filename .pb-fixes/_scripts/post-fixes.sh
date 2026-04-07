@@ -34,7 +34,12 @@ function post_fix_update() {
 		*)       break ;;
 	esac
 	done
+	
 	clear
+	echo "Post-fixes complete. Returning to Toolkit..."
+    sleep 2
+    # <no call to update_pbs here>
+    return 0
 }
 
 
@@ -47,6 +52,10 @@ function post_up() {
     #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
     next_steps
     global_shader
+	
+	echo "Post-fixes done."
+    sleep 1
+    return 0
 }
 
 
@@ -56,6 +65,13 @@ clear
 rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'var' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' --exclude 'roms' . /
 sudo rsync -urv boot/ /boot/
 sudo rsync -urv etc/ /etc/
+#sudo ln -sfn /etc/emulationstation/es_systems.cfgFULL /etc/emulationstation/es_systems.cfg
+current="/etc/emulationstation/es_systems.cfg"
+full="/etc/emulationstation/es_systems.cfgFULL"
+
+if ! cmp -s "$current" "$full"; then
+    sudo ln -sfn "$full" "$current"
+fi
 sudo rsync -urv var/ /var/
 sudo rsync -urv usr/ /usr/
 sudo rsync -urv opt/retropie/libretrocores/ /opt/retropie/libretrocores/
@@ -472,24 +488,32 @@ else
 fi
 
 
-#Delete Old OpenBor & Fix Logs Link
-sudo rm -rf /opt/retropie/ports/openbor
-sudo chown pi:pi /opt/retropie/emulators/openbor/*
-# Remove old targets
-sudo rm -f /opt/retropie/emulators/openbor/{Logs,Paks,Saves,ScreenShots}
-# Recreate symlinks
-ln -sfn /opt/retropie/configs/openbor/{Logs,Saves,ScreenShots} /opt/retropie/emulators/openbor/
-ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
-echo "OpenBOR cleanup complete."
-
-#Symbolic links to main /usr/local/bin, 
-#Check if myenv exists:
-sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
-
-if [ -d /home/pi/myenv ]; then
-sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
+# Delete Old OpenBor & Fix Logs Link (only if present)
+if [[ -d /opt/retropie/ports/openbor ]]; then
+	echo "Cleaning old OpenBOR..."
+	sudo rm -rf /opt/retropie/ports/openbor
 fi
+
+if [[ -d /opt/retropie/emulators/openbor ]]; then
+	sudo chown pi:pi /opt/retropie/emulators/openbor/* 2>/dev/null
+	sudo rm -f /opt/retropie/emulators/openbor/{Logs,Paks,Saves,ScreenShots}
+	ln -sfn /opt/retropie/configs/openbor/{Logs,Saves,ScreenShots} /opt/retropie/emulators/openbor/
+	ln -sfn /home/pi/RetroPie/roms/openbor /opt/retropie/emulators/openbor/Paks
+	echo "OpenBOR cleanup complete."
+else
+	echo "OpenBOR emulator folder not found, skipping cleanup."
+fi
+
+# Symbolic links to main /usr/local/bin
+sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
+if [[ -d /home/pi/myenv ]]; then
+	sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
+fi
+
+done_message
+
 }
+
 
 # Global Shader
 function global_shader() {
@@ -712,5 +736,3 @@ function check_and_run() {
     fi
 }
 
-done_message
-post_fix_update
