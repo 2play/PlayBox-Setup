@@ -1,8 +1,9 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
+clear
 pb_version="PlayBox v2 Post Updates & Fixes: Dated 03.2026"
 echo $pb_version
-sleep 3
+sleep 2
 cd $HOME/code/
 
 # Get Post Fixes Clean Burn Or Normal Post Fix Update
@@ -13,12 +14,11 @@ function post_fix_update() {
 		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
-            - "*** POST FIXES SETUP OPTIONS ***" \
-            - "" \
+            ""      "" \
 			CLEAN " -  CLEAN IMAGE:   POST UPDATE FIXES" \
-			- "    (Use After Clean Burn Or Restore All To Clean Status)" \
+			""      "    (Use After Clean Burn Or Restore All To Clean Status)" \
 			NORMAL " -  NORMAL UPDATE: POST UPDATE FIXES" \
-            - "    (Use To Apply New Updates)" \
+            ""      "    (Use To Apply New Updates)" \
 			2>&1 > /dev/tty)
 
         case "$choice" in

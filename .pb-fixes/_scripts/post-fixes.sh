@@ -658,6 +658,6 @@ function enable_core_cfg() {
 post_fix_update
 
 clear
-echo "[OK Updates Applied!... & Exited Toolkit]"
+echo "[OK Updates Applied!... & Exited Toolkit]" | lolcat
 cd $HOME
-sleep 2
+	   

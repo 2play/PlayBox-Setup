@@ -133,8 +133,6 @@ function fix_rpmenu() {
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
     echo "Now Select Your Preferred Systems Group REGION..."
     fix_region
-	
-	fixes_pbt
 }
 
 function move_items() {
@@ -220,12 +218,13 @@ dialog --backtitle "Region based ES Systems" \
             *) break ;;
         esac
     done
-	main_menu
 }
 
 
 function show_region_status() {
-    local current="/etc/emulationstation/es_systems.cfg"
+    
+	clear
+	local current="/etc/emulationstation/es_systems.cfg"
     local us="/etc/emulationstation/es_systemsUS.cfg"
     local eu="/etc/emulationstation/es_systemsEU.cfg"
     local all="/etc/emulationstation/es_systems.cfgFULL"
@@ -285,6 +284,8 @@ function set_region_es() {
     else
         echo "Config file for $region not found!"
     fi
+	
+	pausepress
 }
 
 function us_esnpb() {
@@ -515,7 +516,7 @@ function def_audio_out() {
            1) hdmi_sound_out  ;;
            2) jack_sound_out  ;;
 		   -) none ;;
-            *)  break ;;
+           *)  break ;;
         esac
     done
 }
@@ -3578,14 +3579,13 @@ function update_pbs() {
     
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	
-	"$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh"
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
     #cd "$HOME" || return
     cd $HOME
     fix_rpmenu
 
 	printf "Waiting 3 seconds before reloading PlayBox ToolKit\n"
     sleep 3
-    2p-FixPlayBox
 }
 
 
@@ -3730,9 +3730,38 @@ function check_and_run() {
 }
 
 
-function template() {
-	clear
+function enjoy_message() {
+    local width=$(tput cols)   # get terminal width
+    local msg1="================================="
+    local msg2=" [ Hope you enjoy the Toolkit! ] "
+    local msg3="          Time 2Play! ..."
+    local msg4="================================="
+
+    # function to center text
+    center() {
+        local text="$1"
+        local pad=$(( (width - ${#text}) / 2 ))
+        printf "%*s%s\n" $pad "" "$text" | lolcat
+    }
+
+    echo "" | lolcat
+    center "$msg1"
+    center "$msg2"
+    center "$msg3"
+    center "$msg4"
+    echo "" | lolcat
 }
+
+function enjoy_message_v1() {
+    echo "" | lolcat
+    echo "=================================" | lolcat
+    echo " [ Hope you enjoy the Toolkit! ] " | lolcat
+    echo "          Time 2Play! ..."        | lolcat
+    echo "=================================" | lolcat
+    echo "" | lolcat
+}
+
+
 
 function poff_pb() {
 	dialog --infobox "...Powering Off..." 3 23 ; sleep 1
@@ -3753,3 +3782,7 @@ function restart_pb() {
 }
 
 main_menu
+
+enjoy_message
+
+cd $HOME
