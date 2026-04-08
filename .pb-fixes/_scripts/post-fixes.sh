@@ -1,47 +1,38 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.04.2026"
-BACKTITLE="PLAYBOX PROJECT"
-
 clear
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.04.2026"
 echo $pb_version
-sleep 1
+sleep 2
 cd $HOME/code/
-
 
 # Get Post Fixes Clean Burn Or Normal Post Fix Update
 function post_fix_update() {
     local choice
 	
 	while true; do
-		choice=$(dialog --backtitle "$BACKTITLE" --title " POST FIXES SETUP OPTIONS " \
+		choice=$(dialog --backtitle "PLAYBOX PROJECT" --title " POST FIXES SETUP OPTIONS " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Clean or Normal Update!" 25 75 20 \
-            - "" \
+            ""      "" \
 			CLEAN " - CLEAN IMAGE: UPDATE & FIXES " \
-			- "    (Apply After A Clean Burn)" \
-			- "    (... OR To Restore All To Latest Clean State)" \
+			""      "	(Apply After A Clean Burn)" \
+			""      "	(... OR To Restore All To Latest Clean State)" \
 			""      "" \
 			NORMAL " - NORMAL UPDATE: POST RELEASE UPDATES & FIXES " \
-            - "    (Applies Post Release Updates) " \
+            ""      "	(Applies Post Release Updates) " \
 			""      "" \
 			2>&1 > /dev/tty)
 
-	case "$choice" in
+		case "$choice" in
 		CLEAN)   post_up "clean-vanilla-x86"   ;;
 		NORMAL)  post_up "main-vanilla-x86"    ;;
 		-)       none ;;
 		*)       break ;;
-	esac
+        esac
 	done
-	
-	clear
-	echo "Post-fixes complete. Returning to Toolkit..."
-    sleep 2
-    # <no call to update_pbs here>
-    return 0
+2p-FixPlayBox
 }
-
 
 function post_up() {
     branch=$1
@@ -49,13 +40,9 @@ function post_up() {
     echo "Cloning branch: $branch"
     git clone --depth 1 --branch="$branch" https://github.com/2play/PBv2-PostFixes.git
     cd PBv2-PostFixes/ || { echo "Clone failed"; return 1; }
-    #mv ~/RetroPie/roms/piegalaxy ~/RetroPie/roms/piegalaxy.OFF
-    next_steps
-    global_shader
-	
-	echo "Post-fixes done."
-    sleep 1
-    return 0
+
+	next_steps
+	global_shader
 }
 
 
@@ -86,11 +73,10 @@ sudo chmod 644 /etc/mopidy/mopidy.conf
 sudo chmod 755 ~/scripts/themerandom.sh
 sudo chmod 755 /usr/local/bin/*grab
 
-cd /.
+cd ~
 sudo rm -rf samba/ && sudo rm smb*
 
-rm -rf ~/code/PBv2-PostFixes/
-rm -rf ~/PBv2-PostFixes/
+rm -rf ~/code/PBv2-PostFixes/ ~/PBv2-PostFixes/
 
 # Set USB filesystem check every 1m
 set_fsck_root
@@ -114,10 +100,6 @@ set_fsck_root
 #sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
 #totalchaos update save img 1.5GB
 #rm /home/pi/RetroPie/roms/ports/doom/Skins/totalchaos.pk3
-
-# Skyscraper New Setup 2P!
-#sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_boxart.sh /usr/local/bin/2PSkyscrape_boxart;
-#sudo ln -sfn /home/pi/.skyscraper/2PSkyscrape_mixart.sh /usr/local/bin/2PSkyscrape_mixart;
 
 # Install Latest Youtube-dl/yt-dlp
 if [ -f /usr/local/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; sudo yt-dlp -U; sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl; sleep 1
@@ -177,7 +159,7 @@ disable_core_cfg "Stella 2014"
 #done < <(find . -type f -name "retroarch.cfg" -print0)
 
 # ES Video ScreenSaver Options
-cd /opt/retropie/configs/all/emulationstation
+cd /opt/retropie/configs/all/emulationstation/
 
 declare -A fixes=(
   ["ScreenSaverOmxPlayer"]="false"
@@ -222,7 +204,7 @@ done
 #sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 
 # RetroArch PlayBox v2 Defaults:
-cd /opt/retropie/configs/all
+cd /opt/retropie/configs/all/
 
 declare -A ra_defaults=(
   # RA Defaults
@@ -339,7 +321,7 @@ fix_n64_controllers
 #sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
 
 # Clean Mesa/Vulkan Old Lib Files Dups
-cd /usr/local/lib
+cd /usr/local/lib/
 if [ -f libEGL.so ]; then
   echo "Cleaning old Mesa/Vulkan libraries..."
   for f in libEGL.so libEGL.so.1 libEGL.so.1.0.0 \
@@ -364,7 +346,7 @@ clear
 
 
 # Mame2003_Plus Controller
-cd /opt/retropie/configs/arcade
+cd /opt/retropie/configs/arcade/
 sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
 
 # Pico8 & DuckStation Standalone & Core
@@ -394,9 +376,8 @@ cd ~
 #        chmod 755 "+Start PICO8.sh"
 #    fi
 #fi
+#cd ~
 
-
-cd ~
 # Fix ownership and permissions
 sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
 sudo chmod 755 /opt/retropie/emulators/duckstation/*
@@ -431,11 +412,11 @@ fi
 #        sudo ln -s /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.15 /usr/lib/arm-linux-gnueabihf/libSDL_gfx.so.13
 #    fi
 
-#New POrts Dependencies x86
+#New Ports Dependencies x86
 # Ensure GLEW and SDL_gfx legacy symlinks exist
 # To list/check: ls -l /usr/lib/*/libGLEW.so* /usr/lib/*/libSDL_gfx.so*
 
-set -e
+#set -e
 
 # --- GLEW ---
 if ldconfig -p | grep -q "libGLEW.so.1.7"; then
@@ -471,7 +452,6 @@ fi
 
 echo "Dependency check complete."
 
-
 # Sinden LightGun Requirements
 pkgs="mono-complete v4l-utils libsdl1.2-dev libsdl-image1.2-dev libjpeg-dev"
 
@@ -486,7 +466,6 @@ else
     echo "All OK!"
     echo
 fi
-
 
 # Delete Old OpenBor & Fix Logs Link (only if present)
 if [[ -d /opt/retropie/ports/openbor ]]; then
@@ -510,15 +489,13 @@ if [[ -d /home/pi/myenv ]]; then
 	sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
 fi
 
-done_message
-
 }
 
 
 # Global Shader
 function global_shader() {
     local choice
-		choice=$(dialog --backtitle "$BACKTITLE" --title " GLOBAL SHADER OPTION " \
+		choice=$(dialog --backtitle "PLAYBOX PROJECT" --title " GLOBAL SHADER OPTION " \
             --ok-label OK --cancel-label Exit \
 			--menu "Choose Enable or Disable!" 25 75 20 \
             - "*** GLOBAL RETRO SHADER ***" \
@@ -587,6 +564,7 @@ function fix_redream_path() {
     fi
 }
 
+
 function fix_n64_controllers() {
     # Global configs
     for cfg in /opt/retropie/configs/all/retroarch.cfg \
@@ -609,9 +587,6 @@ function fix_n64_controllers() {
 }
 
 
-# === Overlay Fixes with Arguments ===
-#overlay_fix "FinalBurn Neo" "MAME" "Arcade" "Genesis Plus GX" "megadrive"
-
 function overlay_fix() {
     echo "Applying overlay fixes..."
 
@@ -633,7 +608,6 @@ function overlay_fix() {
 }
 
 # === Overlay Fixes with Target List ===
-
 #function overlay_fix() {
 #    echo "Applying overlay fixes..."
 
@@ -656,7 +630,6 @@ function overlay_fix() {
 #            /opt/retropie/configs/all/retroarch/overlay/MAME-Vertical.cfg
 #}
 
-# === Core Config Management ===
 
 function disable_core_cfg() {
     core="$1"
@@ -682,57 +655,9 @@ function enable_core_cfg() {
     fi
 }
 
-function restart_es() {
-    clear
-    echo "[Restarting EmulationStation...]"
-    sleep 2
-    pkill -f emulationstation
+post_fix_update
 
-    # Wait until ES is really gone
-    while pgrep -f emulationstation >/dev/null; do
-        sleep 1
-    done
-
-    # Relaunch with nohup, log output for debugging
-    nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
-    disown
-
-    echo "[EmulationStation restarted]"
-}
-
-
-function done_message() {
-    clear
-    echo
-    echo "[OK DONE!...]"
-    cd $HOME
-    sleep 1
-}
-
-function pausepress() {
-    echo
-    read -n 1 -s -r -p "Press any key to continue..."
-    echo
-}
-
-function reboot_message() {
-    clear
-	echo
-	echo "[OK DONE!...]"
-	echo
-	echo "[OK System Will Restart now...]"
-	clear
-	sudo reboot
-}
-
-function check_and_run() {
-    local bin="$1"
-    shift
-    if [[ -x "$bin" ]]; then
-        "$bin" "$@"
-    else
-        echo "[ERROR] $bin not found or not executable."
-        sleep 2
-    fi
-}
-
+clear
+echo "[OK Updates Applied!... & Exited Toolkit]"
+cd $HOME
+sleep 2

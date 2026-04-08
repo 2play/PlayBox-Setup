@@ -115,8 +115,7 @@ function fix_rpmenu() {
         echo "RetroPieMenu is disabled. Nothing to do!"
         read -n 1 -s -r -p "Press any key to continue..."
         fix_region
-		fixes_pbt
-        return
+		return
     fi
 
     echo "Cleaning RetroPie menu..."
@@ -221,6 +220,7 @@ dialog --backtitle "Region based ES Systems" \
             *) break ;;
         esac
     done
+	main_menu
 }
 
 
@@ -3684,7 +3684,8 @@ function restart_es() {
     done
 
     # Relaunch with nohup, log output for debugging
-    nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
+    #nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
+    nohup emulationstation --no-splash 2>&1 &
     disown
 
     echo "[EmulationStation restarted]"
