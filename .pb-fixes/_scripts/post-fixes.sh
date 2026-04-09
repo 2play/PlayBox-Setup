@@ -53,7 +53,7 @@ function post_up() {
         return 1
     fi
 	if [[ "$mode" == "CLEAN" ]]; then
-		echo -e "[PostFixes applied in \033[1;32m$mode\033[0m mode]"
+			echo -e "[PostFixes applied in \033[1;32m$mode\033[0m mode]"
 		elif [[ "$mode" == "NORMAL" ]]; then
 			echo -e "[PostFixes applied in \033[1;34m$mode\033[0m mode]"
 		else
