@@ -25,23 +25,42 @@ function post_fix_update() {
 			2>&1 > /dev/tty)
 
 		case "$choice" in
-		CLEAN)   post_up "clean-vanilla-x86"   ;;
-		NORMAL)  post_up "main-vanilla-x86"    ;;
-		-)       none ;;
-		*)       break ;;
+			CLEAN)   post_up CLEAN "clean-vanilla-x86"   ;;
+			NORMAL)  post_up NORMAL "main-vanilla-x86"   ;;
+			-)       none ;;
+			*)       break ;;
         esac
 	done
 }
 
 function post_up() {
-    branch=$1
+    mode=$1   # CLEAN or NORMAL
+    branch=$2 # branch name (only used for NORMAL)
+
     clear
     echo "Cloning branch: $branch"
     git clone --depth 1 --branch="$branch" https://github.com/2play/PBv2-PostFixes.git
     cd PBv2-PostFixes/ || { echo "Clone failed"; return 1; }
 
-	next_steps
-	global_shader
+    if [[ "$mode" == "CLEAN" ]]; then
+        next_steps
+        global_shader
+    elif [[ "$mode" == "NORMAL" ]]; then
+        next_steps_pr
+        global_shader
+    else
+        echo "Unknown mode: $mode"
+        return 1
+    fi
+	if [[ "$mode" == "CLEAN" ]]; then
+		echo -e "[PostFixes applied in \033[1;32m$mode\033[0m mode]"
+		elif [[ "$mode" == "NORMAL" ]]; then
+			echo -e "[PostFixes applied in \033[1;34m$mode\033[0m mode]"
+		else
+			echo "[PostFixes applied in $mode mode]"
+		fi
+	echo
+	read -n 1 -s -r -p "Press any key to continue..."
 }
 
 
@@ -479,6 +498,12 @@ fi
 
 }
 
+#Post Release Update steps
+function next_steps_pr() {
+clear
+   
+}
+
 
 # Global Shader
 function global_shader() {
@@ -643,9 +668,21 @@ function enable_core_cfg() {
     fi
 }
 
+function ensure_lolcat() {
+    if ! command -v lolcat >/dev/null 2>&1; then
+        sudo gem install lolcat >/dev/null 2>&1
+    else
+        # Test if lolcat runs without Ruby errors
+        if ! echo "test" | lolcat >/dev/null 2>&1; then
+            sudo gem install lolcat >/dev/null 2>&1
+        fi
+    fi
+}
+
 post_fix_update
 
 clear
+ensure_lolcat
 echo "[OK Updates Applied!... & Exited Toolkit]" | lolcat
 cd $HOME
 	   
