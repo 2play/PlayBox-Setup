@@ -1,7 +1,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 clear
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 07.04.2026"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.04.2026"
 echo $pb_version
 sleep 2
 cd $HOME/code/
@@ -31,7 +31,6 @@ function post_fix_update() {
 		*)       break ;;
         esac
 	done
-2p-FixPlayBox
 }
 
 function post_up() {
@@ -164,7 +163,7 @@ cd /opt/retropie/configs/all/emulationstation/
 declare -A fixes=(
   ["ScreenSaverOmxPlayer"]="false"
   ["ScreenSaverVideoMute"]="true"
-  ["StretchVideoOnScreenSaver"]="true"
+  ["StretchVideoOnScreenSaver"]="false"
   ["ScreenSaverSwapVideoTimeout"]="10000"
   ["SubtitleAlignment"]="center"
   ["SortAllSystems"]="false"
@@ -263,6 +262,7 @@ declare -A ra_defaults=(
   ["input_exit_emulator"]="f6"
   ["system_directory"]="/home/pi/RetroPie/BIOS"
   ["rgui_browser_directory"]="/home/pi/RetroPie/roms"
+  ["rgui_particle_effect"]="5"
   ["libretro_directory"]="/opt/retropie/libretrocores/"
   ["savefile_directory"]="/home/pi/RetroPie/saves"
   ["savestate_directory"]="/home/pi/RetroPie/states"
@@ -278,29 +278,17 @@ declare -A ra_defaults=(
   ["core_updater_buildbot_url"]="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
 )
 
-# Apply to retroarch.cfg (particle effect 5)
-for key in "${!retro_defaults[@]}"; do
-    value="${retro_defaults[$key]}"
-    if grep -q "^$key" retroarch.cfg; then
-        # Replace existing active line
-        sed -i "s|\($key = \)\"[^\"]*\"|\1\"$value\"|g" retroarch.cfg
-    elif grep -q "^# *$key" retroarch.cfg; then
-        # Insert new line right after the commented line
-        sed -i "/^# *$key/a$key = \"$value\"" retroarch.cfg
+# Apply RA defaults
+for cfg in retroarch.cfg retroarch/retroarch.cfg; do
+  for key in "${!ra_defaults[@]}"; do
+    value="${ra_defaults[$key]}"
+    if grep -q "^$key" "$cfg"; then
+      sed -i "s|\($key = \)\"[^\"]*\"|\1\"$value\"|g" "$cfg"
+    elif grep -q "^# *$key" "$cfg"; then
+      sed -i "/^# *$key/a$key = \"$value\"" "$cfg"
     fi
+  done
 done
-sed -i 's|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "5"|g' retroarch.cfg
-
-# Apply to retroarch/retroarch.cfg (particle effect 1)
-for key in "${!retro_defaults[@]}"; do
-    value="${retro_defaults[$key]}"
-    if grep -q "^$key" retroarch/retroarch.cfg; then
-        sed -i "s|\($key = \)\"[^\"]*\"|\1\"$value\"|g" retroarch/retroarch.cfg
-    elif grep -q "^# *$key" retroarch/retroarch.cfg; then
-        sed -i "/^# *$key/a$key = \"$value\"" retroarch/retroarch.cfg
-    fi
-done
-sed -i 's|rgui_particle_effect = "[0-9]*"|rgui_particle_effect = "1"|g' retroarch/retroarch.cfg
 
 
 # Check and install GTK appmenu modules
