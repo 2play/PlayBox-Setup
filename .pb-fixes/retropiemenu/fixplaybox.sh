@@ -4,7 +4,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
 BACKTITLE="PLAYBOX PROJECT"
-pb_version="PlayBox ToolKit Version 2.0 Dated 05.04.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 10.04.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -222,8 +222,7 @@ dialog --backtitle "Region based ES Systems" \
 
 
 function show_region_status() {
-    
-	clear
+    clear
 	local current="/etc/emulationstation/es_systems.cfg"
     local us="/etc/emulationstation/es_systemsUS.cfg"
     local eu="/etc/emulationstation/es_systemsEU.cfg"
@@ -238,23 +237,25 @@ function show_region_status() {
     if [ -L "$current" ]; then
         # It's a symlink, check target
         local target=$(readlink -f "$current")
+		ensure_lolcat
         case "$target" in
-            "$us")   echo "Current Region: US/JP" ;;
-            "$eu")   echo "Current Region: EU/JP" ;;
-            "$all")  echo "Current Region: ALL"   ;;
-            "$orig") echo "Current Region: ORIG"  ;;
+            "$us")   echo "Current Region: US/JP" | lolcat ;;
+            "$eu")   echo "Current Region: EU/JP" | lolcat ;;
+            "$all")  echo "Current Region: ALL" | lolcat  ;;
+            "$orig") echo "Current Region: ORIG" | lolcat ;;
             *)       echo "Current Region: Unknown/Custom (symlink to $target)" ;;
         esac
     else
+		ensure_lolcat
         # Not a symlink, compare contents
         if cmp -s "$current" "$us"; then
-            echo "Current Region: US/JP (file copy)"
+            echo "Current Region: US/JP (file copy)" | lolcat
         elif cmp -s "$current" "$eu"; then
-            echo "Current Region: EU/JP (file copy)"
+            echo "Current Region: EU/JP (file copy)" | lolcat
         elif cmp -s "$current" "$all"; then
-            echo "Current Region: ALL (file copy)"
+            echo "Current Region: ALL (file copy)" | lolcat
         elif cmp -s "$current" "$orig"; then
-            echo "Current Region: ORIG (file copy)"
+            echo "Current Region: ORIG (file copy)" | lolcat
         else
             echo "Current Region: INVALID (does not match US/EU/ALL/ORIG configs)"
             return 1
@@ -443,7 +444,6 @@ function fix_roms() {
     echo "We need to apply REGION script now..."
     echo
     fix_region
-	fixes_pbt
 }
 
 
@@ -732,11 +732,11 @@ function ra_options_tool() {
 
         case "$choice" in
             0) show_status_dashboard  ;;
-            1) ra_set_volume 3   ;;  # 25%
-			2) ra_set_volume 6   ;;  # 50%
-			3) ra_set_volume 10  ;;  # 80%
-			4) ra_set_volume 12  ;;  # 100%
-			5) ra_set_volume 0   ;;  # Default
+            1) ra_set_option audio_volume "3.000000"   ;;  # 25%
+			2) ra_set_option audio_volume "6.000000"   ;;  # 50%
+			3) ra_set_option audio_volume "10.000000"  ;;  # 80%
+			4) ra_set_option audio_volume "12.000000"  ;;  # 100%
+			5) ra_set_option audio_volume "0.000000"   ;;  # Default
 			#6) disable_shaders  ;;
             #7) enable_shaders  ;;
 		    6) toggle_global_shader disable ;;
@@ -810,15 +810,36 @@ function show_status_dashboard() {
 }
 
 
-function ra_set_volume() {
-    local level="$1"   # e.g. 0, 3, 6, 10, 12
-    dialog --infobox "...Applying..." 3 20 ; sleep 1
+# === RetroArch Config Setter ===
+# Usage: ra_set_option key value
+# Example: ra_set_option audio_volume "6.000000"
+
+function ra_set_option() {
+    local key="$1"
+    local value="$2"
+    dialog --infobox "...Applying $key..." 3 30 ; sleep 1
+
     for cfg in /opt/retropie/configs/all/retroarch.cfg \
                /opt/retropie/configs/all/retroarch/retroarch.cfg; do
-        sudo sed -i "s|audio_volume = \"[0-9]*\.[0-9]*\"|audio_volume = \"${level}.000000\"|" "$cfg"
+
+        # If key exists uncommented, replace it
+        if grep -qE "^[[:space:]]*$key = " "$cfg"; then
+            sudo sed -i "s|^[[:space:]]*$key = \".*\"|$key = \"$value\"|" "$cfg"
+
+        # If key exists commented, insert new active line right below
+        elif grep -qE "^[[:space:]]*# *$key" "$cfg"; then
+            sudo sed -i "/^[[:space:]]*# *$key/a$key = \"$value\"" "$cfg"
+
+        else
+            # Append fresh active line if missing entirely
+            echo "$key = \"$value\"" | sudo tee -a "$cfg" > /dev/null
+        fi
     done
+
     done_message
 }
+
+
 
 
 function disable_shaders() {
@@ -1175,19 +1196,20 @@ function skyscraper() {
     # Menu with 3 options
     local choice=$(dialog --clear --stdout \
         --menu "Choose Skyscraper Mode:" 12 40 3 \
-        1 " Default Skyscraper " \
-        2 " SkyscrapeBoxArt By 2Play! " \
-        3 " SkyscrapeMixArt By 2Play! ")
+        ""      "" \
+		1 " Skyscraper Help & --flags Info " \
+        ""      "" \
+		2 " SkyscrapeBoxart By 2Play! " \
+        3 " SkyscrapeMixart By 2Play! ")
 
     clear
     case "$choice" in
         1) check_and_run Skyscraper ;;
-        2) check_and_run SkyscraperBoxArt ;;
-        3) check_and_run SkyscraperMixArt ;;
+        2) check_and_run SkyscrapeBoxart ;;
+        3) check_and_run SkyscrapeMixart ;;
         *) echo "Cancelled." ;;
     esac
-
-    apps_pbt
+   
 }
 
 
@@ -2941,7 +2963,7 @@ function sys_pbt() {
 		   2 " - Expand The Armbian OS Partition " \
 		   ""      "" \
 		   3 " - Show Partitions & Space Info " \
-		   4 " - Show Folders Size [home/pi] " \
+		   4 " - Show Folders Size [roms/BIOS/root] " \
            5 " - Show System Free Memory Info " \
            6 " - Show OS Version & Info " \
            7 " - System & FW Update Options " \
@@ -2953,7 +2975,7 @@ function sys_pbt() {
 		   2>&1 > /dev/tty)
 
         case "$choice" in
-           #1) fschk_bt  ;;
+           1) fschk_bt  ;;
            2) expand_os  ;;
 		   #3) hide_uboot  ;;
            3) partitions  ;;
@@ -2994,17 +3016,23 @@ function fschk_status() {
     echo "Filesystem check status (ext4 partitions):"
     echo
 
-    # Loop through all ext4 devices listed in /etc/fstab
-    awk '$3 == "ext4" {print $1}' /etc/fstab | while read -r dev; do
+    # Loop through all ext4 entries in fstab
+    awk '$3 == "ext4" {print $2}' /etc/fstab | while read -r mountpoint; do
+        dev=$(findmnt -n -o SOURCE "$mountpoint" 2>/dev/null)
         if [[ -b "$dev" ]]; then
+            echo "Mountpoint: $mountpoint"
             echo "Device: $dev"
             sudo tune2fs -l "$dev" | grep -E "Mount count:|Maximum mount count:"
             echo
         fi
     done
+	
+	count=$(awk '$3 == "ext4" {print $2}' /etc/fstab | wc -l)
+	echo "Checked total $count ext4 partition(s)."
 
     read -n 1 -s -r -p "Press any key to continue"
 }
+
 
 
 function expand_os() {
@@ -3038,8 +3066,10 @@ function fold_sz() {
 	clear
 	
 	disk_usage_top /home/pi/RetroPie/roms
-
+	pausepress
+	
 	disk_usage_top /home/pi/RetroPie/BIOS
+	pausepress
 	
 	disk_usage_top
 	pausepress
@@ -3048,7 +3078,7 @@ function fold_sz() {
 function disk_usage_top() {
     target=${1:-/}   # default to root if no argument
     echo "Top disk usage in $target:"
-    du -h --max-depth=1 "$target" | sort -hr | head -20 | more -d
+    sudo du -h --max-depth=1 "$target" | sort -hr | head -20 | more -d
 	
 	#With Subfolders
 	#du -h | sort -hr | column | more -d
@@ -3091,6 +3121,7 @@ function os_info() {
 	clear
 	#uname -snrmo
 	#lsb_release -ds
+	ensure_lolcat
 	fastfetch | lolcat
 	pausepress
 }
@@ -3582,10 +3613,6 @@ function update_pbs() {
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
     #cd "$HOME" || return
     cd $HOME
-    fix_rpmenu
-
-	printf "Waiting 3 seconds before reloading PlayBox ToolKit\n"
-    sleep 3
 }
 
 
@@ -3675,17 +3702,21 @@ function enable_core_cfg() {
 function restart_es() {
     clear
     echo "[Restarting EmulationStation...]"
-    sleep 2
+    sleep 1
+	
+	# Stop ES
     pkill -f emulationstation
 
     # Wait until ES is really gone
     while pgrep -f emulationstation >/dev/null; do
-        sleep 1
+        sleep 2
     done
 
-    # Relaunch with nohup, log output for debugging
-    #nohup emulationstation --no-splash >/tmp/es_restart.log 2>&1 &
-    nohup emulationstation --no-splash 2>&1 &
+    # Extra delay to let esbgm service react
+    sleep 1
+
+    # Relaunch ES quietly
+    nohup emulationstation --no-splash 2>/dev/null &
     disown
 
     echo "[EmulationStation restarted]"
@@ -3695,7 +3726,7 @@ function restart_es() {
 function done_message() {
     clear
     echo
-    echo "[OK DONE!...]"
+    echo -e "[OK \033[32mDONE\033[0m!...]"
     cd $HOME
     sleep 1
 }
@@ -3741,6 +3772,7 @@ function enjoy_message() {
     center() {
         local text="$1"
         local pad=$(( (width - ${#text}) / 2 ))
+		ensure_lolcat
         printf "%*s%s\n" $pad "" "$text" | lolcat
     }
 
@@ -3753,12 +3785,25 @@ function enjoy_message() {
 }
 
 function enjoy_message_v1() {
-    echo "" | lolcat
+    ensure_lolcat
+	echo "" | lolcat
     echo "=================================" | lolcat
     echo " [ Hope you enjoy the Toolkit! ] " | lolcat
     echo "          Time 2Play! ..."        | lolcat
     echo "=================================" | lolcat
     echo "" | lolcat
+}
+
+
+function ensure_lolcat() {
+    if ! command -v lolcat >/dev/null 2>&1; then
+        sudo gem install lolcat >/dev/null 2>&1
+    else
+        # Test if lolcat runs without Ruby errors
+        if ! echo "test" | lolcat >/dev/null 2>&1; then
+            sudo gem install lolcat >/dev/null 2>&1
+        fi
+    fi
 }
 
 
