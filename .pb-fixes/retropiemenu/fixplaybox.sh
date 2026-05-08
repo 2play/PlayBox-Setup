@@ -3619,11 +3619,11 @@ function update_pbs() {
     find . -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
 
 
-	rm "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
+	safe_remove "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
 	ln -sfn /opt/retropie/supplementary/joystick-selection/joystick_selection.sh \
 	"$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller Tools/joystick_selection.sh"
     
-	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
+	safe_remove /home/pi/PlayBox-Setup/.pb-fixes/music
 	
 	sanitize_scripts
 	
@@ -3848,9 +3848,20 @@ function sanitize_scripts() {
     # Summary after all directories
     total=$(find "${dirs[@]}" -name "*.sh" 2>/dev/null | wc -l)
     echo "[SUMMARY] Checked $total scripts across ${#dirs[@]} directories."
-    pausepress
+    sleep 3
 }
 
+
+function safe_remove() {
+    for target in "$@"; do
+        if [ -e "$target" ]; then
+            rm -rf "$target"
+            echo "[OK DONE!] Removed $target"
+        else
+            echo "[INFO] $target not found, skipping."
+        fi
+    done
+}
 
 
 
