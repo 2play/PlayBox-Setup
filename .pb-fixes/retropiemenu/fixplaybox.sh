@@ -3827,13 +3827,13 @@ function ensure_lolcat() {
 function sanitize_scripts() {
     echo "Checking for CRLF line endings in scripts..."
 
-    # Directories to sanitize
+    # Directories to sanitize (user can edit this list)
     dirs=("$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu" "$HOME/RetroPie/roms")
 
     for d in "${dirs[@]}"; do
         if [ -d "$d" ]; then
             echo "[INFO] Scanning $d ..."
-            if find "$d" -name "*.sh" -exec file {} \; | grep -q "CRLF"; then
+            if find "$d" -name "*.sh" -exec file {} \; 2>/dev/null | grep -q "CRLF"; then
                 echo "[WARN] CRLF detected in $d scripts. Converting..."
                 find "$d" -name "*.sh" -exec dos2unix {} +
                 echo "[OK DONE! Scripts sanitized in $d]"
@@ -3844,6 +3844,11 @@ function sanitize_scripts() {
             echo "[INFO] Directory $d not found, skipping."
         fi
     done
+
+    # Summary after all directories
+    total=$(find "${dirs[@]}" -name "*.sh" 2>/dev/null | wc -l)
+    echo "[SUMMARY] Checked $total scripts across ${#dirs[@]} directories."
+    pausepress
 }
 
 
