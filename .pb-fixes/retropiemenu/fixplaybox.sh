@@ -3625,6 +3625,8 @@ function update_pbs() {
     
 	rm -rf /home/pi/PlayBox-Setup/.pb-fixes/music
 	
+	sanitize_scripts
+	
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
     #cd "$HOME" || return
     cd $HOME
@@ -3820,6 +3822,30 @@ function ensure_lolcat() {
         fi
     fi
 }
+
+
+function sanitize_scripts() {
+    echo "Checking for CRLF line endings in scripts..."
+
+    # Directories to sanitize
+    dirs=("$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu" "$HOME/RetroPie/roms")
+
+    for d in "${dirs[@]}"; do
+        if [ -d "$d" ]; then
+            echo "[INFO] Scanning $d ..."
+            if find "$d" -name "*.sh" -exec file {} \; | grep -q "CRLF"; then
+                echo "[WARN] CRLF detected in $d scripts. Converting..."
+                find "$d" -name "*.sh" -exec dos2unix {} +
+                echo "[OK DONE! Scripts sanitized in $d]"
+            else
+                echo "[INFO] All scripts in $d already clean (LF endings)"
+            fi
+        else
+            echo "[INFO] Directory $d not found, skipping."
+        fi
+    done
+}
+
 
 
 
