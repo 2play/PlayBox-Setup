@@ -60,14 +60,14 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./Controller Tools/LightGunAimtrak.sh</path>
-		<name>LightGun Aimtrak Install, EZH-2P [OFF]</name>
+		<name>LightGun Aimtrak Install, 2P/Gunpadawan</name>
 		<desc>Enabled on Full PlayBox! Enables Aimtrack Lightgun support and installs Advance-Mame. Mouse is supported on PlayBox for both Advance-Mame & lr-mame systems/emus.</desc>
 		<image>./icons/aimtrak.png</image>
 		<video>./icons/aimtrak.mp4</video>
 	</game>
 	<game>
 		<path>./Controller Tools/LightGunConf.sh</path>
-		<name>LightGun Aimtrak Config, EZH</name>
+		<name>LightGun Aimtrak Config, 2P/Gunpadawan</name>
 		<desc>The configuration script created by the Aimtrak script.</desc>
 		<image>./icons/aimtrak.png</image>
 		<video>./icons/aimtrak.mp4</video>
@@ -235,9 +235,9 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./System Tools/oc.sh</path>
-		<name>✭ OverClock TinkerBoard Optimized, 2P!</name>
-		<desc>Your TinkerBoard is set to operate on PlayBox v2 at max CPU stock speed of 1800 MHz and max GPU speed of 600 MHz. The default/original GPU speed was set at 200 MHz.
-		You can verify current board speeds at PlayBox Infobox when in CLi or simply run in Toolkit or RetroPie Menu.</desc>
+		<name>✭ OverClock Information, 2P!</name>
+		<desc>Your CPU performance is set to operate on PlayBox v2, scheduler-driven. Each governor has its own use case depending on the desired balance between performance and power savings. This way it will run cooler and boost CPU perfromance as needed.
+		You can verify current board speeds at PlayBox Toolkit under System Tools.</desc>
 		<image>./icons/oc.png</image>
 		<video>./icons/oc.mp4</video>
 	</game>
@@ -249,70 +249,63 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 		<video>./icons/runcommand.mp4</video>
 	</game>
 	<folder>
-		<path>./Visuals 'n' Theme Tools</path>
-		<name>: Visual 'n' Theme Tools</name>
+		<path>./Visuals & Theme Tools</path>
+		<name>: Visuals & Theme Tools</name>
 		<desc>This folder contains the Skyscraper install/update script, bezels and other visual settings.</desc>
 		<image>./icons/visuals-cat.png</image>
 		<video>./icons/visuals-cat.mp4</video>
 	</folder>
 	<game>
-		<path>./Visuals 'n' Theme Tools/bezelproject.sh</path>
+		<path>./Visuals & Theme Tools/bezelproject.sh</path>
 		<name>Bezel Project, The</name>
 		<desc>Pimp your PlayBox. Use the official Bezel Project to enable/disable systems and roms fantastic bezels. A great team behind it. Fully automated!</desc>
 		<image>./icons/bezelproject.png</image>
 		<video>./icons/bezelproject.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/bezelproject-update.sh</path>
+		<path>./Visuals & Theme Tools/bezelproject-update.sh</path>
 		<name>Bezel Project, Script Update PlayBox 2P!</name>
 		<desc>This script will get and update our Bezel Project script to the latest one from official Github and will update correctly the PlayBox menu. Run it before you run the main one so you can be sure you ll get allways the latest systems support!</desc>
 		<image>./icons/bezelproject.png</image>
 		<video>./icons/bezelproject.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/esthemes.rp</path>
+		<path>./Visuals & Theme Tools/esthemes.rp</path>
 		<name>ES Themes</name>
 		<desc>Install, uninstall, or update EmulationStation themes. Officialy supported themes can be previewed at https://github.com/retropie/RetroPie-Setup/wiki/themes.</desc>
 		<image>./icons/esthemes.png</image>
 		<video>./icons/esthemes.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/hurstythemes.sh</path>
+		<path>./Visuals & Theme Tools/hurstythemes.sh</path>
 		<name>Hursty's Themes</name>
 		<desc>Install, uninstall, or update RetroHursty69's EmulationStation themes. David Marti's randomizer ES theme script is part of this script.</desc>
 		<image>./icons/hurstythemes.png</image>
 		<video>./icons/hurstythemes.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/launchmp4.sh</path>
+		<path>./Visuals & Theme Tools/launchmp4.sh</path>
 		<name>Launching MP4 Screen, 2P!</name>
 		<desc>Disable or enable 2Play!'s launching mp4 screen prior loading a rom. Or enable the launching mp4 screens per system. Requires the systems mp4 to exist in the /home/pi/lmp4/ folder and match PlayBox system names. Create a folder named lmp4 and copy your per system launching videos in there.</desc>
 		<image>./icons/videosettings.png</image>
 		<video>./icons/videosettings.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/removemedia.sh</path>
-		<name>Media Removal Util, DM-2P!</name>
-		<desc>This utility will remove extra media files (mixart, boxart, cartart, snap and wheel) for a chosen system when there is not a matching game/rom for it. Mixart tweak added.</desc>
+		<path>./Visuals & Theme Tools/removemedia.sh</path>
+		<name>New Media CleanUp Tool, 2P! Based on DM concept</name>
+		<desc>This tool will remove extra media files (mixart, boxart, cartart, snap and wheel) for a chosen system when there is not a matching game/rom for it. Mixart tweak added and covers local and usb rom folders.</desc>
 		<image>./icons/cleanup.png</image>
 		<video>./icons/cleanup.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/OverscanOn-Off.sh</path>
-		<name>OverScan On/Off, EZH-2P!</name>
-		<desc>This script will let quickly enable or disable the overscan setting.</desc>
-		<image>./icons/overscan.png</image>
-		<video>./icons/overscan.mp4</video>
-	</game>
-	<game>
-		<path>./Visuals 'n' Theme Tools/splashscreen.rp</path>
+		<path>./Visuals & Theme Tools/splashscreen.rp</path>
 		<name>Splash Screens [ONLY For Pi]</name>
 		<desc>Enable or disable the RetroPie splashscreen during boot. Choose a splashscreen, download new splashscreens or return splashscreen to default.</desc>
 		<image>./icons/splashscreen.png</image>
 		<video>./icons/splashscreen.mp4</video>
 	</game>
 	<game>
-		<path>./Visuals 'n' Theme Tools/skyscraper.sh</path>
+		<path>./Visuals & Theme Tools/skyscraper.sh</path>
 		<name>✭ Skyscraper 2P!</name>
 		<desc>A powerful and versatile yet easy to use game scraper. Supports EmulationStation & Attract Mode, 61+ systems. Written by Lars Muldjord. Script by 2Play! to install or update the Skyscraper to latest release. To run actual Skyscraper use PlayBox Toolkit from cli.</desc>
 		<image>./icons/skyscraper.png</image>
@@ -348,7 +341,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./attract.sh</path>
-		<name>✭ Switch To Attract Mode [OFF]</name>
+		<name>✭ Select Frontend </name>
 		<desc>Enable and switch to Attract Mode FrontEnd.</desc>
 		<image>./icons/hyperpie2Play.png</image>
 		<video>./icons/hyperpie2Play.mp4</video>

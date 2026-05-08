@@ -3,6 +3,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 # 25.06.19
+BACKTITLE="PLAYBOX PROJECT"
 
 infobox=""
 infobox="${infobox}\n"
@@ -30,6 +31,7 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "Are you ready?" 25 75 20 \
             - "*** CONTROLLERS SETUP RESET SELECTIONS ***" \
+			""      "" \
             1 " - Reset All ES Controller Configs" \
             2>&1 > /dev/tty)
 

@@ -180,6 +180,7 @@ disable_core_cfg "Stella 2014"
 cd /opt/retropie/configs/all/emulationstation/
 
 declare -A fixes=(
+  ["DoublePressRemovesFromFavs"]="true"
   ["ScreenSaverOmxPlayer"]="false"
   ["ScreenSaverVideoMute"]="true"
   ["StretchVideoOnScreenSaver"]="false"

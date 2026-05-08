@@ -3,6 +3,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 # 02.04.26
+BACKTITLE="PLAYBOX PROJECT"
 
 infobox=""
 infobox="${infobox}\n"
@@ -30,6 +31,7 @@ function main_menu() {
             --ok-label OK --cancel-label Exit \
             --menu "What action would you like to perform?" 25 75 20 \
             - "*** DUAL ARCADE CONTROLLER SELECTIONS ***" \
+			""      "" \
             1 "Enable Xin Mo Controller" \
             2 "Enable Juyao Controller" \
             3 "Remove Xin Mo or Juyao Controller" \

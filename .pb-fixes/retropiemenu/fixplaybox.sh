@@ -125,7 +125,8 @@ function fix_rpmenu() {
     sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 
     echo "Syncing fixed menu..."
-    rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
+    find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
+	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
       && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
@@ -148,10 +149,10 @@ function move_items() {
       ["audiosettings.rp"]="DISCARD"
       ["filemanager.rp"]="System Tools"
       ["runcommand.rp"]="System Tools"
-      ["esthemes.rp"]="Visuals 'n' Theme Tools"
+      ["esthemes.rp"]="Visuals & Theme Tools"
       ["splashscreen.rp"]="DISCARD"
-      ["hurstythemes.sh"]="Visuals 'n' Theme Tools"
-      ["bezelproject.sh"]="Visuals 'n' Theme Tools"
+      ["hurstythemes.sh"]="Visuals & Theme Tools"
+      ["bezelproject.sh"]="Visuals & Theme Tools"
     )
 
 for f in "${!moves[@]}"; do
