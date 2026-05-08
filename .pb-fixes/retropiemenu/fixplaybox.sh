@@ -4,7 +4,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
 BACKTITLE="PLAYBOX PROJECT"
-pb_version="PlayBox ToolKit Version 2.0 Dated 10.04.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 08.05.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -3595,10 +3595,24 @@ function update_pbs() {
 	
 	echo "Let's pull latest PlayBox-Setup updates..."
 	sleep 1
-	git fetch
-	git reset --hard HEAD
-	git merge '@{u}'
-	sleep 2
+	#git fetch
+	#git reset --hard HEAD
+	#git merge '@{u}'
+	#sleep 2
+	
+	# Detect current branch
+	branch=$(git rev-parse --abbrev-ref HEAD)
+
+	# Make sure we’re tracking the remote
+	git fetch --all
+
+	# Reset to the remote branch
+	git reset --hard origin/$branch
+
+	# Clean up untracked files
+	git clean -fd
+
+	echo "[OK DONE! Updated branch $branch]"
 	
 	find . -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
     find . -type f -name "*.py" -print0 | xargs -0 chmod 755
