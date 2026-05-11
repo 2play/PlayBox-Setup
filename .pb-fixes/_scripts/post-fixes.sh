@@ -1,7 +1,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 clear
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 09.04.2026"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 11.05.2026"
 echo $pb_version
 sleep 2
 cd $HOME/code/
@@ -179,6 +179,16 @@ disable_core_cfg "Stella 2014"
 # ES Video ScreenSaver Options
 cd /opt/retropie/configs/all/emulationstation/
 
+xml_escape() {
+    local raw="$1"
+    raw="${raw//&/&amp;}"
+    raw="${raw//</&lt;}"
+    raw="${raw//>/&gt;}"
+    raw="${raw//\"/&quot;}"
+    raw="${raw//\'/&apos;}"
+    echo "$raw"
+}
+
 declare -A fixes=(
   ["DoublePressRemovesFromFavs"]="true"
   ["ScreenSaverOmxPlayer"]="false"
@@ -195,10 +205,14 @@ declare -A fixes=(
 )
 
 for key in "${!fixes[@]}"; do
-    value="${fixes[$key]}"
-    # Replace regardless of current value
-    sed -i "s|\(<.* name=\"$key\" value=\)\"[^\"]*\"|\1\"$value\"|g" es_settings.cfg
+    value=$(xml_escape "${fixes[$key]}")
+    # Escape & for sed replacement
+    safe_value=${value//&/\\&}
+	# Replace regardless of current value
+    sed -i "s|\(<string name=\"$key\" value=\)\"[^\"]*\"|\1\"$safe_value\"|g" es_settings.cfg
 done
+
+restart_es
 
 #for key in "${!fixes[@]}"; do
 #    grep "$key" es_settings.cfg
@@ -668,6 +682,30 @@ function enable_core_cfg() {
         echo "Skipping $core (no .OFF backup found)"
     fi
 }
+
+function restart_es() {
+    clear
+    echo "[Restarting EmulationStation...]"
+    sleep 1
+	
+	# Stop ES
+    pkill -f emulationstation
+
+    # Wait until ES is really gone
+    while pgrep -f emulationstation >/dev/null; do
+        sleep 2
+    done
+
+    # Extra delay to let esbgm service react
+    sleep 1
+
+    # Relaunch ES quietly
+    nohup emulationstation --no-splash 2>/dev/null &
+    disown
+
+    echo "[EmulationStation restarted]"
+}
+
 
 function ensure_lolcat() {
     if ! command -v lolcat >/dev/null 2>&1; then
