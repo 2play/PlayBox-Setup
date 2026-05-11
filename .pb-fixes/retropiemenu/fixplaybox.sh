@@ -129,8 +129,6 @@ function fix_rpmenu() {
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
       && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
-	#mv -f $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp $HOME/RetroPie/retropiemenu/Network\ Tools/wifi.rp.OFF
-	
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
     echo "Now Select Your Preferred Systems Group REGION..."
     fix_region
@@ -2911,19 +2909,28 @@ function cl_wifi() {
     dialog --infobox "...Cleaning..." 3 20 ; sleep 1
     clear
 
-    # Remove WPA supplicant if present
-    if [[ -f /etc/wpa_supplicant/wpa_supplicant.conf ]]; then
-        sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
-    else
-        echo "No WPA_Supplicant conflict found!"
+    clear
+    # Get active WiFi device + SSID
+    active=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION d | grep '^.*:wifi:connected')
+
+    if [ -z "$active" ]; then
+        dialog --msgbox "No active WiFi connection found." 8 50
+        return
     fi
 
-    # Always remove NetworkManager connections
-    sudo rm -f /etc/NetworkManager/system-connections/*.nmconnection
+    # Parse device and SSID
+    device=$(echo "$active" | cut -d: -f1)
+    ssid=$(echo "$active" | cut -d: -f4)
 
-    echo "Wi-Fi reset completed."
-    done_message
-    reboot_message
+    # Confirm disconnect
+    dialog --yesno "Disconnect from SSID: $ssid (device: $device)?" 8 60
+    if [ $? -eq 0 ]; then
+        sudo nmcli device disconnect "$device"
+        dialog --msgbox "Disconnected from SSID: $ssid" 8 50
+    fi
+	clear
+	sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
+	done_message
 }
 
 
