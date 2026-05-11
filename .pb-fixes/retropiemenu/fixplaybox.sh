@@ -110,6 +110,7 @@ function fixes_pbt() {
 function fix_rpmenu() {
     dialog --infobox "...Fixing..." 3 17 ; sleep 1
     clear
+	targetPBS="$HOME/PlayBox-Setup/"
 
     if [[ -d "$HOME/RetroPie/retropiemenu.OFF" ]]; then
         echo "RetroPieMenu is disabled. Nothing to do!"
@@ -119,15 +120,19 @@ function fix_rpmenu() {
     fi
 
     echo "Cleaning RetroPie menu..."
-    sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
-
     move_items   # helper function with array loop
-    sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
+	find $targetPBS -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
+    find $targetPBS -type f -name "*.py" -print0 | xargs -0 chmod 755
+    #find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
+    find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root
+	pausepress
+    sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
+	sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 
     echo "Syncing fixed menu..."
     find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
-      && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root \
+      && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	#sudo rm -rf /etc/emulationstation/themes/carbon/
     echo "Now Select Your Preferred Systems Group REGION..."
@@ -156,14 +161,20 @@ function move_items() {
 for f in "${!moves[@]}"; do
         src="$HOME/RetroPie/retropiemenu/$f"
         dest="${moves[$f]}"
+        target="$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest/$f"
+
         if [[ -e "$src" ]]; then
             if [[ "$dest" == "DISCARD" ]]; then
-                echo "Removing $f"
-                rm -f "$src"
-            else
-                target="$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest"
-                echo "Moving $f → $target"
-                mv -f "$src" "$target"
+                echo "[INFO] Removing $src"
+                sudo rm -f "$src"
+                if [[ -e "$target" ]]; then
+                    echo "[INFO] Also removing $target"
+                    sudo rm -f "$target"
+                fi
+            elif [[ -n "$dest" ]]; then
+                mkdir -p "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest"
+                echo "[INFO] Moving $src → $HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest/"
+                mv -f "$src" "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/$dest/"
             fi
         fi
     done
@@ -3632,7 +3643,7 @@ function update_pbs() {
     
 	safe_remove /home/pi/PlayBox-Setup/.pb-fixes/music
 	
-	sanitize_scripts
+	#sanitize_scripts
 	
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
     #cd "$HOME" || return
