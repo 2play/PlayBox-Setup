@@ -144,7 +144,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	</game>
 	<game>
 		<path>./Emulation Tools/am-latest.sh</path>
-		<name>✭ Install or Update Attract Mode</name>
+		<name>✭ Update Attract Mode</name>
 		<desc>It will install or update your Attract Mode. Any needed extras etc.</desc>
 		<image>./icons/attract.png</image>
 		<video>./icons/attract.mp4</video>
