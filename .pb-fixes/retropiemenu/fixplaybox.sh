@@ -121,6 +121,11 @@ function fix_rpmenu() {
 
     echo "Cleaning RetroPie menu..."
     move_items   # helper function with array loop
+	
+	safe_remove "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
+	ln -sfn /opt/retropie/supplementary/joystick-selection/joystick_selection.sh \
+	"$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller Tools/joystick_selection.sh"
+	
 	find $targetPBS -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
     find $targetPBS -type f -name "*.py" -print0 | xargs -0 chmod 755
     #find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
@@ -3632,17 +3637,9 @@ function update_pbs() {
 
 	echo "[OK DONE! Updated branch $branch]"
 	
-	find . -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
-    find . -type f -name "*.py" -print0 | xargs -0 chmod 755
-    find . -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
-
-
-	safe_remove "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
-	ln -sfn /opt/retropie/supplementary/joystick-selection/joystick_selection.sh \
-	"$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller Tools/joystick_selection.sh"
-    
 	safe_remove /home/pi/PlayBox-Setup/.pb-fixes/music
 	
+	fix_rpmenu
 	#sanitize_scripts
 	
 	$HOME/PlayBox-Setup/.pb-fixes/_scripts/post-fixes.sh
