@@ -3618,22 +3618,22 @@ function update_pbs() {
 	
 	echo "Let's pull latest PlayBox-Setup updates..."
 	sleep 1
-	#git fetch
-	#git reset --hard HEAD
-	#git merge '@{u}'
-	#sleep 2
+	git fetch
+	git reset --hard HEAD
+	git merge '@{u}'
+	sleep 2
 	
 	# Detect current branch
-	branch=$(git rev-parse --abbrev-ref HEAD)
+	#branch=$(git rev-parse --abbrev-ref HEAD)
 
 	# Make sure we’re tracking the remote
-	git fetch --all
+	#git fetch --all
 
 	# Reset to the remote branch
-	git reset --hard origin/$branch
+	#git reset --hard origin/$branch
 
 	# Clean up untracked files
-	git clean -fd
+	#git clean -fd
 
 	echo "[OK DONE! Updated branch $branch]"
 	
