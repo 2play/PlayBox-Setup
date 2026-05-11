@@ -4,7 +4,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
 BACKTITLE="PLAYBOX PROJECT"
-pb_version="PlayBox ToolKit Version 2.0 Dated 08.05.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 11.05.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
