@@ -130,12 +130,12 @@ function fix_rpmenu() {
     find $targetPBS -type f -name "*.py" -print0 | xargs -0 chmod 755
     #find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" ! -iname "rpsetup.rp" -print0 | xargs -0 sudo chown root:root
     find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root
-	pausepress
+	#pausepress
     sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
 	sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 
     echo "Syncing fixed menu..."
-    find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
+    #find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu" \
       && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
@@ -3843,7 +3843,7 @@ function sanitize_scripts() {
     echo "Checking for CRLF line endings in scripts..."
 
     # Directories to sanitize (user can edit this list)
-    dirs=("$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu" "$HOME/RetroPie/roms")
+    dirs=("$HOME/PlayBox-Setup" "$HOME/RetroPie/roms")
 
     for d in "${dirs[@]}"; do
         if [ -d "$d" ]; then
