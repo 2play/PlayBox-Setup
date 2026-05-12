@@ -342,7 +342,7 @@ Then point your gun at the screen and press the trigger. Mouse 1 should appear n
 	<game>
 		<path>./attract.sh</path>
 		<name>✭ Select Frontend </name>
-		<desc>Enable and switch to Attract Mode FrontEnd.</desc>
+		<desc>Switch to Attract Mode or ES FrontEnd.</desc>
 		<image>./icons/hyperpie2Play.png</image>
 		<video>./icons/hyperpie2Play.mp4</video>
 	</game>
