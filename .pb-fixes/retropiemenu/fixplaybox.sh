@@ -127,7 +127,7 @@ function fix_rpmenu() {
 	ln -sfn /opt/retropie/supplementary/joystick-selection/joystick_selection.sh \
 	"$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Controller Tools/joystick_selection.sh"
 	
-	pausepress
+	#pausepress
 	
 	# Shell, Python, .rp scripts
 	permsPBS() {
@@ -141,22 +141,22 @@ function fix_rpmenu() {
 	permsPBS
 	#find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root
 	
-	pausepress
+	#pausepress
     echo "Syncing fixed menu..."
     #find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu/" \
       && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	    
-	pausepress
+	#pausepress
 	permsPBS
 
-	pausepress
+	#pausepress
 	move_items   # helper function with array loop
 	
     #sudo rm -rf /etc/emulationstation/themes/carbon/
 	
-	pausepress
+	#pausepress
 	echo "Now Select Your Preferred Systems Group REGION..."
 	fix_region
 }
