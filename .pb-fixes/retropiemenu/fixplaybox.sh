@@ -132,9 +132,9 @@ function fix_rpmenu() {
 	# Shell, Python, .rp scripts
 	permsPBS() {
 	for dir in "$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu"; do
-    find "$dir" -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 chmod 755
-    find "$dir" -type f -name "*.py" -print0 | xargs -0 chmod 755
-    find "$dir" -type f -iname "*.rp" -print0 | xargs -0 sudo chown root:root
+    find "$dir" -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 -r chmod 755
+    find "$dir" -type f -name "*.py" -print0 | xargs -0 -r chmod 755
+    find "$dir" -type f -iname "*.rp" -print0 | xargs -0 -r sudo chown root:root
 	done
 	}
 
