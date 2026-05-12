@@ -26,9 +26,9 @@ infobox="${infobox}\n"
 infobox="${infobox}\n"
 infobox="${infobox}\n"
 
-dialog 
+dialog \
 --backtitle "PLAYBOX PROJECT" \
---title "PLAYBOX PROJECT - TOOLKIT" \
+--title " PLAYBOX PROJECT - TOOLKIT " \
 --msgbox "${infobox}" 35 110
 
 
@@ -192,8 +192,7 @@ for f in "${!moves[@]}"; do
                 #if [[ -e "$target" ]]; then
                 #    echo "[INFO] Also removing $target"
                 #    sudo rm -f "$target"
-                fi
-            elif [[ -n "$dest" ]]; then
+			elif [[ -n "$dest" ]]; then
                 mkdir -p "$HOME/RetroPie/retropiemenu/$dest"
                 echo "[INFO] Moving $src → $HOME/RetroPie/retropiemenu/$dest/"
                 mv -f "$src" "$HOME/RetroPie/retropiemenu/$dest/"
