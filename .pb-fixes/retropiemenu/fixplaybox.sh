@@ -144,6 +144,7 @@ function fix_rpmenu() {
 	#pausepress
     echo "Syncing fixed menu..."
     #find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
+	#find "$HOME/RetroPie/retropiemenu/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu/" \
       #&& find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
       && find $HOME -iname "*.rp" -print0 | xargs -0 sudo chown root:root \
@@ -158,6 +159,7 @@ function fix_rpmenu() {
     #sudo rm -rf /etc/emulationstation/themes/carbon/
 	
 	#pausepress
+	
 	echo "Now Select Your Preferred Systems Group REGION..."
 	fix_region
 }
