@@ -120,7 +120,8 @@ function fix_rpmenu() {
     fi
 
     echo "Cleaning RetroPie menu..."
-    sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
+    sudo RetroPie-Setup/retropie_packages.sh retropiemenu
+	sudo rm -rf "$HOME/RetroPie/retropiemenu"/*
 	sudo rm -rf "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation"
 	
 	safe_remove "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/Emulation Tools/joystick_selection.sh"
