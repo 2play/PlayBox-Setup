@@ -685,25 +685,32 @@ function enable_core_cfg() {
 
 function restart_es() {
     clear
-    echo "[Restarting EmulationStation...]"
-    sleep 1
-	
-	# Stop ES
-    pkill -f emulationstation
+    #echo "[Restarting EmulationStation...]"
+    echo "[WARN] Please restart EmulationStation manually or Reboot for changes to take effect..."
+    #sleep 1
+
+    # Stop ES
+    #pkill -f emulationstation
 
     # Wait until ES is really gone
-    while pgrep -f emulationstation >/dev/null; do
-        sleep 2
-    done
+    #while pgrep -f emulationstation >/dev/null; do
+    #    sleep 2
+    #done
 
     # Extra delay to let esbgm service react
-    sleep 1
+    #sleep 1
 
-    # Relaunch ES quietly
-    nohup emulationstation --no-splash 2>/dev/null &
-    disown
-
-    echo "[EmulationStation restarted]"
+    # Detect if running locally or via SSH
+    #if [[ $(tty) == /dev/tty* ]]; then
+        # Relaunch ES bound to the local console
+    #   nohup emulationstation --no-splash >/dev/tty 2>&1 &
+    #    disown
+    #    echo "[EmulationStation restarted locally]"
+    #else
+    #    echo "[WARN] Restart skipped: Script running under SSH session]"
+    #    echo "Please restart ES manually on the actual console."
+    #fi
+	pausepress
 }
 
 
