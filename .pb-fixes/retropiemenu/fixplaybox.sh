@@ -4,7 +4,7 @@
 # Copyright (C)2018-2026 2Play! (S.R.)+
 # PlayBox ToolKit
 BACKTITLE="PLAYBOX PROJECT"
-pb_version="PlayBox ToolKit Version 2.0 Dated 12.05.2026"
+pb_version="PlayBox ToolKit Version 2.0 Dated 13.05.2026"
 
 infobox=""
 infobox="${infobox}\n\n\n\n\n"
@@ -145,7 +145,8 @@ function fix_rpmenu() {
     echo "Syncing fixed menu..."
     #find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu/" \
-      && find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
+      #&& find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
+      && find $HOME -iname "*.rp" -print0 | xargs -0 sudo chown root:root \
       && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	    
 	#pausepress
@@ -316,8 +317,6 @@ function set_region_es() {
     else
         echo "Config file for $region not found!"
     fi
-	
-	pausepress
 }
 
 function us_esnpb() {
@@ -3749,25 +3748,32 @@ function enable_core_cfg() {
 
 function restart_es() {
     clear
-    echo "[Restarting EmulationStation...]"
-    sleep 1
-	
-	# Stop ES
-    pkill -f emulationstation
+    #echo "[Restarting EmulationStation...]"
+    echo "[WARN] Please restart EmulationStation manually or Reboot for changes to take effect..."
+    #sleep 1
+
+    # Stop ES
+    #pkill -f emulationstation
 
     # Wait until ES is really gone
-    while pgrep -f emulationstation >/dev/null; do
-        sleep 2
-    done
+    #while pgrep -f emulationstation >/dev/null; do
+    #    sleep 2
+    #done
 
     # Extra delay to let esbgm service react
-    sleep 1
+    #sleep 1
 
-    # Relaunch ES quietly
-    nohup emulationstation --no-splash 2>/dev/null &
-    disown
-
-    echo "[EmulationStation restarted]"
+    # Detect if running locally or via SSH
+    #if [[ $(tty) == /dev/tty* ]]; then
+        # Relaunch ES bound to the local console
+    #   nohup emulationstation --no-splash >/dev/tty 2>&1 &
+    #    disown
+    #    echo "[EmulationStation restarted locally]"
+    #else
+    #    echo "[WARN] Restart skipped: Script running under SSH session]"
+    #    echo "Please restart ES manually on the actual console."
+    #fi
+	pausepress
 }
 
 
