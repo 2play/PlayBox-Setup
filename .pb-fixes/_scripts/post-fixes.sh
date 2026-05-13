@@ -714,6 +714,13 @@ function restart_es() {
 }
 
 
+function pausepress() {
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
+    echo
+}
+
+
 function ensure_lolcat() {
     if ! command -v lolcat >/dev/null 2>&1; then
         sudo gem install lolcat >/dev/null 2>&1
