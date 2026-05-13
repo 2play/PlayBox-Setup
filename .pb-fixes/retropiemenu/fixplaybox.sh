@@ -146,9 +146,8 @@ function fix_rpmenu() {
     #find "$HOME/PlayBox-Setup/" -name "*.sh" -exec dos2unix {} \;
 	#find "$HOME/RetroPie/retropiemenu/" -name "*.sh" -exec dos2unix {} \;
 	rsync -avh --delete "$HOME/PlayBox-Setup/.pb-fixes/retropiemenu/" "$HOME/RetroPie/retropiemenu/" \
-      #&& find $HOME -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root \
-      && find $HOME -iname "*.rp" -print0 | xargs -0 sudo chown root:root \
-      && cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
+	&& find $HOME -iname "*.rp" -print0 | xargs -0 sudo chown root:root \
+	&& cp $HOME/PlayBox-Setup/.pb-fixes/retropie-gml/gamelist2play.xml /opt/retropie/configs/all/emulationstation/gamelists/retropie/gamelist.xml
 	    
 	#pausepress
 	permsPBS
