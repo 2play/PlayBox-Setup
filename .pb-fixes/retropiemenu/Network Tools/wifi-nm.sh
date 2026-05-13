@@ -10,22 +10,20 @@ function main_menu() {
         choice=$(dialog --backtitle "$BACKTITLE" --title " WiFi MENU " \
             --ok-label OK --cancel-label Exit \
             --menu "Choose your Option:" 25 75 20 \
-            - "*** Network Manager WiFi OPTIONS  ***" \
+            - " *** Network Manager WiFi OPTIONS  *** " \
             ""      "" \
 			1 " - Check WiFi & Network Devices Status " \
-            2 " - Connect to a WiFi [Wizard also on desktop]" \
-            3 " - Reconnect/Refresh WiFi Connection" \
+            2 " - Connect to a WiFi [Wizard also on desktop] " \
+            3 " - Reconnect/Refresh WiFi Connection " \
             ""      "" \
-			4 " - Disconnect from WiFi" \
-			5 " - Clean WiFi Configuration" \
-            2>&1 > /dev/tty)
+			4 " - Disconnect WiFi & Clean WiFi Configuration " \
+			2>&1 > /dev/tty)
 
         case "$choice" in
             1) wifi_status;;
             2) wifi_connect;;
             3) wifi_reconnect;;
             4) wifi_disconnect;;
-            5) wifi_reset;;
             -) none ;;
             *) break ;;
         esac
@@ -124,19 +122,12 @@ function wifi_disconnect() {
     dialog --yesno "Disconnect from SSID: $ssid (device: $device)?" 8 60
     if [ $? -eq 0 ]; then
         sudo nmcli device disconnect "$device"
-        dialog --msgbox "Disconnected from SSID: $ssid" 8 50
+		sudo nmcli connection delete $ssid
+		sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
+		sudo systemctl restart NetworkManager
+        dialog --msgbox "Disconnected from SSID: $ssid & Removed configuration." 8 50
     fi
 }
 
-
-# Reset WiFi Configuration
-function wifi_reset() {
-  clear
-  sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
-  echo "[OK DONE!...]"
-  echo
-  sleep 1
-  echo
-}
 
 main_menu
