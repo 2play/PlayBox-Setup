@@ -2941,8 +2941,7 @@ function cl_wifi() {
     dialog --infobox "...Cleaning..." 3 20 ; sleep 1
     clear
 
-    clear
-    # Get active WiFi device + SSID
+	# Get active WiFi device + SSID
     active=$(nmcli -t -f DEVICE,TYPE,STATE,CONNECTION d | grep '^.*:wifi:connected')
 
     if [ -z "$active" ]; then
@@ -2958,10 +2957,12 @@ function cl_wifi() {
     dialog --yesno "Disconnect from SSID: $ssid (device: $device)?" 8 60
     if [ $? -eq 0 ]; then
         sudo nmcli device disconnect "$device"
-        dialog --msgbox "Disconnected from SSID: $ssid" 8 50
+		sudo nmcli connection delete $ssid
+		sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
+		sudo systemctl restart NetworkManager
+        dialog --msgbox "Disconnected from SSID: $ssid & Removed configuration." 8 50
     fi
-	clear
-	sudo rm /etc/NetworkManager/system-connections/*.nmconnection 2>/dev/null
+	
 	done_message
 }
 
