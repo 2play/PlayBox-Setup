@@ -35,12 +35,28 @@ function post_fix_update() {
 
 function post_up() {
     mode=$1   # CLEAN or NORMAL
-    branch=$2 # branch name (only used for NORMAL)
+    branch=$2 # branch name
 
     clear
     echo "Cloning branch: $branch"
-    git clone --depth 1 --branch="$branch" https://github.com/2play/PBv2-PostFixes.git
-    cd PBv2-PostFixes/ || { echo "Clone failed"; return 1; }
+	
+	# Remove old repo if present
+    rm -rf PBv2-PostFixes
+	
+	# Verify branch exists before cloning
+    if ! git ls-remote --exit-code https://github.com/2play/PBv2-PostFixes.git "$branch"; then
+        echo "Branch $branch not found on remote!"
+        return 1
+    fi
+
+    # Clone fresh
+    if ! git clone --depth 1 --branch="$branch" https://github.com/2play/PBv2-PostFixes.git; then
+        echo "Clone failed"
+        return 1
+    fi
+
+    cd PBv2-PostFixes/ || { echo "Could not enter PBv2-PostFixes directory"; return 1; }
+
 
     if [[ "$mode" == "CLEAN" ]]; then
         next_steps
@@ -66,6 +82,7 @@ function post_up() {
 
 function next_steps() {
 clear
+
 #Sync New Files
 rsync -urv --exclude '.git' --exclude 'boot' --exclude 'etc' --exclude 'var' --exclude 'usr' --exclude 'libretrocores' --exclude 'emulators' --exclude 'supplementary' --exclude 'LICENSE' --exclude 'README.md' --exclude 'roms' . /
 sudo rsync -urv boot/ /boot/
@@ -85,6 +102,12 @@ if [ ! -d /opt/retropie/supplementary/emulationstation-dev ]; then
 sudo rsync -urv opt/retropie/supplementary/ /opt/retropie/supplementary/
 fi
 
+rm -rf ~/code/PBv2-PostFixes/ ~/PBv2-PostFixes/
+
+
+#APPS & SYSTEM SECTION
+#------------
+
 #Permissions
 sudo chown pi:pi -R /etc/emulationstation/themes/
 sudo chmod 644 /etc/mopidy/mopidy.conf
@@ -92,42 +115,13 @@ sudo chmod 755 ~/scripts/themerandom.sh
 sudo chmod 755 /usr/local/bin/*grab
 
 cd ~
-sudo rm -rf samba/ && sudo rm smb*
+# Remove only the ~/samba folder if it exists
+[ -d samba ] && sudo rm -rf samba
 
-rm -rf ~/code/PBv2-PostFixes/ ~/PBv2-PostFixes/
-
-# Set USB filesystem check every 1m
-set_fsck_root
-
-#Kernel error fix After OS Full update (5.10.17)
-#if [[ `uname -r | grep 5.10.17-` ]]; then
-#	if grep "gpu_mem_" /boot/config.txt ; then
-#	sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
-#	fi
-#	else
-#	if grep "gpu_mem_" /boot/config.txt ; then
-#	sudo sed -i 's|#gpu_mem_*|gpu_mem_|g' /boot/config.txt;
-#	fi
-#	echo "Your Kernel isn't at 5.10.17 so All OK!"
-#	echo
-#fi	
-
-#Misc Updates
-#GSPlus roms symlink update
-#sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
-#sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
-#totalchaos update save img 1.5GB
-#rm /home/pi/RetroPie/roms/ports/doom/Skins/totalchaos.pk3
-
-# Install Latest Youtube-dl/yt-dlp
-if [ -f /usr/local/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; sudo yt-dlp -U; sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl; sleep 1
-#to update pip3
-#python3 -m pip install --upgrade pip
-else 
-sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-sudo chmod 755 /usr/local/bin/yt-dlp
-sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl
-fi
+# Remove only specific smb* files in home, not everything
+for f in smb.conf smb.conf.bak smb.log smb.tmp; do
+    [ -f "$f" ] && sudo rm -f "$f"
+done
 
 #Make extra custom PlayBox roms directories (Update/Add as needed)
 cd "$HOME/RetroPie/roms" || exit 1
@@ -135,106 +129,6 @@ for dir in ags amiga1200 amiga4000 amigacd32 amstradcpc464 amstradcpc6128+ amstr
     mkdir -p "$dir"
     echo "Created directory: $dir"
 done
-
-# Enable input_libretro_device_p2 = "513" 6-button controller/pad for both p1/p2
-# 513 generally corresponds to a 6-button controller/pad in many Libretro cores, particularly:
-#Sega Genesis / Mega Drive: Used to force 6-button pad support (critical for games like Street Fighter II or Mortal Kombat).
-#Atari 800 / 5200: Used by the atari800 core to define the primary Atari Joystick device.
-#Amstrad CPC: Used by the cap32 core to set the device type to a standard joystick.
-#ZX Spectrum: Used by the lr-fuse core for certain joystick interfaces like the Kempston Joystick.
-#Sega CD: Similar to the Genesis, used for 6-button controller support.
-
-cd /opt/retropie/configs/
-for sys in atari5200 atari800 genesis genesish megadrive megadriveh megadrive-japan megadriveplus segacd megacd; do
-    cfg="$sys/retroarch.cfg"
-    if [[ -f "$cfg" ]]; then
-        echo "Updating $cfg ..."
-        # Uncomment if commented, then force value to 513
-        sed -i 's/^#input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
-        sed -i 's/^#input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
-        sed -i 's/^input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
-        sed -i 's/^input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
-    else
-        echo "Skipping $sys (no retroarch.cfg found)"
-    fi
-done
-
-
-# Overlay Fixes
-overlay_fix "FinalBurn Neo"
-#rm -rf fuse
-disable_core_cfg "Genesis Plus GX"
-disable_core_cfg "fMSX"
-disable_core_cfg "ProSystem"
-disable_core_cfg "PicoDrive"
-disable_core_cfg "Stella 2014"
-
-# Core Options Per System Config Folder - uncomment if exists (use for othe uncommenting - this not needed due to global setting applying it)
-#cd /opt/retropie/configs
-#while IFS= read -r -d '' cfg; do
-#    echo "Fixing $cfg ..."
-#    sed -i 's|^#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|' "$cfg"
-#done < <(find . -type f -name "retroarch.cfg" -print0)
-
-# ES Video ScreenSaver Options
-cd /opt/retropie/configs/all/emulationstation/
-
-xml_escape() {
-    local raw="$1"
-    raw="${raw//&/&amp;}"
-    raw="${raw//</&lt;}"
-    raw="${raw//>/&gt;}"
-    raw="${raw//\"/&quot;}"
-    raw="${raw//\'/&apos;}"
-    echo "$raw"
-}
-
-declare -A fixes=(
-  ["DoublePressRemovesFromFavs"]="true"
-  ["ScreenSaverOmxPlayer"]="false"
-  ["ScreenSaverVideoMute"]="true"
-  ["StretchVideoOnScreenSaver"]="false"
-  ["ScreenSaverSwapVideoTimeout"]="10000"
-  ["SubtitleAlignment"]="center"
-  ["SortAllSystems"]="false"
-  ["ScreenSaverGameInfo"]="start & end"
-  ["SlideshowScreenSaverMediaDir"]="/home/pi/.emulationstation/slideshow/image"
-  ["MaxVRAM"]="100"
-  ["ScreenSaverBehavior"]="slideshow"
-  ["ThemeSet"]="2Play!-EpicMavro"
-)
-
-for key in "${!fixes[@]}"; do
-    value=$(xml_escape "${fixes[$key]}")
-    # Escape & for sed replacement
-    safe_value=${value//&/\\&}
-	# Replace regardless of current value
-    sed -i "s|\(<string name=\"$key\" value=\)\"[^\"]*\"|\1\"$safe_value\"|g" es_settings.cfg
-done
-
-restart_es
-
-#for key in "${!fixes[@]}"; do
-#    grep "$key" es_settings.cfg
-#done
-
-## Various Minor Typos Etc
-
-# Amiga Saves Typo
-#cd /opt/retropie/configs/amiga
-#sed -i 's|3do|amiga|g' retroarch.cfg
-
-# Disable Dim Xinit?
-	#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
-# WWF Typo Fix
-
-# N64 Core Option ThreadedRenderer
-#cd /opt/retropie/configs/n64
-#sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
-
-# Intellivision lr-freeintv fix due to latest video driver 
-#cd /opt/retropie/configs/intellivision
-#sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
 
 # RetroArch PlayBox v2 Defaults:
 cd /opt/retropie/configs/all/
@@ -324,6 +218,77 @@ for cfg in retroarch.cfg retroarch/retroarch.cfg; do
   done
 done
 
+#for key in "${!fixes[@]}"; do
+#    grep "$key" es_settings.cfg
+#done
+
+# ES Video ScreenSaver Options
+cd /opt/retropie/configs/all/emulationstation/
+
+xml_escape() {
+    local raw="$1"
+    raw="${raw//&/&amp;}"
+    raw="${raw//</&lt;}"
+    raw="${raw//>/&gt;}"
+    raw="${raw//\"/&quot;}"
+    raw="${raw//\'/&apos;}"
+    echo "$raw"
+}
+
+declare -A fixes=(
+  ["DoublePressRemovesFromFavs"]="true"
+  ["ScreenSaverOmxPlayer"]="false"
+  ["ScreenSaverVideoMute"]="true"
+  ["StretchVideoOnScreenSaver"]="false"
+  ["ScreenSaverSwapVideoTimeout"]="10000"
+  ["SubtitleAlignment"]="center"
+  ["SortAllSystems"]="false"
+  ["ScreenSaverGameInfo"]="start & end"
+  ["SlideshowScreenSaverMediaDir"]="/home/pi/.emulationstation/slideshow/image"
+  ["MaxVRAM"]="100"
+  ["ScreenSaverBehavior"]="slideshow"
+  ["ThemeSet"]="2Play!-EpicMavro"
+)
+
+for key in "${!fixes[@]}"; do
+    value=$(xml_escape "${fixes[$key]}")
+    # Escape & for sed replacement
+    safe_value=${value//&/\\&}
+	# Replace regardless of current value
+    sed -i "s|\(<string name=\"$key\" value=\)\"[^\"]*\"|\1\"$safe_value\"|g" es_settings.cfg
+done
+
+
+# Set USB filesystem check every 1m
+set_fsck_root
+
+#Kernel error fix After OS Full update (5.10.17)
+#if [[ `uname -r | grep 5.10.17-` ]]; then
+#	if grep "gpu_mem_" /boot/config.txt ; then
+#	sudo sed -i 's|^gpu_mem_*|#gpu_mem_|g' /boot/config.txt;
+#	fi
+#	else
+#	if grep "gpu_mem_" /boot/config.txt ; then
+#	sudo sed -i 's|#gpu_mem_*|gpu_mem_|g' /boot/config.txt;
+#	fi
+#	echo "Your Kernel isn't at 5.10.17 so All OK!"
+#	echo
+#fi
+
+# Disable Dim Xinit?
+	#sudo sed -i 's|#xserver-command=|xserver-command=X -s 0 -dpmsX -s 0 -dpms|g' /etc/lightdm/lightdm.conf
+# WWF Typo Fix
+
+# Install Latest Youtube-dl/yt-dlp
+if [ -f /usr/local/bin/yt-dlp ]; then echo "YT Already installed! Let's update it...";pip3 install --upgrade yt-dlp; sudo yt-dlp -U; sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl; sleep 1
+#to update pip3
+#python3 -m pip install --upgrade pip
+else 
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+sudo chmod 755 /usr/local/bin/yt-dlp
+sudo cp -f /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl; sudo cp -f /usr/local/bin/yt-dlp /home/pi/myenv/bin/youtube-dl
+fi
+
 
 # Check and install GTK appmenu modules
 #if ! dpkg -s appmenu-gtk3-module >/dev/null 2>&1; then
@@ -334,16 +299,9 @@ done
 #    echo "All OK! GTK appmenu modules already installed."
 #fi
 
-#Redream Path Fix
-fix_redream_path
-
-# N64 Controller Fix Revert and apply to all 4PL - Specific Setup in RA or N64 Applies
-fix_n64_controllers
-
-#sed -i 's|video_driver = ".*"|video_driver = "gl"|' /opt/retropie/configs/all/retroarch.cfg;
-
 # Clean Mesa/Vulkan Old Lib Files Dups
 cd /usr/local/lib/
+#if [ -f libEGL.so ] && [ ! -f /usr/local/lib/.mesa_cleaned ]; then
 if [ -f libEGL.so ]; then
   echo "Cleaning old Mesa/Vulkan libraries..."
   for f in libEGL.so libEGL.so.1 libEGL.so.1.0.0 \
@@ -354,6 +312,7 @@ if [ -f libEGL.so ]; then
            libGLESv2.so libGLESv2.so.2 libGLESv2.so.2.0.0 \
            libvulkan_broadcom.so; do
     [ -e "$f" ] && sudo rm "$f" && echo "Removed $f"
+	#touch /usr/local/lib/.mesa_cleaned
   done
   sudo rm -rf /usr/local/lib/dri
   sudo rm -rf /usr/local/share/vulkan /usr/local/share/drirc.d
@@ -365,64 +324,6 @@ else
 fi
 sleep 1
 clear
-
-
-# Mame2003_Plus Controller
-cd /opt/retropie/configs/arcade/
-sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
-
-# Pico8 & DuckStation Standalone & Core
-sudo chown pi:pi -R /opt/retropie/emulators/pico8/
-sudo chmod 755 /opt/retropie/emulators/pico8/*
-rm *.sh
-cd ~
-
-#If user has Pico8 Disabled
-# Pico-8 setup
-#if ls ~/RetroPie/localroms/pico8.* ~/RetroPie/roms/pico8.* >/dev/null 2>&1; then
-#    echo "You have Pico-8 disabled. We continue..."
-#else
-#    # Decide base directory
-#    if [ -d ~/RetroPie/localroms ]; then
-#        base=~/RetroPie/localroms/pico8
-#        mkdir -p "$base" ~/addonusb/pico8
-#    else
-#        base=~/RetroPie/roms/pico8
-#        mkdir -p "$base"
-#    fi
-
-#    cd "$base"
-#    if [ ! -f "+Start PICO8.sh" ]; then
-#        wget -O "+Start PICO8.sh" \
-#          "https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh"
-#        chmod 755 "+Start PICO8.sh"
-#    fi
-#fi
-#cd ~
-
-# Fix ownership and permissions
-sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
-sudo chmod 755 /opt/retropie/emulators/duckstation/*
-
-cfg="/opt/retropie/configs/psx/emulators.cfg"
-
-# DuckStation standalone
-duck_line='duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"'
-if ! grep -Fxq "$duck_line" "$cfg"; then
-    echo "$duck_line" | sudo tee -a "$cfg" > /dev/null
-else
-    echo "DuckStation standalone already inserted!"; sleep 1
-fi
-
-# DuckStation libretro core
-sudo chmod 755 /opt/retropie/latestcores/duckstation_libretro.so
-lr_line='lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"'
-if ! grep -Fxq "$lr_line" "$cfg"; then
-    echo "$lr_line" | sudo tee -a "$cfg" > /dev/null
-else
-    echo "DuckStation libretro already inserted!"; sleep 1
-fi
-
 
 #New Ports Dependencies ARM
 #	if [[ -f /usr/lib/arm-linux-gnueabihf/libGLEW.so.1.7 ]]; then
@@ -489,6 +390,136 @@ else
     echo
 fi
 
+# Symbolic links to main /usr/local/bin
+sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
+if [[ -d /home/pi/myenv ]]; then
+	sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
+fi
+
+
+
+#EMUS SECTION
+#------------
+
+#GSPlus roms symlink update
+#sudo ln -sfn /home/pi/RetroPie/roms/apple2gs/.data /opt/retropie/emulators/gsplus/roms
+#sudo ln -sfn /home/pi/RetroPie/BIOS- /opt/retropie/emulators/gsplus/bios
+#totalchaos update save img 1.5GB
+#rm /home/pi/RetroPie/roms/ports/doom/Skins/totalchaos.pk3
+
+# Enable input_libretro_device_p2 = "513" 6-button controller/pad for both p1/p2
+# 513 generally corresponds to a 6-button controller/pad in many Libretro cores, particularly:
+#Sega Genesis / Mega Drive: Used to force 6-button pad support (critical for games like Street Fighter II or Mortal Kombat).
+#Atari 800 / 5200: Used by the atari800 core to define the primary Atari Joystick device.
+#Amstrad CPC: Used by the cap32 core to set the device type to a standard joystick.
+#ZX Spectrum: Used by the lr-fuse core for certain joystick interfaces like the Kempston Joystick.
+#Sega CD: Similar to the Genesis, used for 6-button controller support.
+
+cd /opt/retropie/configs/
+for sys in atari5200 atari800 genesis genesish megadrive megadriveh megadrive-japan megadriveplus segacd megacd; do
+    cfg="$sys/retroarch.cfg"
+    if [[ -f "$cfg" ]]; then
+        echo "Updating $cfg ..."
+        # Uncomment if commented, then force value to 513
+        sed -i 's/^#input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
+        sed -i 's/^#input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
+        sed -i 's/^input_libretro_device_p1.*/input_libretro_device_p1 = "513"/' "$cfg"
+        sed -i 's/^input_libretro_device_p2.*/input_libretro_device_p2 = "513"/' "$cfg"
+    else
+        echo "Skipping $sys (no retroarch.cfg found)"
+    fi
+done
+
+# Overlay Fixes
+overlay_fix "FinalBurn Neo"
+#rm -rf fuse
+disable_core_cfg "Genesis Plus GX"
+disable_core_cfg "fMSX"
+disable_core_cfg "ProSystem"
+disable_core_cfg "PicoDrive"
+disable_core_cfg "Stella 2014"
+
+# Core Options Per System Config Folder - uncomment if exists (use for other uncommenting - this not needed due to global setting applying it)
+#cd /opt/retropie/configs
+#while IFS= read -r -d '' cfg; do
+#    echo "Fixing $cfg ..."
+#    sed -i 's|^#core_options_path = "/opt/retropie/configs/|core_options_path = "/opt/retropie/configs/|' "$cfg"
+#done < <(find . -type f -name "retroarch.cfg" -print0)
+
+# Amiga Saves Typo
+#cd /opt/retropie/configs/amiga
+#sed -i 's|3do|amiga|g' retroarch.cfg
+
+# N64 Core Option ThreadedRenderer
+#cd /opt/retropie/configs/n64
+#sed -i 's|^mupen64plus-next-ThreadedRenderer = "False"|mupen64plus-next-ThreadedRenderer = "True"|' retroarch-core-options.cfg;
+
+# Intellivision lr-freeintv fix due to latest video driver 
+#cd /opt/retropie/configs/intellivision
+#sed -i 's|lr-freeintv = "/opt/|lr-freeintv = "XINIT:/opt/|' emulators.cfg;
+
+#Redream Path Fix
+fix_redream_path
+
+# N64 Controller Fix Revert and apply to all 4PL - Specific Setup in RA or N64 Applies
+fix_n64_controllers
+
+# Mame2003_Plus Controller
+cd /opt/retropie/configs/arcade/
+sed -i 's|^mame2003-plus_analog = "analog"|mame2003-plus_analog = "digital"|' retroarch-core-options.cfg;
+
+# Pico8 & DuckStation Standalone & Core
+sudo chown pi:pi -R /opt/retropie/emulators/pico8/
+sudo chmod 755 /opt/retropie/emulators/pico8/*
+rm *.sh
+cd ~
+
+#If user has Pico8 Disabled
+# Pico-8 setup
+#if ls ~/RetroPie/localroms/pico8.* ~/RetroPie/roms/pico8.* >/dev/null 2>&1; then
+#    echo "You have Pico-8 disabled. We continue..."
+#else
+#    # Decide base directory
+#    if [ -d ~/RetroPie/localroms ]; then
+#        base=~/RetroPie/localroms/pico8
+#        mkdir -p "$base" ~/addonusb/pico8
+#    else
+#        base=~/RetroPie/roms/pico8
+#        mkdir -p "$base"
+#    fi
+
+#    cd "$base"
+#    if [ ! -f "+Start PICO8.sh" ]; then
+#        wget -O "+Start PICO8.sh" \
+#          "https://github.com/2play/PBv2-PostFixes/raw/clean/home/pi/RetroPie/roms/pico8/%2BStart%20PICO8.sh"
+#        chmod 755 "+Start PICO8.sh"
+#    fi
+#fi
+#cd ~
+
+# Fix duckstation ownership and permissions
+sudo chown pi:pi -R /opt/retropie/emulators/duckstation/
+sudo chmod 755 /opt/retropie/emulators/duckstation/*
+
+cfg="/opt/retropie/configs/psx/emulators.cfg"
+
+# DuckStation standalone
+duck_line='duckstation = "XINIT:/opt/retropie/emulators/duckstation/duckstation-qt %ROM%"'
+if ! grep -Fxq "$duck_line" "$cfg"; then
+    echo "$duck_line" | sudo tee -a "$cfg" > /dev/null
+else
+    echo "DuckStation standalone already inserted!"; sleep 1
+fi
+
+# DuckStation libretro core
+sudo chmod 755 /opt/retropie/latestcores/duckstation_libretro.so
+lr_line='lr-duckstation = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/latestcores/duckstation_libretro.so --config /opt/retropie/configs/psx/retroarch.cfg %ROM%"'
+if ! grep -Fxq "$lr_line" "$cfg"; then
+    echo "$lr_line" | sudo tee -a "$cfg" > /dev/null
+else
+    echo "DuckStation libretro already inserted!"; sleep 1
+fi
+
 # Delete Old OpenBor & Fix Logs Link (only if present)
 if [[ -d /opt/retropie/ports/openbor ]]; then
 	echo "Cleaning old OpenBOR..."
@@ -505,12 +536,12 @@ else
 	echo "OpenBOR emulator folder not found, skipping cleanup."
 fi
 
-# Symbolic links to main /usr/local/bin
-sudo ln -s /home/pi/.local/bin/* /usr/local/bin/
-if [[ -d /home/pi/myenv ]]; then
-	sudo ln -s /home/pi/myenv/bin/* /usr/local/bin/
-fi
+# OTHER TEMP/MINOR
+#xmllint --noout /opt/retropie/configs/all/emulationstation/es_settings.cfg || {
+#    echo "[ERROR] ES settings file invalid, restoring backup..."
+#    cp ~/backup/es_settings.cfg /opt/retropie/configs/all/emulationstation/es_settings.cfg
 
+restart_es
 }
 
 #Post Release Update steps
