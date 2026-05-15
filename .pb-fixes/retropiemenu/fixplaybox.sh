@@ -160,7 +160,8 @@ function fix_rpmenu() {
 	
 	#pausepress
 	
-	echo "Now Select Your Preferred Systems Group REGION..."
+	echo "Now Select Your Preferred Systems Group REGION... Default is ALL Systems!"
+	sudo cp -f "/etc/emulationstation/es_systems.cfgFULL" "/etc/emulationstation/es_systems.cfg"
 	fix_region
 }
 
@@ -262,10 +263,11 @@ function show_region_status() {
     local eu="/etc/emulationstation/es_systemsEU.cfg"
     local all="/etc/emulationstation/es_systems.cfgFULL"
     local orig="/etc/emulationstation/es_systems.cfgORIG"
-
-    if [ ! -f "$current" ]; then
+	
+	if [ ! -f "$current" ]; then
         echo "No es_systems.cfg found!"
-        return 1
+		pausepress
+        #return 1
     fi
 
     if [ -L "$current" ]; then
@@ -279,24 +281,30 @@ function show_region_status() {
             "$orig") echo "Current Region: ORIG" | lolcat ;;
             *)       echo "Current Region: Unknown/Custom (symlink to $target)" ;;
         esac
+		pausepress
     else
 		ensure_lolcat
         # Not a symlink, compare contents
         if cmp -s "$current" "$us"; then
             echo "Current Region: US/JP (file copy)" | lolcat
+			pausepress
         elif cmp -s "$current" "$eu"; then
             echo "Current Region: EU/JP (file copy)" | lolcat
+			pausepress
         elif cmp -s "$current" "$all"; then
             echo "Current Region: ALL (file copy)" | lolcat
+			pausepress
         elif cmp -s "$current" "$orig"; then
             echo "Current Region: ORIG (file copy)" | lolcat
+			pausepress
         else
-            echo "Current Region: INVALID (does not match US/EU/ALL/ORIG configs)"
-            return 1
+            echo "Current Region: INVALID - Please Select One (does not match US/EU/ALL/ORIG configs)"
+            pausepress
+			return 1
         fi
     fi
 
-    pausepress
+			  
 }
 
 function set_region_es() {
@@ -313,8 +321,10 @@ function set_region_es() {
     clear
 
     if [ -f "$cfgfile" ]; then
-        sudo ln -sfn "$cfgfile" /etc/emulationstation/es_systems.cfg
+        #sudo ln -sfn "$cfgfile" /etc/emulationstation/es_systems.cfg
+		sudo cp -f "$cfgfile" /etc/emulationstation/es_systems.cfg
         echo "Region set to $region."
+		pausepress
         restart_es
     else
         echo "Config file for $region not found!"
