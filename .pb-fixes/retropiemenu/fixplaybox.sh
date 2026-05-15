@@ -3672,6 +3672,7 @@ function update_pbs() {
         echo "[CRITICAL UPDATE DETECTED]" lolcat
         echo "fixplaybox.sh or post-fixes.sh was updated."
         echo "Please rerun the toolkit update to apply/use the latest changes."
+		chmod 755 /home/pi/PlayBox-Setup/.pb-fixes/retropiemenu/fixplaybox.sh
 		pausepress
         exit 1
     fi
