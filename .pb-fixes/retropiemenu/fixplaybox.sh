@@ -3671,6 +3671,7 @@ function update_pbs() {
         echo "[CRITICAL UPDATE DETECTED]"
         echo "fixplaybox.sh or post-fixes.sh was updated."
         echo "Please rerun the toolkit update to apply/use the latest changes."
+		pausepress
         exit 1
     fi
 	
