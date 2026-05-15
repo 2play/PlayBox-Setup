@@ -3774,7 +3774,8 @@ function enable_core_cfg() {
 
 function restart_es() {
     clear
-    echo "[WARN] Please restart EmulationStation manually or Reboot for changes to take effect..."
+    ensure_lolcat
+    echo "[WARN] Please restart EmulationStation manually or Reboot for changes to take effect..." | lolcat
     
 	#echo "[Restarting EmulationStation...]"
     #sleep 1
