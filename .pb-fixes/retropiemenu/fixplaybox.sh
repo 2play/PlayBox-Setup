@@ -3638,7 +3638,7 @@ function thankyou_pb() {
 
 function update_pbs() {
 	#dialog --infobox "...Updating..." 3 20 ; sleep 1
-# Update Toolkit 04.26
+# Update Toolkit 05.26
 	clear
 	#cd "$HOME/PlayBox-Setup" || return
 	cd $HOME/PlayBox-Setup
@@ -3652,7 +3652,7 @@ function update_pbs() {
 	sleep 2
 	
 	# Detect current branch
-	#branch=$(git rev-parse --abbrev-ref HEAD)
+	branch=$(git rev-parse --abbrev-ref HEAD)
 
 	# Make sure we’re tracking the remote
 	#git fetch --all
@@ -3665,8 +3665,18 @@ function update_pbs() {
 
 	echo "[OK DONE! Updated branch $branch]"
 	
+	# Check if critical files were updated
+    if git diff --name-only HEAD@{1} HEAD | grep -E "fixplaybox.sh|post-fixes.sh" >/dev/null; then
+        echo
+        echo "[CRITICAL UPDATE DETECTED]"
+        echo "fixplaybox.sh or post-fixes.sh was updated."
+        echo "Please rerun the toolkit update to apply/use the latest changes."
+        exit 1
+    fi
+	
 	safe_remove /home/pi/PlayBox-Setup/.pb-fixes/music
 	
+	pausepress
 	fix_rpmenu
 	#sanitize_scripts
 	
