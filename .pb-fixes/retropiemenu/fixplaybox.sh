@@ -3669,7 +3669,7 @@ function update_pbs() {
     if git diff --name-only HEAD@{1} HEAD | grep -E "fixplaybox.sh|post-fixes.sh" >/dev/null; then
         echo
 		ensure_lolcat
-        echo "[CRITICAL UPDATE DETECTED]" lolcat
+        echo "[CRITICAL UPDATE DETECTED]" | lolcat
         echo "fixplaybox.sh or post-fixes.sh was updated."
         echo "Please rerun the toolkit update to apply/use the latest changes."
 		chmod 755 /home/pi/PlayBox-Setup/.pb-fixes/retropiemenu/fixplaybox.sh
