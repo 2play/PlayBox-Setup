@@ -20,23 +20,21 @@ while true; do
 
     case "$choice" in
         1)
-            # Enable EmulationStation + splash shuffle
-            sudo sed -i 's|^#*ls -1 ~/RetroPie/splashscreens/.*|ls -1 ~/RetroPie/splashscreens/* | shuf -n1 | mpv -playlist - >/dev/null 2>&1|' "$frontend_cfg"
-            sudo sed -i 's|^#*emulationstation.*|emulationstation --no-splash #auto|' "$frontend_cfg"
-            sudo sed -i 's|^attractplus.*|#attractplus #auto|' "$frontend_cfg"
-            sudo sed -i 's|^mpv ~/.attract/intro/intro.mp4.*|#mpv ~/.attract/intro/intro.mp4 - >/dev/null 2>&1|' "$frontend_cfg"
-            dialog --msgbox "EmulationStation set as default frontend (splashscreen shuffle enabled)." 8 60
-            reboot_message
-			;;
-        2)
-            # Enable AttractMode Plus + intro, disable splash shuffle & ES
-            sudo sed -i 's|^ls -1 ~/RetroPie/splashscreens/.*|#ls -1 ~/RetroPie/splashscreens/* | shuf -n1 | mpv -playlist - >/dev/null 2>&1|' "$frontend_cfg"
-            sudo sed -i 's|^emulationstation.*|#emulationstation --no-splash #auto|' "$frontend_cfg"
-            sudo sed -i 's|^#*mpv ~/.attract/intro/intro.mp4.*|mpv ~/.attract/intro/intro.mp4 - >/dev/null 2>&1|' "$frontend_cfg"
-            sudo sed -i 's|^#*attractplus.*|attractplus #auto|' "$frontend_cfg"
-            dialog --msgbox "AttractMode Plus set as default frontend (splashscreen shuffle disabled)." 8 60
-            reboot_message
-			;;
+        # Enable EmulationStation + splash shuffle
+        sudo sed -i 's|^#ls -1|ls -1|' "$frontend_cfg"
+		sudo sed -i 's|^#*emulationstation.*|emulationstation --no-splash #auto|' "$frontend_cfg"
+		sudo sed -i 's|^#*mpv ~/.attract/intro/intro.mp4.*|#mpv ~/.attract/intro/intro.mp4 >/dev/null 2>\&1|' "$frontend_cfg"
+		sudo sed -i 's|^#*attractplus.*|#attractplus #auto|' "$frontend_cfg"
+		dialog --msgbox "EmulationStation set as default frontend (splashscreen shuffle enabled)." 8 60
+        ;;
+		2)
+        # Enable AttractMode Plus + intro, disable splash shuffle & ES
+        sudo sed -i 's|^#*ls -1*|#ls -1|' "$frontend_cfg"
+		sudo sed -i 's|^#*emulationstation.*|#emulationstation --no-splash #auto|' "$frontend_cfg"
+		sudo sed -i 's|^#*mpv ~/.attract/intro/intro.mp4.*|mpv ~/.attract/intro/intro.mp4 >/dev/null 2>\&1|' "$frontend_cfg"
+		sudo sed -i 's|^#*attractplus.*|attractplus #auto|' "$frontend_cfg"
+        dialog --msgbox "AttractMode Plus set as default frontend (splashscreen shuffle disabled)." 8 60
+        ;;
         3)
             # Restore clean vanilla autostart.sh from GitHub
             sudo curl -L -o "$frontend_cfg" \
@@ -45,6 +43,7 @@ while true; do
             ;;
         *)
             break
+			#reboot_message
             ;;
     esac
 done
