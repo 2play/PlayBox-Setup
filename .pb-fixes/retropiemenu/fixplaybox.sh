@@ -657,7 +657,8 @@ function prntscr() {
 	sudo ffmpeg -vaapi_device /dev/dri/renderD128 \
     -f kmsgrab -device /dev/dri/card1 -i - \
     -vf 'hwmap=derive_device=vaapi,scale_vaapi=format=nv12,hwdownload,format=nv12' \
-    -frames:v 1 $HOME/ScreenShots/printscreen$now.png
+    -frames:v 1 -v quiet \
+    $HOME/ScreenShots/printscreen$now.png
 	done_message
 }
 
