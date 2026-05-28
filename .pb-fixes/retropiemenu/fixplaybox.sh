@@ -637,7 +637,10 @@ function apps_pbt() {
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
-	card=$(ls /dev/dri/card* | head -n1)
+	#card=$(ls /dev/dri/card* | head -n1)
+	#card=$(ls /dev/dri/by-path/ | grep -i "pci.*card" | head -1 | xargs -I{} echo /dev/dri/by-path/{})
+	card=$(readlink -f /dev/dri/by-path/$(ls /dev/dri/by-path/ | grep -i "pci.*-card$"))
+	vaapi=$(readlink -f /dev/dri/by-path/$(ls /dev/dri/by-path/ | grep -i "pci.*-render$"))
 	now=$(date +"%m_%d_%Y--h%H-m%M-s%S")
 	#screenshot > $HOME/ScreenShots/printscreen$now.jpg
 	#X=$( pidof Xorg )
@@ -649,7 +652,12 @@ function prntscr() {
 	#fi
 	#sudo kmsgrab $HOME/ScreenShots/printscreen$now.png;	convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; 	rm -f $HOME/ScreenShots/*.png
 	#sudo ffmpeg -device /dev/dri/card0 -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png; convert $HOME/ScreenShots/printscreen*.png $HOME/ScreenShots/printscreen$now.jpg; rm -f $HOME/ScreenShots/*.png
-	sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png
+	#OLD
+	#sudo ffmpeg -device "$card" -re -f kmsgrab -i - -vf 'hwmap=derive_device=vaapi,hwdownload,format=bgr0' -v:frames 1 $HOME/ScreenShots/printscreen$now.png
+	sudo ffmpeg -vaapi_device /dev/dri/renderD128 \
+    -f kmsgrab -device /dev/dri/card1 -i - \
+    -vf 'hwmap=derive_device=vaapi,scale_vaapi=format=nv12,hwdownload,format=nv12' \
+    -frames:v 1 $HOME/ScreenShots/printscreen$now.png
 	done_message
 }
 
@@ -1314,14 +1322,15 @@ else
 cd code/
 fi
 #Install some previous dependencies for the GSLANG shader compiler: these are needed for Vulkan!
-sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev -y
+sudo apt install -y glslang-dev glslang-tools spirv-tools spirv-headers libgles2-mesa-dev libx11-xcb-dev libpulse-dev libvulkan-dev libgbm-dev libudev-dev libxkbcommon-dev libsdl2-dev libasound2-dev libusb-1.0-0-dev libmp3lame-dev libx264-dev libva-dev libdrm-dev -y
 ##Custom FFMPEG
-vffmpeg=$(ffmpeg -version | grep "git-2026-04-01-e64a1d2" | cut -f3 -d' ')
-if [ "$vffmpeg" != "git-2024-03-26-f872b19" ]; then
+vffmpeg=$(ffmpeg -version | grep "git-2026-05-28-af4caa1" | cut -f3 -d' ')
+if [ "$vffmpeg" != "git-2026-05-28-af4caa1" ]; then
 	git clone --depth 1 https://git.ffmpeg.org/ffmpeg.git;
 	cd ffmpeg/;
 	#./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared --enable-mmal --enable-vulkan;
-	./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared;
+	#./configure --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared;
+	./configure --enable-vaapi --enable-libdrm --enable-libx264 --enable-gpl --enable-libmp3lame --disable-debug --enable-shared;
 	make -j$(nproc);
 	sudo make install;
 	cd $HOME/code/;
