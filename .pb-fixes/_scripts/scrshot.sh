@@ -44,8 +44,8 @@ case $GPU in
 esac
 
 # Confirm
-#if [ -f "$OUTFILE" ]; then
-#    echo "Screenshot saved: $OUTFILE"
-#else
-#    echo "Screenshot failed!"
-#fi
+if [ -f "$OUTFILE" ]; then
+    echo "Screenshot saved: $OUTFILE"
+else
+    echo "Screenshot failed!"
+fi
