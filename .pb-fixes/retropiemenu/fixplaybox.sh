@@ -3677,11 +3677,11 @@ function update_pbs() {
 	# Check if critical files were updated
     if git diff --name-only HEAD@{1} HEAD | grep -E "fixplaybox.sh|post-fixes.sh" >/dev/null; then
         echo
-		permsPBS
 		ensure_lolcat
         echo "[CRITICAL UPDATE DETECTED]" | lolcat
         echo "fixplaybox.sh or post-fixes.sh was updated."
         echo "Please rerun the toolkit update to apply/use the latest changes."
+		permsPBS
 		chmod 755 /home/pi/PlayBox-Setup/.pb-fixes/retropiemenu/fixplaybox.sh
 		pausepress
         exit 1
@@ -3906,7 +3906,7 @@ function permsPBS() {
     find "$dir" -type f -name "*.py" -print0 | xargs -0 -r chmod 755
     find "$dir" -type f -iname "*.rp" -print0 | xargs -0 -r sudo chown root:root
 	done
-	}
+}
 	
 	
 function sanitize_scripts() {
