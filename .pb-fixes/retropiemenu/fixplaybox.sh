@@ -637,6 +637,13 @@ function apps_pbt() {
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/scrshot.sh 
+}
+
+
+function prntscrOLD() {
+	dialog --infobox "...Taking..." 3 16 ; sleep 1
+	clear
 	#card=$(ls /dev/dri/card* | head -n1)
 	#card=$(ls /dev/dri/by-path/ | grep -i "pci.*card" | head -1 | xargs -I{} echo /dev/dri/by-path/{})
 	card=$(readlink -f /dev/dri/by-path/$(ls /dev/dri/by-path/ | grep -i "pci.*-card$"))
