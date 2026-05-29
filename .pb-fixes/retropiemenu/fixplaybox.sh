@@ -909,7 +909,7 @@ function toggle_global_shader() {
     local action="$1"   # "enable" or "disable"
     local cfgdir="/opt/retropie/configs/all/retroarch/config"
 
-    dialog --infobox "...${action^}ing..." 3 20 ; sleep 2
+    dialog --infobox "...${action^}-ing..." 3 20 ; sleep 2
     clear
     cd "$cfgdir"
 
