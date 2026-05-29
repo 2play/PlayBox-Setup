@@ -130,15 +130,6 @@ function fix_rpmenu() {
 	
 	#pausepress
 	
-	# Shell, Python, .rp scripts
-	permsPBS() {
-	for dir in "$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu"; do
-    find "$dir" -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 -r chmod 755
-    find "$dir" -type f -name "*.py" -print0 | xargs -0 -r chmod 755
-    find "$dir" -type f -iname "*.rp" -print0 | xargs -0 -r sudo chown root:root
-	done
-	}
-
 	permsPBS
 	#find $targetPBS -type f -iname "*.rp" ! -iname "raspiconfig.rp" -print0 | xargs -0 sudo chown root:root
 	
@@ -3660,7 +3651,8 @@ function update_pbs() {
 	clear
 	#cd "$HOME/PlayBox-Setup" || return
 	cd $HOME/PlayBox-Setup
-	chmod 755 .pb-fixes/retropiemenu/fixplaybox.sh
+	permsPBS
+	#chmod 755 .pb-fixes/retropiemenu/fixplaybox.sh
 	
 	echo "Let's pull latest PlayBox-Setup updates..."
 	sleep 1
@@ -3907,6 +3899,16 @@ function ensure_lolcat() {
 }
 
 
+function permsPBS() {
+	# Shell, Python, .rp scripts
+	for dir in "$HOME/PlayBox-Setup" "$HOME/RetroPie/retropiemenu"; do
+    find "$dir" -type f -name "*.sh" ! -name "joystick_selection.sh" -print0 | xargs -0 -r chmod 755
+    find "$dir" -type f -name "*.py" -print0 | xargs -0 -r chmod 755
+    find "$dir" -type f -iname "*.rp" -print0 | xargs -0 -r sudo chown root:root
+	done
+	}
+	
+	
 function sanitize_scripts() {
     echo "Checking for CRLF line endings in scripts..."
 
