@@ -3651,8 +3651,7 @@ function update_pbs() {
 	clear
 	#cd "$HOME/PlayBox-Setup" || return
 	cd $HOME/PlayBox-Setup
-	permsPBS
-	#chmod 755 .pb-fixes/retropiemenu/fixplaybox.sh
+	chmod 755 .pb-fixes/retropiemenu/fixplaybox.sh
 	
 	echo "Let's pull latest PlayBox-Setup updates..."
 	sleep 1
@@ -3678,6 +3677,7 @@ function update_pbs() {
 	# Check if critical files were updated
     if git diff --name-only HEAD@{1} HEAD | grep -E "fixplaybox.sh|post-fixes.sh" >/dev/null; then
         echo
+		permsPBS
 		ensure_lolcat
         echo "[CRITICAL UPDATE DETECTED]" | lolcat
         echo "fixplaybox.sh or post-fixes.sh was updated."
