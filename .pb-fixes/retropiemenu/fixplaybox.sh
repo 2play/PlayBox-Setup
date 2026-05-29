@@ -637,7 +637,8 @@ function apps_pbt() {
 function prntscr() {
 	dialog --infobox "...Taking..." 3 16 ; sleep 1
 	clear
-	$HOME/PlayBox-Setup/.pb-fixes/_scripts/scrshot.sh 
+	$HOME/PlayBox-Setup/.pb-fixes/_scripts/scrshot.sh
+	done_message
 }
 
 
