@@ -21,12 +21,12 @@ fade_out(){
     # Restore volume immediately
     sleep 3
 	amixer -q sset Master ${CURVOL}%
-    echo "Background Music Disabled (faded)"
+    #echo "Background Music Disabled (faded)"
 }
 
 fade_in(){
     rm -f ~/.config/esbgm/disable.flag
-    echo "Background Music Enabled"
+    #echo "Background Music Enabled"
 }
 
 case "$1" in
