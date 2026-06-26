@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <gameList>
-    <game>
-        <path>./playbox-kodi.sh</path>
-        <name>Kodi PlayBox Edition</name>
-	<desc>This will start Kodi in PlayBox Lite or Full Edition.</desc>
-        <image>./icons/playbox-kodi.png</image>
-    </game>
+	<game>
+		<path>./Kodi.sh</path>
+		<name>Kodi PlayBox Edition</name>
+		<desc>This will start Kodi. Full or Light depending the setup.</desc>
+		<image>./icons/playbox-kodi.png</image>
+		<video>./snaps/playbox-kodi.mp4</video>
+		<playcount>5</playcount>
+		<lastplayed>20260626T133830</lastplayed>
+	</game>
 </gameList>

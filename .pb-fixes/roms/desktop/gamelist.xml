@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <gameList>
 	<game>
-		<path>./Raspbian Desktop.sh</path>
-		<name>Raspberry Pi OS Desktop</name>
-		<desc>You can now access you full Raspberry OS desktop directly from EmulationStation</desc>
-		<image>./icons/raspbian.png</image>
+		<path>./desktop.sh</path>
+		<name>OS Desktop</name>
+		<desc>You can now access your full OS desktop directly from EmulationStation</desc>
+		<image>./icons/desktop.png</image>
+		<video>./snaps/desktop.png</video>
+		<playcount>12</playcount>
+		<lastplayed>20260626T173740</lastplayed>
 	</game>
 </gameList>

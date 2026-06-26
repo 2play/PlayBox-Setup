@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <gameList>
 	<game>
-		<path>./Steam Link.sh</path>
-		<name>Steam Link Official</name>
+		<path>./steam.sh</path>
+		<name>Steam Link</name>
 		<desc>Steam Link is a solution for extending your Steam games library here.</desc>
 		<image>./icons/steam.png</image>
+		<video>./icons/steam.mp4</video>
+		<playcount>3</playcount>
+		<lastplayed>20260626T133854</lastplayed>
 	</game>
 </gameList>
