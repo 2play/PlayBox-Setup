@@ -185,8 +185,8 @@ declare -A ra_defaults=(
   ["quit_press_twice"]="true"
   ["sort_savestates_enable"]="false"
   ["sort_savefiles_enable"]="false"
-  ["core_updater_buildbot_cores_url"]="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
-  ["core_updater_buildbot_url"]="https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
+  ["core_updater_buildbot_cores_url"]="http://buildbot.libretro.com/nightly/linux/x86_64/latest/"
+  ["core_updater_buildbot_url"]="http://buildbot.libretro.com/nightly/linux/x86_64/latest/"
 )
 
 # Apply RA defaults
