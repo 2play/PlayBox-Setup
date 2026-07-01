@@ -1,7 +1,7 @@
 # The PlayBox Project
 # Copyright (C)2018-2026 2Play! (S.R.)
 clear
-pb_version="PlayBox v2 Post Updates & Fixes: Dated 11.05.2026"
+pb_version="PlayBox v2 Post Updates & Fixes: Dated 01.07.2026"
 echo $pb_version
 sleep 2
 cd $HOME/code/
@@ -143,7 +143,9 @@ declare -A ra_defaults=(
   ["menu_show_overlays"]="false"
   ["menu_show_load_content_animation"]="false"
   ["menu_show_restart_retroarch"]="false"
+  ["menu_swap_scroll_buttons"]="false"
   ["menu_disable_search_button"]="true"
+  ["input_desktop_menu_toggle"]="nul"
   ["quick_menu_show_close_content"]="false"
   ["quick_menu_show_add_to_favorites"]="false"
   ["quick_menu_show_replay"]="false"
