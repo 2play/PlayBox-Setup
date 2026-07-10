@@ -157,7 +157,7 @@
     <name>apple2</name>
     <fullname>Apple II</fullname>
     <path>/home/pi/RetroPie/roms/apple2</path>
-    <extension>.po .dsk .nib .PO .DSK .NIB</extension>
+    <extension>.po .dsk .nib .gs2 .PO .DSK .NIB</extension>
     <command>/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ apple2 %ROM%</command>
     <platform>apple2</platform>
     <theme>apple2</theme>
@@ -166,7 +166,7 @@
     <name>apple2gs</name>
     <fullname>Apple IIGS</fullname>
     <path>/home/pi/RetroPie/roms/apple2gs</path>
-    <extension>.txt .gsp .2mg .zip</extension>
+    <extension>.txt .gsp .2mg .zip .gs2</extension>
     <command>/opt/retropie/supplementary/runcommand/runcommand.sh 0 _SYS_ apple2gs %ROM%</command>
     <platform>apple2gs</platform>
     <theme>apple2gs</theme>
